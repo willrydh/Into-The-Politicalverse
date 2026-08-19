@@ -1,40 +1,537 @@
 # Into The Politicalverse
 
-Quantitative election analysis built from traceable official data.
+> **Politics, quantified.**
+>
+> A source-traceable quantitative election intelligence platform for exploring elections through official results, geography, historical patterns, transparent indicators, polling models and scenario simulation.
 
-## Product principles
+## Master project specification
 
-1. No mystery numbers. Every value is Official, Derived, or Model.
-2. Valmyndigheten is the source of truth for Swedish official election results.
-3. Raw source records are immutable; changes are represented as new snapshots.
-4. Responsive by default: phone, tablet, laptop and large desktop are first-class targets.
-5. Party identity is centralized in `lib/parties.ts`; official logo assets are stored locally with provenance.
-6. Authentication and billing are deliberately decoupled from the data and analytics layers.
+This README is the canonical product and engineering description for **Into The Politicalverse**. New contributors and coding agents should read it before changing architecture or product behavior.
 
-## Initial product structure
+The initial market is **Sweden**, with the 2026 general election as the first live election cycle. The architecture must not assume that Sweden is the final market: election types, parties, geography, sources and electoral systems should remain extensible.
 
-- Overview
-- Charts
-- Parties
-- Maps
-- Elections
-- Indicators
-- Simulator
+The conceptual inspiration is the analytical experience of quantitative financial platforms: large historical datasets become understandable through charts, indicators, comparisons and models. Politicalverse applies that approach to election data. It is not a political news site, social network, campaign platform or partisan recommendation engine.
 
-## Data pipeline
+Politicalverse should answer questions such as:
 
-`source adapter -> raw snapshot -> validation -> normalization -> derived metrics -> application data layer -> UI`
+- How has a party performed over multiple election cycles?
+- Where is a party structurally strongest or weakest?
+- Where did the largest swing occur?
+- Is support geographically broadening or concentrating?
+- How does a municipality or district compare with the national baseline?
+- How has turnout changed geographically and over time?
+- What parliamentary outcomes are possible under a given vote-share scenario?
+- How sensitive is a coalition outcome to a party crossing the electoral threshold?
+- What does a model estimate, how uncertain is it, and which observations produced the estimate?
 
-Initial authorities:
-- Valmyndigheten: elections, parties, candidates, districts, results, turnout, mandates, GIS.
-- SCB PxWeb: aggregate demographic/economic context.
-- Politicalverse: reproducible derived indicators and models.
+The product promise is simple:
 
-## Development
+> **Every number should be explorable. Every derived value should be reproducible. Every model should be distinguishable from fact.**
 
-```bash
-npm install
-npm run dev
+---
+
+## 1. Product principles
+
+### 1.1 No mystery numbers
+
+Every displayed quantitative value belongs to one of three explicit classes:
+
+**OFFICIAL** — reproduced from an authoritative source such as Valmyndigheten or SCB.
+
+**DERIVED** — calculated by Politicalverse from identified source observations using a documented deterministic methodology, for example swing or relative strength.
+
+**MODEL** — an estimate, probability, forecast or simulation. Models must expose methodology, inputs, timestamp/version and uncertainty where applicable.
+
+The UI must never visually blur these categories.
+
+### 1.2 Source provenance is a product feature
+
+Important values should retain enough provenance to answer:
+
+- Who published the source data?
+- Which dataset/version was used?
+- When did the source publish or update it?
+- When did Politicalverse ingest it?
+- Was the value supplied by the source or calculated by Politicalverse?
+- If calculated, which method/version produced it?
+
+Users should be able to navigate from an important Politicalverse value to its source/methodology.
+
+### 1.3 Neutral quantitative infrastructure
+
+Politicalverse does not endorse parties or candidates. Identical analytical rules should apply across parties. Party ordering must not be manipulated to imply endorsement. Editorial language around quantitative outputs should remain factual and restrained.
+
+### 1.4 Mobile is not a reduced product
+
+Phone, tablet, laptop and large desktop are first-class targets. Responsive behavior is a functional requirement, not final-stage polish.
+
+Charts must remain readable and interactive on small screens. Large tables should transform, scroll or progressively disclose rather than overflow unusably. Maps and simulators require touch-friendly controls. Primary interactions should not depend on hover.
+
+### 1.5 Build the public product before the paywall
+
+The first releases should maximize useful public exploration. Authentication and billing are separate platform capabilities and must not contaminate election ingestion, indicators or chart logic.
+
+No account should initially be required to browse core public election information.
+
+Future account functionality can include saved charts, watchlists, workspaces, custom indicators, exports and preferences. Future Pro functionality can include advanced models, Workbench capabilities, professional exports, deeper historical analytics and higher-value intelligence features.
+
+### 1.6 Official data before decoration
+
+A real chart backed by validated official data is more valuable than a polished dashboard containing invented demonstration values. Production UI must not present mock values as real observations.
+
+---
+
+## 2. Initial audience
+
+The public layer should be understandable to politically interested citizens while the analytical depth should support professional use.
+
+Potential professional users include:
+
+- journalists and newsrooms;
+- political analysts;
+- public-affairs teams;
+- researchers and academics;
+- political parties and campaign analysts;
+- polling and communications professionals;
+- organisations exposed to election outcomes;
+- data journalists and developers.
+
+The long-term business model is expected to be **open discovery + paid professional analytics**, rather than putting basic election facts behind a login wall.
+
+---
+
+## 3. Initial product information architecture
+
+### Overview
+
+The home dashboard should immediately demonstrate the product using current and historical election information. It should surface the current election cycle, major charts, indicators and paths into deeper exploration.
+
+### Charts
+
+Charts are a primary product destination, not illustrations attached to articles. The chart engine should eventually support large numbers of parameterized views without requiring a bespoke component for every combination.
+
+Useful dimensions include:
+
+- election year;
+- election type;
+- party;
+- geography level;
+- geography;
+- metric;
+- comparison baseline;
+- time range.
+
+### Parties
+
+Each party receives an analytical profile containing official identity, historical performance, geographic distribution, swing, strongest/weakest areas, relative strength and relevant indicators.
+
+The initial parliamentary registry includes:
+
+- Socialdemokraterna (S)
+- Sverigedemokraterna (SD)
+- Moderaterna (M)
+- Vänsterpartiet (V)
+- Centerpartiet (C)
+- Kristdemokraterna (KD)
+- Miljöpartiet (MP)
+- Liberalerna (L)
+
+The registry must support additional and local parties without architectural changes.
+
+### Maps
+
+Election geography should become a major Politicalverse surface. Users should be able to select party, metric, election and geography and explore spatial patterns.
+
+Examples:
+
+- vote share;
+- election-to-election swing;
+- turnout;
+- relative strength;
+- party rank;
+- geographic change.
+
+The 2026 system should support official election geography/GIS when available from Valmyndigheten.
+
+### Elections
+
+Election pages organize results by election and level: national/Riksdag, region and municipality, with deeper geography where source data permits it.
+
+### Indicators
+
+Politicalverse indicators turn raw observations into reproducible analytical signals. Candidate indicators include:
+
+**National Swing** — change in vote share between comparable elections.
+
+**Geographic Breadth** — how broadly a party is improving/declining across comparable geographic units.
+
+**Relative Strength** — local party performance relative to an appropriate national or higher-level baseline.
+
+**Turnout Trend** — participation change across elections and geography.
+
+**Geographic Concentration** — whether support is concentrated in a smaller set of areas or broadly distributed.
+
+**Electoral Volatility** — magnitude of electoral movement across parties/geographies using a documented definition.
+
+Indicators must not be shipped merely because their names sound useful. Definitions, edge cases and backtests come first.
+
+### Simulator
+
+The election simulator should allow users to adjust party vote shares and immediately calculate electoral consequences according to the applicable Swedish electoral rules.
+
+Longer-term functionality can include:
+
+- parliamentary seat estimates;
+- threshold sensitivity;
+- coalition combinations;
+- majority/minority outcomes;
+- scenario saving;
+- uncertainty ranges;
+- Monte Carlo simulations where statistically justified.
+
+A deterministic scenario calculator and a probabilistic forecast are different products and must be labelled differently.
+
+### Workbench — later phase
+
+A professional Workbench can allow users to construct comparisons and indicators by choosing dimensions and metrics without programming.
+
+Example:
+
+`Party: SD → Metric: Swing → Geography: Municipality → Election: 2022 → Baseline: 2018`
+
+or an aggregate-data research view such as:
+
+`X: median income → Y: party vote share → Observation: municipality`
+
+Correlation must never be presented as proof of individual voter behavior or causation.
+
+---
+
+## 4. Party identity and logos
+
+Party identity is centralized in `lib/parties.ts` rather than duplicated throughout components.
+
+Each party entity should support at minimum:
+
+- stable internal ID;
+- official/recognized name;
+- short name;
+- display color;
+- local logo asset path;
+- logo provenance/source;
+- source metadata where appropriate.
+
+**Real party logos are a product requirement.** Assets should be obtained from official party media/brand resources where possible and stored locally so the application does not depend on third-party hotlinks. Asset provenance and relevant usage terms should be recorded.
+
+Components should use a shared PartyMark/PartyIdentity abstraction. Missing artwork must degrade gracefully without breaking layout.
+
+---
+
+## 5. Authoritative data sources
+
+### Valmyndigheten — primary election authority
+
+Valmyndigheten is the initial source of truth for official Swedish election information.
+
+Target datasets include, where available:
+
+- elections;
+- parties;
+- candidates;
+- constituencies;
+- municipalities;
+- electoral districts;
+- votes/results;
+- vote shares derived from official counts;
+- eligible voters;
+- turnout;
+- mandates/seats;
+- personal votes;
+- 2026 election data;
+- geographic/GIS definitions.
+
+Initial source registry:
+
+- 2026 raw election data: `https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026`
+- historical raw election data 2002–2022: `https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022`
+
+### SCB PxWeb — contextual aggregate statistics
+
+SCB is the initial source for aggregate demographic and socioeconomic context that can later be compared with geographic election outcomes.
+
+Potential dimensions include:
+
+- population;
+- age structure;
+- education;
+- employment/unemployment;
+- income;
+- population density and other relevant aggregate statistics.
+
+SCB integration must preserve table/query metadata so an analysis can be reproduced.
+
+### Opinion polling — separate source class
+
+Polling is not official election data and must never be merged semantically with official results.
+
+The polling model should support source-specific adapters with fields such as:
+
+- pollster;
+- publication date;
+- fieldwork start/end;
+- sample size;
+- collection/method notes;
+- party estimate;
+- source URL;
+- retrieval timestamp.
+
+Automated ingestion should only be implemented after source availability, terms and methodology have been assessed. Politicalverse should not silently scrape a third-party poll aggregator and treat it as authoritative infrastructure.
+
+---
+
+## 6. Living-data architecture
+
+Politicalverse must be a data system, not a collection of manually maintained JSON files.
+
+Canonical pipeline:
+
+`source adapter → raw snapshot → validation → normalization → canonical storage → derived metrics → API/application layer → UI`
+
+### Source adapters
+
+Each external authority receives isolated adapters. A source-format change should not require rewriting analytics or UI.
+
+Conceptual structure:
+
+```text
+sources/
+  valmyndigheten/
+    elections
+    parties
+    candidates
+    geography
+    results
+  scb/
+    population
+    education
+    income
+    employment
+  polls/
+    <source-adapters>
 ```
 
-Current foundation branch: `agent/foundation`.
+### Immutable raw snapshots
+
+Do not destroy previously observed source states by overwriting them. Raw ingestion should retain snapshots or equivalent version history where data can change.
+
+This is especially important during the 2026 election, where preliminary results can evolve throughout election night and later be replaced by final official results.
+
+### Validation gate
+
+External data never becomes trusted application data merely because an HTTP request succeeded.
+
+Validation should detect issues such as:
+
+- schema changes;
+- unknown geography codes;
+- unknown party identifiers;
+- duplicate records;
+- negative vote counts;
+- impossible turnout values;
+- inconsistent totals;
+- missing required fields;
+- unexpected source/version changes.
+
+If a source fails validation, the last verified production dataset should remain available and source health should be marked degraded. Bad upstream data should fail closed rather than silently corrupt analytics.
+
+### Normalization
+
+Source-specific representations should be mapped into stable Politicalverse entities and identifiers. UI components and indicator code should consume canonical models, not raw CSV column names.
+
+### Derived-data layer
+
+Derived metrics should be recalculated when relevant canonical source data changes. Calculation code should be deterministic, versioned and testable.
+
+Conceptually:
+
+`new verified data → normalize → calculate affected metrics → update application layer/cache`
+
+### Source freshness
+
+Ingestion cadence depends on source behavior rather than one global cron interval.
+
+Examples:
+
+- slowly changing historical datasets: check metadata/change state and ingest only when needed;
+- active 2026 datasets: synchronize according to source update cadence and responsible request limits;
+- election-night results: dedicated Election Mode with tighter refresh behavior while respecting the authority's technical constraints;
+- SCB context: refresh when source tables change rather than wastefully downloading unchanged datasets.
+
+Freshness metadata should be visible to users where relevant.
+
+---
+
+## 7. Canonical data model
+
+The exact persistence technology may evolve, but the conceptual model should include stable entities for:
+
+### Election
+
+- ID
+- country
+- year/date
+- election type
+- status (upcoming/preliminary/final)
+
+### Geography
+
+- stable Politicalverse ID
+- official source code
+- name
+- level/type
+- parent geography
+- valid-from / valid-to when boundaries change
+- geometry reference where available
+
+Boundary changes are important: historical geographic comparisons must not assume that a district with a similar name is automatically identical across elections.
+
+### Party
+
+- stable ID
+- source identifiers
+- name/short name
+- identity metadata
+- logo metadata
+
+### Candidate
+
+- stable/source IDs where available
+- party/election relationships
+- constituency/geography relationships
+- official candidate metadata only as required by product functionality
+
+### Election result observation
+
+- election
+- geography
+- party/candidate where relevant
+- votes
+- eligible voters where applicable
+- source metadata
+- observation status
+- source version/timestamp
+
+Vote share should be reproducibly derivable from authoritative counts wherever possible rather than treated as an unexplained independent number.
+
+### Poll observation
+
+Kept logically separate from election results.
+
+### Derived metric observation
+
+- metric ID/version
+- dimensions
+- value
+- source observation references
+- calculation timestamp
+
+### Model output
+
+- model ID/version
+- run timestamp
+- inputs/data cutoff
+- estimate/probability/range
+- calibration/uncertainty metadata where applicable
+
+---
+
+## 8. Initial indicator methodology direction
+
+### Swing
+
+For comparable party/geography/election observations:
+
+`Swing (percentage points) = current vote share − previous comparable vote share`
+
+UI must distinguish percentage points from percent change.
+
+### Relative strength
+
+A useful initial definition is local vote share relative to the selected higher-level baseline. The exact formula and behavior near zero must be specified before production release.
+
+### Geographic breadth
+
+At a selected geography level, calculate the share of comparable geographic units in which a party's vote share improved versus the baseline election. Weighting choices must be explicit: an unweighted municipality breadth indicator answers a different question than voter-weighted breadth.
+
+### Geographic concentration
+
+Evaluate whether party support is broadly distributed or concentrated. Candidate methodologies should be compared/backtested before selecting the production definition.
+
+All methodology pages should include plain-language interpretation, formula/algorithm, inputs, limitations and version history.
+
+---
+
+## 9. Forecasting policy
+
+Politicalverse should not publish pseudo-precision.
+
+A future 2026 election forecast should only launch after:
+
+1. polling sources and historical data are normalized;
+2. the model is backtested against previous election cycles where feasible;
+3. house effects and poll recency methodology are considered;
+4. uncertainty is represented;
+5. model version and data cutoff are visible;
+6. deterministic election-law calculations are separated from statistical estimates.
+
+A displayed forecast such as `23.4%` must never imply certainty that the underlying model cannot support.
+
+---
+
+## 10. Election simulator architecture
+
+The simulator should be implemented as an independent, testable election-law calculation layer rather than embedding seat logic inside UI components.
+
+Inputs → validated vote-share scenario → electoral-rule engine → seat/threshold output → coalition analysis → UI.
+
+The engine should be unit-tested against known official historical outcomes before being trusted for hypothetical scenarios.
+
+---
+
+## 11. UX and visual direction
+
+The intended character is analytical, premium and data-dense without becoming visually noisy.
+
+Current foundation direction:
+
+- dark analytical interface;
+- strong typography;
+- restrained accent usage;
+- party colors reserved primarily for party identity/data;
+- clear source/freshness labels;
+- charts as primary content;
+- minimal marketing filler;
+- responsive layouts designed at component level.
+
+### Responsive requirements
+
+At minimum test representative widths for:
+
+- small phone;
+- large phone;
+- tablet portrait/landscape;
+- laptop;
+- standard desktop;
+- wide desktop.
+
+Charts need responsive margins, readable labels, touch targets and mobile legends/tooltips. Data tables should have deliberate small-screen behavior. Maps should not require precision mouse interaction.
+
+Accessibility requirements include semantic navigation, keyboard support, visible focus, meaningful alt text for identity assets, sufficient contrast and avoiding color as the sole carrier of party/metric meaning.
+
+---
+
+## 12. Public/free/account/Pro structure
+
+Do not build billing before product value exists, but preserve these boundaries.
+
+### Open — no
