@@ -51,14 +51,19 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
   return (
     <div className={compact ? "trend-chart trend-chart--compact" : "trend-chart"}>
       <div className="chart-controls" aria-label="Select a party to highlight">
-        <button className={activeParty === null ? "party-filter is-active" : "party-filter"} onClick={() => setActiveParty(null)} type="button">
+        <button
+          aria-pressed={activeParty === null}
+          className={activeParty === null ? "party-filter is-active" : "party-filter"}
+          onClick={() => setActiveParty(null)}
+          type="button"
+        >
           All
         </button>
         {partyOrder.map((partyId) => (
           <button
             className={activeParty === partyId ? "party-filter is-active" : "party-filter"}
             key={partyId}
-            onClick={() => setActiveParty((current) => current === partyId ? null : partyId)}
+            onClick={() => setActiveParty(partyId)}
             onMouseEnter={() => setActiveParty(partyId)}
             onFocus={() => setActiveParty(partyId)}
             type="button"
