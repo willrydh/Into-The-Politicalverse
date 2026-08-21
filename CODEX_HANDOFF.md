@@ -25,9 +25,10 @@ Delivered:
 - exact 2018 and 2022 backtests for every party's fixed, adjustment and total mandates;
 - an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
 - a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
+- a dedicated owner-only Sites deployment at `https://into-the-politicalverse.williamrydhmusic.chatgpt.site`, isolated from every other project and domain;
 - desktop and 390 px mobile browser acceptance checks.
 
-Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 19 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
+Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 19 regression tests and production build). The dedicated Sites build is also green. The owner-only deployment is live-verified with an authenticated HTTP 200 response plus working national and municipality JSON endpoints. `npm install` currently reports 41 dependency advisories (6 low, 17 moderate and 18 high); remediation remains open and the audit must not be described as clean.
 
 The next major product priority is comparable official 2018 municipality data, followed by a versioned map swing layer. The current historical national series starts in 2006 and the 2002 observation remains explicit follow-up work. Do not begin auth, Stripe or a statistical forecast first.
 

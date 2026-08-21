@@ -568,9 +568,14 @@ The `agent/foundation` branch now contains the first end-to-end public analytica
 - public read-only national and geography JSON endpoints;
 - a documented, independent Riksdag-inspired responsive visual system;
 - a fail-closed runtime-isolation check that protects known radio/service ports and rejects tunnel conflicts;
+- a dedicated owner-only Sites preview, isolated from unrelated projects and domains;
 - CI, regression tests, linting, strict type checking and a production build gate.
 
 The current range begins in 2006. Adding the official 2002 observation remains a deliberate follow-up, not an implied capability.
+
+### Remote preview
+
+The current `agent/foundation` release is deployed privately at [into-the-politicalverse.williamrydhmusic.chatgpt.site](https://into-the-politicalverse.williamrydhmusic.chatgpt.site). Access is owner-only and therefore requires the authorized ChatGPT account. The dedicated Sites project identifier is versioned in `.openai/hosting.json`; do not reuse another project's hosting target or domain.
 
 ### Run locally
 
