@@ -71,7 +71,7 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
       </div>
       <div className="chart-scroll" tabIndex={0} aria-label="Scrollable chart area">
         <svg className="line-chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="trend-title trend-description">
-          <title id="trend-title">Swedish Riksdag election vote share by party, 2006 to 2022</title>
+          <title id="trend-title">Swedish Riksdag election vote share by party, 2002 to 2022</title>
           <desc id="trend-description">Official final national vote shares from Valmyndigheten. Select a party above to highlight its history.</desc>
           <g className="chart-grid">
             {[0, 10, 20, 30, 40].map((tick) => (

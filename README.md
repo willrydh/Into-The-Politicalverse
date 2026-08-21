@@ -552,30 +552,29 @@ Professional access may eventually cover advanced indicators, Workbench capabili
 
 ## 13. Current implementation
 
-The `agent/foundation` branch now contains the first end-to-end public analytical product:
+The `agent/foundation` branch contains the first end-to-end public analytical release:
 
 - Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Maps, Elections, Indicators and Simulator;
-- official final national Riksdag history for 2006, 2010, 2014, 2018 and 2022;
+- official final national Riksdag history for every general election from 2002 through 2022;
 - a checksum-verified Valmyndigheten 2022 XLSX importer;
 - 6,578 electoral districts normalized into 29 constituencies and 290 municipalities;
 - responsive historical chart, result table, Party Explorer and municipal summaries;
-- a touch- and keyboard-accessible Election Map joining final Riksdag results to all 290 municipality geometries;
+- checksum-verified official 2018 observations for all 290 municipalities, with exact code-and-name joins to 2022;
+- a touch- and keyboard-accessible Election Map for 2022 vote share, 2018–2022 swing and turnout across all 290 municipality geometries;
 - four deterministic, versioned `DERIVED` indicators with published methodology;
 - an independent deterministic Riksdag seat engine implementing the current thresholds and mandate-allocation rules;
 - a responsive `MODEL` scenario simulator using the official 2026 fixed-seat structure and a disclosed 2022 geographic-pattern assumption;
 - exact engine backtests against every parliamentary party's official fixed, adjustment and total mandates in 2018 and 2022;
 - local identity assets for all eight parliamentary parties with recorded provenance;
-- public read-only national and geography JSON endpoints;
+- static read-only national, geography and municipality-comparison JSON endpoints;
 - a documented, independent Riksdag-inspired responsive visual system;
 - a fail-closed runtime-isolation check that protects known radio/service ports and rejects tunnel conflicts;
-- a dedicated owner-only Sites preview, isolated from unrelated projects and domains;
-- CI, regression tests, linting, strict type checking and a production build gate.
+- a static GitHub Pages release workflow isolated to this repository;
+- CI, 22 regression tests, linting, strict type checking, production/static export gates and a dependency tree with zero known npm audit vulnerabilities.
 
-The current range begins in 2006. Adding the official 2002 observation remains a deliberate follow-up, not an implied capability.
+### Public release
 
-### Remote preview
-
-The current `agent/foundation` release is deployed privately at [into-the-politicalverse.williamrydhmusic.chatgpt.site](https://into-the-politicalverse.williamrydhmusic.chatgpt.site). Access is owner-only and therefore requires the authorized ChatGPT account. The dedicated Sites project identifier is versioned in `.openai/hosting.json`; do not reuse another project's hosting target or domain.
+The public static release is published from this repository by GitHub Actions to [willrydh.github.io/Into-The-Politicalverse](https://willrydh.github.io/Into-The-Politicalverse/). It requires no account or password. The Pages workflow validates data, lint, types and tests before building and deploying; it does not use another project, domain or hosting configuration.
 
 ### Run locally
 
@@ -611,6 +610,12 @@ Valmyndigheten 2022 county GIS archives
   -> exact 290-code join to official municipality results
   -> touch and keyboard accessible Election Map
 
+Valmyndigheten 2018 municipality workbook + normalized 2022 results
+  -> source checksum and official-total validation
+  -> exact 290-code-and-name comparability join
+  -> party swing / turnout change / geographic breadth
+  -> static comparison API and Election Map swing layer
+
 Valmyndigheten 2018 / 2022 / 2026 seat sources
   -> checksum and official-total validation
   -> canonical 29-constituency vote and fixed-seat inputs
@@ -636,26 +641,37 @@ Regenerate municipality boundaries from the recorded official GIS archives:
 npm run data:import:geography
 ```
 
+Regenerate the comparable 2018 municipality baseline:
+
+```bash
+npm run data:import:municipality-history
+```
+
 Regenerate the historical backtest fixtures and 2026 fixed-seat inputs:
 
 ```bash
 npm run data:import:seats
 ```
 
-Election source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). The 21 official GIS archives, coordinate transformation and municipality joins are documented in [`docs/data-sources/valmyndigheten-geography.md`](docs/data-sources/valmyndigheten-geography.md). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
+Election source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). National history normalization is documented in [`docs/data-sources/valmyndigheten-national-history.md`](docs/data-sources/valmyndigheten-national-history.md). The comparable 2018 municipality source is documented in [`docs/data-sources/valmyndigheten-municipality-history.md`](docs/data-sources/valmyndigheten-municipality-history.md), and swing behavior in [`docs/methodology/municipality-swing-v1.md`](docs/methodology/municipality-swing-v1.md).
+
+The 21 official GIS archives, coordinate transformation and municipality joins are documented in [`docs/data-sources/valmyndigheten-geography.md`](docs/data-sources/valmyndigheten-geography.md). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
 
 Seat-source snapshots and checksums are documented in [`docs/data-sources/valmyndigheten-seats.md`](docs/data-sources/valmyndigheten-seats.md). The electoral rules, geographic projection, exact 2018/2022 backtests and limitations are documented in [`docs/methodology/simulator-v1.md`](docs/methodology/simulator-v1.md).
 
 ### Public APIs
 
-- `GET /api/elections/2022/national`
-- `GET /api/elections/2022/geography?level=constituency`
-- `GET /api/elections/2022/geography?level=municipality`
+- `GET /api/elections/2022/national.json/`
+- `GET /api/elections/2022/geography/constituencies.json/`
+- `GET /api/elections/2022/geography/municipalities.json/`
+- `GET /api/elections/comparisons/2018-2022/municipalities.json/`
 
-### Next product slices
+The `.json` paths are intentionally static-export compatible and include source/classification metadata.
 
-1. Parameterize Charts and Maps by party, geography, metric and election without creating one component for every combination.
-2. Normalize comparable official 2018 municipality observations and extend the map with a versioned election-to-election swing layer.
-3. Add the official 2002 national observation and deepen historical exploration.
-4. Add official 2026 adapters as Valmyndigheten publishes live-cycle datasets.
-5. Parameterize and expand the simulator only when each added assumption remains explicit and backtested.
+### Post-v1 roadmap
+
+1. Add official 2026 adapters as Valmyndigheten publishes live-cycle datasets, while preserving preliminary/final source states.
+2. Parameterize additional charts and maps by geography, metric and election without duplicating components.
+3. Add SCB aggregate context through a separate, provenance-preserving PxWeb adapter.
+4. Expand simulator scenarios only when each new assumption remains explicit and backtested.
+5. Consider saved workspaces/auth only after they provide a concrete analytical benefit; keep billing outside the data engine.

@@ -34,7 +34,9 @@ The deterministic adapter:
 9. validates all coordinates and the exact 290-code coverage;
 10. writes a checksum-pinned GeoJSON feature collection.
 
-The normalizer is pinned to `mapshaper@0.6.113`. Regenerate from already downloaded archives with:
+The normalizer is pinned to `mapshaper@0.6.113`. To keep this import-only tool out of the installed application dependency graph, the adapter uses `POLITICALVERSE_MAPSHAPER_BIN` when supplied, then a local binary when present, and otherwise invokes that exact pinned version through `npx`. Source archive checksums are verified before mapshaper is allowed to run.
+
+Regenerate from already downloaded archives with:
 
 ```bash
 npm run data:import:geography -- --source-dir /path/to/archive-directory
@@ -50,7 +52,7 @@ Without `--source-dir`, the adapter downloads the archives to the ignored `data/
 
 The counts differ because reporting includes collection/aggregation districts that do not have independent physical polygons in the published GIS archives. The map does not join result values at district level: official votes are first aggregated to municipality in the result adapter, then joined to the 290 dissolved municipality geometries.
 
-The initial map shows final **Riksdag** vote share and turnout by municipality. It does not represent municipal council election results or political control. Exact values retain the `OFFICIAL` classification. The five-bin relative color scale is a display transformation and is explicitly described beside the map.
+The map shows final 2022 **Riksdag** vote share and turnout plus `DERIVED` 2018–2022 party swing and turnout change by municipality. It does not represent municipal council election results or political control. Exact source observations retain the `OFFICIAL` classification; calculated changes are explicitly labelled `DERIVED`. The discrete color scales are display transformations and are described beside the map.
 
 ## Version boundary
 

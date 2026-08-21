@@ -13,10 +13,10 @@ export default function ChartsPage() {
     <div className="interior-page">
       <header className="interior-hero interior-hero--chart">
         <div><p className="eyebrow eyebrow--light">Charts · National series</p><h1>The chart is<br /><em>the product.</em></h1></div>
-        <div className="interior-hero__aside"><strong>5</strong><span>general elections</span><strong>8</strong><span>parliamentary parties</span><strong>40</strong><span>charted data points</span></div>
+        <div className="interior-hero__aside"><strong>6</strong><span>general elections</span><strong>8</strong><span>parliamentary parties</span><strong>48</strong><span>charted data points</span></div>
       </header>
       <section className="interior-panel chart-page-panel">
-        <div className="panel-heading"><div><span className="mini-label">PV / CHART 001</span><h2>National vote share</h2><p>Final Riksdag results, 2006–2022</p></div><DataSource compact /></div>
+        <div className="panel-heading"><div><span className="mini-label">PV / CHART 001</span><h2>National vote share</h2><p>Final Riksdag results, 2002–2022</p></div><DataSource compact /></div>
         <NationalTrendChart history={nationalHistory} />
       </section>
       <section className="interior-panel">

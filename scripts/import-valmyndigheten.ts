@@ -3,10 +3,10 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import process from "node:process";
-import ExcelJS from "exceljs";
 import { PARTY_IDS, type AreaResult, type HistoricalElection, type NormalizedRiksdagData, type PartyId } from "../lib/data/elections/types";
 import { VALMYNDIGHETEN_PARTY_NAMES } from "../lib/data/elections/parties";
 import { buildNationalHistoryData, loadHistoricalNationalCsv } from "../lib/data/valmyndigheten/history";
+import { readXlsxWorkbook, type XlsxCell } from "../lib/data/valmyndigheten/xlsx";
 
 type SourceManifest = {
   publisher: string;
@@ -39,7 +39,7 @@ type MutableArea = {
 
 const ROOT = resolve(import.meta.dirname, "..");
 const MANIFEST_PATH = join(ROOT, "data/raw/valmyndigheten/source-manifest.json");
-const HISTORY_PATH = join(ROOT, "data/raw/valmyndigheten/riksdag-national-2006-2018.csv");
+const HISTORY_PATH = join(ROOT, "data/raw/valmyndigheten/riksdag-national-2002-2018.csv");
 const DOWNLOAD_PATH = join(ROOT, "data/raw/downloads/valmyndigheten-riksdag-2022.xlsx");
 const ELECTION_OUTPUT_PATH = join(ROOT, "data/normalized/riksdag-2022.json");
 const HISTORY_OUTPUT_PATH = join(ROOT, "data/normalized/riksdag-national-history.json");
@@ -71,14 +71,14 @@ function createArea(code: string, name: string): MutableArea {
   };
 }
 
-function numberFromCell(cell: ExcelJS.Cell): number {
+function numberFromCell(cell: XlsxCell): number {
   if (typeof cell.value === "number") return cell.value;
   const normalized = cell.text.trim().replace(/\s/g, "").replace(",", ".");
   const value = Number(normalized);
   return Number.isFinite(value) ? value : 0;
 }
 
-function textFromCell(cell: ExcelJS.Cell): string {
+function textFromCell(cell: XlsxCell): string {
   return cell.text.trim();
 }
 
@@ -171,8 +171,7 @@ function assertExpectedNational(area: AreaResult, manifest: SourceManifest): voi
 }
 
 async function importWorkbook(sourcePath: string, manifest: SourceManifest): Promise<NormalizedRiksdagData> {
-  const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(sourcePath);
+  const workbook = await readXlsxWorkbook(sourcePath);
   const worksheet = workbook.getWorksheet(manifest.election2022.worksheet);
   if (!worksheet) throw new Error(`Worksheet ${manifest.election2022.worksheet} was not found`);
 
@@ -276,7 +275,7 @@ async function main(): Promise<void> {
   };
   const historyData = buildNationalHistoryData([...historicalElections, currentElection], {
     publisher: manifest.publisher,
-    dataset: "Final national Riksdag results, 2006–2022",
+    dataset: "Final national Riksdag results, 2002–2022",
     attribution: "Source: Valmyndigheten",
     retrievedAt: manifest.retrievedAt,
     classification: "OFFICIAL",

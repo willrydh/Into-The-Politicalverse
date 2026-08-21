@@ -20,6 +20,8 @@ export type AreaResult = {
   parties: PartyResult[];
 };
 
+export type MunicipalityElectionResult = Omit<AreaResult, "districtCount">;
+
 export type HistoricalElection = AreaResult & {
   year: number;
   electionDate: string;
@@ -58,4 +60,32 @@ export type NationalHistoryData = {
     urls: { year: number; url: string }[];
   };
   elections: HistoricalElection[];
+};
+
+export type MunicipalityHistoryData = {
+  schemaVersion: 1;
+  source: {
+    publisher: string;
+    dataset: string;
+    sourceUrl: string;
+    sourceSha256: string;
+    retrievedAt: string;
+    attribution: string;
+    classification: "OFFICIAL";
+  };
+  election: {
+    year: 2018;
+    electionDate: string;
+    type: "RD";
+    status: "final";
+  };
+  geographyComparison: {
+    level: "municipality";
+    fromBoundaryYear: 2018;
+    toBoundaryYear: 2022;
+    status: "comparable";
+    basisUrl: string;
+    note: string;
+  };
+  municipalities: MunicipalityElectionResult[];
 };

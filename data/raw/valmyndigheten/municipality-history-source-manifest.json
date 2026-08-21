@@ -1,0 +1,35 @@
+{
+  "publisher": "Valmyndigheten",
+  "license": "Open data; attribution required",
+  "licenseUrl": "https://www.val.se/valresultat-och-statistik/statistik-och-data/om-oppna-data",
+  "retrievedAt": "2026-08-21",
+  "normalizedSha256": "a3399a3fe9db5f04f54a3cbf79a4c7edfae592a3ec5765779c6fd2aa9bda2832",
+  "election2018": {
+    "url": "https://historik.val.se/val/val2018/statistik/2018_R_per_kommun.xlsx",
+    "sha256": "5fbd2b9227c473146b3d23f046c58ca2645d00bdfb76c73d8a30cb48445392de",
+    "description": "Final votes and percentages per municipality, 2018 Riksdag election",
+    "worksheetCounts": "R antal",
+    "worksheetPercentages": "R procent"
+  },
+  "comparability": {
+    "url": "https://www.val.se/valresultat-och-statistik/statistik-och-data/analyser-och-jamforelser",
+    "note": "Valmyndigheten states that 2018 and 2022 election results are comparable at election-area level and that no election areas changed between the elections. Politicalverse joins municipality observations only by identical official code and name."
+  },
+  "expected2018": {
+    "municipalities": 290,
+    "validVotes": 6476725,
+    "totalVotes": 6535271,
+    "eligibleVoters": 7495936,
+    "partyVotes": {
+      "M": 1284698,
+      "C": 557500,
+      "L": 355546,
+      "KD": 409478,
+      "S": 1830386,
+      "V": 518454,
+      "MP": 285899,
+      "SD": 1135627,
+      "OTHER": 99137
+    }
+  }
+}

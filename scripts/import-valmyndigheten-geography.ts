@@ -130,10 +130,14 @@ async function main(): Promise<void> {
       throw new Error(`Source feature count mismatch: ${sourceFeatureCount}`);
     }
 
-    const mapshaperBin = join(ROOT, "node_modules", ".bin", process.platform === "win32" ? "mapshaper.cmd" : "mapshaper");
+    const configuredMapshaper = process.env.POLITICALVERSE_MAPSHAPER_BIN;
+    const localMapshaper = join(ROOT, "node_modules", ".bin", process.platform === "win32" ? "mapshaper.cmd" : "mapshaper");
+    const mapshaperBin = configuredMapshaper ?? (existsSync(localMapshaper) ? localMapshaper : "npx");
+    const mapshaperPrefix = mapshaperBin === "npx" ? ["--yes", "mapshaper@0.6.113"] : [];
     execFileSync(
       mapshaperBin,
       [
+        ...mapshaperPrefix,
         ...sourceFiles,
         "combine-files",
         "-merge-layers",

@@ -58,7 +58,7 @@ export function PartyExplorer({ profiles }: { profiles: PartyProfile[] }) {
             {profile.weakestMunicipalities.map((area, index) => <p key={area.name}><span>{index + 1}</span><strong>{area.name}</strong><b>{area.share.toFixed(2)}%</b></p>)}
           </div>
         </div>
-        <div className="party-detail__footer"><span>{formatNumber(profile.current.votes)} votes</span><span>{profile.current.seats} seats</span><span>Final 2022 result</span></div>
+        <div className="party-detail__footer"><span>{formatNumber(profile.current.votes)} votes</span><span>{profile.current.seats} seats</span><span>{profile.geographicBreadth.improved}/{profile.geographicBreadth.comparable} municipalities improved · DERIVED v2.0.0</span><span>Final 2022 result</span></div>
       </div>
     </div>
   );

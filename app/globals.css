@@ -280,7 +280,7 @@ button { color: inherit; }
 .party-detail__headline { display: flex; align-items: flex-end; gap: 12px; }
 .party-detail__headline > strong { font-size: 50px; letter-spacing: -.07em; line-height: 1; }
 .party-detail__headline .delta { font-size: 10px; padding-bottom: 6px; }
-.party-history-bars { height: 255px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; border-bottom: 1px solid var(--line); padding: 32px 5% 25px; }
+.party-history-bars { height: 255px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; border-bottom: 1px solid var(--line); padding: 32px 5% 25px; }
 .party-history-bar { display: grid; grid-template-rows: auto 1fr auto; gap: 9px; text-align: center; }
 .party-history-bar > span, .party-history-bar > strong { font-family: var(--mono); font-size: 9px; }
 .party-history-bar > div { min-height: 145px; display: flex; align-items: end; justify-content: center; border-bottom: 1px solid var(--line); background-image: linear-gradient(to top, rgba(16,21,16,.05) 1px, transparent 1px); background-size: 100% 25%; }
@@ -293,11 +293,19 @@ button { color: inherit; }
 .party-detail__footer { border-top: 1px solid var(--line); padding-top: 17px; display: flex; gap: 28px; font-family: var(--mono); font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
 
 .interior-panel--map { padding: 0; }
-.election-map__controls { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(500px, 1.2fr); gap: 42px; align-items: end; padding: 28px 30px; border-bottom: 1px solid var(--line); }
+.election-map__controls { display: grid; grid-template-columns: minmax(280px, .72fr) minmax(520px, 1.28fr); gap: 42px; align-items: end; padding: 28px 30px; border-bottom: 1px solid var(--line); }
 .election-map__controls h2 { margin: 7px 0 4px; font-size: 34px; letter-spacing: -.05em; color: var(--blue-darkest); }
 .election-map__controls p { margin: 0; color: var(--muted); font-size: 11px; }
-.election-map__metric-picker { display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 8px; }
+.election-map__selectors { display: grid; gap: 8px; }
+.map-view-picker { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.map-view-picker button { min-height: 48px; border: 0; border-right: 1px solid var(--line); background: var(--paper); color: var(--blue-darkest); display: grid; grid-template-columns: auto auto; align-content: center; justify-content: center; gap: 7px; cursor: pointer; }
+.map-view-picker button:last-child { border-right: 0; }
+.map-view-picker button:hover { background: var(--white); }
+.map-view-picker button.is-active { background: var(--blue); color: var(--white); }
+.map-view-picker strong { font-family: var(--mono); font-size: 10px; }
+.map-view-picker span { font-size: 9px; font-weight: 750; }
 .election-map__party-picker { display: grid; grid-template-columns: repeat(8, minmax(54px, 1fr)); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.election-map__party-picker.is-muted { opacity: .58; }
 .map-party { --map-party: var(--blue); min-height: 58px; border: 0; border-right: 1px solid var(--line); background: var(--white); display: grid; place-items: center; align-content: center; gap: 4px; cursor: pointer; position: relative; }
 .map-party:last-child { border-right: 0; }
 .map-party::after { content: ""; position: absolute; height: 4px; left: 0; right: 0; bottom: 0; background: transparent; }
@@ -305,11 +313,6 @@ button { color: inherit; }
 .map-party.is-active { background: var(--blue); color: var(--white); }
 .map-party.is-active::after { background: var(--map-party); }
 .map-party > span:last-child { font-family: var(--mono); font-size: 8px; font-weight: 800; }
-.map-turnout { min-height: 58px; border: 1px solid var(--line); border-radius: 3px; background: var(--white); display: grid; place-items: center; align-content: center; gap: 2px; cursor: pointer; }
-.map-turnout:hover { background: var(--paper); }
-.map-turnout.is-active { background: var(--blue); border-color: var(--blue); color: var(--white); }
-.map-turnout strong { font-size: 18px; line-height: 1; }
-.map-turnout span { font-family: var(--mono); font-size: 7px; text-transform: uppercase; letter-spacing: .04em; }
 .election-map__workspace { display: grid; grid-template-columns: minmax(0, 1fr) 355px; min-height: 790px; }
 .election-map__canvas { min-width: 0; background: var(--paper); padding: 24px 28px 19px; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
 .map-scale { display: flex; align-items: center; justify-content: center; gap: 9px; font-family: var(--mono); font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
@@ -335,7 +338,10 @@ button { color: inherit; }
 .municipality-detail__metrics small { font-size: 6px; letter-spacing: .06em; color: var(--blue); }
 .detail-party-dot { width: 9px; height: 9px; border-radius: 50%; }
 .municipality-detail__note { margin: 25px 0; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.municipality-detail__note .detail-party-dot { display: inline-block; margin: 0 2px -1px 4px; }
+.map-source-links { margin-top: auto; }
 .map-source-link { margin-top: auto; min-height: 44px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--blue); padding: 13px 0; display: flex; justify-content: space-between; color: var(--blue); font-size: 10px; font-weight: 750; }
+.map-source-links .map-source-link + .map-source-link { border-top: 0; }
 
 .election-list { width: var(--page); margin: 70px auto 100px; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
 .election-row { min-height: 160px; background: var(--white); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 185px minmax(270px, 1.3fr) .65fr .5fr; position: relative; }
@@ -601,7 +607,7 @@ button { color: inherit; }
   .election-map__controls { padding: 21px 15px; gap: 25px; }
   .election-map__controls h2 { font-size: 29px; }
   .election-map__party-picker { grid-template-columns: repeat(4, 1fr); }
-  .election-map__metric-picker { grid-template-columns: 1fr; }
+  .map-view-picker button { grid-template-columns: 1fr; gap: 1px; }
   .map-party { min-height: 58px; border-bottom: 1px solid var(--line); }
   .map-party:nth-child(4n) { border-right: 0; }
   .map-party:nth-child(n+5) { border-bottom: 0; }

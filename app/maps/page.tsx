@@ -11,8 +11,8 @@ export default function MapsPage() {
   return (
     <div className="interior-page">
       <header className="interior-hero interior-hero--map">
-        <div><p className="eyebrow eyebrow--light">Election map · 290 municipalities</p><h1>Every place.<br /><em>Exact result.</em></h1></div>
-        <div className="interior-hero__context"><p className="interior-hero__deck">Explore final 2022 Riksdag vote share across every Swedish municipality. Official results meet official election geography—without a login.</p><DataSource compact /></div>
+        <div><p className="eyebrow eyebrow--light">Election map · 290 comparable municipalities</p><h1>Every place.<br /><em>Every change.</em></h1></div>
+        <div className="interior-hero__context"><p className="interior-hero__deck">Explore final 2022 Riksdag vote share, turnout and transparent 2018→2022 swing across every Swedish municipality—without a login.</p><DataSource compact /></div>
       </header>
       <section className="interior-panel interior-panel--map">
         <MunicipalityElectionMap model={model} />

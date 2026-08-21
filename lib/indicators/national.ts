@@ -1,4 +1,4 @@
-import { getElection, getMunicipalityLeaders, getPartyChange, getPartyResult, nationalHistory } from "@/lib/data/elections";
+import { getElection, getMunicipalityBreadth, getPartyChange, getPartyResult, nationalHistory } from "@/lib/data/elections";
 import { PARTY_IDS, type PartyId } from "@/lib/data/elections/types";
 
 export type Indicator = {
@@ -9,7 +9,7 @@ export type Indicator = {
   direction: "up" | "down" | "neutral";
   methodology: string;
   classification: "DERIVED";
-  methodologyVersion: "1.0.0";
+  methodologyVersion: string;
 };
 
 function formatSigned(value: number): string {
@@ -22,8 +22,7 @@ export function calculateNationalIndicators(): Indicator[] {
   const changes = PARTY_IDS.map((partyId) => ({ partyId, change: getPartyChange(partyId) }));
   const strongest = changes.filter(({ partyId }) => partyId !== "OTHER").sort((a, b) => b.change - a.change)[0];
   const volatility = changes.reduce((sum, party) => sum + Math.abs(party.change), 0) / 2;
-  const leaders = getMunicipalityLeaders();
-  const broadest = leaders[0];
+  const broadest = getMunicipalityBreadth().filter(({ partyId }) => partyId !== "OTHER")[0];
   const turnoutChange = current.turnout - previous.turnout;
 
   return [
@@ -50,12 +49,12 @@ export function calculateNationalIndicators(): Indicator[] {
     {
       id: "geographic-breadth",
       label: "Geographic breadth",
-      value: `${broadest.partyId} ${broadest.count}/290`,
-      detail: "Municipalities led in the Riksdag vote",
+      value: `${broadest.partyId} ${broadest.improved}/${broadest.comparable}`,
+      detail: "Municipalities with a higher vote share, 2018–2022",
       direction: "neutral",
-      methodology: "Counts the municipality-level plurality winner using final 2022 Riksdag votes. It is not a municipal-election measure.",
+      methodology: "Counts comparable municipalities where each party's final Riksdag vote share increased from 2018 to 2022, without weighting municipalities by population. The displayed party improved in the most municipalities.",
       classification: "DERIVED",
-      methodologyVersion: "1.0.0",
+      methodologyVersion: "2.0.0",
     },
     {
       id: "turnout-trend",

@@ -11,10 +11,10 @@ import { calculateNationalIndicators } from "@/lib/indicators/national";
 import { formatCompactNumber, formatNumber } from "@/lib/format";
 
 const EXPLORE = [
-  { index: "01", title: "Charts", copy: "Five elections. Eight parliamentary parties. One comparable national series.", href: "/charts", metric: "40 data points" },
-  { index: "02", title: "Parties", copy: "Follow vote share, swing and geographic strength from 2006 to 2022.", href: "/parties", metric: "8 profiles" },
+  { index: "01", title: "Charts", copy: "Six elections. Eight parliamentary parties. One comparable national series.", href: "/charts", metric: "48 data points" },
+  { index: "02", title: "Parties", copy: "Follow vote share, swing and geographic strength from 2002 to 2022.", href: "/parties", metric: "8 profiles" },
   { index: "03", title: "Maps", copy: "Tap through official Riksdag results across every Swedish municipality.", href: "/maps", metric: "290 places" },
-  { index: "04", title: "Elections", copy: "Final results, turnout and participation across every available election.", href: "/elections", metric: "5 elections" },
+  { index: "04", title: "Elections", copy: "Final results, turnout and participation across every available election.", href: "/elections", metric: "6 elections" },
   { index: "05", title: "Indicators", copy: "Transparent derived measures with the method visible beside the number.", href: "/indicators", metric: "4 live" },
   { index: "06", title: "Simulator", copy: "Set national vote shares and calculate a transparent Riksdag seat scenario.", href: "/simulator", metric: "349 seats" },
 ];
@@ -59,7 +59,7 @@ export default function Home() {
 
       <section className="product-section product-section--chart">
         <SectionHeading
-          eyebrow="National history · 2006—2022"
+          eyebrow="National history · 2002—2022"
           title="How Sweden moved"
           aside={<><span className="section-kicker">PV / CHART 001</span><p>Final share of valid votes</p></>}
         />
@@ -81,9 +81,9 @@ export default function Home() {
 
       <section className="product-section product-section--geography">
         <SectionHeading
-          eyebrow="Geographic breadth · 2022"
+          eyebrow="Plurality footprint · 2022"
           title="A national result is 290 local stories"
-          aside={<><span className="section-kicker">DERIVED · v1.0.0</span><p>Riksdag plurality by municipality</p></>}
+          aside={<><span className="section-kicker">DERIVED · plurality-footprint v1.0.0</span><p>Riksdag plurality by municipality</p></>}
         />
         <GeographicBreadth />
       </section>

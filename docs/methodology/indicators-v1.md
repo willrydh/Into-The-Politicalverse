@@ -1,4 +1,4 @@
-# Politicalverse national indicators — v1.0.0
+# Politicalverse national indicators — v2.0.0
 
 Classification: **DERIVED**. None of these measures is a poll or forecast. Inputs are final Valmyndigheten Riksdag results; percentages refer to valid votes and changes use percentage points.
 
@@ -18,9 +18,11 @@ The label describes historical change only; it does not imply current polling mo
 
 ## PV-03 Geographic breadth
 
-The number of Sweden's 290 municipalities in which a party had the largest share of the final 2022 Riksdag vote. Ties, if introduced by future source data, require an explicit rule before a new methodology version.
+For each party, count Sweden's comparable municipalities where its final Riksdag vote share increased between 2018 and 2022. The displayed party is the party that improved in the largest number of municipalities.
 
-This is not a claim about which party controls a municipal council and is not the change-based breadth definition planned for multi-election municipal data.
+`breadth(party) = municipalities with swing > 0 / 290 comparable municipalities`
+
+Municipalities are unweighted, so this describes territorial breadth rather than the number of voters represented by the change. Exact swing and comparability rules are documented in [`municipality-swing-v1.md`](municipality-swing-v1.md). It is not a claim about municipal council control or individual voter movement.
 
 ## PV-04 Turnout trend
 
@@ -31,3 +33,4 @@ Final national turnout in 2022 minus final national turnout in 2018, expressed i
 ## Version history
 
 - `1.0.0` — initial deterministic definitions over the checked-in 2018 and 2022 official results.
+- `2.0.0` — PV-03 replaced the single-election plurality footprint with change-based, unweighted geographic breadth over all 290 comparable 2018–2022 municipalities. PV-01, PV-02 and PV-04 are unchanged.

@@ -2,7 +2,7 @@ import "server-only";
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getPartyResult, riksdag2022 } from "@/lib/data/elections";
+import { getElection, getMunicipalityComparisons, getPartyChange, getPartyResult, municipalityHistory2018, riksdag2022 } from "@/lib/data/elections";
 import { PARTY_ORDER } from "@/lib/data/elections/parties";
 import type { PartyId } from "@/lib/data/elections/types";
 
@@ -36,10 +36,14 @@ export type MunicipalityMapArea = {
   name: string;
   path: string;
   turnout: number;
+  previousTurnout: number;
+  turnoutChange: number;
   validVotes: number;
   totalVotes: number;
   winner: Exclude<PartyId, "OTHER">;
   shares: Partial<Record<Exclude<PartyId, "OTHER">, number>>;
+  previousShares: Partial<Record<Exclude<PartyId, "OTHER">, number>>;
+  swings: Partial<Record<Exclude<PartyId, "OTHER">, number>>;
 };
 
 export type MunicipalityMapModel = {
@@ -48,8 +52,15 @@ export type MunicipalityMapModel = {
   height: number;
   areas: MunicipalityMapArea[];
   nationalShares: Partial<Record<Exclude<PartyId, "OTHER">, number>>;
+  nationalSwings: Partial<Record<Exclude<PartyId, "OTHER">, number>>;
   nationalTurnout: number;
-  source: MunicipalityFeatureCollection["source"];
+  nationalTurnoutChange: number;
+  source: {
+    results2022: typeof riksdag2022.source;
+    results2018: typeof municipalityHistory2018.source;
+    geometry: MunicipalityFeatureCollection["source"];
+    comparison: typeof municipalityHistory2018.geographyComparison;
+  };
 };
 
 const GEOMETRY_PATH = join(process.cwd(), "data/normalized/municipality-boundaries-2022.geojson");
@@ -89,6 +100,7 @@ export function getMunicipalityMapModel(): MunicipalityMapModel {
   const scale = (MAP_WIDTH - MAP_PADDING * 2) / longitudeRange;
   const height = Math.round(latitudeRange * scale + MAP_PADDING * 2);
   const resultsByCode = new Map(riksdag2022.municipalities.map((municipality) => [municipality.code, municipality]));
+  const comparisonsByCode = new Map(getMunicipalityComparisons().map((comparison) => [comparison.code, comparison]));
 
   function project([longitude, latitude]: Position): [number, number] {
     return [
@@ -111,6 +123,8 @@ export function getMunicipalityMapModel(): MunicipalityMapModel {
   const areas = geometry.features.map((feature) => {
     const result = resultsByCode.get(feature.properties.code);
     if (!result) throw new Error(`Missing result for municipality geometry ${feature.properties.code}`);
+    const comparison = comparisonsByCode.get(feature.properties.code);
+    if (!comparison) throw new Error(`Missing comparable 2018 result for municipality geometry ${feature.properties.code}`);
     const ranking = MAP_PARTIES.map((partyId) => getPartyResult(result, partyId)).sort((left, right) => right.share - left.share);
 
     return {
@@ -118,10 +132,14 @@ export function getMunicipalityMapModel(): MunicipalityMapModel {
       name: result.name,
       path: pathForGeometry(feature.geometry),
       turnout: result.turnout,
+      previousTurnout: comparison.previous.turnout,
+      turnoutChange: comparison.turnoutChange,
       validVotes: result.validVotes,
       totalVotes: result.totalVotes,
       winner: ranking[0].partyId as Exclude<PartyId, "OTHER">,
       shares: Object.fromEntries(MAP_PARTIES.map((partyId) => [partyId, getPartyResult(result, partyId).share])),
+      previousShares: Object.fromEntries(MAP_PARTIES.map((partyId) => [partyId, getPartyResult(comparison.previous, partyId).share])),
+      swings: Object.fromEntries(MAP_PARTIES.map((partyId) => [partyId, comparison.swings[partyId]])),
     };
   });
 
@@ -131,7 +149,14 @@ export function getMunicipalityMapModel(): MunicipalityMapModel {
     height,
     areas,
     nationalShares: Object.fromEntries(MAP_PARTIES.map((partyId) => [partyId, getPartyResult(riksdag2022.national, partyId).share])),
+    nationalSwings: Object.fromEntries(MAP_PARTIES.map((partyId) => [partyId, getPartyChange(partyId)])),
     nationalTurnout: riksdag2022.national.turnout,
-    source: geometry.source,
+    nationalTurnoutChange: Number((riksdag2022.national.turnout - getElection(2018).turnout).toFixed(2)),
+    source: {
+      results2022: riksdag2022.source,
+      results2018: municipalityHistory2018.source,
+      geometry: geometry.source,
+      comparison: municipalityHistory2018.geographyComparison,
+    },
   };
 }

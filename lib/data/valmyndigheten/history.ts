@@ -3,6 +3,7 @@ import type { HistoricalElection, NationalHistoryData, PartyId, PartyResult } fr
 import { PARTY_IDS } from "@/lib/data/elections/types";
 
 const ELECTION_METADATA: Record<number, { date: string; validVotes: number; totalVotes: number; eligibleVoters: number; turnout: number }> = {
+  2002: { date: "2002-09-15", validVotes: 5_303_212, totalVotes: 5_385_430, eligibleVoters: 6_722_176, turnout: 80.11 },
   2006: { date: "2006-09-17", validVotes: 5_551_278, totalVotes: 5_650_416, eligibleVoters: 6_892_009, turnout: 81.99 },
   2010: { date: "2010-09-19", validVotes: 5_960_408, totalVotes: 6_028_682, eligibleVoters: 7_123_651, turnout: 84.63 },
   2014: { date: "2014-09-14", validVotes: 6_231_573, totalVotes: 6_290_016, eligibleVoters: 7_330_432, turnout: 85.81 },
@@ -48,6 +49,13 @@ export function parseHistoricalNationalCsv(input: string): HistoricalElection[] 
       const voteSum = parties.reduce((sum, party) => sum + party.votes, 0);
       if (voteSum !== metadata.validVotes) {
         throw new Error(`Election ${year} party votes sum to ${voteSum}; expected ${metadata.validVotes}`);
+      }
+
+      for (const party of parties) {
+        const calculatedShare = Math.round(((party.votes / metadata.validVotes) * 100 + Number.EPSILON) * 100) / 100;
+        if (party.share !== calculatedShare) {
+          throw new Error(`Election ${year} ${party.partyId} share is ${party.share}; expected ${calculatedShare} from official votes`);
+        }
       }
 
       return {

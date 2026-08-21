@@ -2,11 +2,15 @@
   "schemaVersion": 1,
   "source": {
     "publisher": "Valmyndigheten",
-    "dataset": "Final national Riksdag results, 2006–2022",
+    "dataset": "Final national Riksdag results, 2002–2022",
     "attribution": "Source: Valmyndigheten",
     "retrievedAt": "2026-08-21",
     "classification": "OFFICIAL",
     "urls": [
+      {
+        "year": 2002,
+        "url": "https://historik.val.se/val/val_02/slutresultat/00R/00.html"
+      },
       {
         "year": 2006,
         "url": "https://historik.val.se/val/val2006/slutlig/R/rike/roster.html"
@@ -30,6 +34,64 @@
     ]
   },
   "elections": [
+    {
+      "year": 2002,
+      "electionDate": "2002-09-15",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 5303212,
+      "totalVotes": 5385430,
+      "eligibleVoters": 6722176,
+      "turnout": 80.11,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 809041,
+          "share": 15.26
+        },
+        {
+          "partyId": "C",
+          "votes": 328428,
+          "share": 6.19
+        },
+        {
+          "partyId": "L",
+          "votes": 710312,
+          "share": 13.39
+        },
+        {
+          "partyId": "KD",
+          "votes": 485235,
+          "share": 9.15
+        },
+        {
+          "partyId": "S",
+          "votes": 2113560,
+          "share": 39.85
+        },
+        {
+          "partyId": "V",
+          "votes": 444854,
+          "share": 8.39
+        },
+        {
+          "partyId": "MP",
+          "votes": 246392,
+          "share": 4.65
+        },
+        {
+          "partyId": "SD",
+          "votes": 76300,
+          "share": 1.44
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 89090,
+          "share": 1.68
+        }
+      ]
+    },
     {
       "year": 2006,
       "electionDate": "2006-09-17",

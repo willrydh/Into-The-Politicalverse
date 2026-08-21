@@ -71,5 +71,5 @@ Current draft PR: `#1 Build Politicalverse foundation`
 - Local development is fixed to `127.0.0.1:4317`. Do not use automatic port fallback, `0.0.0.0`, ports `3000`, `3001`, `3100`, `8000` or `8790`, or a port referenced by a local tunnel/service definition.
 - The preflight must verify the package, repository root, GitHub remote, `agent/foundation` branch, free port and absence of a tunnel/service route to the development port.
 - Do not modify other repositories, `~/Library/Application Support/WilliamRydhRadio`, launchd jobs, tunnels, DNS, Cloudflare configuration or unrelated domains while working on Politicalverse.
-- Politicalverse has one dedicated Sites target recorded in `.openai/hosting.json` and deployed at `https://into-the-politicalverse.williamrydhmusic.chatgpt.site`. Deploy only to that target; never reuse another project's hosting target or domain.
-- Browser QA must use a new temporary tab pointed explicitly at the fixed loopback URL or the dedicated Sites URL and close it after verification.
+- Politicalverse publishes only through the repository's GitHub Pages workflow at `https://willrydh.github.io/Into-The-Politicalverse/`. Do not reuse another project's hosting target or domain.
+- Browser QA must use a new temporary tab pointed explicitly at the fixed loopback URL or the Politicalverse GitHub Pages URL and close it after verification.

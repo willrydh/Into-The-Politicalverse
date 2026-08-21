@@ -8,29 +8,29 @@ The initial launch market is Sweden, with the 2026 general election as the first
 
 ## Implementation checkpoint — 2026-08-21
 
-The first usable public analytical release is now implemented on `agent/foundation` and continues in draft PR #1.
+The first usable public analytical release is implemented on `agent/foundation` and continues in draft PR #1.
 
 Delivered:
 
 - buildable Next.js 16 + TypeScript application with CI;
 - verified 2022 Valmyndigheten XLSX ingestion and normalized national, constituency and municipality records;
-- official national history for 2006–2022;
+- official national history for all six general elections from 2002–2022;
 - real responsive chart, result table and read-only JSON APIs;
 - local, source-recorded identity assets for all eight parliamentary parties;
 - Party Explorer using real national and municipality results;
-- an interactive Election Map for party vote share and turnout across all 290 municipalities, using checksum-pinned official 2022 GIS archives;
+- checksum-pinned official 2018 municipality results, exact comparability joins and an interactive Election Map for 2022 vote share, 2018–2022 swing and turnout across all 290 municipalities;
 - four deterministic `DERIVED` indicators, versioned methodology and regression tests;
 - a responsive `MODEL` Riksdag scenario simulator with a separate deterministic election-law engine;
 - checksum-pinned official 2018 and 2022 backtest inputs plus the official 2026 allocation of 310 fixed constituency seats;
 - exact 2018 and 2022 backtests for every party's fixed, adjustment and total mandates;
 - an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
 - a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
-- a dedicated owner-only Sites deployment at `https://into-the-politicalverse.williamrydhmusic.chatgpt.site`, isolated from every other project and domain;
+- a repository-local GitHub Pages workflow for the public, password-free release at `https://willrydh.github.io/Into-The-Politicalverse/`;
 - desktop and 390 px mobile browser acceptance checks.
 
-Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 19 regression tests and production build). The dedicated Sites build is also green. The owner-only deployment is live-verified with an authenticated HTTP 200 response plus working national and municipality JSON endpoints. `npm install` currently reports 41 dependency advisories (6 low, 17 moderate and 18 high); remediation remains open and the audit must not be described as clean.
+Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 22 regression tests and production static export). `npm install` reports zero known vulnerabilities. The Pages workflow repeats the data, lint, type and test gates before deployment and publishes static national, geography and municipality-comparison JSON endpoints.
 
-The next major product priority is comparable official 2018 municipality data, followed by a versioned map swing layer. The current historical national series starts in 2006 and the 2002 observation remains explicit follow-up work. Do not begin auth, Stripe or a statistical forecast first.
+The initial public data product is complete. Post-v1 work should prioritize official 2026 source adapters when Valmyndigheten publishes those datasets, then broader parameterized analytics and SCB aggregate context. Do not substitute polling or invented values for unavailable official 2026 results, and do not let auth or billing contaminate the election engine.
 
 ## Non-negotiable product principles
 
@@ -56,15 +56,15 @@ Existing foundation includes:
 - Next.js 16 + TypeScript product routes and responsive data-first dashboard
 - deterministic Valmyndigheten import, validation and normalization pipeline
 - checked-in normalized 2022 national, constituency and municipality results
-- official national history for five Riksdag elections from 2006 through 2022
+- official national history for six Riksdag elections from 2002 through 2022
 - centralized `lib/parties.ts` identity registry and eight local party assets
 - historical chart, Party Explorer, election archive and Politicalverse indicators
-- official 2022 municipality geometry plus a touch- and keyboard-accessible party-share/turnout map
+- official 2018/2022 municipality observations plus a touch- and keyboard-accessible party-share/swing/turnout map
 - explicit `OFFICIAL` and `DERIVED` classifications with source/methodology documentation
 - an independent deterministic Riksdag rule engine and responsive `MODEL` scenario simulator
 - exact official 2018 and 2022 fixed-, adjustment- and total-seat backtests
-- nineteen route, calendar, data, geometry, calculation, simulator and asset-provenance tests
-- GitHub Actions CI and draft PR #1 targeting `main`
+- twenty-two route, calendar, data, comparison, geometry, calculation, simulator and asset-provenance tests
+- GitHub Actions CI, public Pages deployment and draft PR #1 targeting `main`
 
 Do not rewrite the product from scratch unless a technical defect requires it. Improve incrementally.
 
@@ -375,6 +375,6 @@ Draft PR: `#1 Build Politicalverse foundation`
 
 Canonical specification: `README.md`
 
-Verified next action: source and normalize comparable official 2018 municipality observations, then add a versioned election-to-election swing map without mixing incompatible boundary vintages. The deterministic simulator is complete and must retain its exact historical backtests. Do not begin auth, Stripe or a forecast first.
+Verified current state: the 2002–2022 national series, comparable official 2018 municipality baseline, versioned 2018–2022 swing layer and deterministic simulator are complete. Preserve their exact validations and historical backtests. The next time-sensitive integration is official 2026 data when Valmyndigheten makes the relevant result sources available; until then, expand only source-backed analysis and keep forecasts, auth and billing clearly separate.
 
 This file is the execution brief. If it conflicts with `README.md` on product intent, `README.md` wins. If implementation reality changes, update both deliberately rather than allowing silent architectural drift.

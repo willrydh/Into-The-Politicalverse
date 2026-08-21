@@ -3,8 +3,8 @@ import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
 import process from "node:process";
-import ExcelJS from "exceljs";
 import type { NormalizedRiksdagData } from "../lib/data/elections/types";
+import { readXlsxWorkbook, type XlsxCell } from "../lib/data/valmyndigheten/xlsx";
 import {
   SIMULATOR_PARTY_IDS,
   type BacktestExpectation,
@@ -88,7 +88,7 @@ function decodeHtml(value: string): string {
     .trim();
 }
 
-function integerCell(cell: ExcelJS.Cell): number {
+function integerCell(cell: XlsxCell): number {
   if (typeof cell.value === "number") return Math.trunc(cell.value);
   const value = Number(cell.text.replace(/\s/g, "").replace(",", "."));
   return Number.isFinite(value) ? Math.trunc(value) : 0;
@@ -134,8 +134,7 @@ function parse2018ResultHtml(html: string, expected: ExpectedElection): RiksdagC
 }
 
 async function enrich2018Mandates(path: string, worksheetName: string, constituencies: RiksdagConstituencyInput[], expected: ExpectedElection): Promise<void> {
-  const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(path);
+  const workbook = await readXlsxWorkbook(path);
   const worksheet = workbook.getWorksheet(worksheetName);
   if (!worksheet) throw new Error(`Worksheet ${worksheetName} not found in 2018 mandate workbook`);
   const byCode = new Map(constituencies.map((constituency) => [constituency.code, constituency]));
@@ -168,8 +167,7 @@ async function enrich2018Mandates(path: string, worksheetName: string, constitue
 }
 
 async function parseFixedSeatWorkbook(path: string, worksheetName: string, constituencies: RiksdagConstituencyInput[]): Promise<Record<string, number>> {
-  const workbook = new ExcelJS.Workbook();
-  await workbook.xlsx.readFile(path);
+  const workbook = await readXlsxWorkbook(path);
   const worksheet = workbook.getWorksheet(worksheetName);
   if (!worksheet) throw new Error(`Worksheet ${worksheetName} not found in fixed-seat workbook`);
   const codeByName = new Map(constituencies.map((constituency) => [constituency.name, constituency.code]));

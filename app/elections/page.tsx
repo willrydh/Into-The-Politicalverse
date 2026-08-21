@@ -11,8 +11,8 @@ export default function ElectionsPage() {
   return (
     <div className="interior-page">
       <header className="interior-hero interior-hero--elections">
-        <div><p className="eyebrow eyebrow--light">Election archive · Sweden</p><h1>Five elections.<br /><em>One record.</em></h1></div>
-        <div className="interior-hero__context"><p className="interior-hero__deck">A comparable national baseline from the final count in every Swedish general election since 2006.</p><DataSource compact /></div>
+        <div><p className="eyebrow eyebrow--light">Election archive · Sweden</p><h1>Six elections.<br /><em>One record.</em></h1></div>
+        <div className="interior-hero__context"><p className="interior-hero__deck">A comparable national baseline from the final count in every Swedish general election since 2002.</p><DataSource compact /></div>
       </header>
       <section className="election-list">
         {[...nationalHistory.elections].reverse().map((election, index) => {
