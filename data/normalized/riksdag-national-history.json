@@ -1,0 +1,394 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "publisher": "Valmyndigheten",
+    "dataset": "Final national Riksdag results, 2002–2022",
+    "attribution": "Source: Valmyndigheten",
+    "retrievedAt": "2026-08-21",
+    "classification": "OFFICIAL",
+    "urls": [
+      {
+        "year": 2002,
+        "url": "https://historik.val.se/val/val_02/slutresultat/00R/00.html"
+      },
+      {
+        "year": 2006,
+        "url": "https://historik.val.se/val/val2006/slutlig/R/rike/roster.html"
+      },
+      {
+        "year": 2010,
+        "url": "https://historik.val.se/val/val2010/slutresultat/R/rike/index.html"
+      },
+      {
+        "year": 2014,
+        "url": "https://historik.val.se/val/val2014/slutresultat/R/rike/index.html"
+      },
+      {
+        "year": 2018,
+        "url": "https://historik.val.se/val/val2018/slutresultat/R/rike/"
+      },
+      {
+        "year": 2022,
+        "url": "https://www.val.se/download/18.162047b519a91d0533118f4b/1764336897948/Roster-per-distrikt-slutligt-antal-roster-inklusive-totalt-valdeltagande-riksdagsvalet-2022.xlsx"
+      }
+    ]
+  },
+  "elections": [
+    {
+      "year": 2002,
+      "electionDate": "2002-09-15",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 5303212,
+      "totalVotes": 5385430,
+      "eligibleVoters": 6722176,
+      "turnout": 80.11,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 809041,
+          "share": 15.26
+        },
+        {
+          "partyId": "C",
+          "votes": 328428,
+          "share": 6.19
+        },
+        {
+          "partyId": "L",
+          "votes": 710312,
+          "share": 13.39
+        },
+        {
+          "partyId": "KD",
+          "votes": 485235,
+          "share": 9.15
+        },
+        {
+          "partyId": "S",
+          "votes": 2113560,
+          "share": 39.85
+        },
+        {
+          "partyId": "V",
+          "votes": 444854,
+          "share": 8.39
+        },
+        {
+          "partyId": "MP",
+          "votes": 246392,
+          "share": 4.65
+        },
+        {
+          "partyId": "SD",
+          "votes": 76300,
+          "share": 1.44
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 89090,
+          "share": 1.68
+        }
+      ]
+    },
+    {
+      "year": 2006,
+      "electionDate": "2006-09-17",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 5551278,
+      "totalVotes": 5650416,
+      "eligibleVoters": 6892009,
+      "turnout": 81.99,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 1456014,
+          "share": 26.23
+        },
+        {
+          "partyId": "C",
+          "votes": 437389,
+          "share": 7.88
+        },
+        {
+          "partyId": "L",
+          "votes": 418395,
+          "share": 7.54
+        },
+        {
+          "partyId": "KD",
+          "votes": 365998,
+          "share": 6.59
+        },
+        {
+          "partyId": "S",
+          "votes": 1942625,
+          "share": 34.99
+        },
+        {
+          "partyId": "V",
+          "votes": 324722,
+          "share": 5.85
+        },
+        {
+          "partyId": "MP",
+          "votes": 291121,
+          "share": 5.24
+        },
+        {
+          "partyId": "SD",
+          "votes": 162463,
+          "share": 2.93
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 152551,
+          "share": 2.75
+        }
+      ]
+    },
+    {
+      "year": 2010,
+      "electionDate": "2010-09-19",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 5960408,
+      "totalVotes": 6028682,
+      "eligibleVoters": 7123651,
+      "turnout": 84.63,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 1791766,
+          "share": 30.06
+        },
+        {
+          "partyId": "C",
+          "votes": 390804,
+          "share": 6.56
+        },
+        {
+          "partyId": "L",
+          "votes": 420524,
+          "share": 7.06
+        },
+        {
+          "partyId": "KD",
+          "votes": 333696,
+          "share": 5.6
+        },
+        {
+          "partyId": "S",
+          "votes": 1827497,
+          "share": 30.66
+        },
+        {
+          "partyId": "V",
+          "votes": 334053,
+          "share": 5.6
+        },
+        {
+          "partyId": "MP",
+          "votes": 437435,
+          "share": 7.34
+        },
+        {
+          "partyId": "SD",
+          "votes": 339610,
+          "share": 5.7
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 85023,
+          "share": 1.43
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "electionDate": "2014-09-14",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 6231573,
+      "totalVotes": 6290016,
+      "eligibleVoters": 7330432,
+      "turnout": 85.81,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 1453517,
+          "share": 23.33
+        },
+        {
+          "partyId": "C",
+          "votes": 380937,
+          "share": 6.11
+        },
+        {
+          "partyId": "L",
+          "votes": 337773,
+          "share": 5.42
+        },
+        {
+          "partyId": "KD",
+          "votes": 284806,
+          "share": 4.57
+        },
+        {
+          "partyId": "S",
+          "votes": 1932711,
+          "share": 31.01
+        },
+        {
+          "partyId": "V",
+          "votes": 356331,
+          "share": 5.72
+        },
+        {
+          "partyId": "MP",
+          "votes": 429275,
+          "share": 6.89
+        },
+        {
+          "partyId": "SD",
+          "votes": 801178,
+          "share": 12.86
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 255045,
+          "share": 4.09
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "electionDate": "2018-09-09",
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 0,
+      "validVotes": 6476725,
+      "totalVotes": 6535271,
+      "eligibleVoters": 7495936,
+      "turnout": 87.18,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 1284698,
+          "share": 19.84
+        },
+        {
+          "partyId": "C",
+          "votes": 557500,
+          "share": 8.61
+        },
+        {
+          "partyId": "L",
+          "votes": 355546,
+          "share": 5.49
+        },
+        {
+          "partyId": "KD",
+          "votes": 409478,
+          "share": 6.32
+        },
+        {
+          "partyId": "S",
+          "votes": 1830386,
+          "share": 28.26
+        },
+        {
+          "partyId": "V",
+          "votes": 518454,
+          "share": 8
+        },
+        {
+          "partyId": "MP",
+          "votes": 285899,
+          "share": 4.41
+        },
+        {
+          "partyId": "SD",
+          "votes": 1135627,
+          "share": 17.53
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 99137,
+          "share": 1.53
+        }
+      ]
+    },
+    {
+      "code": "SE",
+      "name": "Sweden",
+      "districtCount": 6578,
+      "validVotes": 6477970,
+      "totalVotes": 6547801,
+      "eligibleVoters": 7775390,
+      "turnout": 84.21,
+      "parties": [
+        {
+          "partyId": "M",
+          "votes": 1237428,
+          "share": 19.1,
+          "seats": 68
+        },
+        {
+          "partyId": "C",
+          "votes": 434945,
+          "share": 6.71,
+          "seats": 24
+        },
+        {
+          "partyId": "L",
+          "votes": 298542,
+          "share": 4.61,
+          "seats": 16
+        },
+        {
+          "partyId": "KD",
+          "votes": 345712,
+          "share": 5.34,
+          "seats": 19
+        },
+        {
+          "partyId": "S",
+          "votes": 1964474,
+          "share": 30.33,
+          "seats": 107
+        },
+        {
+          "partyId": "V",
+          "votes": 437050,
+          "share": 6.75,
+          "seats": 24
+        },
+        {
+          "partyId": "MP",
+          "votes": 329242,
+          "share": 5.08,
+          "seats": 18
+        },
+        {
+          "partyId": "SD",
+          "votes": 1330325,
+          "share": 20.54,
+          "seats": 73
+        },
+        {
+          "partyId": "OTHER",
+          "votes": 100252,
+          "share": 1.55
+        }
+      ],
+      "year": 2022,
+      "electionDate": "2022-09-11"
+    }
+  ]
+}

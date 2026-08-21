@@ -1,0 +1,1090 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "publisher": "Valmyndigheten",
+    "retrievedAt": "2026-08-21",
+    "classification": "OFFICIAL",
+    "sourcePage": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022",
+    "sources": [
+      {
+        "id": "result2018",
+        "url": "https://historik.val.se/val/val2018/slutresultat/R/rike/",
+        "sha256": "3fdc30494a1c3c0889e3fa23f32969354adb92a9d34333257ea5d3c1db45badc"
+      },
+      {
+        "id": "mandates2018",
+        "url": "https://historik.val.se/val/val2018/statistik/2018_mandat.xlsx",
+        "sha256": "560d5f9c6df27e666e8cba8161d023bf396a72d63f16944b0aef71d4284edaab"
+      },
+      {
+        "id": "fixedSeats2022",
+        "url": "https://www.val.se/download/18.162047b519a91d0533115f2b/1649409095653/fasta-valkretsmandat-val-2022.xlsx",
+        "sha256": "79c0a6bb42ad4bc311331f65fa52d818d02654223812c328c10f84695f849c21"
+      },
+      {
+        "id": "decision2022",
+        "url": "https://www.val.se/download/18.162047b519a91d0533112bab/1666619695452/riksdag-val-2022-beslut-med-tva-rattelser-samt-bilagor.pdf",
+        "sha256": "e7b854e3ad6710c2b2f1cfea04fc65e5e3ca776d5ceb6f252dd7f6b254273b7a"
+      },
+      {
+        "id": "fixedSeats2026",
+        "url": "https://www.val.se/download/18.4005a7d19dee20a8ea531/1778074822037/fasta-valkretsmandat-val-2026.xlsx",
+        "sha256": "caa41481ce8c1c9602d30399afe9e92fc59da60bc0fab180b08035f3e3975eb5"
+      }
+    ]
+  },
+  "rules": {
+    "version": "riksdag-2026-v1.0.0",
+    "totalSeats": 349,
+    "fixedSeats": 310,
+    "adjustmentSeats": 39,
+    "majoritySeats": 175,
+    "nationalThreshold": 0.04,
+    "constituencyThreshold": 0.12,
+    "firstDivisor": 1.2,
+    "lawUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/vallag-2005837_sfs-2005-837/",
+    "methodUrl": "https://www.val.se/det-svenska-valsystemet/rostrakning-och-mandatfordelning/sa-fordelas-mandaten",
+    "manualUrl": "https://www.val.se/download/18.162047b519a91d05331183a9/1761747515752/manual-mandatfordelning-val-v785-05.pdf"
+  },
+  "backtests": [
+    {
+      "year": 2018,
+      "nationalValidVotes": 6476725,
+      "constituencies": [
+        {
+          "code": "01",
+          "name": "Stockholms kommun",
+          "validVotes": 611206,
+          "fixedSeats": 29,
+          "partyVotes": {
+            "S": 145245,
+            "SD": 60135,
+            "M": 133731,
+            "V": 80217,
+            "C": 55428,
+            "KD": 29776,
+            "MP": 47044,
+            "L": 47988
+          }
+        },
+        {
+          "code": "02",
+          "name": "Stockholms län",
+          "validVotes": 815031,
+          "fixedSeats": 39,
+          "partyVotes": {
+            "S": 187924,
+            "SD": 124226,
+            "M": 212009,
+            "V": 56466,
+            "C": 69786,
+            "KD": 56884,
+            "MP": 39042,
+            "L": 56525
+          }
+        },
+        {
+          "code": "03",
+          "name": "Uppsala län",
+          "validVotes": 241489,
+          "fixedSeats": 11,
+          "partyVotes": {
+            "S": 65168,
+            "SD": 37297,
+            "M": 45790,
+            "V": 21102,
+            "C": 22246,
+            "KD": 16661,
+            "MP": 13404,
+            "L": 15071
+          }
+        },
+        {
+          "code": "04",
+          "name": "Södermanlands län",
+          "validVotes": 183449,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 57612,
+            "SD": 35450,
+            "M": 37401,
+            "V": 12162,
+            "C": 13577,
+            "KD": 10089,
+            "MP": 6773,
+            "L": 7958
+          }
+        },
+        {
+          "code": "05",
+          "name": "Östergötlands län",
+          "validVotes": 300778,
+          "fixedSeats": 14,
+          "partyVotes": {
+            "S": 87450,
+            "SD": 53017,
+            "M": 61354,
+            "V": 20352,
+            "C": 25162,
+            "KD": 20065,
+            "MP": 12595,
+            "L": 16082
+          }
+        },
+        {
+          "code": "06",
+          "name": "Jönköpings län",
+          "validVotes": 229580,
+          "fixedSeats": 11,
+          "partyVotes": {
+            "S": 63782,
+            "SD": 44216,
+            "M": 40542,
+            "V": 11283,
+            "C": 23084,
+            "KD": 27437,
+            "MP": 7401,
+            "L": 9096
+          }
+        },
+        {
+          "code": "07",
+          "name": "Kronobergs län",
+          "validVotes": 124570,
+          "fixedSeats": 6,
+          "partyVotes": {
+            "S": 36817,
+            "SD": 25258,
+            "M": 23893,
+            "V": 7531,
+            "C": 11712,
+            "KD": 9418,
+            "MP": 4020,
+            "L": 4383
+          }
+        },
+        {
+          "code": "08",
+          "name": "Kalmar län",
+          "validVotes": 160864,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 50178,
+            "SD": 33075,
+            "M": 27733,
+            "V": 9851,
+            "C": 15774,
+            "KD": 11583,
+            "MP": 4645,
+            "L": 6038
+          }
+        },
+        {
+          "code": "09",
+          "name": "Gotlands län",
+          "validVotes": 41129,
+          "fixedSeats": 2,
+          "partyVotes": {
+            "S": 12254,
+            "SD": 5226,
+            "M": 6822,
+            "V": 3704,
+            "C": 7075,
+            "KD": 1699,
+            "MP": 2037,
+            "L": 1539
+          }
+        },
+        {
+          "code": "10",
+          "name": "Blekinge län",
+          "validVotes": 104514,
+          "fixedSeats": 5,
+          "partyVotes": {
+            "S": 32824,
+            "SD": 26342,
+            "M": 18038,
+            "V": 5699,
+            "C": 7094,
+            "KD": 5954,
+            "MP": 3025,
+            "L": 4197
+          }
+        },
+        {
+          "code": "11",
+          "name": "Malmö kommun",
+          "validVotes": 193298,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 56248,
+            "SD": 32480,
+            "M": 37645,
+            "V": 23021,
+            "C": 11003,
+            "KD": 7426,
+            "MP": 10783,
+            "L": 10812
+          }
+        },
+        {
+          "code": "12",
+          "name": "Skåne läns västra",
+          "validVotes": 191506,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 50041,
+            "SD": 50069,
+            "M": 40284,
+            "V": 9074,
+            "C": 12298,
+            "KD": 10257,
+            "MP": 6788,
+            "L": 9930
+          }
+        },
+        {
+          "code": "13",
+          "name": "Skåne läns södra",
+          "validVotes": 252804,
+          "fixedSeats": 12,
+          "partyVotes": {
+            "S": 55185,
+            "SD": 55903,
+            "M": 60619,
+            "V": 13426,
+            "C": 19994,
+            "KD": 13527,
+            "MP": 12435,
+            "L": 17768
+          }
+        },
+        {
+          "code": "14",
+          "name": "Skåne läns norra och östra",
+          "validVotes": 202502,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 50610,
+            "SD": 58360,
+            "M": 40881,
+            "V": 8275,
+            "C": 13855,
+            "KD": 13150,
+            "MP": 5816,
+            "L": 8984
+          }
+        },
+        {
+          "code": "15",
+          "name": "Hallands län",
+          "validVotes": 216982,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 56021,
+            "SD": 40392,
+            "M": 49630,
+            "V": 10498,
+            "C": 21960,
+            "KD": 15415,
+            "MP": 7690,
+            "L": 12444
+          }
+        },
+        {
+          "code": "16",
+          "name": "Göteborgs kommun",
+          "validVotes": 349645,
+          "fixedSeats": 17,
+          "partyVotes": {
+            "S": 83097,
+            "SD": 47040,
+            "M": 69432,
+            "V": 48946,
+            "C": 24893,
+            "KD": 19283,
+            "MP": 24286,
+            "L": 25337
+          }
+        },
+        {
+          "code": "17",
+          "name": "Västra Götalands läns västra",
+          "validVotes": 243278,
+          "fixedSeats": 11,
+          "partyVotes": {
+            "S": 58966,
+            "SD": 43848,
+            "M": 52958,
+            "V": 16607,
+            "C": 19932,
+            "KD": 18724,
+            "MP": 12166,
+            "L": 16757
+          }
+        },
+        {
+          "code": "18",
+          "name": "Västra Götalands läns norra",
+          "validVotes": 174573,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 53328,
+            "SD": 37391,
+            "M": 30794,
+            "V": 11029,
+            "C": 13809,
+            "KD": 11347,
+            "MP": 6349,
+            "L": 8124
+          }
+        },
+        {
+          "code": "19",
+          "name": "Västra Götalands läns södra",
+          "validVotes": 143505,
+          "fixedSeats": 7,
+          "partyVotes": {
+            "S": 40234,
+            "SD": 28221,
+            "M": 27197,
+            "V": 9213,
+            "C": 13760,
+            "KD": 10445,
+            "MP": 4891,
+            "L": 7624
+          }
+        },
+        {
+          "code": "20",
+          "name": "Västra Götalands läns östra",
+          "validVotes": 177001,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 53888,
+            "SD": 34501,
+            "M": 32569,
+            "V": 10106,
+            "C": 16533,
+            "KD": 13837,
+            "MP": 5425,
+            "L": 7662
+          }
+        },
+        {
+          "code": "21",
+          "name": "Värmlands län",
+          "validVotes": 183966,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 62369,
+            "SD": 33118,
+            "M": 30219,
+            "V": 12779,
+            "C": 17071,
+            "KD": 11657,
+            "MP": 6133,
+            "L": 8168
+          }
+        },
+        {
+          "code": "22",
+          "name": "Örebro län",
+          "validVotes": 195157,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 64646,
+            "SD": 35499,
+            "M": 32470,
+            "V": 14775,
+            "C": 15254,
+            "KD": 13520,
+            "MP": 7189,
+            "L": 8888
+          }
+        },
+        {
+          "code": "23",
+          "name": "Västmanlands län",
+          "validVotes": 172719,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 54287,
+            "SD": 34740,
+            "M": 33122,
+            "V": 12181,
+            "C": 11539,
+            "KD": 9969,
+            "MP": 5108,
+            "L": 9448
+          }
+        },
+        {
+          "code": "24",
+          "name": "Dalarnas län",
+          "validVotes": 188027,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 57776,
+            "SD": 39029,
+            "M": 31320,
+            "V": 13654,
+            "C": 18813,
+            "KD": 11522,
+            "MP": 6249,
+            "L": 6848
+          }
+        },
+        {
+          "code": "25",
+          "name": "Gävleborgs län",
+          "validVotes": 185413,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 63232,
+            "SD": 36330,
+            "M": 28334,
+            "V": 15483,
+            "C": 16825,
+            "KD": 9782,
+            "MP": 5661,
+            "L": 7441
+          }
+        },
+        {
+          "code": "26",
+          "name": "Västernorrlands län",
+          "validVotes": 163001,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 64882,
+            "SD": 25360,
+            "M": 22255,
+            "V": 13335,
+            "C": 16108,
+            "KD": 8816,
+            "MP": 4366,
+            "L": 5601
+          }
+        },
+        {
+          "code": "27",
+          "name": "Jämtlands län",
+          "validVotes": 85223,
+          "fixedSeats": 4,
+          "partyVotes": {
+            "S": 28632,
+            "SD": 13257,
+            "M": 12218,
+            "V": 7179,
+            "C": 13086,
+            "KD": 4118,
+            "MP": 3049,
+            "L": 2439
+          }
+        },
+        {
+          "code": "28",
+          "name": "Västerbottens län",
+          "validVotes": 178837,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 68197,
+            "SD": 19571,
+            "M": 24139,
+            "V": 22696,
+            "C": 18078,
+            "KD": 9376,
+            "MP": 6925,
+            "L": 7038
+          }
+        },
+        {
+          "code": "29",
+          "name": "Norrbottens län",
+          "validVotes": 166678,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 69493,
+            "SD": 26276,
+            "M": 21299,
+            "V": 17810,
+            "C": 11751,
+            "KD": 7741,
+            "MP": 4604,
+            "L": 5356
+          }
+        }
+      ],
+      "expected": {
+        "fixed": {
+          "S": 94,
+          "SD": 61,
+          "M": 66,
+          "V": 25,
+          "C": 31,
+          "KD": 16,
+          "MP": 5,
+          "L": 12
+        },
+        "adjustment": {
+          "S": 6,
+          "SD": 1,
+          "M": 4,
+          "V": 3,
+          "C": 0,
+          "KD": 6,
+          "MP": 11,
+          "L": 8
+        },
+        "total": {
+          "S": 100,
+          "SD": 62,
+          "M": 70,
+          "V": 28,
+          "C": 31,
+          "KD": 22,
+          "MP": 16,
+          "L": 20
+        }
+      }
+    },
+    {
+      "year": 2022,
+      "nationalValidVotes": 6477970,
+      "constituencies": [
+        {
+          "code": "01",
+          "name": "Stockholms kommun",
+          "validVotes": 606754,
+          "fixedSeats": 29,
+          "partyVotes": {
+            "S": 170308,
+            "SD": 64730,
+            "M": 115706,
+            "V": 71171,
+            "C": 51437,
+            "KD": 19227,
+            "MP": 60791,
+            "L": 41663
+          }
+        },
+        {
+          "code": "02",
+          "name": "Stockholms län",
+          "validVotes": 822512,
+          "fixedSeats": 40,
+          "partyVotes": {
+            "S": 223056,
+            "SD": 144315,
+            "M": 197466,
+            "V": 51623,
+            "C": 60776,
+            "KD": 40207,
+            "MP": 42284,
+            "L": 48949
+          }
+        },
+        {
+          "code": "03",
+          "name": "Uppsala län",
+          "validVotes": 248891,
+          "fixedSeats": 12,
+          "partyVotes": {
+            "S": 72499,
+            "SD": 45237,
+            "M": 45457,
+            "V": 19543,
+            "C": 18040,
+            "KD": 14766,
+            "MP": 16750,
+            "L": 12465
+          }
+        },
+        {
+          "code": "04",
+          "name": "Södermanlands län",
+          "validVotes": 184883,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 60891,
+            "SD": 42547,
+            "M": 35513,
+            "V": 9605,
+            "C": 10989,
+            "KD": 8772,
+            "MP": 7409,
+            "L": 6643
+          }
+        },
+        {
+          "code": "05",
+          "name": "Östergötlands län",
+          "validVotes": 300600,
+          "fixedSeats": 14,
+          "partyVotes": {
+            "S": 91837,
+            "SD": 63733,
+            "M": 59623,
+            "V": 16884,
+            "C": 19479,
+            "KD": 17943,
+            "MP": 13917,
+            "L": 13271
+          }
+        },
+        {
+          "code": "06",
+          "name": "Jönköpings län",
+          "validVotes": 229125,
+          "fixedSeats": 11,
+          "partyVotes": {
+            "S": 66568,
+            "SD": 53338,
+            "M": 42913,
+            "V": 9069,
+            "C": 17078,
+            "KD": 21326,
+            "MP": 7377,
+            "L": 8480
+          }
+        },
+        {
+          "code": "07",
+          "name": "Kronobergs län",
+          "validVotes": 124992,
+          "fixedSeats": 6,
+          "partyVotes": {
+            "S": 38712,
+            "SD": 29516,
+            "M": 24390,
+            "V": 6281,
+            "C": 7559,
+            "KD": 8451,
+            "MP": 4338,
+            "L": 3897
+          }
+        },
+        {
+          "code": "08",
+          "name": "Kalmar län",
+          "validVotes": 161267,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 51179,
+            "SD": 39516,
+            "M": 28672,
+            "V": 7484,
+            "C": 10523,
+            "KD": 11226,
+            "MP": 5427,
+            "L": 5126
+          }
+        },
+        {
+          "code": "09",
+          "name": "Gotlands län",
+          "validVotes": 41459,
+          "fixedSeats": 2,
+          "partyVotes": {
+            "S": 14361,
+            "SD": 6504,
+            "M": 6969,
+            "V": 2642,
+            "C": 4858,
+            "KD": 1645,
+            "MP": 2683,
+            "L": 1169
+          }
+        },
+        {
+          "code": "10",
+          "name": "Blekinge län",
+          "validVotes": 103580,
+          "fixedSeats": 5,
+          "partyVotes": {
+            "S": 32255,
+            "SD": 29556,
+            "M": 18500,
+            "V": 4600,
+            "C": 5014,
+            "KD": 5735,
+            "MP": 3015,
+            "L": 3637
+          }
+        },
+        {
+          "code": "11",
+          "name": "Malmö kommun",
+          "validVotes": 192045,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 56789,
+            "SD": 31433,
+            "M": 34313,
+            "V": 23986,
+            "C": 10546,
+            "KD": 5753,
+            "MP": 14386,
+            "L": 8706
+          }
+        },
+        {
+          "code": "12",
+          "name": "Skåne läns västra",
+          "validVotes": 191683,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 52402,
+            "SD": 55104,
+            "M": 37982,
+            "V": 8832,
+            "C": 9524,
+            "KD": 9055,
+            "MP": 6779,
+            "L": 8592
+          }
+        },
+        {
+          "code": "13",
+          "name": "Skåne läns södra",
+          "validVotes": 259372,
+          "fixedSeats": 12,
+          "partyVotes": {
+            "S": 65747,
+            "SD": 60573,
+            "M": 57216,
+            "V": 12857,
+            "C": 17171,
+            "KD": 12341,
+            "MP": 14386,
+            "L": 15949
+          }
+        },
+        {
+          "code": "14",
+          "name": "Skåne läns norra och östra",
+          "validVotes": 202971,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 51154,
+            "SD": 65345,
+            "M": 39595,
+            "V": 7987,
+            "C": 10040,
+            "KD": 12480,
+            "MP": 6006,
+            "L": 7625
+          }
+        },
+        {
+          "code": "15",
+          "name": "Hallands län",
+          "validVotes": 221675,
+          "fixedSeats": 10,
+          "partyVotes": {
+            "S": 62666,
+            "SD": 50046,
+            "M": 49810,
+            "V": 8963,
+            "C": 15590,
+            "KD": 13328,
+            "MP": 7963,
+            "L": 10739
+          }
+        },
+        {
+          "code": "16",
+          "name": "Göteborgs kommun",
+          "validVotes": 347103,
+          "fixedSeats": 17,
+          "partyVotes": {
+            "S": 95980,
+            "SD": 50889,
+            "M": 64157,
+            "V": 44602,
+            "C": 20343,
+            "KD": 15170,
+            "MP": 27485,
+            "L": 20317
+          }
+        },
+        {
+          "code": "17",
+          "name": "Västra Götalands läns västra",
+          "validVotes": 247863,
+          "fixedSeats": 11,
+          "partyVotes": {
+            "S": 69468,
+            "SD": 52558,
+            "M": 50707,
+            "V": 14089,
+            "C": 15881,
+            "KD": 15571,
+            "MP": 12846,
+            "L": 13467
+          }
+        },
+        {
+          "code": "18",
+          "name": "Västra Götalands läns norra",
+          "validVotes": 173655,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 54311,
+            "SD": 44165,
+            "M": 30443,
+            "V": 8953,
+            "C": 9938,
+            "KD": 10711,
+            "MP": 6318,
+            "L": 6311
+          }
+        },
+        {
+          "code": "19",
+          "name": "Västra Götalands läns södra",
+          "validVotes": 141906,
+          "fixedSeats": 7,
+          "partyVotes": {
+            "S": 41350,
+            "SD": 33477,
+            "M": 26846,
+            "V": 7583,
+            "C": 10063,
+            "KD": 9871,
+            "MP": 5053,
+            "L": 5445
+          }
+        },
+        {
+          "code": "20",
+          "name": "Västra Götalands läns östra",
+          "validVotes": 176526,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 55421,
+            "SD": 42572,
+            "M": 32790,
+            "V": 7856,
+            "C": 11667,
+            "KD": 12289,
+            "MP": 5748,
+            "L": 5919
+          }
+        },
+        {
+          "code": "21",
+          "name": "Värmlands län",
+          "validVotes": 182237,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 63034,
+            "SD": 41555,
+            "M": 31068,
+            "V": 9126,
+            "C": 11557,
+            "KD": 10590,
+            "MP": 6635,
+            "L": 6766
+          }
+        },
+        {
+          "code": "22",
+          "name": "Örebro län",
+          "validVotes": 194190,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 64565,
+            "SD": 42904,
+            "M": 32508,
+            "V": 11873,
+            "C": 12159,
+            "KD": 10368,
+            "MP": 7866,
+            "L": 8828
+          }
+        },
+        {
+          "code": "23",
+          "name": "Västmanlands län",
+          "validVotes": 170749,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 54645,
+            "SD": 40415,
+            "M": 32671,
+            "V": 10475,
+            "C": 9224,
+            "KD": 8554,
+            "MP": 5465,
+            "L": 7100
+          }
+        },
+        {
+          "code": "24",
+          "name": "Dalarnas län",
+          "validVotes": 186599,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 59080,
+            "SD": 47931,
+            "M": 30664,
+            "V": 9937,
+            "C": 12131,
+            "KD": 11231,
+            "MP": 7087,
+            "L": 5786
+          }
+        },
+        {
+          "code": "25",
+          "name": "Gävleborgs län",
+          "validVotes": 182587,
+          "fixedSeats": 9,
+          "partyVotes": {
+            "S": 63415,
+            "SD": 43994,
+            "M": 29661,
+            "V": 10783,
+            "C": 11405,
+            "KD": 9303,
+            "MP": 6308,
+            "L": 5462
+          }
+        },
+        {
+          "code": "26",
+          "name": "Västernorrlands län",
+          "validVotes": 158723,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 62562,
+            "SD": 32829,
+            "M": 22176,
+            "V": 9123,
+            "C": 11822,
+            "KD": 8591,
+            "MP": 5437,
+            "L": 4348
+          }
+        },
+        {
+          "code": "27",
+          "name": "Jämtlands län",
+          "validVotes": 85024,
+          "fixedSeats": 4,
+          "partyVotes": {
+            "S": 30666,
+            "SD": 17097,
+            "M": 12574,
+            "V": 4749,
+            "C": 7771,
+            "KD": 4574,
+            "MP": 4269,
+            "L": 2244
+          }
+        },
+        {
+          "code": "28",
+          "name": "Västerbottens län",
+          "validVotes": 177543,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 72318,
+            "SD": 25666,
+            "M": 25121,
+            "V": 15097,
+            "C": 13827,
+            "KD": 8368,
+            "MP": 9653,
+            "L": 5544
+          }
+        },
+        {
+          "code": "29",
+          "name": "Norrbottens län",
+          "validVotes": 161456,
+          "fixedSeats": 8,
+          "partyVotes": {
+            "S": 67235,
+            "SD": 32780,
+            "M": 21917,
+            "V": 11277,
+            "C": 8533,
+            "KD": 8266,
+            "MP": 5561,
+            "L": 4094
+          }
+        }
+      ],
+      "expected": {
+        "fixed": {
+          "S": 104,
+          "SD": 69,
+          "M": 67,
+          "V": 16,
+          "C": 23,
+          "KD": 13,
+          "MP": 10,
+          "L": 8
+        },
+        "adjustment": {
+          "S": 3,
+          "SD": 4,
+          "M": 1,
+          "V": 8,
+          "C": 1,
+          "KD": 6,
+          "MP": 8,
+          "L": 8
+        },
+        "total": {
+          "S": 107,
+          "SD": 73,
+          "M": 68,
+          "V": 24,
+          "C": 24,
+          "KD": 19,
+          "MP": 18,
+          "L": 16
+        }
+      }
+    }
+  ],
+  "scenario": {
+    "baselineElection": 2022,
+    "fixedSeatElection": 2026,
+    "fixedSeatsByConstituency": {
+      "10": 5,
+      "11": 10,
+      "12": 9,
+      "13": 12,
+      "14": 10,
+      "15": 10,
+      "16": 18,
+      "17": 11,
+      "18": 8,
+      "19": 7,
+      "20": 8,
+      "21": 9,
+      "22": 9,
+      "23": 8,
+      "24": 9,
+      "25": 9,
+      "26": 7,
+      "27": 4,
+      "28": 8,
+      "29": 8,
+      "01": 29,
+      "02": 41,
+      "03": 12,
+      "04": 9,
+      "05": 14,
+      "06": 11,
+      "07": 6,
+      "08": 7,
+      "09": 2
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "publisher": "Valmyndigheten",
+  "sourcePage": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022",
+  "retrievedAt": "2026-08-21",
+  "license": "Open data; attribution required",
+  "licenseUrl": "https://www.val.se/valresultat-och-statistik/statistik-och-data/om-var-oppna-data",
+  "rules": {
+    "version": "riksdag-2026-v1.0.0",
+    "totalSeats": 349,
+    "fixedSeats": 310,
+    "adjustmentSeats": 39,
+    "majoritySeats": 175,
+    "nationalThreshold": 0.04,
+    "constituencyThreshold": 0.12,
+    "firstDivisor": 1.2,
+    "lawUrl": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/vallag-2005837_sfs-2005-837/",
+    "methodUrl": "https://www.val.se/det-svenska-valsystemet/rostrakning-och-mandatfordelning/sa-fordelas-mandaten",
+    "manualUrl": "https://www.val.se/download/18.162047b519a91d05331183a9/1761747515752/manual-mandatfordelning-val-v785-05.pdf"
+  },
+  "sources": {
+    "result2018": {
+      "fileName": "valmyndigheten-riksdag-2018.html",
+      "url": "https://historik.val.se/val/val2018/slutresultat/R/rike/",
+      "sha256": "3fdc30494a1c3c0889e3fa23f32969354adb92a9d34333257ea5d3c1db45badc"
+    },
+    "mandates2018": {
+      "fileName": "valmyndigheten-mandates-2018.xlsx",
+      "url": "https://historik.val.se/val/val2018/statistik/2018_mandat.xlsx",
+      "sha256": "560d5f9c6df27e666e8cba8161d023bf396a72d63f16944b0aef71d4284edaab",
+      "worksheet": "Mandatfördelning"
+    },
+    "fixedSeats2022": {
+      "fileName": "valmyndigheten-fixed-seats-2022.xlsx",
+      "url": "https://www.val.se/download/18.162047b519a91d0533115f2b/1649409095653/fasta-valkretsmandat-val-2022.xlsx",
+      "sha256": "79c0a6bb42ad4bc311331f65fa52d818d02654223812c328c10f84695f849c21",
+      "worksheet": "Flik 1"
+    },
+    "decision2022": {
+      "fileName": "valmyndigheten-riksdag-decision-2022.pdf",
+      "url": "https://www.val.se/download/18.162047b519a91d0533112bab/1666619695452/riksdag-val-2022-beslut-med-tva-rattelser-samt-bilagor.pdf",
+      "sha256": "e7b854e3ad6710c2b2f1cfea04fc65e5e3ca776d5ceb6f252dd7f6b254273b7a"
+    },
+    "fixedSeats2026": {
+      "fileName": "valmyndigheten-fixed-seats-2026.xlsx",
+      "url": "https://www.val.se/download/18.4005a7d19dee20a8ea531/1778074822037/fasta-valkretsmandat-val-2026.xlsx",
+      "sha256": "caa41481ce8c1c9602d30399afe9e92fc59da60bc0fab180b08035f3e3975eb5",
+      "worksheet": "Antal fasta valkretsmandat"
+    }
+  },
+  "expected": {
+    "2018": {
+      "nationalValidVotes": 6476725,
+      "partyVotes": { "S": 1830386, "SD": 1135627, "M": 1284698, "V": 518454, "C": 557500, "KD": 409478, "MP": 285899, "L": 355546 },
+      "fixed": { "S": 94, "SD": 61, "M": 66, "V": 25, "C": 31, "KD": 16, "MP": 5, "L": 12 },
+      "adjustment": { "S": 6, "SD": 1, "M": 4, "V": 3, "C": 0, "KD": 6, "MP": 11, "L": 8 },
+      "total": { "S": 100, "SD": 62, "M": 70, "V": 28, "C": 31, "KD": 22, "MP": 16, "L": 20 }
+    },
+    "2022": {
+      "nationalValidVotes": 6477970,
+      "partyVotes": { "S": 1964474, "SD": 1330325, "M": 1237428, "V": 437050, "C": 434945, "KD": 345712, "MP": 329242, "L": 298542 },
+      "fixed": { "S": 104, "SD": 69, "M": 67, "V": 16, "C": 23, "KD": 13, "MP": 10, "L": 8 },
+      "adjustment": { "S": 3, "SD": 4, "M": 1, "V": 8, "C": 1, "KD": 6, "MP": 8, "L": 8 },
+      "total": { "S": 107, "SD": 73, "M": 68, "V": 24, "C": 24, "KD": 19, "MP": 18, "L": 16 }
+    }
+  },
+  "normalizedSha256": "e8b4a0f4b25904993ad1ab2bbf1361953bb270b9bda94695666a68f2d06a568f"
+}

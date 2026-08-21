@@ -1,0 +1,21 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+/dist
+/.wrangler
+
+# local tooling
+/.DS_Store
+*.log
+*.tsbuildinfo
+
+# downloaded government source files are reproducible and intentionally not tracked
+/data/raw/downloads/*
+!/data/raw/downloads/.gitkeep
+
+# environment files
+.env*
+!.env.example

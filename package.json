@@ -1,0 +1,40 @@
+{
+  "name": "into-the-politicalverse",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "npm run safety:check",
+    "dev": "next dev --hostname 127.0.0.1 --port 4317",
+    "build": "next build",
+    "build:pages": "PAGES_BASE_PATH=/Into-The-Politicalverse next build",
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "data:import": "node --import tsx scripts/import-valmyndigheten.ts",
+    "data:import:municipality-history": "node --import tsx scripts/import-valmyndigheten-municipality-history.ts",
+    "data:import:geography": "node --import tsx scripts/import-valmyndigheten-geography.ts",
+    "data:import:seats": "node --import tsx scripts/import-valmyndigheten-seats.ts",
+    "data:verify": "node --import tsx scripts/verify-election-data.ts",
+    "safety:check": "node scripts/safety-preflight.mjs"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.0.0",
+    "jszip": "^3.10.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

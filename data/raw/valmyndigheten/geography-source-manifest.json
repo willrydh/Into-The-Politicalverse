@@ -1,0 +1,164 @@
+{
+  "publisher": "Valmyndigheten",
+  "sourcePage": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022",
+  "license": "Open data; attribution required",
+  "licenseUrl": "https://www.val.se/valresultat-och-statistik/statistik-och-data/om-var-oppna-data",
+  "retrievedAt": "2026-08-21",
+  "electionYear": 2022,
+  "geometryDate": "2022-09-10",
+  "sourceCoordinateReferenceSystem": "EPSG:3006 (SWEREF 99 TM)",
+  "normalizedCoordinateReferenceSystem": "EPSG:4326 (WGS 84)",
+  "sourceFeatureCount": 6264,
+  "expectedMunicipalities": 290,
+  "normalizer": "mapshaper@0.6.113",
+  "normalizedSha256": "783621c49611a869b6a10024fb944c0b5cfb37634d38eb0e5c9ed5a07a0a697c",
+  "archives": [
+    {
+      "countyCode": "01",
+      "countyName": "Stockholms län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a201/1662820378259/valdistrikt-stockholms-lan.zip",
+      "sha256": "30c865dfcbbd7bdc9966e1fc7f6656df20d0470c1e08e2db8e30f556e364b8a8",
+      "jsonFile": "VD_01_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "03",
+      "countyName": "Uppsala län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1ff/1662820378349/valdistrikt-uppsala-lan.zip",
+      "sha256": "6c503f38742614c46d34b58445a6e321dcce01a69c5ce14f8c8dee7f23f549ed",
+      "jsonFile": "VD_03_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "04",
+      "countyName": "Södermanlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a202/1662820378175/valdistrikt-sodermanlands-lan.zip",
+      "sha256": "d2ca056138152a9a20b1689381496c78e9a81d82596d67086accd67fcd3ab153",
+      "jsonFile": "VD_04_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "05",
+      "countyName": "Östergötlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a204/1662820377920/valdistrikt-ostergotlands-lan.zip",
+      "sha256": "02f64746627231f06b7531410fe8dbb637984487230d385a358cf90cf1a6cbfa",
+      "jsonFile": "VD_05_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "06",
+      "countyName": "Jönköpings län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a216/1662820377456/valdistrikt-jonkopings-lan.zip",
+      "sha256": "f9bbe0eac9bd88b35df46dbbd9c84852afe98a70a01bc39cf2e4187edc64a1a9",
+      "jsonFile": "VD_06_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "07",
+      "countyName": "Kronobergs län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a214/1662820377669/valdistrikt-kronobergs-lan.zip",
+      "sha256": "37b3b6dc9c0195f8537867c5ab341c0ec479cbe6e2c56edd46482cf1ac7e664e",
+      "jsonFile": "VD_07_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "08",
+      "countyName": "Kalmar län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a215/1662820377582/valdistrikt-kalmar-lan.zip",
+      "sha256": "7cb6e6fc3ecb8f86b0be1aac1f965a2611ca41dc59c5d577ddd270fcd5f8cdcc",
+      "jsonFile": "VD_08_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "09",
+      "countyName": "Gotlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a219/1662820377252/valdistrikt-gotlands-lan.zip",
+      "sha256": "3a57ecc71a00856f6cb265299fd6b8acb1c78afea0920c189e1595992e9229bc",
+      "jsonFile": "VD_09_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "10",
+      "countyName": "Blekinge län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a213/1662820376999/valdistrikt-blekinge-lan.zip",
+      "sha256": "c81795f5770927801ddeb853bc217c98c687635450ef9eea238b85c1d3ea4579",
+      "jsonFile": "VD_10_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "12",
+      "countyName": "Skåne län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a203/1662820378016/valdistrikt-skane-lan.zip",
+      "sha256": "326d9791f5f78edcf89a6c0e5ab62a60fa5949c70de0528989493cfb80febd11",
+      "jsonFile": "VD_12_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "13",
+      "countyName": "Hallands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a218/1662820377293/valdistrikt-hallands-lan.zip",
+      "sha256": "dc4744911f7d868d864f3052d4926259d56c1805ea04ec7a8dfa2d740c4b2473",
+      "jsonFile": "VD_13_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "14",
+      "countyName": "Västra Götalands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f3/1662820378765/valdistrikt-vastra-gotalands-lan.zip",
+      "sha256": "06676acfd5f24e16accbaef5c6e56074fc43036f23c39883a7bfdeefef6ac4ca",
+      "jsonFile": "VD_14_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "17",
+      "countyName": "Värmlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f2/1662820378429/valdistrikt-varmlands-lan.zip",
+      "sha256": "9c6609ee62a945e249416397568b0de0f784e136c665b6a500fcf001779111a2",
+      "jsonFile": "VD_17_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "18",
+      "countyName": "Örebro län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a206/1662820377828/valdistrikt-orebro-lan.zip",
+      "sha256": "4cedb45e60b084280dc179bc5d77e9742a949bde05fbb3265a201485b5691c08",
+      "jsonFile": "VD_18_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "19",
+      "countyName": "Västmanlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f4/1662820378694/valdistrikt-vastmanlands-lan.zip",
+      "sha256": "424046a59f75273a197e0d18abc862d86a91e8f0ba516c97761395e496db1976",
+      "jsonFile": "VD_19_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "20",
+      "countyName": "Dalarnas län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a21b/1662820377075/valdistrikt-dalarnas-lan.zip",
+      "sha256": "b0392cd0237d847090fa78883383a96bda063a3284a48890726f8d96f7c31b88",
+      "jsonFile": "VD_20_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "21",
+      "countyName": "Gävleborgs län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a21a/1662820377161/valdistrikt-gavleborgs-lan.zip",
+      "sha256": "9b45b8654124a3f6d353bf7aeb9ea333c65550a3a909a679f9ad5e123f4ec699",
+      "jsonFile": "VD_21_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "22",
+      "countyName": "Västernorrlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f5/1662820378604/valdistrikt-vasternorrlands-lan.zip",
+      "sha256": "5e318382cc26937050cbbb88c1ec0d8e16248650bbc3ae55c3346403600004ae",
+      "jsonFile": "VD_22_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "23",
+      "countyName": "Jämtlands län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a217/1662820377388/valdistrikt-jamtlands-lan.zip",
+      "sha256": "948e49914e6fa984a1b817b16e5caed607134590858f380d09e6867c27492e94",
+      "jsonFile": "VD_23_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "24",
+      "countyName": "Västerbottens län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f1/1662820378537/valdistrikt-vasterbottens-lan.zip",
+      "sha256": "4bcac382b2107bb71ad04cdb5b6ae4ecfa180e87d318e3db237d598a018d20e0",
+      "jsonFile": "VD_24_20220910_Val_20220911.json"
+    },
+    {
+      "countyCode": "25",
+      "countyName": "Norrbottens län",
+      "url": "https://www.val.se/download/18.162047b519a91d053311a1f7/1662820377760/valdistrikt-norrbottens-lan.zip",
+      "sha256": "71c6d3cd5b6ddc9cfb497005825998bc06600b2f2cfb2f8c069da4b87b54a88b",
+      "jsonFile": "VD_25_20220910_Val_20220911.json"
+    }
+  ]
+}
