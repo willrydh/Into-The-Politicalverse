@@ -10,6 +10,7 @@ const NAVIGATION = [
   { href: "/maps", label: "Maps" },
   { href: "/elections", label: "Elections" },
   { href: "/indicators", label: "Indicators" },
+  { href: "/simulator", label: "Simulator" },
 ];
 
 export function SiteHeader() {

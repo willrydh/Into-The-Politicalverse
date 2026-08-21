@@ -26,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Link href="/charts">Charts</Link>
             <Link href="/parties">Parties</Link>
             <Link href="/indicators">Methodology</Link>
+            <Link href="/simulator">Simulator</Link>
             <a href="https://www.val.se/" target="_blank" rel="noreferrer">Valmyndigheten ↗</a>
           </div>
           <p>Independent analysis built on public data. Not affiliated with Valmyndigheten or any political party.</p>

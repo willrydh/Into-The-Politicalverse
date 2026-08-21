@@ -14,6 +14,7 @@
     "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "data:import": "node --import tsx scripts/import-valmyndigheten.ts",
     "data:import:geography": "node --import tsx scripts/import-valmyndigheten-geography.ts",
+    "data:import:seats": "node --import tsx scripts/import-valmyndigheten-seats.ts",
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
     "safety:check": "node scripts/safety-preflight.mjs"
   },

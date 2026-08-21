@@ -16,6 +16,7 @@ const EXPLORE = [
   { index: "03", title: "Maps", copy: "Tap through official Riksdag results across every Swedish municipality.", href: "/maps", metric: "290 places" },
   { index: "04", title: "Elections", copy: "Final results, turnout and participation across every available election.", href: "/elections", metric: "5 elections" },
   { index: "05", title: "Indicators", copy: "Transparent derived measures with the method visible beside the number.", href: "/indicators", metric: "4 live" },
+  { index: "06", title: "Simulator", copy: "Set national vote shares and calculate a transparent Riksdag seat scenario.", href: "/simulator", metric: "349 seats" },
 ];
 
 export default function Home() {

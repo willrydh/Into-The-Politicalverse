@@ -8,7 +8,7 @@ The initial launch market is Sweden, with the 2026 general election as the first
 
 ## Implementation checkpoint — 2026-08-21
 
-The first usable public release slice is now implemented on `agent/foundation` and continues in draft PR #1.
+The first usable public analytical release is now implemented on `agent/foundation` and continues in draft PR #1.
 
 Delivered:
 
@@ -20,13 +20,16 @@ Delivered:
 - Party Explorer using real national and municipality results;
 - an interactive Election Map for party vote share and turnout across all 290 municipalities, using checksum-pinned official 2022 GIS archives;
 - four deterministic `DERIVED` indicators, versioned methodology and regression tests;
+- a responsive `MODEL` Riksdag scenario simulator with a separate deterministic election-law engine;
+- checksum-pinned official 2018 and 2022 backtest inputs plus the official 2026 allocation of 310 fixed constituency seats;
+- exact 2018 and 2022 backtests for every party's fixed, adjustment and total mandates;
 - an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
 - a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
 - desktop and 390 px mobile browser acceptance checks.
 
-Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 11 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
+Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 19 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
 
-The next major product priority is P7: a deterministic Swedish election simulator with explicit electoral rules and historical backtests. The map's cross-election swing layer remains pending until comparable 2018 municipality observations are sourced and normalized; the current historical national series starts in 2006 and the 2002 observation remains explicit follow-up work.
+The next major product priority is comparable official 2018 municipality data, followed by a versioned map swing layer. The current historical national series starts in 2006 and the 2002 observation remains explicit follow-up work. Do not begin auth, Stripe or a statistical forecast first.
 
 ## Non-negotiable product principles
 
@@ -57,7 +60,9 @@ Existing foundation includes:
 - historical chart, Party Explorer, election archive and Politicalverse indicators
 - official 2022 municipality geometry plus a touch- and keyboard-accessible party-share/turnout map
 - explicit `OFFICIAL` and `DERIVED` classifications with source/methodology documentation
-- eleven route, calendar, data, geometry, calculation and asset-provenance tests
+- an independent deterministic Riksdag rule engine and responsive `MODEL` scenario simulator
+- exact official 2018 and 2022 fixed-, adjustment- and total-seat backtests
+- nineteen route, calendar, data, geometry, calculation, simulator and asset-provenance tests
 - GitHub Actions CI and draft PR #1 targeting `main`
 
 Do not rewrite the product from scratch unless a technical defect requires it. Improve incrementally.
@@ -369,6 +374,6 @@ Draft PR: `#1 Build Politicalverse foundation`
 
 Canonical specification: `README.md`
 
-Verified next action: specify the applicable Swedish Riksdag threshold and seat-allocation rules, encode them as an independent deterministic engine, and backtest against official historical outcomes before exposing simulator controls. Keep the unimplemented municipality swing map explicit until comparable 2018 observations are normalized. Do not begin auth, Stripe or a forecast first.
+Verified next action: source and normalize comparable official 2018 municipality observations, then add a versioned election-to-election swing map without mixing incompatible boundary vintages. The deterministic simulator is complete and must retain its exact historical backtests. Do not begin auth, Stripe or a forecast first.
 
 This file is the execution brief. If it conflicts with `README.md` on product intent, `README.md` wins. If implementation reality changes, update both deliberately rather than allowing silent architectural drift.

@@ -25,7 +25,8 @@ Build a production-quality quantitative election intelligence platform, initiall
 7. Add geography/maps.
 8. Add tested derived indicators.
 9. Add a deterministic Swedish election simulator and backtest it.
-10. Only after the public analytical product is useful, consider auth/paywall.
+10. Add comparable historical municipality data and map swing.
+11. Only after the public analytical product is useful, consider auth/paywall.
 
 ## Hard rules
 - Never present invented/demo values as real election data.
@@ -57,9 +58,11 @@ Current draft PR: `#1 Build Politicalverse foundation`
 - The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
 - Preserve URLs, retrieval dates, expected official totals and checksums in `data/raw/valmyndigheten/source-manifest.json`.
 - Preserve all 21 GIS archive URLs/checksums and the normalized geometry checksum in `data/raw/valmyndigheten/geography-source-manifest.json`; never mix 2022 results with silently substituted 2026 boundaries.
+- Preserve the historical mandate inputs, official expected outcomes, 2026 fixed-seat structure and normalized checksum in `data/raw/valmyndigheten/seat-source-manifest.json`; regenerate with `npm run data:import:seats`.
 - Keep the canonical party registry in `lib/parties.ts`; source-name mappings belong in the Valmyndigheten adapter layer.
 - Do not replace local party assets without updating `docs/data-sources/party-assets.md` with the new source, date and SHA-256.
 - Version indicator behavior and keep `docs/methodology/indicators-v1.md` synchronized with calculations.
+- Version simulator rules and assumptions, keep `docs/methodology/simulator-v1.md` synchronized, and retain exact historical mandate backtests.
 - Run `npm run data:verify` and `npm run check` before handoff. Keep this file, `README.md` and `CODEX_HANDOFF.md` aligned with implementation reality.
 
 ## Runtime isolation

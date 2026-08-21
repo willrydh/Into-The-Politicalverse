@@ -552,15 +552,18 @@ Professional access may eventually cover advanced indicators, Workbench capabili
 
 ## 13. Current implementation
 
-The `agent/foundation` branch now contains the first end-to-end public product slice:
+The `agent/foundation` branch now contains the first end-to-end public analytical product:
 
-- Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Maps, Elections and Indicators;
+- Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Maps, Elections, Indicators and Simulator;
 - official final national Riksdag history for 2006, 2010, 2014, 2018 and 2022;
 - a checksum-verified Valmyndigheten 2022 XLSX importer;
 - 6,578 electoral districts normalized into 29 constituencies and 290 municipalities;
 - responsive historical chart, result table, Party Explorer and municipal summaries;
 - a touch- and keyboard-accessible Election Map joining final Riksdag results to all 290 municipality geometries;
 - four deterministic, versioned `DERIVED` indicators with published methodology;
+- an independent deterministic Riksdag seat engine implementing the current thresholds and mandate-allocation rules;
+- a responsive `MODEL` scenario simulator using the official 2026 fixed-seat structure and a disclosed 2022 geographic-pattern assumption;
+- exact engine backtests against every parliamentary party's official fixed, adjustment and total mandates in 2018 and 2022;
 - local identity assets for all eight parliamentary parties with recorded provenance;
 - public read-only national and geography JSON endpoints;
 - a documented, independent Riksdag-inspired responsive visual system;
@@ -602,6 +605,12 @@ Valmyndigheten 2022 county GIS archives
   -> topology clean / municipality dissolve / WGS 84 normalization
   -> exact 290-code join to official municipality results
   -> touch and keyboard accessible Election Map
+
+Valmyndigheten 2018 / 2022 / 2026 seat sources
+  -> checksum and official-total validation
+  -> canonical 29-constituency vote and fixed-seat inputs
+  -> exact historical engine backtests
+  -> deterministic 2026 Riksdag scenario model
 ```
 
 The downloaded source workbook is reproducible and intentionally ignored. Import it directly from the recorded URL:
@@ -622,7 +631,15 @@ Regenerate municipality boundaries from the recorded official GIS archives:
 npm run data:import:geography
 ```
 
+Regenerate the historical backtest fixtures and 2026 fixed-seat inputs:
+
+```bash
+npm run data:import:seats
+```
+
 Election source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). The 21 official GIS archives, coordinate transformation and municipality joins are documented in [`docs/data-sources/valmyndigheten-geography.md`](docs/data-sources/valmyndigheten-geography.md). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
+
+Seat-source snapshots and checksums are documented in [`docs/data-sources/valmyndigheten-seats.md`](docs/data-sources/valmyndigheten-seats.md). The electoral rules, geographic projection, exact 2018/2022 backtests and limitations are documented in [`docs/methodology/simulator-v1.md`](docs/methodology/simulator-v1.md).
 
 ### Public APIs
 
@@ -633,6 +650,7 @@ Election source URL, retrieval date, expected totals and SHA-256 are pinned in [
 ### Next product slices
 
 1. Parameterize Charts and Maps by party, geography, metric and election without creating one component for every combination.
-2. Add a deterministic Swedish seat simulator only after its electoral rules and backtest fixtures are explicit.
-3. Extend the map with versioned swing and turnout layers where cross-election geography is comparable.
+2. Normalize comparable official 2018 municipality observations and extend the map with a versioned election-to-election swing layer.
+3. Add the official 2002 national observation and deepen historical exploration.
 4. Add official 2026 adapters as Valmyndigheten publishes live-cycle datasets.
+5. Parameterize and expand the simulator only when each added assumption remains explicit and backtested.
