@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { access } from "node:fs/promises";
 import test from "node:test";
@@ -45,6 +46,23 @@ test("geography covers every constituency and municipality", () => {
 
   const leaders = getMunicipalityLeaders();
   assert.deepEqual(leaders.map(({ partyId, count }) => [partyId, count]), [["S", 215], ["SD", 61], ["M", 14]]);
+});
+
+test("official municipality geometry is complete, checksum-pinned and joinable", async () => {
+  const contents = await readFile("data/normalized/municipality-boundaries-2022.geojson");
+  const geography = JSON.parse(contents.toString("utf8")) as {
+    source: { publisher: string; classification: string };
+    features: Array<{ properties: { code: string; name: string }; geometry: { type: string } }>;
+  };
+  const manifest = JSON.parse(await readFile("data/raw/valmyndigheten/geography-source-manifest.json", "utf8")) as { normalizedSha256: string };
+  const electionNames = new Map(riksdag2022.municipalities.map((municipality) => [municipality.code, municipality.name]));
+
+  assert.equal(geography.source.publisher, "Valmyndigheten");
+  assert.equal(geography.source.classification, "OFFICIAL");
+  assert.equal(geography.features.length, 290);
+  assert.equal(createHash("sha256").update(contents).digest("hex"), manifest.normalizedSha256);
+  assert.equal(geography.features.every((feature) => electionNames.get(feature.properties.code) === feature.properties.name), true);
+  assert.equal(geography.features.every((feature) => feature.geometry.type === "Polygon" || feature.geometry.type === "MultiPolygon"), true);
 });
 
 test("party profiles use real national and municipality values", () => {

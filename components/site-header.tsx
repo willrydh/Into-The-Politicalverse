@@ -7,6 +7,7 @@ const NAVIGATION = [
   { href: "/", label: "Overview" },
   { href: "/charts", label: "Charts" },
   { href: "/parties", label: "Parties" },
+  { href: "/maps", label: "Maps" },
   { href: "/elections", label: "Elections" },
   { href: "/indicators", label: "Indicators" },
 ];

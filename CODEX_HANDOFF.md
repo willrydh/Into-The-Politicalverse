@@ -18,14 +18,15 @@ Delivered:
 - real responsive chart, result table and read-only JSON APIs;
 - local, source-recorded identity assets for all eight parliamentary parties;
 - Party Explorer using real national and municipality results;
+- an interactive Election Map for party vote share and turnout across all 290 municipalities, using checksum-pinned official 2022 GIS archives;
 - four deterministic `DERIVED` indicators, versioned methodology and regression tests;
 - an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
 - a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
 - desktop and 390 px mobile browser acceptance checks.
 
-Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 10 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
+Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 11 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
 
-The next product priority is P5: a real Election Map with versioned official boundary provenance. The current historical national series starts in 2006; the 2002 observation remains explicit follow-up work.
+The next major product priority is P7: a deterministic Swedish election simulator with explicit electoral rules and historical backtests. The map's cross-election swing layer remains pending until comparable 2018 municipality observations are sourced and normalized; the current historical national series starts in 2006 and the 2002 observation remains explicit follow-up work.
 
 ## Non-negotiable product principles
 
@@ -54,8 +55,9 @@ Existing foundation includes:
 - official national history for five Riksdag elections from 2006 through 2022
 - centralized `lib/parties.ts` identity registry and eight local party assets
 - historical chart, Party Explorer, election archive and Politicalverse indicators
+- official 2022 municipality geometry plus a touch- and keyboard-accessible party-share/turnout map
 - explicit `OFFICIAL` and `DERIVED` classifications with source/methodology documentation
-- ten route, calendar, data, calculation and asset-provenance tests
+- eleven route, calendar, data, geometry, calculation and asset-provenance tests
 - GitHub Actions CI and draft PR #1 targeting `main`
 
 Do not rewrite the product from scratch unless a technical defect requires it. Improve incrementally.
@@ -367,6 +369,6 @@ Draft PR: `#1 Build Politicalverse foundation`
 
 Canonical specification: `README.md`
 
-Verified next action: source and normalize official Swedish boundary geometry, add stable geography/version contracts, then build a touch-accessible Election Map for party vote share, swing and turnout. Do not begin auth, Stripe or a forecast first.
+Verified next action: specify the applicable Swedish Riksdag threshold and seat-allocation rules, encode them as an independent deterministic engine, and backtest against official historical outcomes before exposing simulator controls. Keep the unimplemented municipality swing map explicit until comparable 2018 observations are normalized. Do not begin auth, Stripe or a forecast first.
 
 This file is the execution brief. If it conflicts with `README.md` on product intent, `README.md` wins. If implementation reality changes, update both deliberately rather than allowing silent architectural drift.

@@ -554,11 +554,12 @@ Professional access may eventually cover advanced indicators, Workbench capabili
 
 The `agent/foundation` branch now contains the first end-to-end public product slice:
 
-- Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Elections and Indicators;
+- Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Maps, Elections and Indicators;
 - official final national Riksdag history for 2006, 2010, 2014, 2018 and 2022;
 - a checksum-verified Valmyndigheten 2022 XLSX importer;
 - 6,578 electoral districts normalized into 29 constituencies and 290 municipalities;
 - responsive historical chart, result table, Party Explorer and municipal summaries;
+- a touch- and keyboard-accessible Election Map joining final Riksdag results to all 290 municipality geometries;
 - four deterministic, versioned `DERIVED` indicators with published methodology;
 - local identity assets for all eight parliamentary parties with recorded provenance;
 - public read-only national and geography JSON endpoints;
@@ -595,6 +596,12 @@ Valmyndigheten source
   -> national / constituency / municipality JSON
   -> application data layer and public APIs
   -> charts, profiles and derived indicators
+
+Valmyndigheten 2022 county GIS archives
+  -> 21 archive checksum and district-code validation
+  -> topology clean / municipality dissolve / WGS 84 normalization
+  -> exact 290-code join to official municipality results
+  -> touch and keyboard accessible Election Map
 ```
 
 The downloaded source workbook is reproducible and intentionally ignored. Import it directly from the recorded URL:
@@ -609,7 +616,13 @@ Or use an already downloaded workbook:
 npm run data:import -- --file /path/to/valmyndigheten-riksdag-2022.xlsx
 ```
 
-Source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
+Regenerate municipality boundaries from the recorded official GIS archives:
+
+```bash
+npm run data:import:geography
+```
+
+Election source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). The 21 official GIS archives, coordinate transformation and municipality joins are documented in [`docs/data-sources/valmyndigheten-geography.md`](docs/data-sources/valmyndigheten-geography.md). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
 
 ### Public APIs
 
@@ -619,7 +632,7 @@ Source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw
 
 ### Next product slices
 
-1. Add the Election Map using a versioned, attributable Swedish boundary source and stable official-code joins.
-2. Parameterize Charts by party, geography, metric and election without creating one component for every combination.
-3. Add a deterministic Swedish seat simulator only after its electoral rules and backtest fixtures are explicit.
+1. Parameterize Charts and Maps by party, geography, metric and election without creating one component for every combination.
+2. Add a deterministic Swedish seat simulator only after its electoral rules and backtest fixtures are explicit.
+3. Extend the map with versioned swing and turnout layers where cross-election geography is comparable.
 4. Add official 2026 adapters as Valmyndigheten publishes live-cycle datasets.
