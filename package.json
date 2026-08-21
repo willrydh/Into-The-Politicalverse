@@ -13,6 +13,7 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "data:import": "node --import tsx scripts/import-valmyndigheten.ts",
+    "data:import:geography": "node --import tsx scripts/import-valmyndigheten-geography.ts",
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
     "safety:check": "node scripts/safety-preflight.mjs"
   },
@@ -28,6 +29,7 @@
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.0.0",
     "exceljs": "^4.4.0",
+    "mapshaper": "0.6.113",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
   },

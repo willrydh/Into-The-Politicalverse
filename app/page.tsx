@@ -13,8 +13,9 @@ import { formatCompactNumber, formatNumber } from "@/lib/format";
 const EXPLORE = [
   { index: "01", title: "Charts", copy: "Five elections. Eight parliamentary parties. One comparable national series.", href: "/charts", metric: "40 data points" },
   { index: "02", title: "Parties", copy: "Follow vote share, swing and geographic strength from 2006 to 2022.", href: "/parties", metric: "8 profiles" },
-  { index: "03", title: "Elections", copy: "Final results, turnout and participation across every available election.", href: "/elections", metric: "5 elections" },
-  { index: "04", title: "Indicators", copy: "Transparent derived measures with the method visible beside the number.", href: "/indicators", metric: "4 live" },
+  { index: "03", title: "Maps", copy: "Tap through official Riksdag results across every Swedish municipality.", href: "/maps", metric: "290 places" },
+  { index: "04", title: "Elections", copy: "Final results, turnout and participation across every available election.", href: "/elections", metric: "5 elections" },
+  { index: "05", title: "Indicators", copy: "Transparent derived measures with the method visible beside the number.", href: "/indicators", metric: "4 live" },
 ];
 
 export default function Home() {

@@ -56,6 +56,7 @@ Current draft PR: `#1 Build Politicalverse foundation`
 
 - The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
 - Preserve URLs, retrieval dates, expected official totals and checksums in `data/raw/valmyndigheten/source-manifest.json`.
+- Preserve all 21 GIS archive URLs/checksums and the normalized geometry checksum in `data/raw/valmyndigheten/geography-source-manifest.json`; never mix 2022 results with silently substituted 2026 boundaries.
 - Keep the canonical party registry in `lib/parties.ts`; source-name mappings belong in the Valmyndigheten adapter layer.
 - Do not replace local party assets without updating `docs/data-sources/party-assets.md` with the new source, date and SHA-256.
 - Version indicator behavior and keep `docs/methodology/indicators-v1.md` synchronized with calculations.
