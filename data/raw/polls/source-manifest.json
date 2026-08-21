@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "dataset": "SwedishPolls Polls.csv",
+  "publisher": "SwedishPolls contributors",
+  "repositoryUrl": "https://github.com/MansMeg/SwedishPolls",
+  "rawUrl": "https://raw.githubusercontent.com/MansMeg/SwedishPolls/master/Data/Polls.csv",
+  "sourceCommit": "5df438f4038cb36429c1049fa60b064dd044d191",
+  "sourceCommitDate": "2026-08-19T06:35:10Z",
+  "retrievedAt": "2026-08-21",
+  "snapshotCreatedAt": "2026-08-21T21:45:00Z",
+  "classification": "POLL",
+  "license": "CC0-1.0",
+  "rawSha256": "6d583cfb45eb022374a6275e721d701d48c091e64fa002efdddaeb5eb2c02472",
+  "expectedRows": 2636,
+  "latestPollPublication": "2026-08-19",
+  "primaryCrossChecks": [
+    {
+      "publisher": "Novus",
+      "publishedAt": "2026-08-19",
+      "url": "https://novus.se/valjarbarometer-arkiv/2026-08-novus-valjarbarometer/",
+      "expected": {
+        "M": 18.3,
+        "L": 1.9,
+        "C": 7.1,
+        "KD": 6.3,
+        "S": 30.1,
+        "V": 7.4,
+        "MP": 7.9,
+        "SD": 19.1,
+        "n": 5617
+      }
+    },
+    {
+      "publisher": "SVT/Verian",
+      "publishedAt": "2026-08-17",
+      "url": "https://www.svt.se/nyheter/inrikes/kristersson-pressas-ny-matning-visar-stort-gap",
+      "expected": {
+        "M": 17.3,
+        "L": 1.9,
+        "C": 8,
+        "KD": 6.2,
+        "S": 30.5,
+        "V": 7.7,
+        "MP": 7.7,
+        "SD": 18.5,
+        "n": 3043
+      }
+    },
+    {
+      "publisher": "SCB",
+      "publishedAt": "2026-06-04",
+      "url": "https://www.scb.se/hitta-statistik/statistik-efter-amne/demokrati/partisympatier/partisympatiundersokningen-psu/pong/statistiknyhet/partisympatiundersokningen-maj-2026/",
+      "expected": {
+        "M": 17.3,
+        "L": 2.5,
+        "C": 6.1,
+        "KD": 4.5,
+        "S": 33.9,
+        "V": 8.6,
+        "MP": 6.6,
+        "SD": 18.3,
+        "n": 4542
+      }
+    }
+  ],
+  "normalizedForecastSha256": "e3857ae16f5c60fead1d77b7a32423d2846dd740e09304a53d6dd239fed771e2"
+}

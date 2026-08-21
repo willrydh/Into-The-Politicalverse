@@ -83,7 +83,11 @@ export function buildScenarioInput(baseline: SimulatorBaseline, shares: Simulato
   return { input: { nationalValidVotes: SCENARIO_VOTE_SCALE, constituencies: projected }, otherShare };
 }
 
-export function simulateRiksdagScenario(baseline: SimulatorBaseline, shares: SimulatorPartyVotes): ScenarioOutput {
+export function simulateRiksdagScenario(
+  baseline: SimulatorBaseline,
+  shares: SimulatorPartyVotes,
+  options: { tieSeed?: number } = {},
+): ScenarioOutput {
   const { input, otherShare } = buildScenarioInput(baseline, shares);
   return {
     classification: "MODEL",
@@ -91,6 +95,6 @@ export function simulateRiksdagScenario(baseline: SimulatorBaseline, shares: Sim
     modelVersion: "1.0.0",
     otherShare,
     input,
-    result: calculateRiksdagSeats(input),
+    result: calculateRiksdagSeats(input, options),
   };
 }

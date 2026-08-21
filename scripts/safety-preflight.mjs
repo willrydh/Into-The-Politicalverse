@@ -5,7 +5,8 @@ import { join, resolve } from "node:path";
 import { createServer } from "node:net";
 
 const EXPECTED_PACKAGE = "into-the-politicalverse";
-const EXPECTED_BRANCH = "agent/foundation";
+const EXPECTED_BRANCHES = new Set(["main", "agent/foundation"]);
+const CODEX_BRANCH = /^codex\/[A-Za-z0-9][A-Za-z0-9._/-]*$/;
 const EXPECTED_REMOTE = "https://github.com/willrydh/Into-The-Politicalverse";
 const DEV_HOST = "127.0.0.1";
 const DEV_PORT = 4317;
@@ -24,6 +25,10 @@ function normalizeRemote(remote) {
   return remote
     .replace(/^git@github\.com:/, "https://github.com/")
     .replace(/\.git$/, "");
+}
+
+function isExpectedBranch(branch) {
+  return EXPECTED_BRANCHES.has(branch) || CODEX_BRANCH.test(branch);
 }
 
 function filesIn(directory, extensions) {
@@ -77,7 +82,9 @@ try {
 }
 
 if (gitRoot !== projectRoot) fail("command is not running from the repository root");
-if (branch !== EXPECTED_BRANCH) fail(`expected branch ${EXPECTED_BRANCH}, found ${branch || "detached HEAD"}`);
+if (!isExpectedBranch(branch)) {
+  fail(`expected main, agent/foundation or a codex/* branch, found ${branch || "detached HEAD"}`);
+}
 if (remote !== EXPECTED_REMOTE) fail(`unexpected Git remote ${remote}`);
 if (PROTECTED_PORTS.has(DEV_PORT)) fail(`development port ${DEV_PORT} is reserved`);
 if (process.env.PORT && Number(process.env.PORT) !== DEV_PORT) fail(`PORT must remain ${DEV_PORT}`);
@@ -90,4 +97,4 @@ try {
   fail(`development port ${DEV_PORT} is unavailable (${error.code ?? "unknown error"})`);
 }
 
-console.log(`Politicalverse safety check passed: ${EXPECTED_BRANCH} on ${DEV_HOST}:${DEV_PORT}`);
+console.log(`Politicalverse safety check passed: ${branch} on ${DEV_HOST}:${DEV_PORT}`);
