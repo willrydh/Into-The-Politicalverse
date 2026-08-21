@@ -1,0 +1,47 @@
+{
+  "publisher": "Valmyndigheten",
+  "license": "Open data; attribution required",
+  "licenseUrl": "https://www.val.se/valresultat-och-statistik/statistik-och-data/om-oppna-data",
+  "retrievedAt": "2026-08-21",
+  "election2022": {
+    "url": "https://www.val.se/download/18.162047b519a91d0533118f4b/1764336897948/Roster-per-distrikt-slutligt-antal-roster-inklusive-totalt-valdeltagande-riksdagsvalet-2022.xlsx",
+    "sha256": "02220e73a7f497d02e23e11cc0765b9891f3a11b3738a5750182ca0c2c58a04d",
+    "worksheet": "roster_RD",
+    "description": "Final votes per district, including total turnout, 2022 Riksdag election"
+  },
+  "history": [
+    {
+      "year": 2006,
+      "url": "https://historik.val.se/val/val2006/slutlig/R/rike/roster.html"
+    },
+    {
+      "year": 2010,
+      "url": "https://historik.val.se/val/val2010/slutresultat/R/rike/index.html"
+    },
+    {
+      "year": 2014,
+      "url": "https://historik.val.se/val/val2014/slutresultat/R/rike/index.html"
+    },
+    {
+      "year": 2018,
+      "url": "https://historik.val.se/val/val2018/slutresultat/R/rike/"
+    }
+  ],
+  "expected2022": {
+    "validVotes": 6477970,
+    "totalVotes": 6547801,
+    "eligibleVoters": 7775390,
+    "turnout": 84.21,
+    "partyVotes": {
+      "M": 1237428,
+      "C": 434945,
+      "L": 298542,
+      "KD": 345712,
+      "S": 1964474,
+      "V": 437050,
+      "MP": 329242,
+      "SD": 1330325,
+      "OTHER": 100252
+    }
+  }
+}

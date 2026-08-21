@@ -1,21 +1,27 @@
-export type Party = {
-  id: string;
-  shortName: string;
+import type { PartyId } from "@/lib/data/elections/types";
+
+export type PartyDefinition = {
+  id: PartyId;
   name: string;
+  shortName: string;
   color: string;
-  logo: string;
-  logoSource: string;
+  textColor: string;
+  logo: string | null;
+  logoSource: string | null;
 };
 
-// Logo files are intentionally local assets. Official artwork will be added from each
-// party's published media/brand resources after provenance and usage terms are recorded.
-export const parties: Party[] = [
-  { id: "s", shortName: "S", name: "Socialdemokraterna", color: "#E8112D", logo: "/parties/s.svg", logoSource: "official-party-asset" },
-  { id: "sd", shortName: "SD", name: "Sverigedemokraterna", color: "#DDDD00", logo: "/parties/sd.svg", logoSource: "official-party-asset" },
-  { id: "m", shortName: "M", name: "Moderaterna", color: "#52BDEC", logo: "/parties/m.svg", logoSource: "official-party-asset" },
-  { id: "v", shortName: "V", name: "Vänsterpartiet", color: "#DA291C", logo: "/parties/v.svg", logoSource: "official-party-asset" },
-  { id: "c", shortName: "C", name: "Centerpartiet", color: "#009933", logo: "/parties/c.svg", logoSource: "official-party-asset" },
-  { id: "kd", shortName: "KD", name: "Kristdemokraterna", color: "#000077", logo: "/parties/kd.svg", logoSource: "official-party-asset" },
-  { id: "mp", shortName: "MP", name: "Miljöpartiet", color: "#83CF39", logo: "/parties/mp.svg", logoSource: "official-party-asset" },
-  { id: "l", shortName: "L", name: "Liberalerna", color: "#006AB3", logo: "/parties/l.svg", logoSource: "official-party-asset" },
-];
+export const PARTIES: Record<PartyId, PartyDefinition> = {
+  M: { id: "M", name: "Moderaterna", shortName: "M", color: "#55b9e9", textColor: "#082131", logo: "/parties/m.png", logoSource: "https://via.tt.se/pressrum/3235744/moderaterna/m" },
+  C: { id: "C", name: "Centerpartiet", shortName: "C", color: "#114838", textColor: "#ffffff", logo: "/parties/c.png", logoSource: "https://www.centerpartiet.se/om-centerpartiet/grafisk-profil" },
+  L: { id: "L", name: "Liberalerna", shortName: "L", color: "#006ab3", textColor: "#ffffff", logo: "/parties/l.png", logoSource: "https://www.liberalerna.se/grafisk-profil" },
+  KD: { id: "KD", name: "Kristdemokraterna", shortName: "KD", color: "#0865a0", textColor: "#ffffff", logo: "/parties/kd.png", logoSource: "https://press.kristdemokraterna.se/presskits/25663/logotyp-rund-variant-undantag-bara-i-media" },
+  S: { id: "S", name: "Socialdemokraterna", shortName: "S", color: "#ed1b2f", textColor: "#ffffff", logo: "/parties/s.png", logoSource: "https://www.socialdemokraterna.se/vart-parti/press/" },
+  V: { id: "V", name: "Vänsterpartiet", shortName: "V", color: "#f51b2b", textColor: "#ffffff", logo: "/parties/v.png", logoSource: "https://www.vansterpartiet.se/grafisk-profil/" },
+  MP: { id: "MP", name: "Miljöpartiet", shortName: "MP", color: "#2b912c", textColor: "#ffffff", logo: "/parties/mp.png", logoSource: "https://www.mp.se/profil-och-logga/" },
+  SD: { id: "SD", name: "Sverigedemokraterna", shortName: "SD", color: "#ffcf06", textColor: "#172b67", logo: "/parties/sd.png", logoSource: "https://www.sd.se/press/" },
+  OTHER: { id: "OTHER", name: "Other parties", shortName: "Other", color: "#8c9189", textColor: "#ffffff", logo: null, logoSource: null },
+};
+
+export const PARTY_ORDER: PartyId[] = ["S", "SD", "M", "V", "C", "KD", "MP", "L", "OTHER"];
+
+export const parties = PARTY_ORDER.filter((partyId) => partyId !== "OTHER").map((partyId) => PARTIES[partyId]);

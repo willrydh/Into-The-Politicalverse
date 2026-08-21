@@ -1,12 +1,22 @@
-import { Party } from "@/lib/parties";
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import type { PartyDefinition } from "@/lib/parties";
 
-type Props = { party: Party; size?: "sm" | "md" | "lg" };
+type PartyMarkProps = {
+  party: PartyDefinition;
+  size?: "sm" | "md" | "lg";
+};
 
-export function PartyMark({ party, size = "md" }: Props) {
+export function PartyMark({ party, size = "md" }: PartyMarkProps) {
+  const style = { "--party": party.color, "--party-text": party.textColor } as CSSProperties;
+
   return (
-    <span className={`partyMark partyMark--${size}`} style={{ "--party": party.color } as React.CSSProperties} title={party.name}>
-      <img src={party.logo} alt={`${party.name} logo`} />
-      <span className="partyMarkFallback" aria-hidden="true">{party.shortName}</span>
+    <span className={`party-mark party-mark--${size}`} style={style} title={party.name}>
+      {party.logo ? (
+        <Image src={party.logo} alt={`${party.name} logo`} width={72} height={72} />
+      ) : (
+        <span className="party-mark__fallback" aria-hidden="true">{party.shortName}</span>
+      )}
     </span>
   );
 }

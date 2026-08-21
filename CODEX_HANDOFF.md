@@ -6,6 +6,27 @@ Take over active development of **Into The Politicalverse**, a quantitative elec
 
 The initial launch market is Sweden, with the 2026 general election as the first live election cycle. The product should feel like a quantitative analytics terminal for elections: charts, maps, indicators, party profiles, simulations and later forecasting/workbench capabilities.
 
+## Implementation checkpoint — 2026-08-21
+
+The first usable public release slice is now implemented on `agent/foundation` and continues in draft PR #1.
+
+Delivered:
+
+- buildable Next.js 16 + TypeScript application with CI;
+- verified 2022 Valmyndigheten XLSX ingestion and normalized national, constituency and municipality records;
+- official national history for 2006–2022;
+- real responsive chart, result table and read-only JSON APIs;
+- local, source-recorded identity assets for all eight parliamentary parties;
+- Party Explorer using real national and municipality results;
+- four deterministic `DERIVED` indicators, versioned methodology and regression tests;
+- an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
+- a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
+- desktop and 390 px mobile browser acceptance checks.
+
+Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 10 regression tests and production build). The dependency audit endpoint was unreachable from the isolated development environment; do not treat that as a successful audit. No hosting target is configured, so this checkpoint is pushed and PR-verified but not deployed or live-verified.
+
+The next product priority is P5: a real Election Map with versioned official boundary provenance. The current historical national series starts in 2006; the 2002 observation remains explicit follow-up work.
+
 ## Non-negotiable product principles
 
 1. No mystery numbers. Every displayed value must be classified as `OFFICIAL`, `DERIVED`, or `MODEL`.
@@ -27,15 +48,15 @@ Current branch: `agent/foundation`
 
 Existing foundation includes:
 
-- Next.js + TypeScript project bootstrap
-- `app/page.tsx` initial public dashboard
-- `app/globals.css` responsive dark analytical design system
-- `app/layout.tsx`
-- `lib/parties.ts` centralized parliamentary party registry
-- `components/party-mark.tsx`
-- `lib/elections.ts` data provenance/election contracts and source URLs
-- complete master project specification in `README.md`
-- draft PR #1 targeting `main`
+- Next.js 16 + TypeScript product routes and responsive data-first dashboard
+- deterministic Valmyndigheten import, validation and normalization pipeline
+- checked-in normalized 2022 national, constituency and municipality results
+- official national history for five Riksdag elections from 2006 through 2022
+- centralized `lib/parties.ts` identity registry and eight local party assets
+- historical chart, Party Explorer, election archive and Politicalverse indicators
+- explicit `OFFICIAL` and `DERIVED` classifications with source/methodology documentation
+- ten route, calendar, data, calculation and asset-provenance tests
+- GitHub Actions CI and draft PR #1 targeting `main`
 
 Do not rewrite the product from scratch unless a technical defect requires it. Improve incrementally.
 
@@ -269,7 +290,7 @@ When adding polling later:
 
 The design should feel premium, analytical and data-first.
 
-Current visual direction is dark, restrained, and chart-led. Preserve the strong typography and minimal marketing filler, but improve details where needed.
+Current visual direction is an independent public-service system inspired by Sveriges riksdag: white and ice-gray analytical surfaces, deep blue institutional structure and a restrained lemon accent. It must not reproduce an official logo or imply that Politicalverse is an official government service. Preserve the chart-led hierarchy, strong typography and minimal marketing filler. The maintained tokens and references are in `docs/design/visual-system.md`.
 
 Critical responsive behavior:
 
@@ -345,5 +366,7 @@ Continue from: `agent/foundation`
 Draft PR: `#1 Build Politicalverse foundation`
 
 Canonical specification: `README.md`
+
+Verified next action: source and normalize official Swedish boundary geometry, add stable geography/version contracts, then build a touch-accessible Election Map for party vote share, swing and turnout. Do not begin auth, Stripe or a forecast first.
 
 This file is the execution brief. If it conflicts with `README.md` on product intent, `README.md` wins. If implementation reality changes, update both deliberately rather than allowing silent architectural drift.

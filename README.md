@@ -504,14 +504,16 @@ The intended character is analytical, premium and data-dense without becoming vi
 
 Current foundation direction:
 
-- dark analytical interface;
-- strong typography;
-- restrained accent usage;
+- independent public-service visual language inspired by Sveriges riksdag, without reproducing an official identity;
+- deep blue, ice-gray and white analytical surfaces with a restrained lemon election accent;
+- strong accessible typography and visible focus treatment;
 - party colors reserved primarily for party identity/data;
 - clear source/freshness labels;
 - charts as primary content;
 - minimal marketing filler;
 - responsive layouts designed at component level.
+
+The maintained palette, usage rules and source references are documented in [`docs/design/visual-system.md`](docs/design/visual-system.md).
 
 ### Responsive requirements
 
@@ -534,4 +536,90 @@ Accessibility requirements include semantic navigation, keyboard support, visibl
 
 Do not build billing before product value exists, but preserve these boundaries.
 
-### Open — no
+### Open — no account required
+
+Public election results, provenance, historical charts, party profiles, geographic summaries and core methodology remain browsable without sign-in.
+
+### Free account — later
+
+An account becomes useful when a visitor wants to save a chart, watchlist, comparison, workspace or simulation. Account state must remain separate from official data ingestion and calculations.
+
+### Pro — later
+
+Professional access may eventually cover advanced indicators, Workbench capabilities, exports and validated models. Pricing and billing should not be implemented until those features create real value.
+
+---
+
+## 13. Current implementation
+
+The `agent/foundation` branch now contains the first end-to-end public product slice:
+
+- Next.js 16 and TypeScript application routes for Overview, Charts, Parties, Elections and Indicators;
+- official final national Riksdag history for 2006, 2010, 2014, 2018 and 2022;
+- a checksum-verified Valmyndigheten 2022 XLSX importer;
+- 6,578 electoral districts normalized into 29 constituencies and 290 municipalities;
+- responsive historical chart, result table, Party Explorer and municipal summaries;
+- four deterministic, versioned `DERIVED` indicators with published methodology;
+- local identity assets for all eight parliamentary parties with recorded provenance;
+- public read-only national and geography JSON endpoints;
+- a documented, independent Riksdag-inspired responsive visual system;
+- a fail-closed runtime-isolation check that protects known radio/service ports and rejects tunnel conflicts;
+- CI, regression tests, linting, strict type checking and a production build gate.
+
+The current range begins in 2006. Adding the official 2002 observation remains a deliberate follow-up, not an implied capability.
+
+### Run locally
+
+Node.js 20.9 or newer is required.
+
+```bash
+npm install
+npm run dev
+```
+
+Development must run from the verified `agent/foundation` checkout. `npm run dev` first checks the repository identity, branch, fixed loopback address, port availability and local tunnel/service definitions, then starts at `http://127.0.0.1:4317`. The check fails closed rather than selecting another port.
+
+Run the complete local gate:
+
+```bash
+npm run data:verify
+npm run check
+```
+
+### Data pipeline
+
+```text
+Valmyndigheten source
+  -> checksum and worksheet-schema validation
+  -> canonical party and geography normalization
+  -> national / constituency / municipality JSON
+  -> application data layer and public APIs
+  -> charts, profiles and derived indicators
+```
+
+The downloaded source workbook is reproducible and intentionally ignored. Import it directly from the recorded URL:
+
+```bash
+npm run data:import
+```
+
+Or use an already downloaded workbook:
+
+```bash
+npm run data:import -- --file /path/to/valmyndigheten-riksdag-2022.xlsx
+```
+
+Source URL, retrieval date, expected totals and SHA-256 are pinned in [`data/raw/valmyndigheten/source-manifest.json`](data/raw/valmyndigheten/source-manifest.json). Party artwork provenance is recorded in [`docs/data-sources/party-assets.md`](docs/data-sources/party-assets.md), and indicator definitions in [`docs/methodology/indicators-v1.md`](docs/methodology/indicators-v1.md).
+
+### Public APIs
+
+- `GET /api/elections/2022/national`
+- `GET /api/elections/2022/geography?level=constituency`
+- `GET /api/elections/2022/geography?level=municipality`
+
+### Next product slices
+
+1. Add the Election Map using a versioned, attributable Swedish boundary source and stable official-code joins.
+2. Parameterize Charts by party, geography, metric and election without creating one component for every combination.
+3. Add a deterministic Swedish seat simulator only after its electoral rules and backtest fixtures are explicit.
+4. Add official 2026 adapters as Valmyndigheten publishes live-cycle datasets.

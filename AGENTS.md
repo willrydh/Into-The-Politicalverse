@@ -1,3 +1,13 @@
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
 # Into The Politicalverse — Agent Instructions
 
 Read `README.md` and `CODEX_HANDOFF.md` before making material changes.
@@ -41,3 +51,21 @@ Canonical product specification: `README.md`
 Detailed takeover plan: `CODEX_HANDOFF.md`
 Current working branch: `agent/foundation`
 Current draft PR: `#1 Build Politicalverse foundation`
+
+## Current implementation rules
+
+- The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
+- Preserve URLs, retrieval dates, expected official totals and checksums in `data/raw/valmyndigheten/source-manifest.json`.
+- Keep the canonical party registry in `lib/parties.ts`; source-name mappings belong in the Valmyndigheten adapter layer.
+- Do not replace local party assets without updating `docs/data-sources/party-assets.md` with the new source, date and SHA-256.
+- Version indicator behavior and keep `docs/methodology/indicators-v1.md` synchronized with calculations.
+- Run `npm run data:verify` and `npm run check` before handoff. Keep this file, `README.md` and `CODEX_HANDOFF.md` aligned with implementation reality.
+
+## Runtime isolation
+
+- Run the development server only through `npm run dev`; its preflight must pass before Next.js starts.
+- Local development is fixed to `127.0.0.1:4317`. Do not use automatic port fallback, `0.0.0.0`, ports `3000`, `3001`, `3100`, `8000` or `8790`, or a port referenced by a local tunnel/service definition.
+- The preflight must verify the package, repository root, GitHub remote, `agent/foundation` branch, free port and absence of a tunnel/service route to the development port.
+- Do not modify other repositories, `~/Library/Application Support/WilliamRydhRadio`, launchd jobs, tunnels, DNS, Cloudflare configuration or unrelated domains while working on Politicalverse.
+- No Politicalverse hosting target currently exists. Do not deploy to or reuse another project's domain.
+- Browser QA must use a new temporary tab pointed explicitly at the fixed loopback URL and close it after verification.
