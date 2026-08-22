@@ -1,0 +1,128 @@
+name: Refresh polling forecast
+
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: politicalverse-poll-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.repository == 'willrydh/Into-The-Politicalverse'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
+      commit_sha: ${{ steps.publish.outputs.commit_sha }}
+    steps:
+      - name: Check out the public branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Fetch, validate and regenerate polling forecast
+        run: npm run data:polls:update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run data:verify
+      - run: npm run check
+      - name: Stage accepted data only
+        id: changes
+        shell: bash
+        run: |
+          git add -- \
+            data/raw/polls/SwedishPolls.csv \
+            data/raw/polls/source-manifest.json \
+            data/normalized/election-forecast-2026.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Commit accepted snapshot
+        id: publish
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: refresh Swedish polling forecast"
+          git push origin HEAD:main
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  pages_build:
+    if: needs.refresh.outputs.changed == 'true' && needs.refresh.outputs.commit_sha != ''
+    needs: refresh
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Check out the accepted main snapshot
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.refresh.outputs.commit_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run data:verify
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Build the exact accepted snapshot
+        run: npm run build
+        env:
+          PAGES_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: out
+
+  pages_deploy:
+    if: needs.pages_build.result == 'success'
+    needs:
+      - refresh
+      - pages_build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out the accepted snapshot for the final main check
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.refresh.outputs.commit_sha }}
+          fetch-depth: 1
+      - name: Refuse to publish a stale main snapshot
+        env:
+          EXPECTED_SHA: ${{ needs.refresh.outputs.commit_sha }}
+        run: |
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$EXPECTED_SHA"
+      - name: Deploy accepted snapshot to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
