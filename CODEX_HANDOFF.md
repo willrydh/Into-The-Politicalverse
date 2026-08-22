@@ -2,379 +2,161 @@
 
 ## Mission
 
-Take over active development of **Into The Politicalverse**, a quantitative election intelligence platform. Continue from the existing `agent/foundation` branch and treat `README.md` as the canonical product/architecture specification.
+Continue **Into The Politicalverse** as a production-quality quantitative election intelligence platform. Sweden and the 2026 Riksdag election are the first live cycle. `README.md` remains the canonical product specification.
 
-The initial launch market is Sweden, with the 2026 general election as the first live election cycle. The product should feel like a quantitative analytics terminal for elections: charts, maps, indicators, party profiles, simulations and later forecasting/workbench capabilities.
+The product is public, source-traceable and data-first: official results, geography, historical patterns, reproducible indicators, deterministic scenarios and a clearly separated probabilistic forecast. It is not a betting service, news site, party recommendation engine or official government service.
 
-## Implementation checkpoint — 2026-08-21
+## Implementation checkpoint — 2026-08-22
 
-The first usable public analytical release is implemented on `agent/foundation` and continues in draft PR #1.
+Public repository: `willrydh/Into-The-Politicalverse`
 
-Delivered:
+Canonical/public branch: `main`
 
-- buildable Next.js 16 + TypeScript application with CI;
-- verified 2022 Valmyndigheten XLSX ingestion and normalized national, constituency and municipality records;
-- official national history for all six general elections from 2002–2022;
-- real responsive chart, result table and read-only JSON APIs;
-- local, source-recorded identity assets for all eight parliamentary parties;
-- Party Explorer using real national and municipality results;
-- checksum-pinned official 2018 municipality results, exact comparability joins and an interactive Election Map for 2022 vote share, 2018–2022 swing and turnout across all 290 municipalities;
-- four deterministic `DERIVED` indicators, versioned methodology and regression tests;
-- a responsive `MODEL` Riksdag scenario simulator with a separate deterministic election-law engine;
-- checksum-pinned official 2018 and 2022 backtest inputs plus the official 2026 allocation of 310 fixed constituency seats;
-- exact 2018 and 2022 backtests for every party's fixed, adjustment and total mandates;
-- an independent Riksdag-inspired public-service visual system, documented with source references and without official logos;
-- a fail-closed local runtime preflight fixed to `127.0.0.1:4317`, with known radio/service ports and tunnel routes protected;
-- a repository-local GitHub Pages workflow for the public, password-free release at `https://willrydh.github.io/Into-The-Politicalverse/`;
-- desktop and 390 px mobile browser acceptance checks.
+Scoped development branches: `codex/*`
 
-Local verification is green: `npm run data:verify` and `npm run check` (lint, strict typecheck, 22 regression tests and production static export). `npm install` reports zero known vulnerabilities. The Pages workflow repeats the data, lint, type and test gates before deployment and publishes static national, geography and municipality-comparison JSON endpoints.
+Public release: `https://willrydh.github.io/Into-The-Politicalverse/`
 
-The initial public data product is complete. Post-v1 work should prioritize official 2026 source adapters when Valmyndigheten publishes those datasets, then broader parameterized analytics and SCB aggregate context. Do not substitute polling or invented values for unavailable official 2026 results, and do not let auth or billing contaminate the election engine.
+The original public foundation remains intact:
 
-## Non-negotiable product principles
+- Next.js 16 + TypeScript application and responsive Riksdag-inspired visual system;
+- official final national Riksdag history for 2002–2022;
+- verified Valmyndigheten national, constituency and municipality ingestion;
+- all 29 constituencies, 290 municipalities and 6,578 2022 electoral districts;
+- checksum-pinned 2018 municipality comparison and 2018–2022 map swing;
+- official local party identities and recorded asset provenance;
+- Party Explorer, charts, maps, elections and four deterministic indicators;
+- independent Swedish mandate engine using the official 2026 fixed-seat structure;
+- exact fixed, adjustment and total mandate backtests for 2018 and 2022;
+- static read-only data endpoints, CI and GitHub Pages deployment;
+- fail-closed local runtime isolation at `127.0.0.1:4317`.
 
-1. No mystery numbers. Every displayed value must be classified as `OFFICIAL`, `DERIVED`, or `MODEL`.
-2. Valmyndigheten is the primary source of truth for official Swedish election data.
-3. SCB PxWeb is the primary source for aggregate demographic/economic context.
-4. Raw source states must be preserved/versioned rather than destructively overwritten when data can change.
-5. Derived metrics must be deterministic, testable, documented and reproducible.
-6. Models/forecasts must be visually and semantically separated from official results.
-7. No account is required to browse the initial public product.
-8. Do not build billing/paywall before the core public data product is useful.
-9. Party logos are required. Use official party media/brand assets where possible, store them locally, and record provenance/usage notes.
-10. Mobile, tablet, laptop and large desktop are first-class targets. Do not ship desktop-only dashboards.
-11. Do not present mock/demo values as if they were real election data.
-12. Remain politically neutral in data treatment, ordering and analytical language.
+The prediction layer adds:
 
-## Existing code
+- the tracked CC0 SwedishPolls bank with immutable upstream commit, row count, cutoff, SHA-256 and normalized-output checksum;
+- exact recent primary cross-checks against Novus, Verian/SVT and SCB;
+- a frozen `pv-election-forecast` `1.0.0-beta.1` model;
+- vote and mandate distributions, threshold/largest-party questions and named coalition mandate arithmetic;
+- 10,000 deterministic antithetic heavy-tail simulations through the exact 29-constituency seat engine;
+- explicit calibration, holdout, uncertainty and seeded-tie diagnostics;
+- sourced government-formation `DECLARED`/`CONTEXT` separate from `MODEL` output;
+- a scheduled six-hour fail-closed source refresh that commits only accepted data to `main`, then builds and deploys that exact accepted commit through GitHub Pages.
 
-Current branch: `agent/foundation`
+## Classification contract
 
-Existing foundation includes:
+Never present an unexplained number or claim. Use these labels deliberately:
 
-- Next.js 16 + TypeScript product routes and responsive data-first dashboard
-- deterministic Valmyndigheten import, validation and normalization pipeline
-- checked-in normalized 2022 national, constituency and municipality results
-- official national history for six Riksdag elections from 2002 through 2022
-- centralized `lib/parties.ts` identity registry and eight local party assets
-- historical chart, Party Explorer, election archive and Politicalverse indicators
-- official 2018/2022 municipality observations plus a touch- and keyboard-accessible party-share/swing/turnout map
-- explicit `OFFICIAL` and `DERIVED` classifications with source/methodology documentation
-- an independent deterministic Riksdag rule engine and responsive `MODEL` scenario simulator
-- exact official 2018 and 2022 fixed-, adjustment- and total-seat backtests
-- twenty-two route, calendar, data, comparison, geometry, calculation, simulator and asset-provenance tests
-- GitHub Actions CI, public Pages deployment and draft PR #1 targeting `main`
+- `OFFICIAL` — authoritative source observations, primarily Valmyndigheten or SCB;
+- `POLL` — an opinion-survey observation;
+- `DERIVED` — deterministic Politicalverse calculation from identified inputs;
+- `MODEL` — estimate, probability, interval, forecast or scenario;
+- `DECLARED` — dated public position attributed to a party or leader;
+- `CONTEXT` — constitutional rule or sourced explanatory background.
 
-Do not rewrite the product from scratch unless a technical defect requires it. Improve incrementally.
+`POLL` is not `OFFICIAL`. `DECLARED` is not a prediction. `CONTEXT` is not a probability. Coalition mandate probability is not government-formation probability.
 
-## Immediate priority order
+## Forecast v1 beta contract
 
-### P0 — make the repository actually build and test
+Do not silently change these choices:
 
-1. Inspect the current branch.
-2. Run install/build/typecheck/lint.
-3. Fix all runtime, TypeScript, dependency and CSS issues.
-4. Add sensible scripts if missing (`typecheck`, `lint`, `test` as appropriate).
-5. Add GitHub Actions CI for install + typecheck + build.
+- 180-day eligible-poll window;
+- 28-day exponential half-life;
+- fieldwork-midpoint recency, falling back to publication date for approximate/missing fieldwork;
+- publication date at or before each cutoff, preventing historical lookahead;
+- sample weighting and 0.85 approximate-fieldwork multiplier;
+- maximum 25% weight for one polling house when mathematically feasible;
+- 2010, 2014 and 2018 for configuration calibration;
+- 2022 as the locked holdout, not used to select 180/28;
+- exclusion of 2002/2006 from the modern eight-party model instead of imputing missing SD as zero;
+- eight parties plus `OTHER` as the nine-category uncertainty system;
+- shrunk residual covariance, leave-one-election-out interval scaling and Student-t heavy tails;
+- 10,000 antithetic runs with a committed seed;
+- exact 29-constituency mandate calculation using the official 2026 fixed-seat structure and disclosed 2022 geographic-pattern assumption;
+- seeded, reproducible lottningar for exact quotient ties in forecast runs, with occurrence count/rate exposed.
 
-No feature work should be considered complete if the branch does not build cleanly.
+The base seat engine can retain stable-order fallback when no `tieSeed` is supplied so historical backtests remain deterministic. Forecast generation always supplies a seed. Changing any model item requires a new model/method version, regenerated data, tests and synchronized methodology documentation. See `docs/methodology/forecast-v1.md`.
 
-### P1 — connect real Valmyndigheten historical data
+## Poll-data contract
 
-Build a source adapter rather than hardcoding data into UI components.
+The accepted source snapshot is:
 
-Target initial source:
+- `data/raw/polls/SwedishPolls.csv`;
+- `data/raw/polls/source-manifest.json`;
+- normalized output `data/normalized/election-forecast-2026.json`.
 
-- Historical raw election data 2002–2022:
-  `https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022`
+`npm run data:polls:update` must fail closed. It discovers the latest `Data/Polls.csv` commit on SwedishPolls `master`, fetches the immutable commit and current master copy, validates them before generation, and replaces the three tracked artifacts only through same-directory temporary files and atomic renames. Validation includes:
 
-Also prepare for:
+- exact header/schema;
+- non-shrinking row count;
+- non-regressing publication and commit dates;
+- complete latest and recent modern polls;
+- duplicate, strict calendar-date, Swedish present-day/election-day, sample-size, party-range and total checks;
+- the manifest's primary cross-checks;
+- raw and normalized SHA-256 values;
+- a successful full forecast generation.
 
-- 2026 data:
-  `https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026`
+On any failure, the last-known-good files remain. After election day the updater retains the final pre-election snapshot without contacting upstream; forecast generation also rejects post-election cutoffs independently. The scheduled workflow runs `data:verify` and the complete repository check before it may commit. A `GITHUB_TOKEN` push does not trigger the separate Pages workflow, so a changed run checks out its emitted commit SHA, repeats the Pages verification/build gates and deploys that artifact itself. It does not deploy unchanged runs and refuses deployment if `main` has advanced beyond the accepted SHA. No personal token is required, and no poll refresh may update government context automatically. See `docs/data-sources/opinion-polls.md`.
 
-Implementation requirements:
+## Government-formation boundary
 
-- source-specific adapter layer
-- immutable/raw snapshot concept
-- schema validation
-- normalized canonical records
-- source metadata/provenance
-- no UI dependency on raw source column names
-- clear treatment of election status (historical/final vs preliminary/live)
+The machine-readable context registry is `data/context/government-formation-2026.json`. Every time-sensitive statement needs an attributable URL, publication/effective date where available and `checkedAt`.
 
-The first vertical slice should be:
+Swedish negative parliamentarism means 175 no votes reject a prime-minister proposal; 175 yes votes are not required. The prime minister appoints ministers after the parliamentary process. Politicalverse v1 therefore publishes no person, future-minister, cabinet-post or party-leader-replacement odds. Exact coalition sums can be modeled; negotiated government composition cannot be inferred from them.
 
-`Valmyndigheten -> ingest -> validate -> normalize -> application data layer -> real historical chart`
-
-### P2 — replace the placeholder chart with a real chart
-
-The first production chart should use official historical Riksdag results.
-
-Recommended first chart:
-
-**Historical party performance — Riksdag, 2002–2022**
-
-Requirements:
-
-- selectable party or multiple parties if legible
-- real official observations only
-- responsive on mobile
-- source/provenance label
-- tooltip with election year, vote share and source class
-- accessible legend/labels
-- party colors from centralized registry
-
-### P3 — official party logos
-
-Acquire official/recognized assets for:
-
-- Socialdemokraterna (S)
-- Sverigedemokraterna (SD)
-- Moderaterna (M)
-- Vänsterpartiet (V)
-- Centerpartiet (C)
-- Kristdemokraterna (KD)
-- Miljöpartiet (MP)
-- Liberalerna (L)
-
-Store assets locally under a consistent path such as `public/parties/`.
-
-Add an asset provenance note/file containing source URL and acquisition date. Do not hotlink external logos in production.
-
-### P4 — Party Explorer
-
-Implement party analytical pages/routes.
-
-Minimum useful view:
-
-- party identity + logo
-- historical national Riksdag vote share
-- election-to-election swing
-- strongest/weakest available geographies
-- source labels
-- links to deeper charts/maps when available
-
-The data model must support additional/local parties later.
-
-### P5 — geographic layer and map foundation
-
-Prepare canonical geography entities for Sweden and official codes. Boundary/version changes must be represented rather than ignored.
-
-Then add map support from official Valmyndigheten GIS/geographic data where available.
-
-Initial map metrics:
-
-- party vote share
-- swing vs previous comparable election
-- turnout
-
-Map interaction must work on touch devices, not only mouse hover.
-
-### P6 — first derived indicators
-
-Implement only after real normalized data is available.
-
-Start with:
-
-1. Swing (percentage points)
-2. Geographic Breadth
-3. Relative Strength
-4. Turnout Trend
-
-Each metric requires:
-
-- pure/testable calculation
-- methodology documentation
-- explicit handling of missing/incomparable geography
-- version identifier
-- unit tests
-- source observation references where feasible
-
-Do not ship pseudo-indicators with arbitrary formulas.
-
-### P7 — election simulator
-
-Build the simulator logic as an independent election-rule engine, not UI math.
-
-Initial goal:
-
-- party vote-share input controls
-- Swedish threshold handling
-- seat/mandate calculation according to applicable rules
-- scenario output
-- coalition arithmetic
-
-Before trusting the engine, backtest it against known official historical election outcomes.
-
-A deterministic simulator is not a forecast. Label accordingly.
-
-## Architecture direction
-
-Keep external source adapters isolated from canonical domain models.
-
-Suggested logical structure (adjust if needed, preserve separation):
-
-```text
-app/
-  overview/
-  charts/
-  parties/
-  maps/
-  elections/
-  indicators/
-  simulator/
-
-components/
-  charts/
-  dashboard/
-  maps/
-  parties/
-
-lib/
-  domain/
-  data/
-    sources/
-      valmyndigheten/
-      scb/
-      polls/
-    validation/
-    normalization/
-  indicators/
-  simulator/
-  geography/
-
-public/
-  parties/
-
-docs/
-  methodology/
-  data-sources/
+See `docs/data-sources/government-formation-2026.md`.
+
+## Other data invariants
+
+- Valmyndigheten is the primary authority for official Swedish election data.
+- SCB PxWeb is the primary authority for aggregate demographic and socioeconomic context.
+- The intentionally untracked Valmyndigheten workbook is regenerated with `npm run data:import`.
+- Preserve official source URLs, dates, expected totals and checksums in the Valmyndigheten manifests.
+- Never combine 2022 election results with silently substituted 2026 geography.
+- Keep the canonical party registry in `lib/parties.ts`; source-name mappings belong in adapters.
+- Do not replace local party artwork without updating `docs/data-sources/party-assets.md` and hashes.
+- Version indicators and keep `docs/methodology/indicators-v1.md` synchronized.
+- Version simulator rules and keep `docs/methodology/simulator-v1.md` synchronized.
+- Source adapters, canonical models, calculation engines and UI remain separate.
+
+## Local and release isolation
+
+Run the development server only with:
+
+```bash
+npm run dev
 ```
 
-This is guidance, not a mandate to create empty directories.
+The preflight permits only `main`, the legacy `agent/foundation` branch and scoped `codex/*` branches in this exact repository/remote. It also requires repository root, fixed `127.0.0.1:4317`, a free port and no local tunnel/service route to that port.
 
-## Data provenance contract
+Never modify other repositories, radio files/services, launchd jobs, tunnels, DNS, Cloudflare configuration or unrelated domains while working on Politicalverse. The only release target is this repository's GitHub Pages site. Browser QA must use a new temporary tab at the fixed loopback URL or Politicalverse Pages URL and close it afterward.
 
-At minimum, important observations should retain:
+## Verification
 
-- authority/source
-- dataset identifier/name
-- source URL
-- source publication/update timestamp if available
-- ingestion timestamp
-- source status/version if available
-- classification: OFFICIAL / DERIVED / MODEL
+Before handoff or publication:
 
-Derived outputs should also retain:
+```bash
+npm run data:verify
+npm run check
+npm run build:pages
+```
 
-- calculation/metric ID
-- methodology version
-- inputs or references to source observations where feasible
-- calculation timestamp
+For an accepted source refresh:
 
-Model outputs should also retain:
+```bash
+npm run data:polls:update
+npm run data:verify
+npm run check
+```
 
-- model ID/version
-- data cutoff
-- run timestamp
-- uncertainty/calibration fields where applicable
+Report `implemented`, `tested`, `pushed`, `published` and `live-verified` separately. A local build is not a public release.
 
-## Polling policy
+## Next priorities
 
-Do not make polling ingestion block the first release.
+1. Keep the forecast source, scheduled refresh and Pages gates healthy; quarantine unexpected upstream changes.
+2. Preserve dated forecast snapshots so movements and final scoring can be audited without rewriting history.
+3. Add official 2026 Valmyndigheten adapters as sources become available, preserving preliminary and final states.
+4. Score forecast questions and vote/mandate distributions against the final official result.
+5. Expand parameterized charts, municipal intelligence and SCB context with explicit provenance.
+6. Add new prediction categories only when inputs, resolution, uncertainty and backtest are defensible.
+7. Keep auth, billing and paywall outside the data engine and secondary to public analytical value.
 
-Polling is a separate source class and must not be treated as official result data.
-
-When adding polling later:
-
-- use source-specific adapters
-- preserve pollster, fieldwork dates, sample size, publication date, method notes and source URL
-- verify source/usage conditions before automated ingestion
-- do not silently scrape a third-party poll aggregator and make it core infrastructure
-
-## UX direction
-
-The design should feel premium, analytical and data-first.
-
-Current visual direction is an independent public-service system inspired by Sveriges riksdag: white and ice-gray analytical surfaces, deep blue institutional structure and a restrained lemon accent. It must not reproduce an official logo or imply that Politicalverse is an official government service. Preserve the chart-led hierarchy, strong typography and minimal marketing filler. The maintained tokens and references are in `docs/design/visual-system.md`.
-
-Critical responsive behavior:
-
-- no horizontal page overflow
-- charts resize intelligently
-- legends/tooltips remain usable on phone
-- tables deliberately scroll/transform
-- tap targets are large enough
-- maps support tap/selection
-- navigation has a mobile treatment
-- no essential information depends on hover
-
-Accessibility:
-
-- semantic navigation
-- keyboard interaction where relevant
-- visible focus states
-- meaningful alt text for logos
-- sufficient contrast
-- do not use color as the only identifier for parties or states
-
-## Auth/paywall policy
-
-Do not prioritize auth or Stripe now.
-
-Keep architecture decoupled so these can be added later.
-
-Likely future product levels:
-
-- `Open`: public core election data/charts, no account required
-- `Free account`: saved charts/watchlists/preferences
-- `Pro`: advanced indicators, workbench, exports, deeper models/intelligence
-
-Do not let future billing concerns distort the initial domain/data model.
-
-## Delivery discipline
-
-Work autonomously. Do not stop for routine technology/library/structure decisions when a reasonable engineering choice can be made.
-
-Before major rewrites, inspect existing code and preserve what is already sound.
-
-For each meaningful milestone:
-
-1. implement;
-2. run validation/build/tests;
-3. update docs/methodology where behavior changes;
-4. commit with a clear message;
-5. keep PR #1 coherent or create focused follow-up PRs if the scope becomes too broad.
-
-Do not claim a feature works unless it has been validated in the repo/runtime.
-
-## Definition of first usable release
-
-A first genuinely usable release exists when a visitor can open the site without an account and:
-
-1. understand that Politicalverse is quantitative election analysis;
-2. see real official Swedish historical election data;
-3. explore at least one responsive chart;
-4. select/inspect the major parliamentary parties with real logos;
-5. see exact source/provenance information;
-6. navigate cleanly on phone and desktop;
-7. distinguish official data from Politicalverse calculations;
-8. run from a clean, tested build.
-
-After that, prioritize Party Explorer, maps, indicators and simulator before auth/paywall.
-
-## Current handoff state
-
-Repository: `willrydh/Into-The-Politicalverse`
-
-Continue from: `agent/foundation`
-
-Draft PR: `#1 Build Politicalverse foundation`
-
-Canonical specification: `README.md`
-
-Verified current state: the 2002–2022 national series, comparable official 2018 municipality baseline, versioned 2018–2022 swing layer and deterministic simulator are complete. Preserve their exact validations and historical backtests. The next time-sensitive integration is official 2026 data when Valmyndigheten makes the relevant result sources available; until then, expand only source-backed analysis and keep forecasts, auth and billing clearly separate.
-
-This file is the execution brief. If it conflicts with `README.md` on product intent, `README.md` wins. If implementation reality changes, update both deliberately rather than allowing silent architectural drift.
+Do not rewrite the existing architecture without a demonstrated defect. This file is the operational brief; when behavior changes, update it and `README.md` deliberately.

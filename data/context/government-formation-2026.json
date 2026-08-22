@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "id": "se-government-formation-2026",
+  "country": "SE",
+  "electionDate": "2026-09-13",
+  "classification": "CONTEXT",
+  "checkedAt": "2026-08-22",
+  "methodNote": "Registret beskriver grundlagsregler och daterade offentliga besked. Det är inte en modell för statsminister, regeringspartier eller ministerposter och innehåller inga personodds.",
+  "constitutionalClaims": [
+    {
+      "id": "negative-parliamentarism",
+      "classification": "CONTEXT",
+      "headline": "175 nej fäller – 175 ja krävs inte",
+      "summary": "Ett förslag till statsminister går igenom om färre än 175 av riksdagens 349 ledamöter röstar nej. En kandidat kan därför tolereras utan att ha 175 egna ja-röster.",
+      "consequence": "Modellens sannolikhet för 175 mandat är ett mått på egen majoritet i en angiven partigrupp. Den är inte samma sak som sannolikheten att en statsminister tolereras av riksdagen.",
+      "source": {
+        "publisher": "Sveriges riksdag",
+        "sourceClass": "OFFICIAL_PRIMARY",
+        "title": "Så bildas regeringen",
+        "url": "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/sa-bildas-regeringen/",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "checkedAt": "2026-08-22"
+      }
+    },
+    {
+      "id": "prime-minister-appoints-ministers",
+      "classification": "CONTEXT",
+      "headline": "Statsministern utser ministrarna efter omröstningen",
+      "summary": "När riksdagen har godkänt talmannens statsministerförslag är det den valda statsministern som utser regeringens övriga ministrar.",
+      "consequence": "Mandat ger förhandlingsstyrka men avgör inte automatiskt vem som får ett departement. Politicalverse sätter därför inga sannolikheter på enskilda framtida ministrar.",
+      "source": {
+        "publisher": "Sveriges riksdag",
+        "sourceClass": "OFFICIAL_PRIMARY",
+        "title": "Så bildas regeringen",
+        "url": "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/sa-bildas-regeringen/",
+        "publishedAt": null,
+        "effectiveAt": null,
+        "checkedAt": "2026-08-22"
+      }
+    }
+  ],
+  "partyContexts": [
+    {
+      "partyId": "S",
+      "leaders": ["Magdalena Andersson"],
+      "leaderTitle": "Partiordförande och statsministerkandidat",
+      "leaderSource": {
+        "publisher": "Socialdemokraterna",
+        "sourceClass": "PARTY_PRIMARY",
+        "title": "Magdalena Andersson inleder valturnén – presenterar tre principer för en regering ledd av henne",
+        "url": "https://www.socialdemokraterna.se/nyheter/nyheter/2026-08-03-magdalena-andersson-inleder-valturnen---presenterar-tre-principer-for-en-regering-ledd-av-henne",
+        "publishedAt": "2026-08-03",
+        "effectiveAt": "2026-08-03",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "s-andersson-prime-minister-candidate",
+          "classification": "DECLARED",
+          "headline": "S söker mandat för en regering ledd av Andersson",
+          "summary": "Magdalena Andersson säger att hon söker väljarnas mandat att bli statsminister och leda en regering som söker breda samarbeten.",
+          "consequence": "Beskedet anger statsministerkandidat men låser inte vilka partier som efter valet skulle ingå i eller tolerera regeringen.",
+          "source": {
+            "publisher": "Socialdemokraterna",
+            "sourceClass": "PARTY_PRIMARY",
+            "title": "Magdalena Andersson inleder valturnén – presenterar tre principer för en regering ledd av henne",
+            "url": "https://www.socialdemokraterna.se/nyheter/nyheter/2026-08-03-magdalena-andersson-inleder-valturnen---presenterar-tre-principer-for-en-regering-ledd-av-henne",
+            "publishedAt": "2026-08-03",
+            "effectiveAt": "2026-08-03",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "M",
+      "leaders": ["Ulf Kristersson"],
+      "leaderTitle": "Partiledare och statsministerkandidat",
+      "leaderSource": {
+        "publisher": "SVT Nyheter",
+        "sourceClass": "PUBLIC_SERVICE_REPORTING",
+        "title": "M släpper in SD i regering om Tidöpartierna vinner valet",
+        "url": "https://www.svt.se/nyheter/inrikes/m-slapper-in-sd-i-regering-om-tidopartierna-vinner-valet",
+        "publishedAt": "2026-04-01",
+        "effectiveAt": "2026-04-01",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "m-four-party-tido-government",
+          "classification": "DECLARED",
+          "headline": "M går till val på Kristersson och en fyrpartiregering",
+          "summary": "Ulf Kristersson har deklarerat att han är Tidösidans statsministerkandidat och att M, SD, KD och L ska ingå i regeringen om sidan vinner valet.",
+          "consequence": "Det är ett offentligt regeringsalternativ. Modellens mandatutfall kan testa dess egen majoritet, men inte om alla förhandlingar efter valet lyckas.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "M släpper in SD i regering om Tidöpartierna vinner valet",
+            "url": "https://www.svt.se/nyheter/inrikes/m-slapper-in-sd-i-regering-om-tidopartierna-vinner-valet",
+            "publishedAt": "2026-04-01",
+            "effectiveAt": "2026-04-01",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "SD",
+      "leaders": ["Jimmie Åkesson"],
+      "leaderTitle": "Partiordförande",
+      "leaderSource": {
+        "publisher": "Liberalerna och Sverigedemokraterna",
+        "sourceClass": "PARTY_PRIMARY",
+        "title": "Sverigelöftet – ett handslag för ansvarstagande",
+        "url": "https://www.liberalerna.se/wp-content/uploads/sverigeloftet-ett-handslag-for-ansvarstagande.pdf",
+        "publishedAt": "2026-03-13",
+        "effectiveAt": "2026-03-22",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "sd-government-participation",
+          "classification": "DECLARED",
+          "headline": "SD ska ingå i regeringen vid en Tidöseger",
+          "summary": "Åkesson och Kristersson har presenterat ett alternativ där samtliga fyra Tidöpartier ingår och SD får regeringsansvar.",
+          "consequence": "Beskedet säger att SD ska få ministerposter men fastställer inte vilka personer eller exakt vilka departement. Det senare modelleras inte.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "M släpper in SD i regering om Tidöpartierna vinner valet",
+            "url": "https://www.svt.se/nyheter/inrikes/m-slapper-in-sd-i-regering-om-tidopartierna-vinner-valet",
+            "publishedAt": "2026-04-01",
+            "effectiveAt": "2026-04-01",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "V",
+      "leaders": ["Nooshi Dadgostar"],
+      "leaderTitle": "Partiordförande",
+      "leaderSource": {
+        "publisher": "Vänsterpartiet",
+        "sourceClass": "PARTY_PRIMARY",
+        "title": "Vänsterpartiets valplattform efter beslut på kongressen 2026",
+        "url": "https://www.vansterpartiet.se/wp-content/uploads/2026/04/Preliminar-Valplattform-efter-beslut-pa-kongressen-2026.pdf",
+        "publishedAt": "2026-04-19",
+        "effectiveAt": "2026-04-19",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "v-requires-government-participation",
+          "classification": "DECLARED",
+          "headline": "V kräver regeringsmedverkan om partiets röster behövs",
+          "summary": "Den kongressbeslutade valplattformen säger att V inte ska stödja eller släppa fram en regering som partiet inte ingår i, om V:s röster behövs för att bilda den.",
+          "consequence": "Ett mandatunderlag med S, V, MP och C kan nå 175 utan att partiernas deklarerade villkor är förenliga. Egen majoritet är därför inte en färdig regeringsöverenskommelse.",
+          "source": {
+            "publisher": "Vänsterpartiet",
+            "sourceClass": "PARTY_PRIMARY",
+            "title": "Vänsterpartiets valplattform efter beslut på kongressen 2026",
+            "url": "https://www.vansterpartiet.se/wp-content/uploads/2026/04/Preliminar-Valplattform-efter-beslut-pa-kongressen-2026.pdf",
+            "publishedAt": "2026-04-19",
+            "effectiveAt": "2026-04-19",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "C",
+      "leaders": ["Elisabeth Thand Ringqvist"],
+      "leaderTitle": "Partiledare",
+      "leaderSource": {
+        "publisher": "SVT Nyheter",
+        "sourceClass": "PUBLIC_SERVICE_REPORTING",
+        "title": "Centerpartiet: Andersson mest sannolika samarbetspartnern efter valet",
+        "url": "https://www.svt.se/nyheter/inrikes/svt-erfar-andersson-blir-cs-mest-sannolika-statsministerkandidat",
+        "publishedAt": "2026-06-09",
+        "effectiveAt": "2026-06-09",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "c-points-to-andersson",
+          "classification": "DECLARED",
+          "headline": "C pekar på Andersson men avvisar V och SD i regering",
+          "summary": "Elisabeth Thand Ringqvist har pekat ut Magdalena Andersson som mest sannolik statsministerpartner och sagt nej till regeringar där V eller SD ingår.",
+          "consequence": "C kan vara avgörande för att tolerera en statsminister även om partiet inte sitter i regeringen. Därför kan C:s nej-röst vara viktigare än om en fyrpartigrupp summerar till 175.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "Centerpartiet: Andersson mest sannolika samarbetspartnern efter valet",
+            "url": "https://www.svt.se/nyheter/inrikes/svt-erfar-andersson-blir-cs-mest-sannolika-statsministerkandidat",
+            "publishedAt": "2026-06-09",
+            "effectiveAt": "2026-06-09",
+            "checkedAt": "2026-08-22"
+          }
+        },
+        {
+          "id": "c-prefers-s-c-kd",
+          "classification": "DECLARED",
+          "headline": "C:s uttalade förstahandsalternativ är S + C + KD",
+          "summary": "Thand Ringqvist har beskrivit en regering med S, C och KD som partiets önskade alternativ och samtidigt hållit fast vid att V och SD inte ska ingå.",
+          "consequence": "S + C + KD är ett deklarerat önskemål från C, inte en gemensamt förhandlad koalition mellan de tre partierna.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "Thand Ringqvist: Vill styra med S och KD",
+            "url": "https://www.svt.se/nyheter/inrikes/senaste-nytt-om-val-2026?inlagg=d4c5cf8e133787dabdcffe7469108f59",
+            "publishedAt": "2026-07-10",
+            "effectiveAt": "2026-07-10",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "KD",
+      "leaders": ["Ebba Busch"],
+      "leaderTitle": "Partiledare",
+      "leaderSource": {
+        "publisher": "SVT Nyheter",
+        "sourceClass": "PUBLIC_SERVICE_REPORTING",
+        "title": "Ebba Busch: Genidrag av Simona Mohamsson",
+        "url": "https://www.svt.se/nyheter/inrikes/ebba-busch-kd-genidrag-av-simona-mohamsson",
+        "publishedAt": "2026-03-22",
+        "effectiveAt": "2026-03-22",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "kd-tido-path",
+          "classification": "DECLARED",
+          "headline": "KD går till val på Tidösamarbetet",
+          "summary": "Ebba Busch har sagt att KD:s linje är Tidösamarbetet och att partiet inte har röda linjer för vilka av Tidöpartierna som får sitta i regering.",
+          "consequence": "KD ingår i Kristerssons deklarerade mandatbas, men exakta ministerposter är uttryckligen inte utdelade före valet.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "Ebba Busch: Genidrag av Simona Mohamsson",
+            "url": "https://www.svt.se/nyheter/inrikes/ebba-busch-kd-genidrag-av-simona-mohamsson",
+            "publishedAt": "2026-03-22",
+            "effectiveAt": "2026-03-22",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "MP",
+      "leaders": ["Amanda Lind", "Daniel Helldén"],
+      "leaderTitle": "Språkrör",
+      "leaderSource": {
+        "publisher": "Miljöpartiet",
+        "sourceClass": "PARTY_PRIMARY",
+        "title": "Våra språkrör",
+        "url": "https://www.mp.se/om/sprakror/",
+        "publishedAt": "2022-02-26",
+        "effectiveAt": "2024-05-20",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "mp-requires-government-participation",
+          "classification": "DECLARED",
+          "headline": "MP kräver plats i en rödgrön regering",
+          "summary": "Amanda Lind har sagt att MP ska ingå i en framtida rödgrön regering och rösta nej till regeringar som partiet inte ingår i.",
+          "consequence": "MP:s mandat kan alltså inte utan vidare räknas som tolerans för en S-regering utanför vilken MP står.",
+          "source": {
+            "publisher": "TV4 Nyheterna",
+            "sourceClass": "EDITORIAL_REPORTING",
+            "title": "MP kräver regeringsplats: Vi för samtal med alla",
+            "url": "https://www.tv4.se/artikel/6Tgry6HnNvCnMOyT9ThxWh/mp-kraever-regeringsplats-vi-foer-samtal-med-alla",
+            "publishedAt": "2026-08-10",
+            "effectiveAt": "2026-08-10",
+            "checkedAt": "2026-08-22"
+          }
+        },
+        {
+          "id": "mp-rejects-c-middle-government",
+          "classification": "DECLARED",
+          "headline": "MP säger nej till C:s S + C + KD-alternativ",
+          "summary": "Amanda Lind har avvisat C-ledarens önskade mittenregering med S, C och KD, med hänvisning till skillnaderna i klimatpolitiken.",
+          "consequence": "C:s önskade mittenregering saknar därmed ett gemensamt besked från de partier som C vill samla.",
+          "source": {
+            "publisher": "Aftonbladet/TT",
+            "sourceClass": "EDITORIAL_REPORTING",
+            "title": "MP-språkröret säger nej till Thand Ringqvists drömregering",
+            "url": "https://www.aftonbladet.se/nyheter/a/Rr77qd/aftonbladet-direkt?pinnedEntry=1487949",
+            "publishedAt": "2026-08-19",
+            "effectiveAt": "2026-08-19",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    },
+    {
+      "partyId": "L",
+      "leaders": ["Simona Mohamsson"],
+      "leaderTitle": "Partiordförande",
+      "leaderSource": {
+        "publisher": "SVT Nyheter",
+        "sourceClass": "PUBLIC_SERVICE_REPORTING",
+        "title": "Mohamsson omvald på Liberalernas möte",
+        "url": "https://www.svt.se/nyheter/inrikes/mohamson-omvald-efter-enormt-teknikstrul",
+        "publishedAt": "2026-03-22",
+        "effectiveAt": "2026-03-22",
+        "checkedAt": "2026-08-22"
+      },
+      "claims": [
+        {
+          "id": "l-accepts-sd-in-government",
+          "classification": "DECLARED",
+          "headline": "L accepterar SD i en fyrpartiregering",
+          "summary": "Liberalernas extra landsmöte bekräftade den nya linjen: partiet är redo att släppa in SD i regering om Tidöpartierna vinner valet.",
+          "consequence": "Linjen tar bort den tidigare röda linjen mot SD-ministrar, men L måste samtidigt klara riksdagsspärren för att få egna mandat.",
+          "source": {
+            "publisher": "SVT Nyheter",
+            "sourceClass": "PUBLIC_SERVICE_REPORTING",
+            "title": "Mohamsson omvald på Liberalernas möte",
+            "url": "https://www.svt.se/nyheter/inrikes/mohamson-omvald-efter-enormt-teknikstrul",
+            "publishedAt": "2026-03-22",
+            "effectiveAt": "2026-03-22",
+            "checkedAt": "2026-08-22"
+          }
+        }
+      ]
+    }
+  ]
+}

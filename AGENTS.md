@@ -17,26 +17,22 @@ Build a production-quality quantitative election intelligence platform, initiall
 
 ## Immediate execution order
 1. Make the current branch install, typecheck, build and lint cleanly.
-2. Add CI.
-3. Connect real historical Valmyndigheten election data through a source adapter.
-4. Replace placeholder UI data with a real responsive historical Riksdag chart.
-5. Add real official party logos stored locally with provenance.
-6. Build Party Explorer.
-7. Add geography/maps.
-8. Add tested derived indicators.
-9. Add a deterministic Swedish election simulator and backtest it.
-10. Add comparable historical municipality data and map swing.
-11. Only after the public analytical product is useful, consider auth/paywall.
+2. Keep polling refresh, forecast generation, source checksums and the last-known-good quarantine green.
+3. Improve forecast explanation and calibration only with versioned methodology and backtests.
+4. Add official 2026 Valmyndigheten adapters when the relevant live-cycle sources appear; preserve preliminary and final states separately.
+5. Expand parameterized charts, geography and SCB context without coupling them to polling or UI source formats.
+6. Only after the public analytical product is useful, consider auth/paywall.
 
 ## Hard rules
 - Never present invented/demo values as real election data.
-- Every quantitative output must be clearly classifiable as OFFICIAL, DERIVED or MODEL.
+- Every quantitative output must be clearly classifiable as OFFICIAL, POLL, DERIVED or MODEL. Sourced political material must be DECLARED or CONTEXT.
 - Valmyndigheten is the primary authority for official Swedish election data.
 - SCB PxWeb is the initial authority for aggregate socioeconomic/demographic context.
 - Preserve source provenance and freshness metadata.
 - Keep source adapters separate from canonical domain models and UI.
 - Derived metrics must be deterministic, versioned, documented and tested.
 - Forecasts/models must be separated from official facts and must expose uncertainty/method/version.
+- Do not publish person, minister, cabinet-post or party-leader odds without a separately sourced, backtested and documented model.
 - Do not require an account for initial public browsing.
 - Do not prioritize Stripe/auth/paywall before charts/data/party/maps/indicators/simulator.
 - Real party logos are mandatory; use local assets and record provenance.
@@ -50,12 +46,17 @@ Work autonomously on routine engineering decisions. Inspect existing code first,
 
 Canonical product specification: `README.md`
 Detailed takeover plan: `CODEX_HANDOFF.md`
-Current working branch: `agent/foundation`
-Current draft PR: `#1 Build Politicalverse foundation`
+Canonical/public branch: `main`
+Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
 - The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
+- Keep the accepted SwedishPolls CSV snapshot tracked with its source commit, row count, dates, cross-checks and SHA-256 in `data/raw/polls/source-manifest.json`.
+- Forecast v1 beta is frozen at a 180-day window and 28-day half-life, calibrated on 2010–2018 with 2022 as the locked holdout. Do not silently retune it.
+- Regenerate the forecast with `npm run data:forecast:generate`. Use `npm run data:polls:update` for the validated upstream refresh; a rejected source must leave the last-known-good snapshot intact.
+- Keep `docs/methodology/forecast-v1.md`, `docs/data-sources/opinion-polls.md` and the implementation synchronized.
+- Government-formation statements belong in `data/context/government-formation-2026.json` with dated sources and DECLARED/CONTEXT labels; the poll refresh must not rewrite them.
 - Preserve URLs, retrieval dates, expected official totals and checksums in `data/raw/valmyndigheten/source-manifest.json`.
 - Preserve all 21 GIS archive URLs/checksums and the normalized geometry checksum in `data/raw/valmyndigheten/geography-source-manifest.json`; never mix 2022 results with silently substituted 2026 boundaries.
 - Preserve the historical mandate inputs, official expected outcomes, 2026 fixed-seat structure and normalized checksum in `data/raw/valmyndigheten/seat-source-manifest.json`; regenerate with `npm run data:import:seats`.
@@ -69,7 +70,7 @@ Current draft PR: `#1 Build Politicalverse foundation`
 
 - Run the development server only through `npm run dev`; its preflight must pass before Next.js starts.
 - Local development is fixed to `127.0.0.1:4317`. Do not use automatic port fallback, `0.0.0.0`, ports `3000`, `3001`, `3100`, `8000` or `8790`, or a port referenced by a local tunnel/service definition.
-- The preflight must verify the package, repository root, GitHub remote, `agent/foundation` branch, free port and absence of a tunnel/service route to the development port.
+- The preflight must verify the package, repository root, GitHub remote, an allowed `main`, `agent/foundation` or `codex/*` branch, free port and absence of a tunnel/service route to the development port.
 - Do not modify other repositories, `~/Library/Application Support/WilliamRydhRadio`, launchd jobs, tunnels, DNS, Cloudflare configuration or unrelated domains while working on Politicalverse.
 - Politicalverse publishes only through the repository's GitHub Pages workflow at `https://willrydh.github.io/Into-The-Politicalverse/`. Do not reuse another project's hosting target or domain.
 - Browser QA must use a new temporary tab pointed explicitly at the fixed loopback URL or the Politicalverse GitHub Pages URL and close it after verification.

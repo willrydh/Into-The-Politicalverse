@@ -4,6 +4,9 @@ import { resolve } from "node:path";
 import { PARTY_IDS, type MunicipalityHistoryData, type NationalHistoryData, type NormalizedRiksdagData } from "../lib/data/elections/types";
 import { calculateRiksdagSeats, RIKSDAG_RULES } from "../lib/simulator/riksdag-rules";
 import { SIMULATOR_PARTY_IDS, type RiksdagSimulatorData } from "../lib/simulator/types";
+import { validateForecastInputs } from "../lib/forecast/model";
+import { parsePollCsv, qualifyingPolls } from "../lib/forecast/polls";
+import type { ElectionForecast } from "../lib/forecast/types";
 
 const ROOT = resolve(import.meta.dirname, "..");
 
@@ -35,6 +38,18 @@ const seatData = JSON.parse(seatContents.toString("utf8")) as RiksdagSimulatorDa
 const seatManifest = JSON.parse(await readFile(resolve(ROOT, "data/raw/valmyndigheten/seat-source-manifest.json"), "utf8")) as {
   normalizedSha256: string;
 };
+const pollContents = await readFile(resolve(ROOT, "data/raw/polls/SwedishPolls.csv"), "utf8");
+const pollManifest = JSON.parse(await readFile(resolve(ROOT, "data/raw/polls/source-manifest.json"), "utf8")) as {
+  rawSha256: string;
+  normalizedForecastSha256: string;
+  expectedRows: number;
+  latestPollPublication: string;
+  sourceCommit: string;
+  primaryCrossChecks: Array<{ publisher: string; publishedAt: string; expected: Record<string, number> }>;
+};
+const forecastContents = await readFile(resolve(ROOT, "data/normalized/election-forecast-2026.json"), "utf8");
+const forecast = JSON.parse(forecastContents) as ElectionForecast;
+const polls = parsePollCsv(pollContents);
 
 assert(election.schemaVersion === 1, "Unexpected election schema version");
 assert(election.source.publisher === "Valmyndigheten", "Election source must be Valmyndigheten");
@@ -65,6 +80,35 @@ assert(seatData.rules.totalSeats === 349 && seatData.rules.fixedSeats === 310 &&
 assert(seatData.backtests.map(({ year }) => year).join(",") === "2018,2022", "Seat engine must retain 2018 and 2022 backtests");
 assert(Object.keys(seatData.scenario.fixedSeatsByConstituency).length === 29, "Expected 29 official 2026 constituency seat counts");
 assert(Object.values(seatData.scenario.fixedSeatsByConstituency).reduce((sum, seats) => sum + seats, 0) === 310, "Official 2026 fixed seats must sum to 310");
+assert(createHash("sha256").update(pollContents).digest("hex") === pollManifest.rawSha256, "Raw opinion-poll checksum mismatch");
+assert(createHash("sha256").update(forecastContents).digest("hex") === pollManifest.normalizedForecastSha256, "Normalized forecast checksum mismatch");
+assert(polls.length === pollManifest.expectedRows, `Expected ${pollManifest.expectedRows} opinion polls`);
+validateForecastInputs(polls, pollManifest.latestPollPublication);
+assert(forecast.schemaVersion === 1 && forecast.classification === "MODEL" && forecast.status === "BETA", "Forecast classification mismatch");
+assert(forecast.model.version === "1.0.0-beta.1", "Forecast model version mismatch");
+assert(forecast.model.windowDays === 180 && forecast.model.halfLifeDays === 28, "Forecast averaging configuration must remain frozen");
+assert(forecast.model.dataCutoff === pollManifest.latestPollPublication, "Forecast data cutoff is stale");
+assert(forecast.model.simulations === 10_000, "Production forecast must retain 10,000 deterministic simulations");
+assert(forecast.source.rawSha256 === pollManifest.rawSha256 && forecast.source.upstreamCommit === pollManifest.sourceCommit, "Forecast poll provenance mismatch");
+assert(forecast.evidence.currentWindowPolls === qualifyingPolls(polls, forecast.model.dataCutoff, forecast.model.windowDays).length, "Forecast current-window poll count mismatch");
+assert(forecast.evidence.maximumRealizedHouseWeight <= forecast.model.maximumHouseWeight + 1e-6, "Polling-house weight cap was exceeded");
+assert(forecast.evidence.officialHistoryElections === 6 && forecast.evidence.comparableBacktestElections === 4, "Forecast evidence must separate official history from comparable modern backtests");
+assert(forecast.backtests.map(({ year }) => year).join(",") === "2010,2014,2018,2022", "Forecast backtests must use complete modern eight-party elections only");
+assert(forecast.backtests.filter(({ role }) => role === "calibration").length === 3 && forecast.backtests.filter(({ role }) => role === "holdout").length === 1, "Forecast calibration/holdout split mismatch");
+assert(forecast.parties.length === 8 && forecast.parties.every((party) => party.seatInterval80[0] <= party.medianSeats && party.medianSeats <= party.seatInterval80[1]), "Forecast party intervals are invalid");
+assert(Object.values(forecast.centralScenario.seats).reduce((sum, seats) => sum + seats, 0) === 349, "Forecast central scenario must allocate 349 seats");
+assert(forecast.questions.length >= 6 && forecast.questions.every((question) => question.classification === "MODEL" && question.probability >= 0 && question.probability <= 1), "Forecast probabilities are invalid");
+assert(forecast.quality.seatTieLotSimulations >= 0 && forecast.quality.seatTieLotSimulations <= forecast.model.simulations, "Forecast tie-lot audit is invalid");
+
+const publisherAliases: Record<string, string[]> = { Novus: ["Novus"], "SVT/Verian": ["Sifo", "Verian"], SCB: ["SCB"] };
+for (const crossCheck of pollManifest.primaryCrossChecks) {
+  const poll = polls.find((observation) => observation.publishedAt === crossCheck.publishedAt && (publisherAliases[crossCheck.publisher] ?? [crossCheck.publisher]).includes(observation.company));
+  assert(poll, `Missing primary opinion-poll cross-check ${crossCheck.publisher}`);
+  for (const [key, expected] of Object.entries(crossCheck.expected)) {
+    const actual = key === "n" ? poll.sampleSize : poll.shares[key as keyof typeof poll.shares];
+    assert(actual === expected, `Primary cross-check mismatch for ${crossCheck.publisher} ${key}`);
+  }
+}
 
 for (const backtest of seatData.backtests) {
   assert(backtest.constituencies.length === 29, `${backtest.year} seat backtest must contain 29 constituencies`);
@@ -99,5 +143,5 @@ for (const area of municipalityHistory.municipalities) {
 }
 
 console.log(
-  `Verified Valmyndigheten data: ${election.national.validVotes.toLocaleString("en-US")} valid 2022 votes, ${municipalityHistory.municipalities.length} comparable 2018 municipalities, ${election.constituencies.length} constituencies, ${geography.features.length} municipality geometries and ${seatData.backtests.length} exact seat backtests.`,
+  `Verified election intelligence: ${election.national.validVotes.toLocaleString("en-US")} official 2022 votes, ${polls.length.toLocaleString("en-US")} checksum-pinned poll rows, ${forecast.model.simulations.toLocaleString("en-US")} deterministic forecast runs, ${geography.features.length} municipalities and ${seatData.backtests.length} exact seat-engine backtests.`,
 );

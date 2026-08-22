@@ -59,13 +59,28 @@ function sameQuotient(left: Candidate, right: Candidate): boolean {
   return left.votes * right.divisorTenths === right.votes * left.divisorTenths;
 }
 
-function chooseCandidate(candidates: Candidate[], context: string, tieBreaks: string[]): Candidate {
+function chooseCandidate(candidates: Candidate[], context: string, tieBreaks: string[], tieRandom: (() => number) | null): Candidate {
   if (candidates.length === 0) throw new Error(`No eligible party for ${context}`);
   const ranked = [...candidates].sort(compareQuotients);
-  if (ranked[1] && sameQuotient(ranked[0], ranked[1])) {
-    tieBreaks.push(`${context}: ${ranked[0].partyId} and ${ranked[1].partyId} had equal comparison figures; stable registry order replaced the official drawing of lots.`);
+  const tied = ranked.filter((candidate) => sameQuotient(ranked[0], candidate));
+  if (tied.length === 1) return ranked[0];
+  if (!tieRandom) {
+    tieBreaks.push(`${context}: ${tied.map((candidate) => candidate.partyId).join(", ")} had equal comparison figures; stable registry order replaced the official drawing of lots.`);
+    return tied[0];
   }
-  return ranked[0];
+  const winner = tied[Math.min(tied.length - 1, Math.floor(tieRandom() * tied.length))];
+  tieBreaks.push(`${context}: ${tied.map((candidate) => candidate.partyId).join(", ")} had equal comparison figures; a seeded reproducible drawing of lots selected ${winner.partyId}.`);
+  return winner;
+}
+
+function createTieRandom(seed: number): () => number {
+  let state = seed >>> 0;
+  return () => {
+    state ^= state << 13;
+    state ^= state >>> 17;
+    state ^= state << 5;
+    return (state >>> 0) / 4_294_967_296;
+  };
 }
 
 function assertInteger(value: number, label: string): void {
@@ -128,9 +143,10 @@ function awardToPublic(award: InternalAward): SeatAward {
   };
 }
 
-export function calculateRiksdagSeats(input: RiksdagElectionInput): RiksdagSeatResult {
+export function calculateRiksdagSeats(input: RiksdagElectionInput, options: { tieSeed?: number } = {}): RiksdagSeatResult {
   validateInput(input);
   const tieBreaks: string[] = [];
+  const tieRandom = options.tieSeed === undefined ? null : createTieRandom(options.tieSeed);
   const nationalVotes = sumNationalVotes(input.constituencies);
   const statuses = thresholdStatuses(input, nationalVotes);
   const constituencyByCode = new Map(input.constituencies.map((constituency) => [constituency.code, constituency]));
@@ -153,7 +169,7 @@ export function calculateRiksdagSeats(input: RiksdagElectionInput): RiksdagSeatR
           divisorTenths: modifiedDivisorTenths(localSeats[partyId]),
           stableIndex: partyStableIndex.get(partyId) ?? 0,
         }));
-      const winner = chooseCandidate(candidates, `${constituency.name} fixed seat ${seatIndex + 1}`, tieBreaks);
+      const winner = chooseCandidate(candidates, `${constituency.name} fixed seat ${seatIndex + 1}`, tieBreaks, tieRandom);
       const divisor = winner.divisorTenths / 10;
       localSeats[winner.partyId] += 1;
       fixedAwards.push({
@@ -187,7 +203,7 @@ export function calculateRiksdagSeats(input: RiksdagElectionInput): RiksdagSeatR
         divisorTenths: modifiedDivisorTenths(nationalTargets[partyId]),
         stableIndex: partyStableIndex.get(partyId) ?? 0,
       }));
-    const winner = chooseCandidate(candidates, `national total seat ${seatIndex + 1}`, tieBreaks);
+    const winner = chooseCandidate(candidates, `national total seat ${seatIndex + 1}`, tieBreaks, tieRandom);
     nationalTargets[winner.partyId] += 1;
   }
 
@@ -239,7 +255,7 @@ export function calculateRiksdagSeats(input: RiksdagElectionInput): RiksdagSeatR
           stableIndex: slotIndex * SIMULATOR_PARTY_IDS.length + (partyStableIndex.get(partyId) ?? 0),
         }));
     });
-    const winner = chooseCandidate(candidates, `returned fixed seat ${reallocatedAwards.length + 1}`, tieBreaks);
+    const winner = chooseCandidate(candidates, `returned fixed seat ${reallocatedAwards.length + 1}`, tieBreaks, tieRandom);
     const slotIndex = returnedSlots.findIndex((slot) => slot.constituencyCode === winner.constituencyCode);
     const slot = returnedSlots.splice(slotIndex, 1)[0];
     const constituency = constituencyByCode.get(slot.constituencyCode);
@@ -281,7 +297,7 @@ export function calculateRiksdagSeats(input: RiksdagElectionInput): RiksdagSeatR
           stableIndex: index,
         };
       });
-      const winner = chooseCandidate(candidates, `${partyId} adjustment seat ${seatIndex + 1}`, tieBreaks);
+      const winner = chooseCandidate(candidates, `${partyId} adjustment seat ${seatIndex + 1}`, tieBreaks, tieRandom);
       const constituency = constituencyByCode.get(winner.constituencyCode ?? "");
       if (!constituency) throw new Error(`Missing constituency ${winner.constituencyCode} during adjustment-seat allocation`);
       const divisor = winner.divisorTenths / 10;

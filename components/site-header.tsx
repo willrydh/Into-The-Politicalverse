@@ -4,12 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAVIGATION = [
-  { href: "/", label: "Overview" },
-  { href: "/charts", label: "Charts" },
-  { href: "/parties", label: "Parties" },
-  { href: "/maps", label: "Maps" },
-  { href: "/elections", label: "Elections" },
-  { href: "/indicators", label: "Indicators" },
+  { href: "/", label: "Start" },
+  { href: "/forecasts", label: "Prognos" },
+  { href: "/charts", label: "Grafer" },
+  { href: "/parties", label: "Partier" },
+  { href: "/maps", label: "Karta" },
+  { href: "/elections", label: "Val" },
+  { href: "/indicators", label: "Indikatorer" },
   { href: "/simulator", label: "Simulator" },
 ];
 
@@ -20,19 +21,19 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
-          <Link className="wordmark" href="/" aria-label="Into the Politicalverse home">
+          <Link className="wordmark" href="/" aria-label="Into the Politicalverse, startsida">
             <span className="wordmark__mark" aria-hidden="true"><span>PV</span></span>
             <span className="wordmark__text"><small>Into the</small><strong>Politicalverse</strong></span>
           </Link>
-          <div className="header-status" aria-label="Product status">
+          <div className="header-status" aria-label="Produktstatus">
             <span className="status-dot" />
-            Independent election analysis
+            Oberoende valanalys · öppna källor
           </div>
         </div>
       </div>
       <div className="site-header__navigation">
         <div className="site-header__navigation-inner">
-          <nav className="primary-nav" aria-label="Primary navigation">
+          <nav className="primary-nav" aria-label="Huvudnavigation">
             {NAVIGATION.map((item) => {
               const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
               return (
@@ -42,7 +43,7 @@ export function SiteHeader() {
               );
             })}
           </nav>
-          <div className="header-cycle"><span>Sweden</span><strong>Election 2026</strong></div>
+          <div className="header-cycle"><span>Sverige</span><strong>Valet 2026</strong></div>
         </div>
       </div>
     </header>

@@ -16,6 +16,8 @@
     "data:import:municipality-history": "node --import tsx scripts/import-valmyndigheten-municipality-history.ts",
     "data:import:geography": "node --import tsx scripts/import-valmyndigheten-geography.ts",
     "data:import:seats": "node --import tsx scripts/import-valmyndigheten-seats.ts",
+    "data:forecast:generate": "node --import tsx scripts/generate-election-forecast.ts",
+    "data:polls:update": "node --import tsx scripts/update-opinion-polls.ts",
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
     "safety:check": "node scripts/safety-preflight.mjs"
   },
