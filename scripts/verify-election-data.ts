@@ -9,9 +9,11 @@ import { daysBetween, parsePollCsv, qualifyingPolls, subtractDays } from "../lib
 import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/forecast/source-corrections";
 import type { ElectionForecast } from "../lib/forecast/types";
 import { verifyLocalData } from "../lib/data/geography/verify-local";
+import { electionArchive, validateElectionArchive } from "../lib/elections/outcomes";
 
 const ROOT = resolve(import.meta.dirname, "..");
 await verifyLocalData(ROOT);
+validateElectionArchive(electionArchive);
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -81,6 +83,10 @@ assert(seatData.source.publisher === "Valmyndigheten", "Simulator inputs must re
 assert(seatData.rules.version === RIKSDAG_RULES.version, "Simulator rule version mismatch");
 assert(seatData.rules.totalSeats === 349 && seatData.rules.fixedSeats === 310 && seatData.rules.adjustmentSeats === 39, "Unexpected Riksdag seat structure");
 assert(seatData.backtests.map(({ year }) => year).join(",") === "2018,2022", "Seat engine must retain 2018 and 2022 backtests");
+for (const backtest of seatData.backtests) {
+  const archiveSeats = electionArchive.elections.find(e => e.year === backtest.year)!.seats.parties;
+  for (const party of SIMULATOR_PARTY_IDS) assert(archiveSeats[party] === backtest.expected.total[party], `Archive ${backtest.year} ${party} seats differ from the official seat-engine baseline`);
+}
 assert(Object.keys(seatData.scenario.fixedSeatsByConstituency).length === 29, "Expected 29 official 2026 constituency seat counts");
 assert(Object.values(seatData.scenario.fixedSeatsByConstituency).reduce((sum, seats) => sum + seats, 0) === 310, "Official 2026 fixed seats must sum to 310");
 assert(createHash("sha256").update(pollContents).digest("hex") === pollManifest.rawSha256, "Raw opinion-poll checksum mismatch");

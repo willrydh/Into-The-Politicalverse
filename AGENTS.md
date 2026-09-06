@@ -51,6 +51,8 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- The historical archive must distinguish largest party, year-specific bloc seat totals and the first government following the election. Use reviewed `election-outcomes.json` context, never infer government from vote-share rank. Preserve 349-seat coverage, the 175-seat threshold, separate cabinet/support parties and the 2018 election versus January 2019 formation. See `docs/methodology/election-outcomes-v1.md`.
+
 - Preserve the scroll-aware header and localized location trail. The map owns geographic breadcrumb names; do not infer labels from codes or leave a previous page's location visible after navigation. Verify downward hiding, upward reveal, keyboard access and mobile menu visibility.
 
 - The local explorer uses 21 administrative counties, 290 municipalities and 2022 district boundaries; never substitute Riksdag constituency codes for county codes. Retain exact municipality-to-constituency links for candidate tables.

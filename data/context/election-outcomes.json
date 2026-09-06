@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "methodVersion": "election-outcomes-1.0.0",
+  "reviewedAt": "2026-09-07",
+  "totalSeats": 349,
+  "sources": {
+    "historical-seats": {
+      "publisher": "Valmyndigheten",
+      "title": {
+        "sv": "Mandat 2002–2018",
+        "en": "Seats 2002–2018"
+      },
+      "url": "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/tidigare-valresultat",
+      "retrievedAt": "2026-09-07",
+      "sha256": "ef1a6feec661f71b5d145499e712f5e56f10c421a5642b611a87faeb836b2e84"
+    },
+    "seats-2022": {
+      "publisher": "Valmyndigheten",
+      "title": {
+        "sv": "Slutliga mandat 2022",
+        "en": "Final seats 2022"
+      },
+      "url": "https://www.val.se/valresultat-och-statistik/riksdags--region--och-kommunval/valresultat-2022",
+      "retrievedAt": "2026-09-07",
+      "sha256": "d0b8f081266a123368c8ef60506e8422d46b9b0debb574ee343ea65442b4cfd5"
+    },
+    "governments": {
+      "publisher": "Sveriges riksdag",
+      "title": {
+        "sv": "Regeringar efter valen",
+        "en": "Governments following the elections"
+      },
+      "url": "https://www.riksdagen.se/sv/sa-fungerar-riksdagen/demokrati/sa-bildas-regeringen/tidigare-regeringsbildningar-och-statsministrar/",
+      "retrievedAt": "2026-09-07"
+    },
+    "january-2019": {
+      "publisher": "Sveriges riksdag",
+      "title": {
+        "sv": "Statsministeromröstningen 18 januari 2019",
+        "en": "Prime minister vote, 18 January 2019"
+      },
+      "url": "https://www.riksdagen.se/sv/dokument-och-lagar/dokument/protokoll/protokoll-20181939-fredagen-den-18-januari_h60939/html/",
+      "retrievedAt": "2026-09-07"
+    },
+    "tido-2022": {
+      "publisher": "Regeringskansliet",
+      "title": {
+        "sv": "Regering och samarbetsparti 2022",
+        "en": "Cabinet and cooperation party in 2022"
+      },
+      "url": "https://regeringen.se/artiklar/2022/11/regeringens-politiska-prioriteringar/",
+      "retrievedAt": "2026-09-07"
+    },
+    "alliance-2006": {
+      "publisher": "Sveriges riksdag",
+      "title": {
+        "sv": "Regeringsförklaringen 6 oktober 2006",
+        "en": "Statement of Government Policy, 6 October 2006"
+      },
+      "url": "https://www.riksdagen.se/sv/webb-tv/video/regeringsforklaring/regeringsforklaring_guc120061006rf/",
+      "retrievedAt": "2026-09-07"
+    },
+    "cooperation-2002": {
+      "publisher": "Regeringskansliet",
+      "title": {
+        "sv": "Samarbetet efter valet 2002",
+        "en": "Cooperation following the 2002 election"
+      },
+      "url": "https://www.regeringen.se/contentassets/2a11245fed7c4e6a8c340ee76a1d5332/regeringskansliets-arsbok-2002/",
+      "retrievedAt": "2026-09-07"
+    }
+  },
+  "elections": [
+    {
+      "year": 2002,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "historical-seats",
+        "parties": {
+          "M": 55,
+          "C": 22,
+          "L": 48,
+          "KD": 33,
+          "S": 144,
+          "V": 30,
+          "MP": 17,
+          "SD": 0,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "S + V + MP",
+            "en": "S + V + MP"
+          },
+          "parties": [
+            "S",
+            "V",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Borgerliga partier",
+            "en": "Centre-right parties"
+          },
+          "parties": [
+            "M",
+            "C",
+            "L",
+            "KD"
+          ],
+          "tone": "blue"
+        },
+        {
+          "id": "sd",
+          "name": {
+            "sv": "Sverigedemokraterna",
+            "en": "Sweden Democrats"
+          },
+          "parties": [
+            "SD"
+          ],
+          "tone": "yellow"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Göran Persson",
+        "primeMinisterParty": "S",
+        "parties": [
+          "S"
+        ],
+        "formationDate": null,
+        "continued": true,
+        "sources": [
+          "governments",
+          "cooperation-2002"
+        ],
+        "note": {
+          "sv": "Göran Perssons S-regering fortsatte med samarbete med V och MP. De tre partierna hade tillsammans egen majoritet.",
+          "en": "Göran Persson’s S government continued with cooperation from V and MP. The three parties together held a majority."
+        }
+      }
+    },
+    {
+      "year": 2006,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "historical-seats",
+        "parties": {
+          "M": 97,
+          "C": 29,
+          "L": 28,
+          "KD": 24,
+          "S": 130,
+          "V": 22,
+          "MP": 19,
+          "SD": 0,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "Rödgröna",
+            "en": "Red-greens"
+          },
+          "parties": [
+            "S",
+            "V",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Alliansen",
+            "en": "The Alliance"
+          },
+          "parties": [
+            "M",
+            "C",
+            "L",
+            "KD"
+          ],
+          "tone": "blue"
+        },
+        {
+          "id": "sd",
+          "name": {
+            "sv": "Sverigedemokraterna",
+            "en": "Sweden Democrats"
+          },
+          "parties": [
+            "SD"
+          ],
+          "tone": "yellow"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Fredrik Reinfeldt",
+        "primeMinisterParty": "M",
+        "parties": [
+          "M",
+          "C",
+          "L",
+          "KD"
+        ],
+        "formationDate": "2006-10-06",
+        "continued": false,
+        "sources": [
+          "governments",
+          "alliance-2006"
+        ],
+        "note": {
+          "sv": "Alliansen fick egen majoritet och bildade regering. S var fortfarande största enskilda parti.",
+          "en": "The Alliance won a majority and formed the government. S remained the largest individual party."
+        }
+      }
+    },
+    {
+      "year": 2010,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "historical-seats",
+        "parties": {
+          "M": 107,
+          "C": 23,
+          "L": 24,
+          "KD": 19,
+          "S": 112,
+          "V": 19,
+          "MP": 25,
+          "SD": 20,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "Rödgröna",
+            "en": "Red-greens"
+          },
+          "parties": [
+            "S",
+            "V",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Alliansen",
+            "en": "The Alliance"
+          },
+          "parties": [
+            "M",
+            "C",
+            "L",
+            "KD"
+          ],
+          "tone": "blue"
+        },
+        {
+          "id": "sd",
+          "name": {
+            "sv": "Sverigedemokraterna",
+            "en": "Sweden Democrats"
+          },
+          "parties": [
+            "SD"
+          ],
+          "tone": "yellow"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Fredrik Reinfeldt",
+        "primeMinisterParty": "M",
+        "parties": [
+          "M",
+          "C",
+          "L",
+          "KD"
+        ],
+        "formationDate": null,
+        "continued": true,
+        "sources": [
+          "governments",
+          "alliance-2006"
+        ],
+        "note": {
+          "sv": "Alliansen fortsatte regera, nu i minoritet. SD redovisas separat och ingick inte i Alliansen.",
+          "en": "The Alliance remained in office, now as a minority government. SD is shown separately and was not part of the Alliance."
+        }
+      }
+    },
+    {
+      "year": 2014,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "historical-seats",
+        "parties": {
+          "M": 84,
+          "C": 22,
+          "L": 19,
+          "KD": 16,
+          "S": 113,
+          "V": 21,
+          "MP": 25,
+          "SD": 49,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "Rödgröna",
+            "en": "Red-greens"
+          },
+          "parties": [
+            "S",
+            "V",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Alliansen",
+            "en": "The Alliance"
+          },
+          "parties": [
+            "M",
+            "C",
+            "L",
+            "KD"
+          ],
+          "tone": "blue"
+        },
+        {
+          "id": "sd",
+          "name": {
+            "sv": "Sverigedemokraterna",
+            "en": "Sweden Democrats"
+          },
+          "parties": [
+            "SD"
+          ],
+          "tone": "yellow"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Stefan Löfven",
+        "primeMinisterParty": "S",
+        "parties": [
+          "S",
+          "MP"
+        ],
+        "formationDate": "2014-10-03",
+        "continued": false,
+        "sources": [
+          "governments"
+        ],
+        "note": {
+          "sv": "S och MP bildade en minoritetsregering. V ingick i den rödgröna mandatsumman men inte i regeringen.",
+          "en": "S and MP formed a minority government. V is included in the red-green seat total but was not in the cabinet."
+        }
+      }
+    },
+    {
+      "year": 2018,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "historical-seats",
+        "parties": {
+          "M": 70,
+          "C": 31,
+          "L": 20,
+          "KD": 22,
+          "S": 100,
+          "V": 28,
+          "MP": 16,
+          "SD": 62,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "Rödgröna",
+            "en": "Red-greens"
+          },
+          "parties": [
+            "S",
+            "V",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Alliansen",
+            "en": "The Alliance"
+          },
+          "parties": [
+            "M",
+            "C",
+            "L",
+            "KD"
+          ],
+          "tone": "blue"
+        },
+        {
+          "id": "sd",
+          "name": {
+            "sv": "Sverigedemokraterna",
+            "en": "Sweden Democrats"
+          },
+          "parties": [
+            "SD"
+          ],
+          "tone": "yellow"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Stefan Löfven",
+        "primeMinisterParty": "S",
+        "parties": [
+          "S",
+          "MP"
+        ],
+        "formationDate": "2019-01-21",
+        "continued": false,
+        "sources": [
+          "governments",
+          "january-2019"
+        ],
+        "note": {
+          "sv": "Inget block fick egen majoritet. S och MP bildade regering i januari 2019 efter Januariavtalet med C och L; V lade ned sina röster. C och L ingår här i valets Allians, inte i den rödgröna summan.",
+          "en": "No bloc won a majority. S and MP formed a government in January 2019 after the January Agreement with C and L; V abstained. C and L are counted here with the election’s Alliance, not in the red-green total."
+        }
+      }
+    },
+    {
+      "year": 2022,
+      "seats": {
+        "classification": "OFFICIAL",
+        "sourceId": "seats-2022",
+        "parties": {
+          "M": 68,
+          "C": 24,
+          "L": 16,
+          "KD": 19,
+          "S": 107,
+          "V": 24,
+          "MP": 18,
+          "SD": 73,
+          "OTHER": 0
+        }
+      },
+      "blocs": [
+        {
+          "id": "left",
+          "name": {
+            "sv": "S + V + C + MP",
+            "en": "S + V + C + MP"
+          },
+          "parties": [
+            "S",
+            "V",
+            "C",
+            "MP"
+          ],
+          "tone": "red"
+        },
+        {
+          "id": "right",
+          "name": {
+            "sv": "Tidöpartierna",
+            "en": "Tidö parties"
+          },
+          "parties": [
+            "M",
+            "KD",
+            "L",
+            "SD"
+          ],
+          "tone": "blue"
+        }
+      ],
+      "government": {
+        "classification": "CONTEXT",
+        "primeMinister": "Ulf Kristersson",
+        "primeMinisterParty": "M",
+        "parties": [
+          "M",
+          "KD",
+          "L"
+        ],
+        "formationDate": "2022-10-18",
+        "continued": false,
+        "sources": [
+          "governments",
+          "tido-2022"
+        ],
+        "note": {
+          "sv": "M, KD och L bildade regering med SD som samarbetsparti utanför regeringen. S, V, C och MP visas som jämförelsegrupp, inte som en gemensam regering.",
+          "en": "M, KD and L formed a government with SD as a cooperation party outside the cabinet. S, V, C and MP are shown as a comparison group, not as a joint government."
+        }
+      }
+    }
+  ]
+}
