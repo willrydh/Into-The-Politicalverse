@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import type { NationalHistoryData } from "../lib/data/elections/types";
 import { generateElectionForecast, validateForecastInputs } from "../lib/forecast/model";
 import { parsePollCsv } from "../lib/forecast/polls";
+import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/forecast/source-corrections";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const RAW_PATH = resolve(ROOT, "data/raw/polls/SwedishPolls.csv");
@@ -79,6 +80,8 @@ const forecast = generateElectionForecast({
     rawSha256: manifest.rawSha256,
     license: manifest.license,
     retrievedAt: manifest.retrievedAt,
+    adapterVersion: POLLS_ADAPTER_VERSION,
+    publicationDateCorrections: PUBLICATION_DATE_CORRECTIONS,
     primaryCrossChecks: manifest.primaryCrossChecks.map(({ publisher, publishedAt, url }) => ({ publisher, publishedAt, url, validated: true })),
   },
 });

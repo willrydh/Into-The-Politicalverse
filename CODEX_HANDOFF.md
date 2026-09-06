@@ -6,7 +6,7 @@ Continue **Into The Politicalverse** as a production-quality quantitative electi
 
 The product is public, source-traceable and data-first: official results, geography, historical patterns, reproducible indicators, deterministic scenarios and a clearly separated probabilistic forecast. It is not a betting service, news site, party recommendation engine or official government service.
 
-## Implementation checkpoint — 2026-08-22
+## Implementation checkpoint — 2026-09-06
 
 Public repository: `willrydh/Into-The-Politicalverse`
 
@@ -33,13 +33,21 @@ The original public foundation remains intact:
 The prediction layer adds:
 
 - the tracked CC0 SwedishPolls bank with immutable upstream commit, row count, cutoff, SHA-256 and normalized-output checksum;
-- exact recent primary cross-checks against Novus, Verian/SVT and SCB;
+- exact recent primary cross-checks against Novus, Verian/SVT, SCB, Demoskop and Indikator;
 - a frozen `pv-election-forecast` `1.0.0-beta.1` model;
 - vote and mandate distributions, threshold/largest-party questions and named coalition mandate arithmetic;
 - 10,000 deterministic antithetic heavy-tail simulations through the exact 29-constituency seat engine;
 - explicit calibration, holdout, uncertainty and seeded-tie diagnostics;
 - sourced government-formation `DECLARED`/`CONTEXT` separate from `MODEL` output;
 - a scheduled six-hour fail-closed source refresh that commits only accepted data to `main`, then builds and deploys that exact accepted commit through GitHub Pages.
+
+## September maintenance
+
+The fixed 19 August historical poll counts were blocking valid refreshes. Tests and `data:verify` now validate the frozen year/role split plus date-matched counts and houses, with a regression across 19 August and 4 September. Do not reintroduce counts tied to a single snapshot.
+
+`lib/forecast/source-corrections.ts` holds reviewed primary-source publication-date corrections. Adapter version and correction provenance are included in the public forecast and snapshot identity; unchanged upstream bytes must still regenerate when this policy changes. Novus's September date is corrected from 1 to 2 September without modifying source bytes. The 180/28 model remains frozen.
+
+The home and forecast pages display data age in the browser, warn after seven days, and label post-election snapshots as archived. The government context was reviewed on 6 September, with a current KD rejection of Andersson and clearer C conditions. Official 2018/2022 sources and the 2026 fixed-seat workbook were re-fetched and matched their saved checksums. See `docs/data-sources/source-review-2026-09-06.md`.
 
 ## Classification contract
 

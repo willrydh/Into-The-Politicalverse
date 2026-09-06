@@ -34,7 +34,7 @@ The displayed interview total is the sum of reported sample sizes in the active 
 
 ## Independent primary cross-checks
 
-The source manifest carries exact anchors checked against primary or public-service publications before normalization. The generator and scheduled updater refuse the snapshot when any anchored value changes or disappears.
+The source manifest carries exact anchors checked against primary or public-service publications after the explicitly reviewed source-date corrections. The generator and scheduled updater refuse the snapshot when any anchored value changes or disappears.
 
 | Publisher | Publication | M | L | C | KD | S | V | MP | SD | n |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -43,6 +43,18 @@ The source manifest carries exact anchors checked against primary or public-serv
 | SCB | 2026-06-04 | 17.3 | 2.5 | 6.1 | 4.5 | 33.9 | 8.6 | 6.6 | 18.3 | 4,542 |
 
 The anchors verify important recent observations; they do not turn SwedishPolls into an official source and are not a substitute for reviewing every pollster's fieldwork methodology.
+
+## Source review on 6 September 2026
+
+The accepted bank now has 2,646 rows at commit `b278737c7cdc4da9dc4cd659c84704bfe730ab41`, with a latest publication on 4 September and 36 polls from seven houses in the active window. The manifest remains authoritative after subsequent updates.
+
+Four additional anchors were checked: all eight party shares in Novus's September report; all eight shares and sample size in Verian's 3 September report; S, L and sample size in Demoskop's 3 September report; and S/L in Sveriges Radio/Indikator's 4 September publication. The expected fields are explicit in the manifest; a partial anchor does not imply that every value in that poll was independently checked. Original August and SCB anchors remain in place.
+
+The latest Ipsos publication reproduces the bank's August observation (11–23 August, 1,661 interviews). The publicly accessible Riks/Sentio report of 27 August agrees on S/M; its L value 2.13 rounds to the bank's 2.1. Its full report requires access, so a full independent eight-party cross-check is not claimed. These sources are included through the checksum-pinned bank, not scraped during each scheduled run.
+
+### Reviewed date correction
+
+Adapter `pv-swedishpolls-1.1.0` changes the Novus observation with fieldwork 24–30 August from the bank's publication date 1 September to **2 September**, the date of [Novus's primary report](https://novus.se/wp-content/uploads/2026/09/novusvaljarbarometerseptember2026h3q8v5.pdf). The eight shares and 2,984 interviews match. This prevents the observation appearing in the 1 September replay. Raw CSV bytes and their checksum are preserved. The correction, source URL, check date and adapter version are published in forecast JSON and the method section, and affect snapshot identity. A future upstream fix to 2 September is accepted idempotently; an unexpected third date requires review. The statistical model remains `1.0.0-beta.1`.
 
 ## Automated refresh and quarantine
 
@@ -67,7 +79,7 @@ npm run data:verify
 npm run check
 ```
 
-When the upstream file and file commit are unchanged, the updater validates them but leaves all tracked files untouched.
+When the upstream file, file commit and source-correction policy are unchanged, the updater validates them but leaves all tracked files untouched. A reviewed adapter/correction change regenerates the forecast even if upstream bytes are unchanged.
 After election day the scheduled updater exits before contacting upstream and retains the last pre-election forecast. Forecast generation independently rejects a cutoff after `2026-09-13`, preventing a negative horizon or a historical replay after election day.
 
 ## References
@@ -78,3 +90,7 @@ After election day the scheduled updater exits before contacting upstream and re
 - SVT Nyheter / Verian, [August 2026 voter barometer](https://www.svt.se/nyheter/inrikes/kristersson-pressas-ny-matning-visar-stort-gap)
 - SCB, [Partisympatiundersökningen May 2026](https://www.scb.se/hitta-statistik/statistik-efter-amne/demokrati/partisympatier/partisympatiundersokningen-psu/pong/statistiknyhet/partisympatiundersokningen-maj-2026/)
 - Creative Commons, [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/)
+
+## Visible age
+
+The home and forecast pages always show the latest measurement publication date. After hydration, age is calculated from the browser clock in Europe/Stockholm and rechecked every minute and on focus, independent of a new deployment. More than seven days displays a stale-underlay notice. After election day, the retained forecast is labelled as archived and explicitly distinguished from a result. A recent date is not a claim that every upstream service is healthy.

@@ -5,7 +5,8 @@ import { PARTY_IDS, type MunicipalityHistoryData, type NationalHistoryData, type
 import { calculateRiksdagSeats, RIKSDAG_RULES } from "../lib/simulator/riksdag-rules";
 import { SIMULATOR_PARTY_IDS, type RiksdagSimulatorData } from "../lib/simulator/types";
 import { validateForecastInputs } from "../lib/forecast/model";
-import { parsePollCsv, qualifyingPolls } from "../lib/forecast/polls";
+import { daysBetween, parsePollCsv, qualifyingPolls, subtractDays } from "../lib/forecast/polls";
+import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/forecast/source-corrections";
 import type { ElectionForecast } from "../lib/forecast/types";
 
 const ROOT = resolve(import.meta.dirname, "..");
@@ -91,6 +92,17 @@ assert(forecast.model.dataCutoff === pollManifest.latestPollPublication, "Foreca
 assert(forecast.model.simulations === 10_000, "Production forecast must retain 10,000 deterministic simulations");
 assert(forecast.source.rawSha256 === pollManifest.rawSha256 && forecast.source.upstreamCommit === pollManifest.sourceCommit, "Forecast poll provenance mismatch");
 assert(forecast.evidence.currentWindowPolls === qualifyingPolls(polls, forecast.model.dataCutoff, forecast.model.windowDays).length, "Forecast current-window poll count mismatch");
+assert(forecast.source.adapterVersion === POLLS_ADAPTER_VERSION, "Forecast must use the current reviewed source adapter");
+assert(JSON.stringify(forecast.source.publicationDateCorrections) === JSON.stringify(PUBLICATION_DATE_CORRECTIONS), "Forecast publication-date correction provenance mismatch");
+assert(forecast.model.horizonDays === daysBetween(forecast.model.dataCutoff, forecast.model.electionDate), "Forecast horizon mismatch");
+for (const backtest of forecast.backtests) {
+  const historicalElection = history.elections.find(({ year }) => year === backtest.year);
+  assert(historicalElection, `Unknown historical forecast election ${backtest.year}`);
+  assert(backtest.cutoff === subtractDays(historicalElection.electionDate, forecast.model.horizonDays), `Historical cutoff mismatch for ${backtest.year}`);
+  assert(backtest.role === (backtest.year === 2022 ? "holdout" : "calibration"), `Historical role mismatch for ${backtest.year}`);
+  const eligible = qualifyingPolls(polls, backtest.cutoff, forecast.model.windowDays);
+  assert(backtest.polls === eligible.length && backtest.houses === new Set(eligible.map(({ house }) => house)).size, `Historical polling coverage mismatch for ${backtest.year}`);
+}
 assert(forecast.evidence.maximumRealizedHouseWeight <= forecast.model.maximumHouseWeight + 1e-6, "Polling-house weight cap was exceeded");
 assert(forecast.evidence.officialHistoryElections === 6 && forecast.evidence.comparableBacktestElections === 4, "Forecast evidence must separate official history from comparable modern backtests");
 assert(forecast.backtests.map(({ year }) => year).join(",") === "2010,2014,2018,2022", "Forecast backtests must use complete modern eight-party elections only");

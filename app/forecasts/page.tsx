@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ForecastEvidenceStrip } from "@/components/forecast/evidence-strip";
 import { ForecastBacktests, ForecastDrivers, ForecastMethod } from "@/components/forecast/forecast-details";
 import { ForecastHistory } from "@/components/forecast/forecast-history";
+import { ForecastFreshness } from "@/components/forecast/forecast-freshness";
 import { GovernmentFormation } from "@/components/forecast/government-formation";
 import { PartySeatForecast } from "@/components/forecast/party-seat-forecast";
 import { PredictionGrid } from "@/components/forecast/prediction-grid";
@@ -31,6 +32,7 @@ export default function ForecastsPage() {
     <>
       <section className="forecast-page-hero">
         <div className="forecast-page-hero__copy">
+          <ForecastFreshness dataCutoff={electionForecast.model.dataCutoff} electionDate={electionForecast.model.electionDate} />
           <p className="eyebrow eyebrow--light"><span /> Sverige · Riksdagsvalet 2026</p>
           <h1>Prognos&shy;terminalen</h1>
           <p>En sammanhängande modell från publicerade opinionsmätningar till röstandelar, mandat och möjliga regeringsvägar. Alla sannolikheter visar simuleringsfrekvens — aldrig bettingodds.</p>

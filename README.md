@@ -581,7 +581,7 @@ The repository contains the public analytical release and the 2026 prediction te
 - an independent deterministic Riksdag seat engine implementing the current thresholds and mandate-allocation rules;
 - a responsive `MODEL` scenario simulator using the official 2026 fixed-seat structure and a disclosed 2022 geographic-pattern assumption;
 - exact engine backtests against every parliamentary party's official fixed, adjustment and total mandates in 2018 and 2022;
-- a checksum-pinned CC0 SwedishPolls bank, three primary cross-checks and a fail-closed six-hour refresh;
+- a checksum-pinned CC0 SwedishPolls bank, seven primary cross-checks and a fail-closed six-hour refresh;
 - a versioned `MODEL` 2026 forecast with a frozen polling average, 10,000 seeded simulations, vote/mandate intervals, threshold and coalition-majority questions, historical calibration and a locked 2022 holdout;
 - a source-dated `DECLARED`/`CONTEXT` government-formation registry that explains negative parliamentarism without inventing person or minister probabilities;
 - local identity assets for all eight parliamentary parties with recorded provenance;
@@ -590,6 +590,10 @@ The repository contains the public analytical release and the 2026 prediction te
 - a fail-closed runtime-isolation check that protects known radio/service ports and rejects tunnel conflicts;
 - a static GitHub Pages release workflow isolated to this repository;
 - CI, data and regression tests, linting, strict type checking and production/static export gates.
+
+### Maintenance checkpoint — 2026-09-06
+
+Polling refresh tests now validate moving historical windows against the actual input rows instead of fixed August counts. The accepted bank includes measurements through 4 September. Primary-source date corrections are versioned separately from the frozen forecast methodology, and both public forecast pages show the underlay date and browser-calculated age. Government context was manually reviewed on 6 September, including KD's September statement. All 28 pinned official source files were fetched again and matched their checksums; four additional historical pages were reachable. See `docs/data-sources/source-review-2026-09-06.md` for scope and evidence.
 
 ### Public release
 

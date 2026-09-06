@@ -45,4 +45,6 @@ Changes to the registry require:
 4. preservation of the prior Git version;
 5. tests for registry shape, classifications, dates and URLs.
 
-The current registry was checked on 2026-08-22. Its machine-readable entries—not a copied prose summary—are the canonical record for current leaders and declarations.
+The current registry was checked on 2026-09-06. Its machine-readable entries—not a copied prose summary—are the canonical record for current leaders and declarations.
+
+The September review adds KD’s stated rejection of Andersson through a possible extra election, separates C’s stated conditions from arithmetic, and uses an actual leader profile for Nooshi Dadgostar. Older declaration dates are preserved where the statements remain the source; the new check date does not turn them into new announcements.

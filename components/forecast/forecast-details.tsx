@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { PARTIES } from "@/lib/parties";
 import type { ElectionForecast, ForecastBacktestElection } from "@/lib/forecast/types";
 import type { SimulatorPartyId } from "@/lib/simulator/types";
@@ -95,7 +94,7 @@ export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) 
 }
 
 export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
-  const process = [
+  const steps = [
     {
       title: "Publicerade mätningar",
       copy: `${forecast.evidence.currentWindowPolls.toLocaleString("sv-SE")} mätningar från ${forecast.evidence.currentWindowHouses.toLocaleString("sv-SE")} mätserier ingår i det aktuella fönstret. En mätning blir tillgänglig först på publiceringsdagen.`,
@@ -117,7 +116,7 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
   return (
     <div className="forecast-method">
       <div className="forecast-method__flow">
-        {process.map((step, index) => (
+        {steps.map((step, index) => (
           <article key={step.title}><span>0{index + 1}</span><h3>{step.title}</h3><p>{step.copy}</p></article>
         ))}
       </div>
@@ -126,7 +125,7 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
           <span>INTEGRITETSREGISTER</span>
           <h3>Varje prognos går att återskapa.</h3>
           <p>Snapshot, källdataset, kodversion och kontroller visas tillsammans. Om en uppdatering inte klarar verifieringen ska den senast godkända prognosen ligga kvar.</p>
-          <Link href="/api/forecasts/2026.json/">Hämta snapshot (JSON) <span>→</span></Link>
+          <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/forecasts/2026.json`} download="politicalverse-prognos-2026.json">Hämta snapshot (JSON) <span>→</span></a>
         </div>
         <dl>
           <div><dt>Klassificering</dt><dd>{forecast.classification} · {forecast.status}</dd></div>
@@ -137,6 +136,7 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
           <div><dt>Rådata</dt><dd>{forecast.evidence.pollBankRows.toLocaleString("sv-SE")} rader · från {forecast.evidence.pollBankStartYear}</dd></div>
           <div><dt>SHA-256</dt><dd><code>{forecast.source.rawSha256}</code></dd></div>
           <div><dt>Källrevision</dt><dd><code>{forecast.source.upstreamCommit}</code></dd></div>
+          <div><dt>Källadapter</dt><dd><code>{forecast.source.adapterVersion ?? "raw-v1"}</code></dd></div>
           <div><dt>Lottningar vid lika tal</dt><dd>{forecast.quality.seatTieLotSimulations.toLocaleString("sv-SE")} simuleringar · {pct(forecast.quality.seatTieLotRate)}</dd></div>
         </dl>
       </div>
@@ -147,6 +147,13 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
         ))}
       </div>
       <div className="forecast-method__warnings">
+        {forecast.source.publicationDateCorrections?.map((correction) => (
+          <p key={`${correction.company}-${correction.fieldworkTo}`}>
+            Källrättelse: {correction.company}, fältarbete {date(correction.fieldworkFrom)}–{date(correction.fieldworkTo)}.
+            {" "}Publiceringsdatum används som {date(correction.publishedAt)} enligt <a href={correction.sourceUrl} target="_blank" rel="noreferrer">primärkällan ↗</a>,
+            {" "}i stället för samlingsfilens {date(correction.originalPublishedAt)}. Originalfilen är bevarad.
+          </p>
+        ))}
         <strong>Begränsningar som följer med varje siffra</strong>
         <ul>
           <li>{forecast.quality.caveat}</li>

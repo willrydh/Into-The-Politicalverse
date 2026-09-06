@@ -53,6 +53,8 @@ Scoped feature branches: `codex/*`
 
 - The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
 - Keep the accepted SwedishPolls CSV snapshot tracked with its source commit, row count, dates, cross-checks and SHA-256 in `data/raw/polls/source-manifest.json`.
+- Preserve reviewed publication-date corrections in `lib/forecast/source-corrections.ts`, with primary sources and adapter version in the public forecast. Never edit the immutable upstream CSV to conceal a correction.
+- Historical forecast windows move with the current horizon. Validate their cutoffs, poll/house counts and frozen year/role split against eligible input rows; never freeze moving counts to one release.
 - Forecast v1 beta is frozen at a 180-day window and 28-day half-life, calibrated on 2010–2018 with 2022 as the locked holdout. Do not silently retune it.
 - Regenerate the forecast with `npm run data:forecast:generate`. Use `npm run data:polls:update` for the validated upstream refresh; a rejected source must leave the last-known-good snapshot intact.
 - Keep `docs/methodology/forecast-v1.md`, `docs/data-sources/opinion-polls.md` and the implementation synchronized.

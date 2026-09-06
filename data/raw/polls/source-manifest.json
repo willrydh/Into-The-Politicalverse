@@ -4,15 +4,15 @@
   "publisher": "SwedishPolls contributors",
   "repositoryUrl": "https://github.com/MansMeg/SwedishPolls",
   "rawUrl": "https://raw.githubusercontent.com/MansMeg/SwedishPolls/master/Data/Polls.csv",
-  "sourceCommit": "5df438f4038cb36429c1049fa60b064dd044d191",
-  "sourceCommitDate": "2026-08-19T06:35:10Z",
-  "retrievedAt": "2026-08-21",
-  "snapshotCreatedAt": "2026-08-21T21:45:00Z",
+  "sourceCommit": "b278737c7cdc4da9dc4cd659c84704bfe730ab41",
+  "sourceCommitDate": "2026-09-04T11:02:55Z",
+  "retrievedAt": "2026-09-06",
+  "snapshotCreatedAt": "2026-09-06T12:00:08.243Z",
   "classification": "POLL",
   "license": "CC0-1.0",
-  "rawSha256": "6d583cfb45eb022374a6275e721d701d48c091e64fa002efdddaeb5eb2c02472",
-  "expectedRows": 2636,
-  "latestPollPublication": "2026-08-19",
+  "rawSha256": "84a4a71264fd33a262169a80ac2cc5de83e26456fc5137b9b3f023c5cf721e97",
+  "expectedRows": 2646,
+  "latestPollPublication": "2026-09-04",
   "primaryCrossChecks": [
     {
       "publisher": "Novus",
@@ -61,7 +61,57 @@
         "SD": 18.3,
         "n": 4542
       }
+    },
+    {
+      "publisher": "Novus",
+      "publishedAt": "2026-09-02",
+      "url": "https://novus.se/wp-content/uploads/2026/09/novusvaljarbarometerseptember2026h3q8v5.pdf",
+      "expected": {
+        "M": 17.2,
+        "L": 3.3,
+        "C": 8.3,
+        "KD": 6.5,
+        "S": 25.8,
+        "V": 8.4,
+        "MP": 7.8,
+        "SD": 20.7
+      }
+    },
+    {
+      "publisher": "SVT/Verian",
+      "publishedAt": "2026-09-03",
+      "url": "https://www.veriangroup.com/sv/news-and-insights/valjarbarometer-september-2026",
+      "expected": {
+        "M": 16.4,
+        "L": 3,
+        "C": 7.4,
+        "KD": 6.3,
+        "S": 29.2,
+        "V": 8.1,
+        "MP": 8,
+        "SD": 18.9,
+        "n": 3069
+      }
+    },
+    {
+      "publisher": "Demoskop",
+      "publishedAt": "2026-09-03",
+      "url": "https://demoskop.se/valjarbarometer-september-2026/",
+      "expected": {
+        "S": 27.2,
+        "L": 2.8,
+        "n": 1998
+      }
+    },
+    {
+      "publisher": "Indikator",
+      "publishedAt": "2026-09-04",
+      "url": "https://www.sverigesradio.se/artikel/s-minskar-kraftigt-l-langt-under-riksdagssparren-historiskt-daligt",
+      "expected": {
+        "S": 27.9,
+        "L": 2.2
+      }
     }
   ],
-  "normalizedForecastSha256": "e3857ae16f5c60fead1d77b7a32423d2846dd740e09304a53d6dd239fed771e2"
+  "normalizedForecastSha256": "2f8eeaafd0c804f8e733bc2d50cbd61153021f4aa631663e05f45e6289a19de0"
 }
