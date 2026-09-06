@@ -51,6 +51,10 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Keep Swedish default pages and English `/en/` pages complete and separate. Localize server text before serialization, and preserve machine keys, URLs and numeric inputs. Verify hydration and interactive error states in both languages.
+- The `live-data` branch publishes only the verified 2026 live JSON; never merge it into `main`. Preserve independent preliminary/final-count snapshots and the last verified data on source failure. Never publish rehearsal data as production results.
+- Keep the pinned Valmyndigheten certificate, preparation manifests, phase/identity checks and official arithmetic checks intact. A source or certificate change requires review and regression coverage. Follow `docs/operations/election-night-2026.md`.
+
 - The downloaded Valmyndigheten workbook is intentionally untracked. Regenerate normalized outputs with `npm run data:import` and verify them with `npm run data:verify`.
 - Keep the accepted SwedishPolls CSV snapshot tracked with its source commit, row count, dates, cross-checks and SHA-256 in `data/raw/polls/source-manifest.json`.
 - Preserve reviewed publication-date corrections in `lib/forecast/source-corrections.ts`, with primary sources and adapter version in the public forecast. Never edit the immutable upstream CSV to conceal a correction.

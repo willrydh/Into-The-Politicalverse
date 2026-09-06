@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import type { ElectionForecast } from "@/lib/forecast/types";
 
 export function ForecastEvidenceStrip({ forecast }: { forecast: ElectionForecast }) {
@@ -9,11 +11,11 @@ export function ForecastEvidenceStrip({ forecast }: { forecast: ElectionForecast
     { value: forecast.model.simulations.toLocaleString("sv-SE"), label: "mandatsimuleringar" },
   ];
 
-  return (
+  return <Localize>{(
     <section className="forecast-evidence" aria-label="Prognosens datagrund">
       <div className="forecast-evidence__intro"><span>DATAGRUND</span><strong>Det här ligger bakom prognosen</strong></div>
       {facts.map((fact) => <div key={fact.label}><strong>{fact.value}</strong><span>{fact.label}</span></div>)}
       <p>*Respondenter kan förekomma i flera mätningar; summan är inte antal unika personer.</p>
     </section>
-  );
+  )}</Localize>;
 }

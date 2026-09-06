@@ -19,3 +19,5 @@
 # environment files
 .env*
 !.env.example
+# Official test-election output is never a production data source.
+data/rehearsal/

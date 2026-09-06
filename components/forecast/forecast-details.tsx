@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import { PARTIES } from "@/lib/parties";
 import type { ElectionForecast, ForecastBacktestElection } from "@/lib/forecast/types";
 import type { SimulatorPartyId } from "@/lib/simulator/types";
@@ -33,7 +35,7 @@ export function ForecastDrivers({ forecast }: { forecast: ElectionForecast }) {
     (left, right) => (right.seatInterval80[1] - right.seatInterval80[0]) - (left.seatInterval80[1] - left.seatInterval80[0]),
   )[0];
 
-  return (
+  return <Localize>{(
     <div className="forecast-drivers">
       <article>
         <span>SPÄRRLÄGE</span>
@@ -60,11 +62,11 @@ export function ForecastDrivers({ forecast }: { forecast: ElectionForecast }) {
         <p>Det bredaste 80-procentiga intervallet visar var mandatutfallet varierar mest i simuleringarna — inte att ytterkanterna är omöjliga.</p>
       </article>
     </div>
-  );
+  )}</Localize>;
 }
 
 export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) {
-  return (
+  return <Localize>{(
     <div className="backtest-product">
       <div className="backtest-table" role="table" aria-label="Historisk kontroll av prognosmodellen">
         <div className="backtest-table__head" role="row">
@@ -90,7 +92,7 @@ export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) 
       </div>
       <p className="forecast-caveat"><strong>Så ska kontrollen läsas:</strong> Den frysta designen bedöms mot 2010–2018 och 2022 hålls undan som ett låst sluttest. Repositoriet återskapar den fasta modellen, inte en uttömmande parameterjakt. Fyra val är ett litet underlag; historiska fel kan underskatta nya politiska skiften.</p>
     </div>
-  );
+  )}</Localize>;
 }
 
 export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
@@ -113,7 +115,7 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
     },
   ];
 
-  return (
+  return <Localize>{(
     <div className="forecast-method">
       <div className="forecast-method__flow">
         {steps.map((step, index) => (
@@ -165,5 +167,5 @@ export function ForecastMethod({ forecast }: { forecast: ElectionForecast }) {
         </ul>
       </div>
     </div>
-  );
+  )}</Localize>;
 }

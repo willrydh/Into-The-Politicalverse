@@ -1,7 +1,9 @@
+"use client";
+import { Localize } from "@/components/localize";
 import type { Indicator } from "@/lib/indicators/national";
 
 export function IndicatorGrid({ indicators }: { indicators: Indicator[] }) {
-  return (
+  return <Localize>{(
     <div className="indicator-grid">
       {indicators.map((indicator, index) => (
         <article className="indicator-card" key={indicator.id}>
@@ -15,5 +17,5 @@ export function IndicatorGrid({ indicators }: { indicators: Indicator[] }) {
         </article>
       ))}
     </div>
-  );
+  )}</Localize>;
 }

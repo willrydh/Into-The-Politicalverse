@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import type { ElectionForecast } from "@/lib/forecast/types";
 
 function linePath(values: number[], minimum: number, maximum: number, width: number, height: number): string {
@@ -18,7 +20,7 @@ export function ForecastHistory({ forecast }: { forecast: ElectionForecast }) {
   const first = forecast.trend[0];
   const latest = forecast.trend.at(-1)!;
   const formatDate = (value: string) => new Date(`${value}T12:00:00Z`).toLocaleDateString("sv-SE", { day: "numeric", month: "short", year: "numeric" });
-  return (
+  return <Localize>{(
     <div className="forecast-history">
       <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Mandatprognosens utveckling för oppositionspartierna och Tidöpartierna">
         <title>Mandatprognosens utveckling</title>
@@ -39,5 +41,5 @@ export function ForecastHistory({ forecast }: { forecast: ElectionForecast }) {
       </div>
       <p className="forecast-history__note">Varje punkt räknas om med den information som hade publicerats vid datumet. Linjen visar modellens mandatmittpunkt, inte observerade valresultat.</p>
     </div>
-  );
+  )}</Localize>;
 }

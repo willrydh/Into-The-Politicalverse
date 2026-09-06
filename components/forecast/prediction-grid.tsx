@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import Link from "next/link";
 import type { ElectionForecast, ForecastQuestion } from "@/lib/forecast/types";
 import { ForecastSparkline } from "./forecast-sparkline";
@@ -34,7 +36,7 @@ function valuesForQuestion(question: ForecastQuestion, forecast: ElectionForecas
 
 export function PredictionGrid({ forecast, limit }: { forecast: ElectionForecast; limit?: number }) {
   const questions = limit ? forecast.questions.slice(0, limit) : forecast.questions;
-  return (
+  return <Localize>{(
     <div className="prediction-grid">
       {questions.map((question, index) => {
         const series = valuesForQuestion(question, forecast);
@@ -61,5 +63,5 @@ export function PredictionGrid({ forecast, limit }: { forecast: ElectionForecast
       })}
       {limit ? <Link className="prediction-card prediction-card--more" href="/forecasts"><span>Se alla prognosfrågor</span><strong>→</strong></Link> : null}
     </div>
-  );
+  )}</Localize>;
 }

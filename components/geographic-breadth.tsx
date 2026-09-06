@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import { getMunicipalityLeaders, riksdag2022 } from "@/lib/data/elections";
 import { PARTIES } from "@/lib/data/elections/parties";
 
@@ -5,7 +7,7 @@ export function GeographicBreadth() {
   const leaders = getMunicipalityLeaders();
   const topTurnout = [...riksdag2022.municipalities].sort((a, b) => b.turnout - a.turnout).slice(0, 5);
 
-  return (
+  return <Localize>{(
     <div className="geography-card">
       <div className="geography-card__visual">
         <div className="geography-card__topline">
@@ -49,5 +51,5 @@ export function GeographicBreadth() {
         </ol>
       </div>
     </div>
-  );
+  )}</Localize>;
 }

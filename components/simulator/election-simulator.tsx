@@ -1,4 +1,6 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import { useMemo, useState, type CSSProperties } from "react";
 import { PartyMark } from "@/components/party-mark";
@@ -45,7 +47,7 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
     setCoalition((current) => current.includes(partyId) ? current.filter((candidate) => candidate !== partyId) : [...current, partyId]);
   }
 
-  return (
+  return <Localize>{(
     <div className="simulator-shell">
       <section className="simulator-inputs" aria-labelledby="scenario-input-title">
         <div className="simulator-panel-heading">
@@ -186,5 +188,5 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
         )}
       </section>
     </div>
-  );
+  )}</Localize>;
 }

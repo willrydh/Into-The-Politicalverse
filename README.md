@@ -6,6 +6,8 @@
 
 ## Master project specification
 
+The public UI is available in Swedish at the existing routes and English under `/en/`, with a same-page language switch. Official 2026 counting has its own `/valnatt/` view, independently refreshed signed data and a [source catalogue](docs/data-sources/election-2026.md). See the [election-night runbook](docs/operations/election-night-2026.md) for cadence, validation, fallback and the remaining production verification gate.
+
 This README is the canonical product and engineering description for **Into The Politicalverse**. New contributors and coding agents should read it before changing architecture or product behavior.
 
 The initial market is **Sweden**, with the 2026 general election as the first live election cycle. The architecture must not assume that Sweden is the final market: election types, parties, geography, sources and electoral systems should remain extensible.

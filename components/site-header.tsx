@@ -1,10 +1,14 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LanguageSwitcher } from "./language-switcher";
 
 const NAVIGATION = [
   { href: "/", label: "Start" },
+  { href: "/valnatt", label: "Valnatt" },
   { href: "/forecasts", label: "Prognos" },
   { href: "/charts", label: "Grafer" },
   { href: "/parties", label: "Partier" },
@@ -15,9 +19,9 @@ const NAVIGATION = [
 ];
 
 export function SiteHeader() {
-  const pathname = usePathname();
+  const pathname = usePathname().replace(/^\/en(?=\/|$)/, "") || "/";
 
-  return (
+  return <Localize>{(
     <header className="site-header">
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
@@ -29,6 +33,7 @@ export function SiteHeader() {
             <span className="status-dot" />
             Oberoende valanalys · öppna källor
           </div>
+          <LanguageSwitcher />
         </div>
       </div>
       <div className="site-header__navigation">
@@ -47,5 +52,5 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
-  );
+  )}</Localize>;
 }

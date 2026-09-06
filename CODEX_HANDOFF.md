@@ -43,6 +43,10 @@ The prediction layer adds:
 
 ## September maintenance
 
+The bilingual election-night release adds Swedish default routes and `/en/` equivalents, including all interactive tool copy. Keep source identifiers and statistical data language-independent. Server pages call `localizeNode` before serialization; interactive components use `LocaleProvider` and `Localize`. Do not rely on a client wrapper to traverse deferred server-component children after hydration.
+
+Official live data is independent of the forecast: signed preliminary and final-count adapters, early-voting CSV, reviewed preparation files, and a dedicated `live-data` branch. Both official rehearsals verify, but actual production results are still unpublished before election day. See `docs/operations/election-night-2026.md` and `docs/methodology/election-night-v1.md`. Never merge the orphan data branch into `main` or replace historical 2022 geography with 2026 boundaries. The static `live-baseline.json` endpoint is a build-time fallback; the raw `live-data/election-2026.json` URL is the live feed.
+
 The fixed 19 August historical poll counts were blocking valid refreshes. Tests and `data:verify` now validate the frozen year/role split plus date-matched counts and houses, with a regression across 19 August and 4 September. Do not reintroduce counts tied to a single snapshot.
 
 `lib/forecast/source-corrections.ts` holds reviewed primary-source publication-date corrections. Adapter version and correction provenance are included in the public forecast and snapshot identity; unchanged upstream bytes must still regenerate when this policy changes. Novus's September date is corrected from 1 to 2 September without modifying source bytes. The 180/28 model remains frozen.

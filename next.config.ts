@@ -4,6 +4,7 @@ const basePath = process.env.PAGES_BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
   output: "export",
+  experimental: { globalNotFound: true },
   basePath,
   trailingSlash: true,
   images: { unoptimized: true },

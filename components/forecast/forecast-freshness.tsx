@@ -1,4 +1,6 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import { useSyncExternalStore } from "react";
 import { dateInTimeZone } from "@/lib/dates";
@@ -22,10 +24,10 @@ export function ForecastFreshness({ dataCutoff, electionDate }: { dataCutoff: st
   const currentDate = useSyncExternalStore(subscribe, today, serverDate);
   const freshness = currentDate ? forecastFreshness(dataCutoff, electionDate, currentDate) : null;
   const formattedDate = new Intl.DateTimeFormat("sv-SE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${dataCutoff}T12:00:00Z`));
-  return (
+  return <Localize>{(
     <div className="forecast-freshness" data-state={freshness?.state ?? "unknown"} aria-live="polite">
       <strong>Mätdata till <time dateTime={dataCutoff}>{formattedDate}</time>.</strong>
       {freshness && <span>{freshness.message}</span>}
     </div>
-  );
+  )}</Localize>;
 }
