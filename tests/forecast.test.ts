@@ -6,12 +6,29 @@ import { nationalHistory } from "../lib/data/elections/index";
 import { dateInTimeZone, isIsoDateStamp, isoDateToEpoch } from "../lib/dates";
 import { electionForecast } from "../lib/forecast/data";
 import { generateElectionForecast, validateForecastInputs } from "../lib/forecast/model";
-import { calculatePollAverage, parsePollCsv, qualifyingPolls } from "../lib/forecast/polls";
-import { FORECAST_PARTY_IDS, type PollObservation } from "../lib/forecast/types";
+import { calculatePollAverage, daysBetween, parsePollCsv, qualifyingPolls, subtractDays } from "../lib/forecast/polls";
+import { FORECAST_PARTY_IDS, type ElectionForecast, type PollObservation } from "../lib/forecast/types";
 import { calculateRiksdagSeats } from "../lib/simulator/riksdag-rules";
 import type { RiksdagConstituencyInput, SimulatorPartyVotes } from "../lib/simulator/types";
 
 const COMPLETE_SHARES: SimulatorPartyVotes = { S: 30, SD: 20, M: 19, V: 8, C: 6, KD: 6, MP: 7, L: 3 };
+
+function assertMatchedHistoricalWindows(forecast: ElectionForecast, polls: PollObservation[]): void {
+  assert.deepEqual(forecast.backtests.map(({ year, role }) => [year, role]), [
+    [2010, "calibration"], [2014, "calibration"], [2018, "calibration"], [2022, "holdout"],
+  ]);
+  const horizon = daysBetween(forecast.model.dataCutoff, forecast.model.electionDate);
+  assert.equal(forecast.model.horizonDays, horizon);
+  for (const backtest of forecast.backtests) {
+    const historicalElection = nationalHistory.elections.find(({ year }) => year === backtest.year)!;
+    const expectedCutoff = subtractDays(historicalElection.electionDate, horizon);
+    assert.equal(backtest.cutoff, expectedCutoff, `${backtest.year}: match days before election`);
+    const eligible = qualifyingPolls(polls, expectedCutoff, 180);
+    assert.equal(backtest.polls, eligible.length, `${backtest.year}: count this historical window`);
+    assert.equal(backtest.houses, new Set(eligible.map(({ house }) => house)).size);
+    assert.ok(backtest.polls >= 2);
+  }
+}
 
 function poll(overrides: Partial<PollObservation> = {}): PollObservation {
   return {
@@ -97,15 +114,28 @@ test("the checked-in forecast is pinned, complete and honest about validation", 
   assert.equal(electionForecast.model.windowDays, 180);
   assert.equal(electionForecast.model.halfLifeDays, 28);
   assert.equal(electionForecast.model.otherCategorySeatTreatment, "aggregate-assumed-seat-ineligible");
-  assert.deepEqual(electionForecast.backtests.map(({ year, role, polls }) => [year, role, polls]), [
-    [2010, "calibration", 45],
-    [2014, "calibration", 41],
-    [2018, "calibration", 43],
-    [2022, "holdout", 35],
-  ]);
+  assertMatchedHistoricalWindows(electionForecast, parsePollCsv(raw));
   assert.deepEqual(electionForecast.evidence.excludedCoverageAuditYears, [2002, 2006]);
   assert.equal(Object.values(electionForecast.centralScenario.seats).reduce((sum, seats) => sum + seats, 0), 349);
   assert.ok(electionForecast.questions.every(({ probability }) => probability >= 0 && probability <= 1));
+});
+
+test("advancing the forecast cutoff updates historical windows without changing the frozen split", async () => {
+  const polls = parsePollCsv(await readFile("data/raw/polls/SwedishPolls.csv", "utf8"));
+  const forecasts = ["2026-08-19", "2026-09-04"].map((dataCutoff) => generateElectionForecast({
+    polls,
+    history: nationalHistory.elections,
+    source: electionForecast.source,
+    dataCutoff,
+    generatedAt: `${dataCutoff}T12:00:00Z`,
+    simulations: 2,
+    seed: 42,
+  }));
+  for (const forecast of forecasts) assertMatchedHistoricalWindows(forecast, polls);
+  assert.notDeepEqual(forecasts[0].backtests.map(({ polls }) => polls), forecasts[1].backtests.map(({ polls }) => polls));
+  assert.deepEqual(forecasts[1].backtests.map(({ cutoff }) => cutoff), [
+    "2010-09-10", "2014-09-05", "2018-08-31", "2022-09-02",
+  ]);
 });
 
 test("the forecast is deterministic for the same snapshot, configuration and seed", async () => {
@@ -122,6 +152,12 @@ test("the forecast is deterministic for the same snapshot, configuration and see
   const first = generateElectionForecast(options);
   const second = generateElectionForecast(options);
   assert.deepEqual(first, second);
+  const previousAdapter = generateElectionForecast({
+    ...options,
+    simulations: 2,
+    source: { ...options.source, adapterVersion: "raw-v1", publicationDateCorrections: [] },
+  });
+  assert.notEqual(first.snapshotId, previousAdapter.snapshotId, "source corrections are part of snapshot identity");
   assert.equal(first.model.simulations, 100);
   assert.equal(Object.values(first.centralScenario.seats).reduce((sum, seats) => sum + seats, 0), 349);
 });

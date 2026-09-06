@@ -2,15 +2,15 @@
   "schemaVersion": 1,
   "classification": "MODEL",
   "status": "BETA",
-  "snapshotId": "pvf-fedbbccf",
+  "snapshotId": "pvf-f277ce79",
   "model": {
     "id": "pv-election-forecast",
     "version": "1.0.0-beta.1",
     "averagingVersion": "pv-poll-average-1.0.0",
-    "generatedAt": "2026-08-21T21:45:00Z",
-    "dataCutoff": "2026-08-19",
+    "generatedAt": "2026-09-06T12:00:08.243Z",
+    "dataCutoff": "2026-09-04",
     "electionDate": "2026-09-13",
-    "horizonDays": 25,
+    "horizonDays": 9,
     "seed": 20260913,
     "simulations": 10000,
     "windowDays": 180,
@@ -26,10 +26,22 @@
     "classification": "POLL",
     "repositoryUrl": "https://github.com/MansMeg/SwedishPolls",
     "rawUrl": "https://raw.githubusercontent.com/MansMeg/SwedishPolls/master/Data/Polls.csv",
-    "upstreamCommit": "5df438f4038cb36429c1049fa60b064dd044d191",
-    "rawSha256": "6d583cfb45eb022374a6275e721d701d48c091e64fa002efdddaeb5eb2c02472",
+    "upstreamCommit": "b278737c7cdc4da9dc4cd659c84704bfe730ab41",
+    "rawSha256": "84a4a71264fd33a262169a80ac2cc5de83e26456fc5137b9b3f023c5cf721e97",
     "license": "CC0-1.0",
-    "retrievedAt": "2026-08-21",
+    "retrievedAt": "2026-09-06",
+    "adapterVersion": "pv-swedishpolls-1.1.0",
+    "publicationDateCorrections": [
+      {
+        "company": "Novus",
+        "fieldworkFrom": "2026-08-24",
+        "fieldworkTo": "2026-08-30",
+        "originalPublishedAt": "2026-09-01",
+        "publishedAt": "2026-09-02",
+        "sourceUrl": "https://novus.se/wp-content/uploads/2026/09/novusvaljarbarometerseptember2026h3q8v5.pdf",
+        "checkedAt": "2026-09-06"
+      }
+    ],
     "primaryCrossChecks": [
       {
         "publisher": "Novus",
@@ -48,18 +60,42 @@
         "publishedAt": "2026-06-04",
         "url": "https://www.scb.se/hitta-statistik/statistik-efter-amne/demokrati/partisympatier/partisympatiundersokningen-psu/pong/statistiknyhet/partisympatiundersokningen-maj-2026/",
         "validated": true
+      },
+      {
+        "publisher": "Novus",
+        "publishedAt": "2026-09-02",
+        "url": "https://novus.se/wp-content/uploads/2026/09/novusvaljarbarometerseptember2026h3q8v5.pdf",
+        "validated": true
+      },
+      {
+        "publisher": "SVT/Verian",
+        "publishedAt": "2026-09-03",
+        "url": "https://www.veriangroup.com/sv/news-and-insights/valjarbarometer-september-2026",
+        "validated": true
+      },
+      {
+        "publisher": "Demoskop",
+        "publishedAt": "2026-09-03",
+        "url": "https://demoskop.se/valjarbarometer-september-2026/",
+        "validated": true
+      },
+      {
+        "publisher": "Indikator",
+        "publishedAt": "2026-09-04",
+        "url": "https://www.sverigesradio.se/artikel/s-minskar-kraftigt-l-langt-under-riksdagssparren-historiskt-daligt",
+        "validated": true
       }
     ]
   },
   "evidence": {
-    "pollBankRows": 2636,
-    "pollBankStartYear": 1967,
-    "currentWindowPolls": 30,
+    "pollBankRows": 2646,
+    "pollBankStartYear": 1944,
+    "currentWindowPolls": 36,
     "currentWindowHouses": 7,
-    "currentWindowInterviews": 79768,
+    "currentWindowInterviews": 92631,
     "currentWindowApproximatePolls": 0,
-    "effectivePollCount": 10.6,
-    "effectiveHouseCount": 5,
+    "effectivePollCount": 15.5,
+    "effectiveHouseCount": 5.3,
     "maximumRealizedHouseWeight": 0.25,
     "interviewsAreNonUnique": true,
     "officialHistoryElections": 6,
@@ -75,43 +111,43 @@
     "officialMunicipalities": 290
   },
   "quality": {
-    "calibrationMeanAbsoluteError": 1.317,
-    "holdoutMeanAbsoluteError": 0.871,
-    "allBacktestMeanAbsoluteError": 1.206,
-    "allBacktestRootMeanSquareError": 1.6,
+    "calibrationMeanAbsoluteError": 1.204,
+    "holdoutMeanAbsoluteError": 0.805,
+    "allBacktestMeanAbsoluteError": 1.104,
+    "allBacktestRootMeanSquareError": 1.389,
     "leaveOneElectionOutIntervalCoverage80": 0.781,
-    "intervalCalibrationScale": 2.022,
-    "seatTieLotSimulations": 171,
-    "seatTieLotRate": 0.0171,
+    "intervalCalibrationScale": 1.48,
+    "seatTieLotSimulations": 131,
+    "seatTieLotRate": 0.0131,
     "caveat": "Fyra val har komplett jämförbara åttapartimätningar. Den frysta designen bedöms på 2010–2018; 2022 är låst holdout. OTHER är en samlad restkategori som antas sakna mandatbehörigt nytt parti. Historiska fel garanterar inte 2026 och mandat är inte samma sak som regeringsmakt."
   },
   "pollingAverage": {
-    "S": 31.29,
-    "SD": 19.54,
-    "M": 17.23,
-    "V": 7.74,
-    "C": 6.76,
-    "KD": 6.04,
-    "MP": 7.24,
-    "L": 2.1,
-    "OTHER": 2.06
+    "S": 29.6,
+    "SD": 19.58,
+    "M": 17.43,
+    "V": 8.06,
+    "C": 7.15,
+    "KD": 6.4,
+    "MP": 7.26,
+    "L": 2.37,
+    "OTHER": 2.14
   },
   "centralScenario": {
     "seats": {
-      "S": 114,
-      "SD": 71,
-      "M": 63,
-      "V": 28,
-      "C": 25,
-      "KD": 22,
-      "MP": 26,
+      "S": 108,
+      "SD": 72,
+      "M": 64,
+      "V": 29,
+      "C": 26,
+      "KD": 23,
+      "MP": 27,
       "L": 0
     },
     "majoritySeats": 175,
-    "oppositionSeats": 193,
-    "tidoSeats": 156,
+    "oppositionSeats": 190,
+    "tidoSeats": 159,
     "changeSincePreviousDataPoint": {
-      "date": "2026-08-17",
+      "date": "2026-09-03",
       "oppositionSeatDelta": -1,
       "tidoSeatDelta": 1
     }
@@ -119,105 +155,37 @@
   "parties": [
     {
       "partyId": "S",
-      "meanShare": 31.3,
+      "meanShare": 29.6,
       "shareInterval80": [
-        26.9,
-        35.7
+        27.2,
+        32.1
       ],
-      "centralSeats": 114,
-      "medianSeats": 115,
+      "centralSeats": 108,
+      "medianSeats": 108,
       "seatInterval80": [
-        99,
-        131
+        100,
+        117
       ],
       "thresholdProbability": 1,
-      "largestPartyProbability": 0.9436,
-      "pollingDisagreement": 1.19,
-      "historicalRmse": 1.93,
+      "largestPartyProbability": 0.9826,
+      "pollingDisagreement": 2.02,
+      "historicalRmse": 1.96,
       "seatHistogram": [
         {
-          "seats": 23,
-          "probability": 0.0001
-        },
-        {
-          "seats": 27,
-          "probability": 0.0001
-        },
-        {
-          "seats": 29,
-          "probability": 0.0001
-        },
-        {
-          "seats": 30,
-          "probability": 0.0001
-        },
-        {
-          "seats": 32,
-          "probability": 0.0001
-        },
-        {
-          "seats": 40,
-          "probability": 0.0001
-        },
-        {
-          "seats": 46,
-          "probability": 0.0001
-        },
-        {
-          "seats": 48,
-          "probability": 0.0002
-        },
-        {
-          "seats": 50,
-          "probability": 0.0001
-        },
-        {
-          "seats": 51,
-          "probability": 0.0002
-        },
-        {
-          "seats": 52,
-          "probability": 0.0002
-        },
-        {
-          "seats": 53,
-          "probability": 0.0001
-        },
-        {
-          "seats": 54,
-          "probability": 0.0001
-        },
-        {
-          "seats": 56,
-          "probability": 0.0001
-        },
-        {
-          "seats": 58,
-          "probability": 0.0001
-        },
-        {
-          "seats": 59,
-          "probability": 0.0002
-        },
-        {
           "seats": 60,
-          "probability": 0.0002
-        },
-        {
-          "seats": 61,
-          "probability": 0.0003
+          "probability": 0.0001
         },
         {
           "seats": 62,
-          "probability": 0.0004
+          "probability": 0.0001
         },
         {
           "seats": 64,
-          "probability": 0.0005
+          "probability": 0.0001
         },
         {
           "seats": 65,
-          "probability": 0.0003
+          "probability": 0.0001
         },
         {
           "seats": 66,
@@ -225,51 +193,31 @@
         },
         {
           "seats": 67,
-          "probability": 0.0004
-        },
-        {
-          "seats": 68,
-          "probability": 0.0002
-        },
-        {
-          "seats": 69,
-          "probability": 0.0002
-        },
-        {
-          "seats": 70,
-          "probability": 0.0004
+          "probability": 0.0001
         },
         {
           "seats": 71,
-          "probability": 0.0005
-        },
-        {
-          "seats": 72,
-          "probability": 0.0004
+          "probability": 0.0001
         },
         {
           "seats": 73,
-          "probability": 0.0008
+          "probability": 0.0003
         },
         {
           "seats": 74,
-          "probability": 0.0007
-        },
-        {
-          "seats": 75,
-          "probability": 0.0005
+          "probability": 0.0002
         },
         {
           "seats": 76,
-          "probability": 0.0006
+          "probability": 0.0001
         },
         {
           "seats": 77,
-          "probability": 0.0011
+          "probability": 0.0005
         },
         {
           "seats": 78,
-          "probability": 0.0007
+          "probability": 0.0003
         },
         {
           "seats": 79,
@@ -277,1322 +225,970 @@
         },
         {
           "seats": 80,
-          "probability": 0.0004
+          "probability": 0.0003
         },
         {
           "seats": 81,
-          "probability": 0.001
+          "probability": 0.0006
         },
         {
           "seats": 82,
-          "probability": 0.0016
-        },
-        {
-          "seats": 83,
-          "probability": 0.0022
-        },
-        {
-          "seats": 84,
-          "probability": 0.0022
-        },
-        {
-          "seats": 85,
-          "probability": 0.0021
-        },
-        {
-          "seats": 86,
-          "probability": 0.0019
-        },
-        {
-          "seats": 87,
-          "probability": 0.0019
-        },
-        {
-          "seats": 88,
-          "probability": 0.0028
-        },
-        {
-          "seats": 89,
-          "probability": 0.0046
-        },
-        {
-          "seats": 90,
-          "probability": 0.0037
-        },
-        {
-          "seats": 91,
-          "probability": 0.0031
-        },
-        {
-          "seats": 92,
-          "probability": 0.0066
-        },
-        {
-          "seats": 93,
-          "probability": 0.0062
-        },
-        {
-          "seats": 94,
-          "probability": 0.0073
-        },
-        {
-          "seats": 95,
-          "probability": 0.0068
-        },
-        {
-          "seats": 96,
-          "probability": 0.0083
-        },
-        {
-          "seats": 97,
-          "probability": 0.0098
-        },
-        {
-          "seats": 98,
-          "probability": 0.0087
-        },
-        {
-          "seats": 99,
-          "probability": 0.0128
-        },
-        {
-          "seats": 100,
-          "probability": 0.0151
-        },
-        {
-          "seats": 101,
-          "probability": 0.0163
-        },
-        {
-          "seats": 102,
-          "probability": 0.0164
-        },
-        {
-          "seats": 103,
-          "probability": 0.0177
-        },
-        {
-          "seats": 104,
-          "probability": 0.0208
-        },
-        {
-          "seats": 105,
-          "probability": 0.0208
-        },
-        {
-          "seats": 106,
-          "probability": 0.0249
-        },
-        {
-          "seats": 107,
-          "probability": 0.0277
-        },
-        {
-          "seats": 108,
-          "probability": 0.0277
-        },
-        {
-          "seats": 109,
-          "probability": 0.0324
-        },
-        {
-          "seats": 110,
-          "probability": 0.0324
-        },
-        {
-          "seats": 111,
-          "probability": 0.0328
-        },
-        {
-          "seats": 112,
-          "probability": 0.0324
-        },
-        {
-          "seats": 113,
-          "probability": 0.035
-        },
-        {
-          "seats": 114,
-          "probability": 0.0328
-        },
-        {
-          "seats": 115,
-          "probability": 0.0365
-        },
-        {
-          "seats": 116,
-          "probability": 0.0358
-        },
-        {
-          "seats": 117,
-          "probability": 0.0328
-        },
-        {
-          "seats": 118,
-          "probability": 0.0323
-        },
-        {
-          "seats": 119,
-          "probability": 0.033
-        },
-        {
-          "seats": 120,
-          "probability": 0.0296
-        },
-        {
-          "seats": 121,
-          "probability": 0.0277
-        },
-        {
-          "seats": 122,
-          "probability": 0.028
-        },
-        {
-          "seats": 123,
-          "probability": 0.0235
-        },
-        {
-          "seats": 124,
-          "probability": 0.0244
-        },
-        {
-          "seats": 125,
-          "probability": 0.0215
-        },
-        {
-          "seats": 126,
-          "probability": 0.0194
-        },
-        {
-          "seats": 127,
-          "probability": 0.0153
-        },
-        {
-          "seats": 128,
-          "probability": 0.0132
-        },
-        {
-          "seats": 129,
-          "probability": 0.0148
-        },
-        {
-          "seats": 130,
-          "probability": 0.0129
-        },
-        {
-          "seats": 131,
-          "probability": 0.0126
-        },
-        {
-          "seats": 132,
-          "probability": 0.0089
-        },
-        {
-          "seats": 133,
-          "probability": 0.0099
-        },
-        {
-          "seats": 134,
-          "probability": 0.0084
-        },
-        {
-          "seats": 135,
-          "probability": 0.0086
-        },
-        {
-          "seats": 136,
-          "probability": 0.0057
-        },
-        {
-          "seats": 137,
-          "probability": 0.0072
-        },
-        {
-          "seats": 138,
-          "probability": 0.0048
-        },
-        {
-          "seats": 139,
-          "probability": 0.0048
-        },
-        {
-          "seats": 140,
-          "probability": 0.0035
-        },
-        {
-          "seats": 141,
-          "probability": 0.0034
-        },
-        {
-          "seats": 142,
-          "probability": 0.0029
-        },
-        {
-          "seats": 143,
-          "probability": 0.0029
-        },
-        {
-          "seats": 144,
-          "probability": 0.0034
-        },
-        {
-          "seats": 145,
-          "probability": 0.0027
-        },
-        {
-          "seats": 146,
-          "probability": 0.0016
-        },
-        {
-          "seats": 147,
-          "probability": 0.0013
-        },
-        {
-          "seats": 148,
-          "probability": 0.0013
-        },
-        {
-          "seats": 149,
-          "probability": 0.001
-        },
-        {
-          "seats": 150,
-          "probability": 0.0013
-        },
-        {
-          "seats": 151,
-          "probability": 0.0016
-        },
-        {
-          "seats": 152,
-          "probability": 0.0009
-        },
-        {
-          "seats": 153,
-          "probability": 0.0008
-        },
-        {
-          "seats": 154,
-          "probability": 0.0009
-        },
-        {
-          "seats": 155,
-          "probability": 0.0003
-        },
-        {
-          "seats": 156,
-          "probability": 0.0007
-        },
-        {
-          "seats": 157,
-          "probability": 0.0008
-        },
-        {
-          "seats": 158,
-          "probability": 0.0009
-        },
-        {
-          "seats": 159,
-          "probability": 0.0002
-        },
-        {
-          "seats": 160,
-          "probability": 0.0008
-        },
-        {
-          "seats": 161,
-          "probability": 0.0005
-        },
-        {
-          "seats": 162,
-          "probability": 0.0002
-        },
-        {
-          "seats": 163,
-          "probability": 0.0005
-        },
-        {
-          "seats": 164,
-          "probability": 0.0001
-        },
-        {
-          "seats": 165,
-          "probability": 0.0003
-        },
-        {
-          "seats": 166,
-          "probability": 0.0002
-        },
-        {
-          "seats": 167,
-          "probability": 0.0005
-        },
-        {
-          "seats": 168,
-          "probability": 0.0003
-        },
-        {
-          "seats": 169,
-          "probability": 0.0002
-        },
-        {
-          "seats": 171,
-          "probability": 0.0005
-        },
-        {
-          "seats": 172,
           "probability": 0.0004
         },
         {
-          "seats": 173,
+          "seats": 83,
           "probability": 0.0003
         },
         {
-          "seats": 174,
-          "probability": 0.0001
+          "seats": 84,
+          "probability": 0.0009
         },
         {
-          "seats": 175,
-          "probability": 0.0001
+          "seats": 85,
+          "probability": 0.0006
         },
         {
-          "seats": 176,
-          "probability": 0.0001
+          "seats": 86,
+          "probability": 0.0012
         },
         {
-          "seats": 179,
-          "probability": 0.0001
+          "seats": 87,
+          "probability": 0.0016
         },
         {
-          "seats": 180,
+          "seats": 88,
+          "probability": 0.0018
+        },
+        {
+          "seats": 89,
+          "probability": 0.0019
+        },
+        {
+          "seats": 90,
+          "probability": 0.0021
+        },
+        {
+          "seats": 91,
+          "probability": 0.0026
+        },
+        {
+          "seats": 92,
+          "probability": 0.0031
+        },
+        {
+          "seats": 93,
+          "probability": 0.0047
+        },
+        {
+          "seats": 94,
+          "probability": 0.0063
+        },
+        {
+          "seats": 95,
+          "probability": 0.0078
+        },
+        {
+          "seats": 96,
+          "probability": 0.0092
+        },
+        {
+          "seats": 97,
+          "probability": 0.0126
+        },
+        {
+          "seats": 98,
+          "probability": 0.0147
+        },
+        {
+          "seats": 99,
+          "probability": 0.0195
+        },
+        {
+          "seats": 100,
+          "probability": 0.0252
+        },
+        {
+          "seats": 101,
+          "probability": 0.0305
+        },
+        {
+          "seats": 102,
+          "probability": 0.0347
+        },
+        {
+          "seats": 103,
+          "probability": 0.0401
+        },
+        {
+          "seats": 104,
+          "probability": 0.0487
+        },
+        {
+          "seats": 105,
+          "probability": 0.0532
+        },
+        {
+          "seats": 106,
+          "probability": 0.0588
+        },
+        {
+          "seats": 107,
+          "probability": 0.066
+        },
+        {
+          "seats": 108,
+          "probability": 0.063
+        },
+        {
+          "seats": 109,
+          "probability": 0.0628
+        },
+        {
+          "seats": 110,
+          "probability": 0.0632
+        },
+        {
+          "seats": 111,
+          "probability": 0.0564
+        },
+        {
+          "seats": 112,
+          "probability": 0.0499
+        },
+        {
+          "seats": 113,
+          "probability": 0.0436
+        },
+        {
+          "seats": 114,
+          "probability": 0.0333
+        },
+        {
+          "seats": 115,
+          "probability": 0.0338
+        },
+        {
+          "seats": 116,
+          "probability": 0.0291
+        },
+        {
+          "seats": 117,
+          "probability": 0.0206
+        },
+        {
+          "seats": 118,
+          "probability": 0.0157
+        },
+        {
+          "seats": 119,
+          "probability": 0.0141
+        },
+        {
+          "seats": 120,
+          "probability": 0.0147
+        },
+        {
+          "seats": 121,
+          "probability": 0.0092
+        },
+        {
+          "seats": 122,
+          "probability": 0.0058
+        },
+        {
+          "seats": 123,
+          "probability": 0.0059
+        },
+        {
+          "seats": 124,
+          "probability": 0.0046
+        },
+        {
+          "seats": 125,
+          "probability": 0.0049
+        },
+        {
+          "seats": 126,
+          "probability": 0.0024
+        },
+        {
+          "seats": 127,
+          "probability": 0.0016
+        },
+        {
+          "seats": 128,
+          "probability": 0.0016
+        },
+        {
+          "seats": 129,
+          "probability": 0.0016
+        },
+        {
+          "seats": 130,
+          "probability": 0.0019
+        },
+        {
+          "seats": 131,
+          "probability": 0.0004
+        },
+        {
+          "seats": 132,
+          "probability": 0.0013
+        },
+        {
+          "seats": 133,
+          "probability": 0.001
+        },
+        {
+          "seats": 134,
+          "probability": 0.0006
+        },
+        {
+          "seats": 135,
+          "probability": 0.0008
+        },
+        {
+          "seats": 136,
+          "probability": 0.0004
+        },
+        {
+          "seats": 137,
+          "probability": 0.0003
+        },
+        {
+          "seats": 138,
+          "probability": 0.0007
+        },
+        {
+          "seats": 139,
           "probability": 0.0002
         },
         {
-          "seats": 184,
+          "seats": 140,
           "probability": 0.0001
         },
         {
-          "seats": 186,
+          "seats": 141,
+          "probability": 0.0005
+        },
+        {
+          "seats": 142,
+          "probability": 0.0002
+        },
+        {
+          "seats": 143,
+          "probability": 0.0005
+        },
+        {
+          "seats": 144,
+          "probability": 0.0002
+        },
+        {
+          "seats": 145,
           "probability": 0.0001
         },
         {
-          "seats": 187,
+          "seats": 146,
+          "probability": 0.0003
+        },
+        {
+          "seats": 147,
           "probability": 0.0001
         },
         {
-          "seats": 191,
+          "seats": 148,
+          "probability": 0.0002
+        },
+        {
+          "seats": 155,
           "probability": 0.0001
         },
         {
-          "seats": 193,
+          "seats": 158,
+          "probability": 0.0001
+        },
+        {
+          "seats": 170,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "SD",
-      "meanShare": 19.5,
+      "meanShare": 19.6,
       "shareInterval80": [
-        13.7,
-        25
+        16.5,
+        22.6
       ],
-      "centralSeats": 71,
+      "centralSeats": 72,
       "medianSeats": 72,
       "seatInterval80": [
-        50,
-        93
+        60,
+        83
       ],
-      "thresholdProbability": 0.9932,
-      "largestPartyProbability": 0.0546,
-      "pollingDisagreement": 0.89,
-      "historicalRmse": 2.51,
+      "thresholdProbability": 0.9997,
+      "largestPartyProbability": 0.0171,
+      "pollingDisagreement": 0.82,
+      "historicalRmse": 1.84,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.0068
-        },
-        {
-          "seats": 14,
-          "probability": 0.0001
+          "probability": 0.0003
         },
         {
           "seats": 15,
-          "probability": 0.0006
-        },
-        {
-          "seats": 16,
-          "probability": 0.0004
+          "probability": 0.0001
         },
         {
           "seats": 17,
-          "probability": 0.0008
-        },
-        {
-          "seats": 18,
-          "probability": 0.0006
+          "probability": 0.0002
         },
         {
           "seats": 19,
-          "probability": 0.0006
-        },
-        {
-          "seats": 20,
-          "probability": 0.0007
+          "probability": 0.0001
         },
         {
           "seats": 21,
-          "probability": 0.0012
+          "probability": 0.0002
         },
         {
           "seats": 22,
-          "probability": 0.0008
-        },
-        {
-          "seats": 23,
-          "probability": 0.001
-        },
-        {
-          "seats": 24,
-          "probability": 0.0006
+          "probability": 0.0001
         },
         {
           "seats": 25,
-          "probability": 0.001
+          "probability": 0.0001
         },
         {
           "seats": 26,
-          "probability": 0.001
+          "probability": 0.0001
         },
         {
           "seats": 27,
-          "probability": 0.0015
-        },
-        {
-          "seats": 28,
-          "probability": 0.0011
+          "probability": 0.0002
         },
         {
           "seats": 29,
-          "probability": 0.0017
+          "probability": 0.0001
         },
         {
           "seats": 30,
-          "probability": 0.0011
-        },
-        {
-          "seats": 31,
-          "probability": 0.0008
+          "probability": 0.0002
         },
         {
           "seats": 32,
-          "probability": 0.0014
+          "probability": 0.0004
         },
         {
           "seats": 33,
-          "probability": 0.0009
+          "probability": 0.0001
         },
         {
           "seats": 34,
-          "probability": 0.002
+          "probability": 0.0006
         },
         {
           "seats": 35,
-          "probability": 0.0023
+          "probability": 0.0004
         },
         {
           "seats": 36,
-          "probability": 0.0032
+          "probability": 0.0003
         },
         {
           "seats": 37,
-          "probability": 0.0018
+          "probability": 0.0004
         },
         {
           "seats": 38,
-          "probability": 0.0031
+          "probability": 0.0007
         },
         {
           "seats": 39,
-          "probability": 0.0026
+          "probability": 0.0008
         },
         {
           "seats": 40,
-          "probability": 0.0038
+          "probability": 0.0006
         },
         {
           "seats": 41,
-          "probability": 0.0029
+          "probability": 0.0007
         },
         {
           "seats": 42,
-          "probability": 0.0042
-        },
-        {
-          "seats": 43,
-          "probability": 0.006
-        },
-        {
-          "seats": 44,
-          "probability": 0.0049
-        },
-        {
-          "seats": 45,
-          "probability": 0.0061
-        },
-        {
-          "seats": 46,
-          "probability": 0.0064
-        },
-        {
-          "seats": 47,
-          "probability": 0.0072
-        },
-        {
-          "seats": 48,
-          "probability": 0.007
-        },
-        {
-          "seats": 49,
-          "probability": 0.007
-        },
-        {
-          "seats": 50,
-          "probability": 0.0082
-        },
-        {
-          "seats": 51,
-          "probability": 0.0101
-        },
-        {
-          "seats": 52,
-          "probability": 0.0095
-        },
-        {
-          "seats": 53,
-          "probability": 0.0115
-        },
-        {
-          "seats": 54,
-          "probability": 0.013
-        },
-        {
-          "seats": 55,
-          "probability": 0.0116
-        },
-        {
-          "seats": 56,
-          "probability": 0.0152
-        },
-        {
-          "seats": 57,
-          "probability": 0.0141
-        },
-        {
-          "seats": 58,
-          "probability": 0.0168
-        },
-        {
-          "seats": 59,
-          "probability": 0.0181
-        },
-        {
-          "seats": 60,
-          "probability": 0.016
-        },
-        {
-          "seats": 61,
-          "probability": 0.0222
-        },
-        {
-          "seats": 62,
-          "probability": 0.0178
-        },
-        {
-          "seats": 63,
-          "probability": 0.0214
-        },
-        {
-          "seats": 64,
-          "probability": 0.0235
-        },
-        {
-          "seats": 65,
-          "probability": 0.0242
-        },
-        {
-          "seats": 66,
-          "probability": 0.0227
-        },
-        {
-          "seats": 67,
-          "probability": 0.0252
-        },
-        {
-          "seats": 68,
-          "probability": 0.0254
-        },
-        {
-          "seats": 69,
-          "probability": 0.027
-        },
-        {
-          "seats": 70,
-          "probability": 0.0239
-        },
-        {
-          "seats": 71,
-          "probability": 0.0249
-        },
-        {
-          "seats": 72,
-          "probability": 0.0249
-        },
-        {
-          "seats": 73,
-          "probability": 0.024
-        },
-        {
-          "seats": 74,
-          "probability": 0.0246
-        },
-        {
-          "seats": 75,
-          "probability": 0.025
-        },
-        {
-          "seats": 76,
-          "probability": 0.0229
-        },
-        {
-          "seats": 77,
-          "probability": 0.0259
-        },
-        {
-          "seats": 78,
-          "probability": 0.0233
-        },
-        {
-          "seats": 79,
-          "probability": 0.0215
-        },
-        {
-          "seats": 80,
-          "probability": 0.0221
-        },
-        {
-          "seats": 81,
-          "probability": 0.0215
-        },
-        {
-          "seats": 82,
-          "probability": 0.0208
-        },
-        {
-          "seats": 83,
-          "probability": 0.0194
-        },
-        {
-          "seats": 84,
-          "probability": 0.0187
-        },
-        {
-          "seats": 85,
-          "probability": 0.0154
-        },
-        {
-          "seats": 86,
-          "probability": 0.0147
-        },
-        {
-          "seats": 87,
-          "probability": 0.015
-        },
-        {
-          "seats": 88,
-          "probability": 0.0136
-        },
-        {
-          "seats": 89,
-          "probability": 0.0119
-        },
-        {
-          "seats": 90,
-          "probability": 0.0097
-        },
-        {
-          "seats": 91,
-          "probability": 0.0105
-        },
-        {
-          "seats": 92,
-          "probability": 0.0111
-        },
-        {
-          "seats": 93,
-          "probability": 0.009
-        },
-        {
-          "seats": 94,
-          "probability": 0.0079
-        },
-        {
-          "seats": 95,
-          "probability": 0.0087
-        },
-        {
-          "seats": 96,
-          "probability": 0.0068
-        },
-        {
-          "seats": 97,
-          "probability": 0.0053
-        },
-        {
-          "seats": 98,
-          "probability": 0.0067
-        },
-        {
-          "seats": 99,
-          "probability": 0.0056
-        },
-        {
-          "seats": 100,
-          "probability": 0.0052
-        },
-        {
-          "seats": 101,
-          "probability": 0.003
-        },
-        {
-          "seats": 102,
-          "probability": 0.0043
-        },
-        {
-          "seats": 103,
-          "probability": 0.0034
-        },
-        {
-          "seats": 104,
-          "probability": 0.004
-        },
-        {
-          "seats": 105,
-          "probability": 0.0029
-        },
-        {
-          "seats": 106,
-          "probability": 0.0021
-        },
-        {
-          "seats": 107,
-          "probability": 0.0026
-        },
-        {
-          "seats": 108,
-          "probability": 0.0023
-        },
-        {
-          "seats": 109,
-          "probability": 0.002
-        },
-        {
-          "seats": 110,
-          "probability": 0.0019
-        },
-        {
-          "seats": 111,
-          "probability": 0.0016
-        },
-        {
-          "seats": 112,
-          "probability": 0.0018
-        },
-        {
-          "seats": 113,
-          "probability": 0.0021
-        },
-        {
-          "seats": 114,
-          "probability": 0.0013
-        },
-        {
-          "seats": 115,
-          "probability": 0.002
-        },
-        {
-          "seats": 116,
-          "probability": 0.0006
-        },
-        {
-          "seats": 117,
-          "probability": 0.0008
-        },
-        {
-          "seats": 118,
-          "probability": 0.0013
-        },
-        {
-          "seats": 119,
-          "probability": 0.0006
-        },
-        {
-          "seats": 120,
-          "probability": 0.0009
-        },
-        {
-          "seats": 121,
           "probability": 0.0012
         },
         {
-          "seats": 122,
+          "seats": 43,
+          "probability": 0.0015
+        },
+        {
+          "seats": 44,
+          "probability": 0.0009
+        },
+        {
+          "seats": 45,
+          "probability": 0.002
+        },
+        {
+          "seats": 46,
+          "probability": 0.0017
+        },
+        {
+          "seats": 47,
+          "probability": 0.0017
+        },
+        {
+          "seats": 48,
+          "probability": 0.0029
+        },
+        {
+          "seats": 49,
+          "probability": 0.0021
+        },
+        {
+          "seats": 50,
+          "probability": 0.0025
+        },
+        {
+          "seats": 51,
+          "probability": 0.0029
+        },
+        {
+          "seats": 52,
+          "probability": 0.0041
+        },
+        {
+          "seats": 53,
+          "probability": 0.0042
+        },
+        {
+          "seats": 54,
+          "probability": 0.0065
+        },
+        {
+          "seats": 55,
+          "probability": 0.0053
+        },
+        {
+          "seats": 56,
+          "probability": 0.0087
+        },
+        {
+          "seats": 57,
+          "probability": 0.01
+        },
+        {
+          "seats": 58,
+          "probability": 0.0131
+        },
+        {
+          "seats": 59,
+          "probability": 0.0131
+        },
+        {
+          "seats": 60,
+          "probability": 0.0162
+        },
+        {
+          "seats": 61,
+          "probability": 0.0183
+        },
+        {
+          "seats": 62,
+          "probability": 0.0215
+        },
+        {
+          "seats": 63,
+          "probability": 0.026
+        },
+        {
+          "seats": 64,
+          "probability": 0.0299
+        },
+        {
+          "seats": 65,
+          "probability": 0.0319
+        },
+        {
+          "seats": 66,
+          "probability": 0.0376
+        },
+        {
+          "seats": 67,
+          "probability": 0.0381
+        },
+        {
+          "seats": 68,
+          "probability": 0.0457
+        },
+        {
+          "seats": 69,
+          "probability": 0.0469
+        },
+        {
+          "seats": 70,
+          "probability": 0.0448
+        },
+        {
+          "seats": 71,
+          "probability": 0.0471
+        },
+        {
+          "seats": 72,
+          "probability": 0.0452
+        },
+        {
+          "seats": 73,
+          "probability": 0.0467
+        },
+        {
+          "seats": 74,
+          "probability": 0.0457
+        },
+        {
+          "seats": 75,
+          "probability": 0.0463
+        },
+        {
+          "seats": 76,
+          "probability": 0.0375
+        },
+        {
+          "seats": 77,
+          "probability": 0.0402
+        },
+        {
+          "seats": 78,
+          "probability": 0.0322
+        },
+        {
+          "seats": 79,
+          "probability": 0.0335
+        },
+        {
+          "seats": 80,
+          "probability": 0.0228
+        },
+        {
+          "seats": 81,
+          "probability": 0.0228
+        },
+        {
+          "seats": 82,
+          "probability": 0.0212
+        },
+        {
+          "seats": 83,
+          "probability": 0.0153
+        },
+        {
+          "seats": 84,
+          "probability": 0.0153
+        },
+        {
+          "seats": 85,
+          "probability": 0.0106
+        },
+        {
+          "seats": 86,
+          "probability": 0.0102
+        },
+        {
+          "seats": 87,
+          "probability": 0.0079
+        },
+        {
+          "seats": 88,
+          "probability": 0.0074
+        },
+        {
+          "seats": 89,
+          "probability": 0.0069
+        },
+        {
+          "seats": 90,
+          "probability": 0.0049
+        },
+        {
+          "seats": 91,
+          "probability": 0.0043
+        },
+        {
+          "seats": 92,
+          "probability": 0.0034
+        },
+        {
+          "seats": 93,
+          "probability": 0.0026
+        },
+        {
+          "seats": 94,
+          "probability": 0.0026
+        },
+        {
+          "seats": 95,
+          "probability": 0.0018
+        },
+        {
+          "seats": 96,
+          "probability": 0.0018
+        },
+        {
+          "seats": 97,
+          "probability": 0.0026
+        },
+        {
+          "seats": 98,
+          "probability": 0.0014
+        },
+        {
+          "seats": 99,
+          "probability": 0.002
+        },
+        {
+          "seats": 100,
+          "probability": 0.0011
+        },
+        {
+          "seats": 101,
+          "probability": 0.0014
+        },
+        {
+          "seats": 102,
+          "probability": 0.001
+        },
+        {
+          "seats": 103,
           "probability": 0.0006
         },
         {
-          "seats": 123,
+          "seats": 104,
+          "probability": 0.0006
+        },
+        {
+          "seats": 105,
+          "probability": 0.0006
+        },
+        {
+          "seats": 106,
+          "probability": 0.0007
+        },
+        {
+          "seats": 107,
+          "probability": 0.0008
+        },
+        {
+          "seats": 109,
+          "probability": 0.0004
+        },
+        {
+          "seats": 110,
+          "probability": 0.0002
+        },
+        {
+          "seats": 111,
           "probability": 0.0003
+        },
+        {
+          "seats": 112,
+          "probability": 0.0004
+        },
+        {
+          "seats": 113,
+          "probability": 0.0004
+        },
+        {
+          "seats": 114,
+          "probability": 0.0002
+        },
+        {
+          "seats": 115,
+          "probability": 0.0002
+        },
+        {
+          "seats": 117,
+          "probability": 0.0002
+        },
+        {
+          "seats": 122,
+          "probability": 0.0001
         },
         {
           "seats": 124,
-          "probability": 0.0008
-        },
-        {
-          "seats": 125,
-          "probability": 0.0008
-        },
-        {
-          "seats": 127,
-          "probability": 0.0008
+          "probability": 0.0001
         },
         {
           "seats": 128,
-          "probability": 0.0002
-        },
-        {
-          "seats": 129,
-          "probability": 0.0003
-        },
-        {
-          "seats": 130,
-          "probability": 0.0004
-        },
-        {
-          "seats": 131,
-          "probability": 0.0004
-        },
-        {
-          "seats": 132,
-          "probability": 0.0002
+          "probability": 0.0001
         },
         {
           "seats": 134,
-          "probability": 0.0003
+          "probability": 0.0002
         },
         {
           "seats": 135,
-          "probability": 0.0002
-        },
-        {
-          "seats": 136,
-          "probability": 0.0005
-        },
-        {
-          "seats": 137,
           "probability": 0.0001
         },
         {
-          "seats": 138,
-          "probability": 0.0001
-        },
-        {
-          "seats": 139,
-          "probability": 0.0001
-        },
-        {
-          "seats": 141,
-          "probability": 0.0001
-        },
-        {
-          "seats": 142,
-          "probability": 0.0002
-        },
-        {
-          "seats": 143,
-          "probability": 0.0001
-        },
-        {
-          "seats": 145,
-          "probability": 0.0002
-        },
-        {
-          "seats": 149,
-          "probability": 0.0002
-        },
-        {
-          "seats": 150,
-          "probability": 0.0001
-        },
-        {
-          "seats": 153,
-          "probability": 0.0001
-        },
-        {
-          "seats": 155,
-          "probability": 0.0001
-        },
-        {
-          "seats": 156,
-          "probability": 0.0003
-        },
-        {
-          "seats": 158,
-          "probability": 0.0001
-        },
-        {
-          "seats": 159,
-          "probability": 0.0001
-        },
-        {
-          "seats": 165,
-          "probability": 0.0001
-        },
-        {
-          "seats": 171,
-          "probability": 0.0001
-        },
-        {
-          "seats": 172,
-          "probability": 0.0001
-        },
-        {
-          "seats": 173,
+          "seats": 148,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "M",
-      "meanShare": 17.2,
+      "meanShare": 17.4,
       "shareInterval80": [
-        14.6,
-        19.9
+        15.8,
+        19.1
       ],
-      "centralSeats": 63,
-      "medianSeats": 63,
+      "centralSeats": 64,
+      "medianSeats": 64,
       "seatInterval80": [
-        53,
-        74
+        58,
+        70
       ],
       "thresholdProbability": 0.9999,
-      "largestPartyProbability": 0.0015,
-      "pollingDisagreement": 0.77,
-      "historicalRmse": 0.93,
+      "largestPartyProbability": 0.0003,
+      "pollingDisagreement": 0.82,
+      "historicalRmse": 1.15,
       "seatHistogram": [
         {
           "seats": 0,
           "probability": 0.0001
         },
         {
-          "seats": 20,
-          "probability": 0.0001
-        },
-        {
-          "seats": 22,
-          "probability": 0.0001
-        },
-        {
-          "seats": 27,
-          "probability": 0.0008
-        },
-        {
-          "seats": 28,
-          "probability": 0.0003
-        },
-        {
-          "seats": 29,
-          "probability": 0.0004
-        },
-        {
-          "seats": 30,
-          "probability": 0.0006
-        },
-        {
-          "seats": 31,
-          "probability": 0.0003
-        },
-        {
-          "seats": 32,
-          "probability": 0.0002
-        },
-        {
-          "seats": 33,
-          "probability": 0.0004
-        },
-        {
-          "seats": 34,
-          "probability": 0.0004
-        },
-        {
-          "seats": 35,
-          "probability": 0.0008
-        },
-        {
           "seats": 36,
-          "probability": 0.0003
-        },
-        {
-          "seats": 37,
-          "probability": 0.0008
+          "probability": 0.0001
         },
         {
           "seats": 38,
-          "probability": 0.0006
-        },
-        {
-          "seats": 39,
-          "probability": 0.001
-        },
-        {
-          "seats": 40,
-          "probability": 0.0014
-        },
-        {
-          "seats": 41,
-          "probability": 0.0012
-        },
-        {
-          "seats": 42,
-          "probability": 0.0014
-        },
-        {
-          "seats": 43,
-          "probability": 0.0021
-        },
-        {
-          "seats": 44,
-          "probability": 0.0036
-        },
-        {
-          "seats": 45,
-          "probability": 0.0036
-        },
-        {
-          "seats": 46,
-          "probability": 0.0039
-        },
-        {
-          "seats": 47,
-          "probability": 0.0058
-        },
-        {
-          "seats": 48,
-          "probability": 0.0053
-        },
-        {
-          "seats": 49,
-          "probability": 0.0083
-        },
-        {
-          "seats": 50,
-          "probability": 0.01
-        },
-        {
-          "seats": 51,
-          "probability": 0.0129
-        },
-        {
-          "seats": 52,
-          "probability": 0.0159
-        },
-        {
-          "seats": 53,
-          "probability": 0.0187
-        },
-        {
-          "seats": 54,
-          "probability": 0.0232
-        },
-        {
-          "seats": 55,
-          "probability": 0.0274
-        },
-        {
-          "seats": 56,
-          "probability": 0.0331
-        },
-        {
-          "seats": 57,
-          "probability": 0.0342
-        },
-        {
-          "seats": 58,
-          "probability": 0.0444
-        },
-        {
-          "seats": 59,
-          "probability": 0.0486
-        },
-        {
-          "seats": 60,
-          "probability": 0.0451
-        },
-        {
-          "seats": 61,
-          "probability": 0.0511
-        },
-        {
-          "seats": 62,
-          "probability": 0.0542
-        },
-        {
-          "seats": 63,
-          "probability": 0.0536
-        },
-        {
-          "seats": 64,
-          "probability": 0.0554
-        },
-        {
-          "seats": 65,
-          "probability": 0.0553
-        },
-        {
-          "seats": 66,
-          "probability": 0.045
-        },
-        {
-          "seats": 67,
-          "probability": 0.0428
-        },
-        {
-          "seats": 68,
-          "probability": 0.0393
-        },
-        {
-          "seats": 69,
-          "probability": 0.0365
-        },
-        {
-          "seats": 70,
-          "probability": 0.0324
-        },
-        {
-          "seats": 71,
-          "probability": 0.0294
-        },
-        {
-          "seats": 72,
-          "probability": 0.0223
-        },
-        {
-          "seats": 73,
-          "probability": 0.0215
-        },
-        {
-          "seats": 74,
-          "probability": 0.0159
-        },
-        {
-          "seats": 75,
-          "probability": 0.0139
-        },
-        {
-          "seats": 76,
-          "probability": 0.0105
-        },
-        {
-          "seats": 77,
-          "probability": 0.0116
-        },
-        {
-          "seats": 78,
-          "probability": 0.0079
-        },
-        {
-          "seats": 79,
-          "probability": 0.0077
-        },
-        {
-          "seats": 80,
-          "probability": 0.0061
-        },
-        {
-          "seats": 81,
-          "probability": 0.0046
-        },
-        {
-          "seats": 82,
-          "probability": 0.0036
-        },
-        {
-          "seats": 83,
-          "probability": 0.0037
-        },
-        {
-          "seats": 84,
-          "probability": 0.0031
-        },
-        {
-          "seats": 85,
-          "probability": 0.0027
-        },
-        {
-          "seats": 86,
-          "probability": 0.0014
-        },
-        {
-          "seats": 87,
-          "probability": 0.0014
-        },
-        {
-          "seats": 88,
-          "probability": 0.0017
-        },
-        {
-          "seats": 89,
-          "probability": 0.0012
-        },
-        {
-          "seats": 90,
-          "probability": 0.0012
-        },
-        {
-          "seats": 91,
-          "probability": 0.0007
-        },
-        {
-          "seats": 92,
-          "probability": 0.0005
-        },
-        {
-          "seats": 93,
-          "probability": 0.0008
-        },
-        {
-          "seats": 94,
-          "probability": 0.0004
-        },
-        {
-          "seats": 95,
           "probability": 0.0002
         },
         {
-          "seats": 96,
-          "probability": 0.0007
+          "seats": 39,
+          "probability": 0.0004
         },
         {
-          "seats": 97,
+          "seats": 41,
+          "probability": 0.0004
+        },
+        {
+          "seats": 42,
+          "probability": 0.0005
+        },
+        {
+          "seats": 43,
+          "probability": 0.0008
+        },
+        {
+          "seats": 44,
+          "probability": 0.0002
+        },
+        {
+          "seats": 45,
+          "probability": 0.0008
+        },
+        {
+          "seats": 46,
+          "probability": 0.0008
+        },
+        {
+          "seats": 47,
+          "probability": 0.0009
+        },
+        {
+          "seats": 48,
+          "probability": 0.0011
+        },
+        {
+          "seats": 49,
+          "probability": 0.0012
+        },
+        {
+          "seats": 50,
+          "probability": 0.0022
+        },
+        {
+          "seats": 51,
+          "probability": 0.0033
+        },
+        {
+          "seats": 52,
+          "probability": 0.0058
+        },
+        {
+          "seats": 53,
+          "probability": 0.0067
+        },
+        {
+          "seats": 54,
+          "probability": 0.0085
+        },
+        {
+          "seats": 55,
+          "probability": 0.0127
+        },
+        {
+          "seats": 56,
+          "probability": 0.0178
+        },
+        {
+          "seats": 57,
+          "probability": 0.0252
+        },
+        {
+          "seats": 58,
+          "probability": 0.0345
+        },
+        {
+          "seats": 59,
+          "probability": 0.0497
+        },
+        {
+          "seats": 60,
+          "probability": 0.0578
+        },
+        {
+          "seats": 61,
+          "probability": 0.0714
+        },
+        {
+          "seats": 62,
+          "probability": 0.0821
+        },
+        {
+          "seats": 63,
+          "probability": 0.0889
+        },
+        {
+          "seats": 64,
+          "probability": 0.0914
+        },
+        {
+          "seats": 65,
+          "probability": 0.0847
+        },
+        {
+          "seats": 66,
+          "probability": 0.078
+        },
+        {
+          "seats": 67,
+          "probability": 0.0644
+        },
+        {
+          "seats": 68,
+          "probability": 0.0512
+        },
+        {
+          "seats": 69,
+          "probability": 0.0433
+        },
+        {
+          "seats": 70,
+          "probability": 0.0275
+        },
+        {
+          "seats": 71,
+          "probability": 0.0228
+        },
+        {
+          "seats": 72,
+          "probability": 0.0153
+        },
+        {
+          "seats": 73,
+          "probability": 0.0108
+        },
+        {
+          "seats": 74,
+          "probability": 0.0091
+        },
+        {
+          "seats": 75,
+          "probability": 0.0062
+        },
+        {
+          "seats": 76,
+          "probability": 0.0052
+        },
+        {
+          "seats": 77,
+          "probability": 0.0039
+        },
+        {
+          "seats": 78,
+          "probability": 0.0025
+        },
+        {
+          "seats": 79,
+          "probability": 0.0016
+        },
+        {
+          "seats": 80,
+          "probability": 0.0019
+        },
+        {
+          "seats": 81,
+          "probability": 0.0009
+        },
+        {
+          "seats": 82,
+          "probability": 0.0011
+        },
+        {
+          "seats": 83,
+          "probability": 0.0006
+        },
+        {
+          "seats": 84,
+          "probability": 0.0005
+        },
+        {
+          "seats": 85,
+          "probability": 0.0005
+        },
+        {
+          "seats": 86,
+          "probability": 0.0005
+        },
+        {
+          "seats": 87,
+          "probability": 0.0002
+        },
+        {
+          "seats": 88,
+          "probability": 0.0005
+        },
+        {
+          "seats": 89,
+          "probability": 0.0002
+        },
+        {
+          "seats": 90,
+          "probability": 0.0002
+        },
+        {
+          "seats": 92,
+          "probability": 0.0002
+        },
+        {
+          "seats": 93,
+          "probability": 0.0001
+        },
+        {
+          "seats": 95,
+          "probability": 0.0001
+        },
+        {
+          "seats": 96,
           "probability": 0.0001
         },
         {
           "seats": 98,
-          "probability": 0.0003
-        },
-        {
-          "seats": 99,
-          "probability": 0.0005
-        },
-        {
-          "seats": 100,
           "probability": 0.0001
         },
         {
@@ -1600,832 +1196,576 @@
           "probability": 0.0001
         },
         {
-          "seats": 103,
-          "probability": 0.0001
-        },
-        {
-          "seats": 104,
-          "probability": 0.0002
-        },
-        {
-          "seats": 106,
-          "probability": 0.0001
-        },
-        {
-          "seats": 108,
-          "probability": 0.0003
-        },
-        {
-          "seats": 109,
-          "probability": 0.0001
-        },
-        {
           "seats": 114,
           "probability": 0.0001
         },
         {
-          "seats": 115,
-          "probability": 0.0001
-        },
-        {
-          "seats": 116,
-          "probability": 0.0001
-        },
-        {
-          "seats": 121,
-          "probability": 0.0001
-        },
-        {
-          "seats": 125,
+          "seats": 118,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "V",
-      "meanShare": 7.7,
+      "meanShare": 8.1,
       "shareInterval80": [
-        5.6,
-        9.9
+        7.1,
+        9.1
       ],
-      "centralSeats": 28,
-      "medianSeats": 28,
+      "centralSeats": 29,
+      "medianSeats": 30,
       "seatInterval80": [
-        21,
-        36
+        26,
+        33
       ],
-      "thresholdProbability": 0.9749,
+      "thresholdProbability": 0.9994,
       "largestPartyProbability": 0,
-      "pollingDisagreement": 0.78,
-      "historicalRmse": 1.25,
+      "pollingDisagreement": 0.79,
+      "historicalRmse": 1.32,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.0251
-        },
-        {
-          "seats": 14,
-          "probability": 0.0001
-        },
-        {
-          "seats": 15,
-          "probability": 0.0034
-        },
-        {
-          "seats": 16,
-          "probability": 0.007
-        },
-        {
-          "seats": 17,
-          "probability": 0.0108
-        },
-        {
-          "seats": 18,
-          "probability": 0.0119
-        },
-        {
-          "seats": 19,
-          "probability": 0.0164
-        },
-        {
-          "seats": 20,
-          "probability": 0.0212
-        },
-        {
-          "seats": 21,
-          "probability": 0.0266
-        },
-        {
-          "seats": 22,
-          "probability": 0.0309
-        },
-        {
-          "seats": 23,
-          "probability": 0.0422
-        },
-        {
-          "seats": 24,
-          "probability": 0.0454
-        },
-        {
-          "seats": 25,
-          "probability": 0.0592
-        },
-        {
-          "seats": 26,
-          "probability": 0.0672
-        },
-        {
-          "seats": 27,
-          "probability": 0.069
-        },
-        {
-          "seats": 28,
-          "probability": 0.0711
-        },
-        {
-          "seats": 29,
-          "probability": 0.0737
-        },
-        {
-          "seats": 30,
-          "probability": 0.0667
-        },
-        {
-          "seats": 31,
-          "probability": 0.0635
-        },
-        {
-          "seats": 32,
-          "probability": 0.0554
-        },
-        {
-          "seats": 33,
-          "probability": 0.0434
-        },
-        {
-          "seats": 34,
-          "probability": 0.0371
-        },
-        {
-          "seats": 35,
-          "probability": 0.032
-        },
-        {
-          "seats": 36,
-          "probability": 0.0236
-        },
-        {
-          "seats": 37,
-          "probability": 0.0194
-        },
-        {
-          "seats": 38,
-          "probability": 0.0163
-        },
-        {
-          "seats": 39,
-          "probability": 0.0145
-        },
-        {
-          "seats": 40,
-          "probability": 0.0086
-        },
-        {
-          "seats": 41,
-          "probability": 0.0087
-        },
-        {
-          "seats": 42,
-          "probability": 0.006
-        },
-        {
-          "seats": 43,
-          "probability": 0.0045
-        },
-        {
-          "seats": 44,
-          "probability": 0.0037
-        },
-        {
-          "seats": 45,
-          "probability": 0.0032
-        },
-        {
-          "seats": 46,
-          "probability": 0.0018
-        },
-        {
-          "seats": 47,
-          "probability": 0.0016
-        },
-        {
-          "seats": 48,
-          "probability": 0.0015
-        },
-        {
-          "seats": 49,
-          "probability": 0.0015
-        },
-        {
-          "seats": 50,
-          "probability": 0.0015
-        },
-        {
-          "seats": 51,
           "probability": 0.0006
         },
         {
-          "seats": 52,
-          "probability": 0.0004
-        },
-        {
-          "seats": 53,
-          "probability": 0.001
-        },
-        {
-          "seats": 54,
-          "probability": 0.0003
-        },
-        {
-          "seats": 55,
-          "probability": 0.0004
-        },
-        {
-          "seats": 56,
-          "probability": 0.0002
-        },
-        {
-          "seats": 57,
+          "seats": 15,
           "probability": 0.0001
         },
         {
-          "seats": 58,
+          "seats": 16,
+          "probability": 0.0004
+        },
+        {
+          "seats": 17,
+          "probability": 0.0005
+        },
+        {
+          "seats": 18,
+          "probability": 0.0007
+        },
+        {
+          "seats": 19,
+          "probability": 0.0018
+        },
+        {
+          "seats": 20,
+          "probability": 0.0029
+        },
+        {
+          "seats": 21,
+          "probability": 0.0047
+        },
+        {
+          "seats": 22,
+          "probability": 0.0073
+        },
+        {
+          "seats": 23,
+          "probability": 0.011
+        },
+        {
+          "seats": 24,
+          "probability": 0.0176
+        },
+        {
+          "seats": 25,
+          "probability": 0.0367
+        },
+        {
+          "seats": 26,
+          "probability": 0.0582
+        },
+        {
+          "seats": 27,
+          "probability": 0.0841
+        },
+        {
+          "seats": 28,
+          "probability": 0.122
+        },
+        {
+          "seats": 29,
+          "probability": 0.1492
+        },
+        {
+          "seats": 30,
+          "probability": 0.1553
+        },
+        {
+          "seats": 31,
+          "probability": 0.1164
+        },
+        {
+          "seats": 32,
+          "probability": 0.0826
+        },
+        {
+          "seats": 33,
+          "probability": 0.0551
+        },
+        {
+          "seats": 34,
+          "probability": 0.0368
+        },
+        {
+          "seats": 35,
+          "probability": 0.0193
+        },
+        {
+          "seats": 36,
+          "probability": 0.0139
+        },
+        {
+          "seats": 37,
+          "probability": 0.0079
+        },
+        {
+          "seats": 38,
+          "probability": 0.006
+        },
+        {
+          "seats": 39,
+          "probability": 0.0022
+        },
+        {
+          "seats": 40,
+          "probability": 0.0023
+        },
+        {
+          "seats": 41,
+          "probability": 0.0019
+        },
+        {
+          "seats": 42,
+          "probability": 0.0009
+        },
+        {
+          "seats": 43,
+          "probability": 0.0006
+        },
+        {
+          "seats": 44,
           "probability": 0.0002
         },
         {
-          "seats": 59,
+          "seats": 46,
+          "probability": 0.0002
+        },
+        {
+          "seats": 48,
           "probability": 0.0003
         },
         {
-          "seats": 60,
+          "seats": 51,
+          "probability": 0.0001
+        },
+        {
+          "seats": 53,
           "probability": 0.0001
         },
         {
           "seats": 61,
-          "probability": 0.0002
-        },
-        {
-          "seats": 63,
-          "probability": 0.0001
-        },
-        {
-          "seats": 64,
-          "probability": 0.0001
-        },
-        {
-          "seats": 68,
-          "probability": 0.0001
-        },
-        {
-          "seats": 74,
-          "probability": 0.0001
-        },
-        {
-          "seats": 106,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "C",
-      "meanShare": 6.8,
+      "meanShare": 7.1,
       "shareInterval80": [
-        4.3,
-        9.2
+        5.7,
+        8.6
       ],
-      "centralSeats": 25,
-      "medianSeats": 25,
+      "centralSeats": 26,
+      "medianSeats": 26,
       "seatInterval80": [
-        16,
-        34
+        21,
+        31
       ],
-      "thresholdProbability": 0.9208,
+      "thresholdProbability": 0.9886,
       "largestPartyProbability": 0,
-      "pollingDisagreement": 0.86,
-      "historicalRmse": 1.11,
+      "pollingDisagreement": 0.9,
+      "historicalRmse": 0.89,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.0792
+          "probability": 0.0114
         },
         {
           "seats": 14,
-          "probability": 0.0009
+          "probability": 0.0001
         },
         {
           "seats": 15,
-          "probability": 0.0149
+          "probability": 0.0041
         },
         {
           "seats": 16,
-          "probability": 0.0232
+          "probability": 0.0068
         },
         {
           "seats": 17,
-          "probability": 0.0271
+          "probability": 0.0096
         },
         {
           "seats": 18,
-          "probability": 0.033
+          "probability": 0.0125
         },
         {
           "seats": 19,
-          "probability": 0.0371
+          "probability": 0.0175
         },
         {
           "seats": 20,
-          "probability": 0.0473
+          "probability": 0.0253
         },
         {
           "seats": 21,
-          "probability": 0.0499
+          "probability": 0.0328
         },
         {
           "seats": 22,
-          "probability": 0.0574
+          "probability": 0.0573
         },
         {
           "seats": 23,
-          "probability": 0.0554
+          "probability": 0.0682
         },
         {
           "seats": 24,
-          "probability": 0.0602
+          "probability": 0.0859
         },
         {
           "seats": 25,
-          "probability": 0.0614
+          "probability": 0.0988
         },
         {
           "seats": 26,
-          "probability": 0.058
+          "probability": 0.1108
         },
         {
           "seats": 27,
-          "probability": 0.0532
+          "probability": 0.102
         },
         {
           "seats": 28,
-          "probability": 0.0529
+          "probability": 0.0887
         },
         {
           "seats": 29,
-          "probability": 0.049
+          "probability": 0.0714
         },
         {
           "seats": 30,
-          "probability": 0.0416
+          "probability": 0.0588
         },
         {
           "seats": 31,
-          "probability": 0.0352
+          "probability": 0.0403
         },
         {
           "seats": 32,
-          "probability": 0.0284
+          "probability": 0.026
         },
         {
           "seats": 33,
-          "probability": 0.0251
+          "probability": 0.0202
         },
         {
           "seats": 34,
-          "probability": 0.0195
+          "probability": 0.0135
         },
         {
           "seats": 35,
-          "probability": 0.0159
+          "probability": 0.0104
         },
         {
           "seats": 36,
-          "probability": 0.0126
+          "probability": 0.0073
         },
         {
           "seats": 37,
-          "probability": 0.0106
-        },
-        {
-          "seats": 38,
-          "probability": 0.0077
-        },
-        {
-          "seats": 39,
-          "probability": 0.0078
-        },
-        {
-          "seats": 40,
-          "probability": 0.0066
-        },
-        {
-          "seats": 41,
           "probability": 0.0047
         },
         {
-          "seats": 42,
-          "probability": 0.004
+          "seats": 38,
+          "probability": 0.0045
         },
         {
-          "seats": 43,
-          "probability": 0.0031
+          "seats": 39,
+          "probability": 0.0037
         },
         {
-          "seats": 44,
-          "probability": 0.003
-        },
-        {
-          "seats": 45,
-          "probability": 0.0027
-        },
-        {
-          "seats": 46,
-          "probability": 0.0024
-        },
-        {
-          "seats": 47,
+          "seats": 40,
           "probability": 0.0015
         },
         {
-          "seats": 48,
+          "seats": 41,
           "probability": 0.0011
         },
         {
+          "seats": 42,
+          "probability": 0.0009
+        },
+        {
+          "seats": 43,
+          "probability": 0.0009
+        },
+        {
+          "seats": 44,
+          "probability": 0.0006
+        },
+        {
+          "seats": 45,
+          "probability": 0.001
+        },
+        {
+          "seats": 46,
+          "probability": 0.0002
+        },
+        {
+          "seats": 47,
+          "probability": 0.0004
+        },
+        {
           "seats": 49,
-          "probability": 0.0013
+          "probability": 0.0002
         },
         {
           "seats": 50,
-          "probability": 0.0005
-        },
-        {
-          "seats": 51,
-          "probability": 0.0005
+          "probability": 0.0002
         },
         {
           "seats": 52,
-          "probability": 0.0008
-        },
-        {
-          "seats": 53,
-          "probability": 0.0008
+          "probability": 0.0001
         },
         {
           "seats": 54,
-          "probability": 0.0002
+          "probability": 0.0001
         },
         {
           "seats": 55,
-          "probability": 0.0003
-        },
-        {
-          "seats": 56,
-          "probability": 0.0003
-        },
-        {
-          "seats": 57,
-          "probability": 0.0003
+          "probability": 0.0001
         },
         {
           "seats": 58,
-          "probability": 0.0003
-        },
-        {
-          "seats": 61,
-          "probability": 0.0002
-        },
-        {
-          "seats": 63,
-          "probability": 0.0001
-        },
-        {
-          "seats": 64,
-          "probability": 0.0001
-        },
-        {
-          "seats": 65,
-          "probability": 0.0001
-        },
-        {
-          "seats": 66,
-          "probability": 0.0001
-        },
-        {
-          "seats": 67,
-          "probability": 0.0002
-        },
-        {
-          "seats": 68,
-          "probability": 0.0001
-        },
-        {
-          "seats": 72,
-          "probability": 0.0001
-        },
-        {
-          "seats": 79,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "KD",
-      "meanShare": 6,
+      "meanShare": 6.4,
       "shareInterval80": [
-        2.4,
-        9.6
+        4.8,
+        8
       ],
-      "centralSeats": 22,
-      "medianSeats": 22,
+      "centralSeats": 23,
+      "medianSeats": 23,
       "seatInterval80": [
-        0,
-        35
+        17,
+        29
       ],
-      "thresholdProbability": 0.7776,
+      "thresholdProbability": 0.9617,
       "largestPartyProbability": 0,
-      "pollingDisagreement": 0.84,
-      "historicalRmse": 1.52,
+      "pollingDisagreement": 0.99,
+      "historicalRmse": 0.86,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.2224
+          "probability": 0.0383
         },
         {
           "seats": 14,
-          "probability": 0.0016
+          "probability": 0.0002
         },
         {
           "seats": 15,
-          "probability": 0.0226
+          "probability": 0.0113
         },
         {
           "seats": 16,
-          "probability": 0.0338
+          "probability": 0.0208
         },
         {
           "seats": 17,
-          "probability": 0.0359
+          "probability": 0.0308
         },
         {
           "seats": 18,
-          "probability": 0.0393
+          "probability": 0.0395
         },
         {
           "seats": 19,
-          "probability": 0.04
+          "probability": 0.0459
         },
         {
           "seats": 20,
-          "probability": 0.0381
+          "probability": 0.0628
         },
         {
           "seats": 21,
-          "probability": 0.0425
+          "probability": 0.0804
         },
         {
           "seats": 22,
-          "probability": 0.043
+          "probability": 0.085
         },
         {
           "seats": 23,
-          "probability": 0.0438
+          "probability": 0.0951
         },
         {
           "seats": 24,
-          "probability": 0.0389
+          "probability": 0.0909
         },
         {
           "seats": 25,
-          "probability": 0.0403
+          "probability": 0.0881
         },
         {
           "seats": 26,
-          "probability": 0.041
+          "probability": 0.0759
         },
         {
           "seats": 27,
-          "probability": 0.0362
+          "probability": 0.0579
         },
         {
           "seats": 28,
-          "probability": 0.034
+          "probability": 0.049
         },
         {
           "seats": 29,
-          "probability": 0.0275
+          "probability": 0.0359
         },
         {
           "seats": 30,
-          "probability": 0.0292
+          "probability": 0.0278
         },
         {
           "seats": 31,
-          "probability": 0.0238
+          "probability": 0.0182
         },
         {
           "seats": 32,
-          "probability": 0.0222
+          "probability": 0.0122
         },
         {
           "seats": 33,
-          "probability": 0.0194
+          "probability": 0.01
         },
         {
           "seats": 34,
-          "probability": 0.0183
+          "probability": 0.0069
         },
         {
           "seats": 35,
-          "probability": 0.0128
+          "probability": 0.0045
         },
         {
           "seats": 36,
-          "probability": 0.0125
+          "probability": 0.0032
         },
         {
           "seats": 37,
-          "probability": 0.0115
+          "probability": 0.0019
         },
         {
           "seats": 38,
-          "probability": 0.0092
+          "probability": 0.0018
         },
         {
           "seats": 39,
-          "probability": 0.009
-        },
-        {
-          "seats": 40,
-          "probability": 0.0077
-        },
-        {
-          "seats": 41,
-          "probability": 0.0065
-        },
-        {
-          "seats": 42,
-          "probability": 0.005
-        },
-        {
-          "seats": 43,
-          "probability": 0.0043
-        },
-        {
-          "seats": 44,
-          "probability": 0.0049
-        },
-        {
-          "seats": 45,
-          "probability": 0.0038
-        },
-        {
-          "seats": 46,
-          "probability": 0.0027
-        },
-        {
-          "seats": 47,
-          "probability": 0.0026
-        },
-        {
-          "seats": 48,
-          "probability": 0.0013
-        },
-        {
-          "seats": 49,
-          "probability": 0.0016
-        },
-        {
-          "seats": 50,
-          "probability": 0.0017
-        },
-        {
-          "seats": 51,
-          "probability": 0.0008
-        },
-        {
-          "seats": 52,
           "probability": 0.0014
         },
         {
-          "seats": 53,
-          "probability": 0.001
+          "seats": 40,
+          "probability": 0.0013
         },
         {
-          "seats": 54,
+          "seats": 41,
+          "probability": 0.0004
+        },
+        {
+          "seats": 42,
           "probability": 0.0009
         },
         {
-          "seats": 55,
-          "probability": 0.0005
-        },
-        {
-          "seats": 56,
-          "probability": 0.0004
-        },
-        {
-          "seats": 57,
-          "probability": 0.0004
-        },
-        {
-          "seats": 58,
-          "probability": 0.0004
-        },
-        {
-          "seats": 59,
-          "probability": 0.0005
-        },
-        {
-          "seats": 60,
+          "seats": 43,
           "probability": 0.0003
         },
         {
-          "seats": 61,
-          "probability": 0.0005
+          "seats": 44,
+          "probability": 0.0004
         },
         {
-          "seats": 62,
-          "probability": 0.0001
-        },
-        {
-          "seats": 63,
+          "seats": 45,
           "probability": 0.0002
         },
         {
-          "seats": 64,
+          "seats": 46,
+          "probability": 0.0004
+        },
+        {
+          "seats": 47,
           "probability": 0.0001
         },
         {
-          "seats": 65,
-          "probability": 0.0003
-        },
-        {
-          "seats": 66,
-          "probability": 0.0002
-        },
-        {
-          "seats": 67,
+          "seats": 48,
           "probability": 0.0001
         },
         {
-          "seats": 68,
-          "probability": 0.0002
-        },
-        {
-          "seats": 69,
-          "probability": 0.0003
-        },
-        {
-          "seats": 70,
+          "seats": 49,
           "probability": 0.0001
         },
         {
-          "seats": 71,
-          "probability": 0.0001
-        },
-        {
-          "seats": 72,
-          "probability": 0.0001
-        },
-        {
-          "seats": 74,
-          "probability": 0.0001
-        },
-        {
-          "seats": 77,
+          "seats": 51,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "MP",
-      "meanShare": 7.2,
+      "meanShare": 7.3,
       "shareInterval80": [
-        3,
-        11.3
+        5.2,
+        9.3
       ],
-      "centralSeats": 26,
-      "medianSeats": 26,
+      "centralSeats": 27,
+      "medianSeats": 27,
       "seatInterval80": [
-        0,
-        42
+        19,
+        34
       ],
-      "thresholdProbability": 0.8482,
-      "largestPartyProbability": 0.0003,
-      "pollingDisagreement": 0.67,
-      "historicalRmse": 2.04,
+      "thresholdProbability": 0.9673,
+      "largestPartyProbability": 0,
+      "pollingDisagreement": 0.6,
+      "historicalRmse": 1.78,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.1518
+          "probability": 0.0327
         },
         {
           "seats": 14,
-          "probability": 0.0011
+          "probability": 0.0001
         },
         {
           "seats": 15,
-          "probability": 0.0143
+          "probability": 0.0069
         },
         {
           "seats": 16,
-          "probability": 0.0191
+          "probability": 0.0117
         },
         {
           "seats": 17,
-          "probability": 0.0248
+          "probability": 0.015
         },
         {
           "seats": 18,
-          "probability": 0.0252
+          "probability": 0.0218
         },
         {
           "seats": 19,
@@ -2433,296 +1773,176 @@
         },
         {
           "seats": 20,
-          "probability": 0.0295
+          "probability": 0.0313
         },
         {
           "seats": 21,
-          "probability": 0.0288
+          "probability": 0.0383
         },
         {
           "seats": 22,
-          "probability": 0.0334
+          "probability": 0.0438
         },
         {
           "seats": 23,
-          "probability": 0.0353
+          "probability": 0.0573
         },
         {
           "seats": 24,
-          "probability": 0.0351
+          "probability": 0.0658
         },
         {
           "seats": 25,
-          "probability": 0.0397
+          "probability": 0.075
         },
         {
           "seats": 26,
-          "probability": 0.0386
+          "probability": 0.0721
         },
         {
           "seats": 27,
-          "probability": 0.0371
+          "probability": 0.0711
         },
         {
           "seats": 28,
-          "probability": 0.04
+          "probability": 0.0764
         },
         {
           "seats": 29,
-          "probability": 0.036
+          "probability": 0.0666
         },
         {
           "seats": 30,
-          "probability": 0.0316
+          "probability": 0.0603
         },
         {
           "seats": 31,
-          "probability": 0.0337
+          "probability": 0.0445
         },
         {
           "seats": 32,
-          "probability": 0.0326
+          "probability": 0.0393
         },
         {
           "seats": 33,
-          "probability": 0.0291
+          "probability": 0.0308
         },
         {
           "seats": 34,
-          "probability": 0.0275
+          "probability": 0.0257
         },
         {
           "seats": 35,
-          "probability": 0.0246
+          "probability": 0.0213
         },
         {
           "seats": 36,
-          "probability": 0.0223
+          "probability": 0.0146
         },
         {
           "seats": 37,
-          "probability": 0.0224
+          "probability": 0.0133
         },
         {
           "seats": 38,
-          "probability": 0.0165
+          "probability": 0.0077
         },
         {
           "seats": 39,
-          "probability": 0.0165
-        },
-        {
-          "seats": 40,
-          "probability": 0.0124
-        },
-        {
-          "seats": 41,
-          "probability": 0.0152
-        },
-        {
-          "seats": 42,
-          "probability": 0.0111
-        },
-        {
-          "seats": 43,
-          "probability": 0.0118
-        },
-        {
-          "seats": 44,
-          "probability": 0.0114
-        },
-        {
-          "seats": 45,
           "probability": 0.0081
         },
         {
-          "seats": 46,
-          "probability": 0.0069
+          "seats": 40,
+          "probability": 0.0057
         },
         {
-          "seats": 47,
-          "probability": 0.0072
+          "seats": 41,
+          "probability": 0.0037
         },
         {
-          "seats": 48,
-          "probability": 0.006
+          "seats": 42,
+          "probability": 0.003
         },
         {
-          "seats": 49,
-          "probability": 0.004
-        },
-        {
-          "seats": 50,
-          "probability": 0.0043
-        },
-        {
-          "seats": 51,
-          "probability": 0.0025
-        },
-        {
-          "seats": 52,
-          "probability": 0.0034
-        },
-        {
-          "seats": 53,
-          "probability": 0.0036
-        },
-        {
-          "seats": 54,
-          "probability": 0.0024
-        },
-        {
-          "seats": 55,
-          "probability": 0.0021
-        },
-        {
-          "seats": 56,
-          "probability": 0.0022
-        },
-        {
-          "seats": 57,
-          "probability": 0.001
-        },
-        {
-          "seats": 58,
+          "seats": 43,
           "probability": 0.002
         },
         {
-          "seats": 59,
-          "probability": 0.0013
+          "seats": 44,
+          "probability": 0.0019
         },
         {
-          "seats": 60,
-          "probability": 0.0015
-        },
-        {
-          "seats": 61,
+          "seats": 45,
           "probability": 0.0008
         },
         {
-          "seats": 62,
-          "probability": 0.0006
+          "seats": 46,
+          "probability": 0.0012
         },
         {
-          "seats": 63,
-          "probability": 0.0006
+          "seats": 47,
+          "probability": 0.0015
         },
         {
-          "seats": 64,
+          "seats": 48,
+          "probability": 0.0003
+        },
+        {
+          "seats": 49,
+          "probability": 0.0001
+        },
+        {
+          "seats": 50,
           "probability": 0.0007
         },
         {
-          "seats": 65,
-          "probability": 0.0003
+          "seats": 51,
+          "probability": 0.0006
         },
         {
-          "seats": 66,
+          "seats": 52,
+          "probability": 0.0002
+        },
+        {
+          "seats": 53,
           "probability": 0.0004
         },
         {
-          "seats": 67,
+          "seats": 54,
+          "probability": 0.0002
+        },
+        {
+          "seats": 55,
+          "probability": 0.0002
+        },
+        {
+          "seats": 57,
+          "probability": 0.0002
+        },
+        {
+          "seats": 59,
+          "probability": 0.0001
+        },
+        {
+          "seats": 60,
           "probability": 0.0003
         },
         {
-          "seats": 68,
-          "probability": 0.0003
-        },
-        {
-          "seats": 69,
-          "probability": 0.0003
-        },
-        {
-          "seats": 70,
+          "seats": 61,
           "probability": 0.0002
         },
         {
           "seats": 71,
-          "probability": 0.0001
-        },
-        {
-          "seats": 72,
-          "probability": 0.0008
-        },
-        {
-          "seats": 73,
-          "probability": 0.0003
-        },
-        {
-          "seats": 74,
-          "probability": 0.0001
-        },
-        {
-          "seats": 75,
-          "probability": 0.0001
-        },
-        {
-          "seats": 76,
-          "probability": 0.0001
-        },
-        {
-          "seats": 77,
-          "probability": 0.0002
-        },
-        {
-          "seats": 78,
-          "probability": 0.0001
-        },
-        {
-          "seats": 79,
-          "probability": 0.0003
-        },
-        {
-          "seats": 80,
-          "probability": 0.0002
-        },
-        {
-          "seats": 81,
-          "probability": 0.0001
-        },
-        {
-          "seats": 84,
-          "probability": 0.0002
-        },
-        {
-          "seats": 85,
-          "probability": 0.0001
-        },
-        {
-          "seats": 87,
-          "probability": 0.0001
-        },
-        {
-          "seats": 88,
-          "probability": 0.0001
-        },
-        {
-          "seats": 92,
-          "probability": 0.0001
-        },
-        {
-          "seats": 94,
-          "probability": 0.0001
-        },
-        {
-          "seats": 95,
-          "probability": 0.0001
-        },
-        {
-          "seats": 97,
-          "probability": 0.0001
-        },
-        {
-          "seats": 111,
           "probability": 0.0001
         }
       ]
     },
     {
       "partyId": "L",
-      "meanShare": 2.1,
+      "meanShare": 2.4,
       "shareInterval80": [
-        0.5,
-        3.7
+        1.4,
+        3.3
       ],
       "centralSeats": 0,
       "medianSeats": 0,
@@ -2730,101 +1950,65 @@
         0,
         0
       ],
-      "thresholdProbability": 0.0671,
+      "thresholdProbability": 0.0247,
       "largestPartyProbability": 0,
-      "pollingDisagreement": 0.47,
-      "historicalRmse": 0.6,
+      "pollingDisagreement": 0.51,
+      "historicalRmse": 0.65,
       "seatHistogram": [
         {
           "seats": 0,
-          "probability": 0.9329
+          "probability": 0.9753
         },
         {
           "seats": 14,
-          "probability": 0.0038
-        },
-        {
-          "seats": 15,
-          "probability": 0.0165
-        },
-        {
-          "seats": 16,
-          "probability": 0.0129
-        },
-        {
-          "seats": 17,
-          "probability": 0.0101
-        },
-        {
-          "seats": 18,
-          "probability": 0.0058
-        },
-        {
-          "seats": 19,
-          "probability": 0.0035
-        },
-        {
-          "seats": 20,
-          "probability": 0.0032
-        },
-        {
-          "seats": 21,
           "probability": 0.0025
         },
         {
-          "seats": 22,
-          "probability": 0.0024
+          "seats": 15,
+          "probability": 0.0082
         },
         {
-          "seats": 23,
+          "seats": 16,
+          "probability": 0.0049
+        },
+        {
+          "seats": 17,
+          "probability": 0.0037
+        },
+        {
+          "seats": 18,
+          "probability": 0.0021
+        },
+        {
+          "seats": 19,
           "probability": 0.0015
         },
         {
-          "seats": 24,
-          "probability": 0.0013
+          "seats": 20,
+          "probability": 0.0005
         },
         {
-          "seats": 25,
-          "probability": 0.0011
-        },
-        {
-          "seats": 26,
-          "probability": 0.0007
-        },
-        {
-          "seats": 27,
+          "seats": 21,
           "probability": 0.0003
         },
         {
-          "seats": 28,
+          "seats": 23,
           "probability": 0.0004
         },
         {
-          "seats": 29,
-          "probability": 0.0001
+          "seats": 24,
+          "probability": 0.0003
         },
         {
           "seats": 31,
-          "probability": 0.0002
+          "probability": 0.0001
         },
         {
           "seats": 33,
-          "probability": 0.0004
-        },
-        {
-          "seats": 34,
           "probability": 0.0001
         },
         {
-          "seats": 45,
-          "probability": 0.0001
-        },
-        {
-          "seats": 46,
-          "probability": 0.0001
-        },
-        {
-          "seats": 47,
+          "seats": 35,
           "probability": 0.0001
         }
       ]
@@ -2834,7 +2018,7 @@
     {
       "id": "opposition-majority",
       "question": "Når S, V, MP och C minst 175 mandat?",
-      "probability": 0.8751,
+      "probability": 0.9572,
       "resultLabel": "Oppositionsmandat",
       "category": "majority",
       "resolution": "Ja om S, V, MP och C tillsammans tilldelas minst 175 av 349 mandat i Valmyndighetens slutliga riksdagsresultat.",
@@ -2844,7 +2028,7 @@
     {
       "id": "tido-majority",
       "question": "Når Tidöpartierna minst 175 mandat?",
-      "probability": 0.1249,
+      "probability": 0.0428,
       "resultLabel": "Tidömajoritet",
       "category": "majority",
       "resolution": "Ja om M, SD, KD och L tillsammans tilldelas minst 175 mandat i slutresultatet.",
@@ -2854,7 +2038,7 @@
     {
       "id": "liberals-threshold",
       "question": "Klarar Liberalerna riksdagsspärren?",
-      "probability": 0.0671,
+      "probability": 0.0247,
       "resultLabel": "L över 4 %",
       "category": "threshold",
       "resolution": "Ja om Liberalerna får minst 4,00 procent av de giltiga rösterna nationellt.",
@@ -2864,7 +2048,7 @@
     {
       "id": "christian-democrats-threshold",
       "question": "Klarar Kristdemokraterna riksdagsspärren?",
-      "probability": 0.7776,
+      "probability": 0.9617,
       "resultLabel": "KD över 4 %",
       "category": "threshold",
       "resolution": "Ja om Kristdemokraterna får minst 4,00 procent av de giltiga rösterna nationellt.",
@@ -2874,7 +2058,7 @@
     {
       "id": "social-democrats-largest",
       "question": "Blir Socialdemokraterna största parti?",
-      "probability": 0.9436,
+      "probability": 0.9826,
       "resultLabel": "S störst",
       "category": "party",
       "resolution": "Ja om Socialdemokraterna får högst nationell röstandel av de modellerade riksdagspartierna.",
@@ -2884,7 +2068,7 @@
     {
       "id": "sd-beats-m",
       "question": "Får SD fler mandat än M?",
-      "probability": 0.6748,
+      "probability": 0.7556,
       "resultLabel": "SD större än M",
       "category": "party",
       "resolution": "Ja om Sverigedemokraterna tilldelas fler riksdagsmandat än Moderaterna i slutresultatet.",
@@ -2894,7 +2078,7 @@
     {
       "id": "seven-parties",
       "question": "Kommer exakt sju partier in i riksdagen?",
-      "probability": 0.5822,
+      "probability": 0.9068,
       "resultLabel": "Sju riksdagspartier",
       "category": "parliament",
       "resolution": "Ja om exakt sju av dagens åtta riksdagspartier får minst ett mandat.",
@@ -2914,8 +2098,8 @@
       ],
       "status": "politically-contested",
       "explanation": "Mandaten kan räcka, men C säger nej till V i regering. Majoritet är därför inte samma sak som en färdig koalition.",
-      "centralSeats": 193,
-      "majorityProbability": 0.8751
+      "centralSeats": 190,
+      "majorityProbability": 0.9572
     },
     {
       "id": "red-green-three",
@@ -2927,8 +2111,8 @@
       ],
       "status": "arithmetical",
       "explanation": "Mandat för tre rödgröna partier. Modellen antar inte att andra partier tolererar regeringen.",
-      "centralSeats": 168,
-      "majorityProbability": 0.3574
+      "centralSeats": 164,
+      "majorityProbability": 0.121
     },
     {
       "id": "andersson-center",
@@ -2940,8 +2124,8 @@
       ],
       "status": "politically-contested",
       "explanation": "Ett Andersson-underlag utan V i regeringen; det behöver normalt stöd eller tolerans utifrån.",
-      "centralSeats": 165,
-      "majorityProbability": 0.2432
+      "centralSeats": 161,
+      "majorityProbability": 0.0504
     },
     {
       "id": "center-crossbloc",
@@ -2953,8 +2137,8 @@
       ],
       "status": "politically-contested",
       "explanation": "C har pekat på en sådan mittlösning, men partierna har inte en gemensam regeringsöverenskommelse.",
-      "centralSeats": 161,
-      "majorityProbability": 0.1711
+      "centralSeats": 157,
+      "majorityProbability": 0.0335
     },
     {
       "id": "tido-four",
@@ -2967,8 +2151,8 @@
       ],
       "status": "declared",
       "explanation": "De fyra Tidöpartiernas mandatbas. Det här är en mandatprognos, inte ett färdigt regeringsbeslut.",
-      "centralSeats": 156,
-      "majorityProbability": 0.1249
+      "centralSeats": 159,
+      "majorityProbability": 0.0428
     },
     {
       "id": "tido-without-l",
@@ -2980,27 +2164,27 @@
       ],
       "status": "arithmetical",
       "explanation": "Visar mandatläget utan L; det är inte ett separat deklarerat regeringsalternativ.",
-      "centralSeats": 156,
-      "majorityProbability": 0.117
+      "centralSeats": 159,
+      "majorityProbability": 0.0393
     }
   ],
   "backtests": [
     {
       "year": 2010,
-      "cutoff": "2010-08-25",
+      "cutoff": "2010-09-10",
       "role": "calibration",
-      "polls": 45,
+      "polls": 57,
       "houses": 8,
-      "meanAbsoluteError": 0.846,
+      "meanAbsoluteError": 0.773,
       "prediction": {
-        "S": 30.77,
-        "SD": 4.68,
-        "M": 31.09,
-        "V": 5.28,
-        "C": 5.01,
-        "KD": 5.16,
-        "MP": 9.32,
-        "L": 6.74
+        "S": 29.82,
+        "SD": 4.75,
+        "M": 30.63,
+        "V": 6.12,
+        "C": 5.27,
+        "KD": 5.31,
+        "MP": 8.87,
+        "L": 7.25
       },
       "actual": {
         "S": 30.66,
@@ -3015,20 +2199,20 @@
     },
     {
       "year": 2014,
-      "cutoff": "2014-08-20",
+      "cutoff": "2014-09-05",
       "role": "calibration",
-      "polls": 41,
+      "polls": 51,
       "houses": 9,
-      "meanAbsoluteError": 1.511,
+      "meanAbsoluteError": 1.347,
       "prediction": {
-        "S": 30.91,
-        "SD": 10.02,
-        "M": 22.01,
-        "V": 7.35,
-        "C": 4.71,
-        "KD": 4.25,
-        "MP": 10.38,
-        "L": 6.41
+        "S": 30.69,
+        "SD": 10.33,
+        "M": 22.04,
+        "V": 7.12,
+        "C": 4.92,
+        "KD": 4.54,
+        "MP": 9.95,
+        "L": 6.38
       },
       "actual": {
         "S": 31.01,
@@ -3043,20 +2227,20 @@
     },
     {
       "year": 2018,
-      "cutoff": "2018-08-15",
+      "cutoff": "2018-08-31",
       "role": "calibration",
-      "polls": 43,
+      "polls": 64,
       "houses": 9,
-      "meanAbsoluteError": 1.595,
+      "meanAbsoluteError": 1.492,
       "prediction": {
-        "S": 24.41,
-        "SD": 20.59,
-        "M": 20.02,
-        "V": 9.28,
-        "C": 9.32,
-        "KD": 3.44,
-        "MP": 4.68,
-        "L": 4.95
+        "S": 24.62,
+        "SD": 19.8,
+        "M": 18.33,
+        "V": 9.55,
+        "C": 8.9,
+        "KD": 4.75,
+        "MP": 5.41,
+        "L": 5.6
       },
       "actual": {
         "S": 28.26,
@@ -3071,20 +2255,20 @@
     },
     {
       "year": 2022,
-      "cutoff": "2022-08-17",
+      "cutoff": "2022-09-02",
       "role": "holdout",
-      "polls": 35,
+      "polls": 83,
       "houses": 8,
-      "meanAbsoluteError": 0.871,
+      "meanAbsoluteError": 0.805,
       "prediction": {
-        "S": 30.51,
-        "SD": 17.96,
-        "M": 19.9,
-        "V": 8.1,
-        "C": 6.37,
-        "KD": 6.16,
-        "MP": 4.4,
-        "L": 4.81
+        "S": 29.18,
+        "SD": 19.5,
+        "M": 18.09,
+        "V": 8.28,
+        "C": 6.81,
+        "KD": 6.01,
+        "MP": 5.16,
+        "L": 5.47
       },
       "actual": {
         "S": 30.33,
@@ -3099,36 +2283,6 @@
     }
   ],
   "trend": [
-    {
-      "date": "2026-04-01",
-      "oppositionSeats": 190,
-      "tidoSeats": 159,
-      "partyShares": {
-        "S": 33.04,
-        "SD": 21.03,
-        "M": 17.69,
-        "V": 7.75,
-        "C": 5.48,
-        "KD": 4.65,
-        "MP": 5.98,
-        "L": 2.37
-      }
-    },
-    {
-      "date": "2026-04-11",
-      "oppositionSeats": 192,
-      "tidoSeats": 157,
-      "partyShares": {
-        "S": 32.99,
-        "SD": 20.9,
-        "M": 17.58,
-        "V": 7.75,
-        "C": 5.64,
-        "KD": 4.77,
-        "MP": 5.99,
-        "L": 2.36
-      }
-    },
     {
       "date": "2026-04-22",
       "oppositionSeats": 191,
@@ -3296,17 +2450,17 @@
     },
     {
       "date": "2026-06-16",
-      "oppositionSeats": 195,
-      "tidoSeats": 154,
+      "oppositionSeats": 194,
+      "tidoSeats": 155,
       "partyShares": {
-        "S": 32.32,
-        "SD": 19.61,
-        "M": 17.43,
-        "V": 8.3,
-        "C": 5.91,
-        "KD": 5.2,
-        "MP": 6.87,
-        "L": 2.26
+        "S": 32.34,
+        "SD": 19.64,
+        "M": 17.48,
+        "V": 8.25,
+        "C": 5.9,
+        "KD": 5.21,
+        "MP": 6.88,
+        "L": 2.29
       }
     },
     {
@@ -3314,14 +2468,14 @@
       "oppositionSeats": 195,
       "tidoSeats": 154,
       "partyShares": {
-        "S": 32.37,
-        "SD": 19.66,
-        "M": 17.3,
-        "V": 8.38,
-        "C": 5.93,
-        "KD": 5.25,
-        "MP": 6.81,
-        "L": 2.24
+        "S": 32.39,
+        "SD": 19.68,
+        "M": 17.34,
+        "V": 8.34,
+        "C": 5.92,
+        "KD": 5.26,
+        "MP": 6.82,
+        "L": 2.27
       }
     },
     {
@@ -3329,14 +2483,14 @@
       "oppositionSeats": 195,
       "tidoSeats": 154,
       "partyShares": {
-        "S": 32.22,
-        "SD": 19.79,
-        "M": 17.26,
-        "V": 8.36,
-        "C": 5.96,
-        "KD": 5.26,
-        "MP": 6.93,
-        "L": 2.23
+        "S": 32.24,
+        "SD": 19.81,
+        "M": 17.3,
+        "V": 8.32,
+        "C": 5.95,
+        "KD": 5.27,
+        "MP": 6.94,
+        "L": 2.26
       }
     },
     {
@@ -3344,14 +2498,14 @@
       "oppositionSeats": 194,
       "tidoSeats": 155,
       "partyShares": {
-        "S": 32.14,
-        "SD": 19.76,
-        "M": 17.18,
-        "V": 8.3,
+        "S": 32.15,
+        "SD": 19.78,
+        "M": 17.21,
+        "V": 8.27,
         "C": 5.98,
-        "KD": 5.37,
+        "KD": 5.38,
         "MP": 6.98,
-        "L": 2.3
+        "L": 2.32
       }
     },
     {
@@ -3359,14 +2513,14 @@
       "oppositionSeats": 194,
       "tidoSeats": 155,
       "partyShares": {
-        "S": 32.16,
-        "SD": 19.72,
-        "M": 17.22,
-        "V": 8.26,
+        "S": 32.18,
+        "SD": 19.74,
+        "M": 17.25,
+        "V": 8.23,
         "C": 6.06,
-        "KD": 5.43,
-        "MP": 6.92,
-        "L": 2.25
+        "KD": 5.44,
+        "MP": 6.93,
+        "L": 2.27
       }
     },
     {
@@ -3374,14 +2528,14 @@
       "oppositionSeats": 195,
       "tidoSeats": 154,
       "partyShares": {
-        "S": 32.28,
-        "SD": 19.8,
-        "M": 17.08,
-        "V": 8.29,
-        "C": 5.98,
-        "KD": 5.39,
-        "MP": 6.98,
-        "L": 2.2
+        "S": 32.29,
+        "SD": 19.81,
+        "M": 17.11,
+        "V": 8.27,
+        "C": 5.97,
+        "KD": 5.4,
+        "MP": 6.99,
+        "L": 2.22
       }
     },
     {
@@ -3389,14 +2543,14 @@
       "oppositionSeats": 195,
       "tidoSeats": 154,
       "partyShares": {
-        "S": 32.22,
-        "SD": 19.87,
-        "M": 17.08,
-        "V": 8.2,
-        "C": 6.06,
+        "S": 32.23,
+        "SD": 19.89,
+        "M": 17.11,
+        "V": 8.17,
+        "C": 6.05,
         "KD": 5.49,
-        "MP": 7.06,
-        "L": 2.13
+        "MP": 7.07,
+        "L": 2.15
       }
     },
     {
@@ -3404,29 +2558,29 @@
       "oppositionSeats": 193,
       "tidoSeats": 156,
       "partyShares": {
-        "S": 31.88,
-        "SD": 19.93,
-        "M": 17.06,
-        "V": 7.95,
+        "S": 31.89,
+        "SD": 19.95,
+        "M": 17.08,
+        "V": 7.93,
         "C": 6.28,
-        "KD": 5.82,
+        "KD": 5.83,
         "MP": 6.98,
-        "L": 2.13
+        "L": 2.15
       }
     },
     {
       "date": "2026-08-17",
-      "oppositionSeats": 194,
-      "tidoSeats": 155,
+      "oppositionSeats": 193,
+      "tidoSeats": 156,
       "partyShares": {
-        "S": 31.53,
-        "SD": 19.68,
-        "M": 17.1,
-        "V": 7.84,
-        "C": 6.67,
+        "S": 31.54,
+        "SD": 19.69,
+        "M": 17.11,
+        "V": 7.83,
+        "C": 6.66,
         "KD": 5.98,
         "MP": 7.11,
-        "L": 2.12
+        "L": 2.13
       }
     },
     {
@@ -3434,14 +2588,104 @@
       "oppositionSeats": 193,
       "tidoSeats": 156,
       "partyShares": {
-        "S": 31.29,
-        "SD": 19.54,
-        "M": 17.23,
-        "V": 7.74,
-        "C": 6.76,
+        "S": 31.3,
+        "SD": 19.55,
+        "M": 17.24,
+        "V": 7.73,
+        "C": 6.75,
         "KD": 6.04,
         "MP": 7.24,
+        "L": 2.11
+      }
+    },
+    {
+      "date": "2026-08-25",
+      "oppositionSeats": 193,
+      "tidoSeats": 156,
+      "partyShares": {
+        "S": 31.12,
+        "SD": 19.49,
+        "M": 17.37,
+        "V": 7.92,
+        "C": 6.71,
+        "KD": 6.06,
+        "MP": 7.2,
+        "L": 2.13
+      }
+    },
+    {
+      "date": "2026-08-26",
+      "oppositionSeats": 192,
+      "tidoSeats": 157,
+      "partyShares": {
+        "S": 31.14,
+        "SD": 19.52,
+        "M": 17.58,
+        "V": 7.88,
+        "C": 6.61,
+        "KD": 6.03,
+        "MP": 7.12,
+        "L": 2.13
+      }
+    },
+    {
+      "date": "2026-08-27",
+      "oppositionSeats": 191,
+      "tidoSeats": 158,
+      "partyShares": {
+        "S": 30.78,
+        "SD": 19.51,
+        "M": 17.61,
+        "V": 7.86,
+        "C": 6.72,
+        "KD": 6.17,
+        "MP": 7.17,
         "L": 2.1
+      }
+    },
+    {
+      "date": "2026-09-02",
+      "oppositionSeats": 190,
+      "tidoSeats": 159,
+      "partyShares": {
+        "S": 30.29,
+        "SD": 19.61,
+        "M": 17.55,
+        "V": 7.92,
+        "C": 6.87,
+        "KD": 6.22,
+        "MP": 7.21,
+        "L": 2.23
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "oppositionSeats": 191,
+      "tidoSeats": 158,
+      "partyShares": {
+        "S": 29.79,
+        "SD": 19.6,
+        "M": 17.34,
+        "V": 7.95,
+        "C": 7.12,
+        "KD": 6.38,
+        "MP": 7.3,
+        "L": 2.39
+      }
+    },
+    {
+      "date": "2026-09-04",
+      "oppositionSeats": 190,
+      "tidoSeats": 159,
+      "partyShares": {
+        "S": 29.6,
+        "SD": 19.58,
+        "M": 17.43,
+        "V": 8.06,
+        "C": 7.15,
+        "KD": 6.4,
+        "MP": 7.26,
+        "L": 2.37
       }
     }
   ]

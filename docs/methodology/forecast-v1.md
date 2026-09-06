@@ -44,6 +44,8 @@ The eight party means and the residual `OTHER` category are normalized together 
 
 For every historical replay the cutoff is the same number of days before election day as the current 2026 run. Only polls published by that historical cutoff are visible.
 
+The eligible poll and house counts therefore change as the current cutoff advances. Verification recomputes those counts from each matched historical window, while keeping the calibration years and holdout role fixed. The former test that pinned counts to 19 August 2026 incorrectly blocked valid scheduled refreshes and was replaced on 6 September 2026. Statistical parameters are unchanged.
+
 | Election | Role in v1 beta | Eight-party comparability |
 | --- | --- | --- |
 | 2002 | coverage audit only | Excluded |
@@ -70,7 +72,7 @@ Uncertainty is estimated across nine jointly exhaustive categories: the eight pa
 
 The model runs **10,000 deterministic simulations** as antithetic pairs: every sampled shock is also run with its sign reversed. This reduces Monte Carlo noise around the same center without pretending the error distribution is symmetric in its political consequences. Small negative raw shares are floored, all nine categories are renormalized to 100%, and every run is projected to mandates.
 
-The committed seed makes the snapshot reproducible. A source checksum, source commit, model version, cutoff or seed change produces a different snapshot ID.
+The committed seed makes the snapshot reproducible. Snapshot identity includes source checksum, source commit, model version, cutoff, seed, source-adapter version and reviewed publication-date corrections. The adapter corrects the September Novus poll to 2 September using its primary report; raw source bytes remain unchanged. See the source register for evidence.
 
 ## Exact mandate projection
 
@@ -120,7 +122,7 @@ npm run data:verify
 npm run check
 ```
 
-The source manifest pins the raw CSV SHA-256, upstream commit, accepted row count, cutoff, three primary cross-checks and normalized forecast SHA-256. Calendar dates are round-trip validated rather than accepted through JavaScript date rollover; future Swedish dates and cutoffs after election day are rejected. The six-hour refresh workflow fails closed, becomes a no-op after election day and keeps the last-known-good snapshot when the source or model fails validation. See [`opinion-polls.md`](../data-sources/opinion-polls.md) for the ingestion and quarantine contract and [`simulator-v1.md`](simulator-v1.md) for the mandate engine.
+The source manifest pins the raw CSV SHA-256, upstream commit, accepted row count, cutoff, primary cross-checks and normalized forecast SHA-256. Calendar dates are round-trip validated rather than accepted through JavaScript date rollover; future Swedish dates and cutoffs after election day are rejected. The six-hour refresh workflow fails closed, becomes a no-op after election day and keeps the last-known-good snapshot when the source or model fails validation. See [`opinion-polls.md`](../data-sources/opinion-polls.md) for the ingestion and quarantine contract and [`simulator-v1.md`](simulator-v1.md) for the mandate engine.
 
 ## Version history
 

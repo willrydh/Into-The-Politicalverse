@@ -6,6 +6,7 @@ import { dateInTimeZone, isIsoDateStamp } from "../lib/dates";
 import { FORECAST_ELECTION_DATE, generateElectionForecast, validateForecastInputs } from "../lib/forecast/model";
 import { hasCompleteModernShares, parsePollCsv } from "../lib/forecast/polls";
 import type { PollObservation } from "../lib/forecast/types";
+import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/forecast/source-corrections";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const RAW_PATH = resolve(ROOT, "data/raw/polls/SwedishPolls.csv");
@@ -234,7 +235,10 @@ if (Date.parse(upstream.committedAt) < Date.parse(currentManifest.sourceCommitDa
   throw new Error(`Source commit timestamp regressed from ${currentManifest.sourceCommitDate} to ${upstream.committedAt}`);
 }
 
-if (candidateRawSha256 === currentManifest.rawSha256 && upstream.sha === currentManifest.sourceCommit) {
+const acceptedSource = JSON.parse(currentForecast).source;
+if (candidateRawSha256 === currentManifest.rawSha256 && upstream.sha === currentManifest.sourceCommit
+  && acceptedSource.adapterVersion === POLLS_ADAPTER_VERSION
+  && JSON.stringify(acceptedSource.publicationDateCorrections) === JSON.stringify(PUBLICATION_DATE_CORRECTIONS)) {
   console.log(`SwedishPolls is unchanged at ${upstream.sha.slice(0, 12)}; last-known-good forecast retained.`);
   process.exit(0);
 }
@@ -265,6 +269,8 @@ const forecast = generateElectionForecast({
     rawSha256: candidateManifest.rawSha256,
     license: candidateManifest.license,
     retrievedAt: candidateManifest.retrievedAt,
+    adapterVersion: POLLS_ADAPTER_VERSION,
+    publicationDateCorrections: PUBLICATION_DATE_CORRECTIONS,
     primaryCrossChecks: candidateManifest.primaryCrossChecks.map(({ publisher, publishedAt, url }) => ({
       publisher,
       publishedAt,

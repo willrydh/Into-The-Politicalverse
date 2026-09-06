@@ -103,6 +103,16 @@ export type ElectionForecast = {
     rawSha256: string;
     license: "CC0-1.0";
     retrievedAt: string;
+    adapterVersion?: string;
+    publicationDateCorrections?: ReadonlyArray<{
+      company: string;
+      fieldworkFrom: string;
+      fieldworkTo: string;
+      originalPublishedAt: string;
+      publishedAt: string;
+      sourceUrl: string;
+      checkedAt: string;
+    }>;
     primaryCrossChecks: Array<{
       publisher: string;
       url: string;

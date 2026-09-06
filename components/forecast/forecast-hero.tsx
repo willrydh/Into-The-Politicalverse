@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PartyMark } from "@/components/party-mark";
+import { ForecastFreshness } from "@/components/forecast/forecast-freshness";
 import { PARTY_ORDER, PARTIES } from "@/lib/parties";
 import type { ElectionForecast } from "@/lib/forecast/types";
 import type { SimulatorPartyId } from "@/lib/simulator/types";
@@ -24,6 +25,7 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
 
   return (
     <section className="forecast-hero">
+      <ForecastFreshness dataCutoff={forecast.model.dataCutoff} electionDate={forecast.model.electionDate} />
       <div className="forecast-hero__grid">
         <div className="forecast-hero__copy">
           <p className="eyebrow eyebrow--light"><span /> Politicalverse forecast · 2026</p>

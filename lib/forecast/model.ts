@@ -223,7 +223,7 @@ function leaveOneElectionOutIntervalDiagnostics(forecasts: HistoricalForecast[])
 }
 
 function snapshotId(source: SourceMetadata, dataCutoff: string, seed: number): string {
-  const value = `${source.rawSha256}|${source.upstreamCommit}|${MODEL_VERSION}|${dataCutoff}|${seed}`;
+  const value = `${source.rawSha256}|${source.upstreamCommit}|${MODEL_VERSION}|${dataCutoff}|${seed}|${source.adapterVersion ?? "raw-v1"}|${JSON.stringify(source.publicationDateCorrections ?? [])}`;
   let hash = 2_166_136_261;
   for (let index = 0; index < value.length; index += 1) {
     hash ^= value.charCodeAt(index);

@@ -1,6 +1,7 @@
 import type { SimulatorPartyId, SimulatorPartyVotes } from "@/lib/simulator/types";
 import { isIsoDateStamp, isoDateToEpoch } from "@/lib/dates";
 import { FORECAST_PARTY_IDS, type PollObservation } from "./types";
+import { correctPollPublicationDates } from "./source-corrections";
 
 const CSV_PARTY_COLUMNS: Record<SimulatorPartyId, number> = {
   M: 2,
@@ -63,7 +64,7 @@ export function parsePollCsv(contents: string): PollObservation[] {
   const expected = ["PublYearMonth", "Company", "M", "L", "C", "KD", "S", "V", "MP", "SD", "FI", "Uncertain", "n", "PublDate", "collectPeriodFrom", "collectPeriodTo", "approxPeriod", "house"];
   if (header.join("|") !== expected.join("|")) throw new Error("SwedishPolls CSV schema changed; refusing to ingest");
 
-  return lines.slice(1).filter(Boolean).map((line, index) => {
+  return correctPollPublicationDates(lines.slice(1).filter(Boolean).map((line, index) => {
     const cells = parseCsvLine(line);
     if (cells.length !== expected.length) throw new Error(`Malformed poll CSV row ${index + 2}`);
     if (!/^\d{4}-[A-Za-z0-9]{2,3}$/.test(cells[0])) throw new Error(`Invalid publication-period label on poll CSV row ${index + 2}`);
@@ -89,7 +90,7 @@ export function parsePollCsv(contents: string): PollObservation[] {
       approximateFieldwork: cells[16] === "TRUE",
       rowNumber: index + 2,
     };
-  });
+  }));
 }
 
 export function dateToEpoch(date: string): number {
