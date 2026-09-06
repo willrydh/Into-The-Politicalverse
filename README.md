@@ -8,6 +8,8 @@
 
 The public UI is available in Swedish at the existing routes and English under `/en/`, with a same-page language switch. Official 2026 counting has its own `/valnatt/` view, independently refreshed signed data and a [source catalogue](docs/data-sources/election-2026.md). See the [election-night runbook](docs/operations/election-night-2026.md) for cadence, validation, fallback and the remaining production verification gate.
 
+Universal search is available from every header (⌘/Ctrl K) at `/search/` and `/en/search/`. It indexes site content, dated political context, all imported 2022 personal-vote candidates, parties, counties, municipalities, constituencies, districts and collection votes, plus SCB’s 2,017 named urban localities (2023 geography, names revised November 2025). Search keeps query/filter/page state across language changes and history. Candidate links select the exact party/candidate/constituency; locality links explicitly open municipal results. See [search coverage and sources](docs/data-sources/universal-search.md).
+
 The site header hides when scrolling down and returns when scrolling up. An active menu item and a localized “You are here” trail identify the current page; the map adds its verified county, municipality and district with links back through the hierarchy. Keyboard access, reduced motion and anchor offsets remain available.
 
 The election archive separates the largest party, each election's bloc seat totals and the government that followed. It shows majority status, cabinet parties, support-party context and source-linked party mandates for 2002–2022, including the distinct January 2019 government formation after the 2018 election. See [historical election outcomes](docs/methodology/election-outcomes-v1.md).

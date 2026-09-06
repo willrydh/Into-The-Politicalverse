@@ -4,6 +4,7 @@ import { Localize, useLocale } from "@/components/localize";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
+import { SearchTrigger } from "./search/search-trigger";
 import { useSiteLocation } from "./site-location";
 import { useScrollHeader } from "./use-scroll-header";
 import { navigateLocalQuery, useLocalQuery } from "./maps/local-url";
@@ -30,7 +31,7 @@ export function SiteHeader() {
   const location = useSiteLocation();
   const headerRef = useScrollHeader(rawPathname);
   const navigationRef = useRef<HTMLElement>(null);
-  const page = [...NAVIGATION, { href: "/overview", label: locale === "sv" ? "Översikt" : "Overview" }, { href: "/sources", label: "Datakällor" }].find(item => item.href === pathname);
+  const page = [...NAVIGATION, { href: "/search", label: locale === "sv" ? "Sök" : "Search" }, { href: "/overview", label: locale === "sv" ? "Översikt" : "Overview" }, { href: "/sources", label: "Datakällor" }].find(item => item.href === pathname);
   const detail = location?.route === pathname && location.query === query ? location.crumbs : [];
   const crumbs = [{ label: "Start", href: "/" }, ...(page && pathname !== "/" ? [page] : []), ...detail];
   useEffect(() => {
@@ -52,10 +53,7 @@ export function SiteHeader() {
             <span className="wordmark__mark" aria-hidden="true"><span>PV</span></span>
             <span className="wordmark__text"><small>Into the</small><strong>Politicalverse</strong></span>
           </Link>
-          <div className="header-status" aria-label="Produktstatus">
-            <span className="status-dot" />
-            Oberoende valanalys · öppna källor
-          </div>
+          <SearchTrigger />
           <LanguageSwitcher />
         </div>
       </div>

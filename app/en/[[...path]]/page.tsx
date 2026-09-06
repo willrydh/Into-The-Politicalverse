@@ -9,10 +9,11 @@ import Elections from "@/app/(sv)/elections/page";
 import Indicators from "@/app/(sv)/indicators/page";
 import Simulator from "@/app/(sv)/simulator/page";
 import ElectionNight from "@/app/(sv)/valnatt/page";
+import Search from "@/app/(sv)/search/page";
 import Sources from "@/app/(sv)/sources/page";
 
-const pages = { "": Home, forecasts: Forecasts, charts: Charts, parties: Parties, maps: Maps, elections: Elections, indicators: Indicators, simulator: Simulator, overview: Home, valnatt: ElectionNight, sources: Sources };
-const titles: Record<string, string> = { "": "Swedish election forecast 2026", forecasts: "Forecast 2026", charts: "Charts", parties: "Parties", maps: "Maps", elections: "Elections", indicators: "Indicators", simulator: "Election simulator", overview: "Overview", valnatt: "Election night 2026", sources: "Data sources" };
+const pages = { "": Home, forecasts: Forecasts, charts: Charts, parties: Parties, maps: Maps, elections: Elections, indicators: Indicators, simulator: Simulator, overview: Home, valnatt: ElectionNight, sources: Sources, search: Search };
+const titles: Record<string, string> = { "": "Swedish election forecast 2026", forecasts: "Forecast 2026", charts: "Charts", parties: "Parties", maps: "Maps", elections: "Elections", indicators: "Indicators", simulator: "Election simulator", overview: "Overview", valnatt: "Election night 2026", sources: "Data sources", search: "Search Politicalverse" };
 export const dynamicParams = false;
 export function generateStaticParams() { return Object.keys(pages).map(path => ({ path: path ? [path] : [] })); }
 export async function generateMetadata({ params }: { params: Promise<{ path?: string[] }> }): Promise<Metadata> {

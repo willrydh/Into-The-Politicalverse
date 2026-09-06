@@ -24,6 +24,7 @@
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
     "safety:check": "node scripts/safety-preflight.mjs",
     "data:import:local": "node --import tsx scripts/import-local-geography.ts",
+    "data:import:localities": "node --import tsx scripts/import-scb-localities.ts",
     "data:import:personal": "node --import tsx scripts/import-personal-votes.ts"
   },
   "dependencies": {

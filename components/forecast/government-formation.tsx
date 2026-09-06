@@ -96,7 +96,7 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
             {governmentFormationContext.partyContexts.map((party) => {
               const leaderDate = sourceDate(party.leaderSource);
               return (
-                <article className="minister-radar__party" key={party.partyId}>
+                <article className="minister-radar__party" key={party.partyId} id={`leader-${party.partyId}`}>
                   <header>
                     <span>{party.partyId}</span>
                     <div>
