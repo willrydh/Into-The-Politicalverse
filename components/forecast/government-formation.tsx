@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import {
   getConstitutionalClaim,
   getGovernmentPartyContext,
@@ -43,7 +45,7 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
   const parliamentarism = getConstitutionalClaim("negative-parliamentarism");
   const ministers = getConstitutionalClaim("prime-minister-appoints-ministers");
 
-  return (
+  return <Localize>{(
     <div className="government-product">
       <div className="pm-paths">
         <article className="pm-path pm-path--lead">
@@ -134,5 +136,5 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
         </section>
       ) : null}
     </div>
-  );
+  )}</Localize>;
 }

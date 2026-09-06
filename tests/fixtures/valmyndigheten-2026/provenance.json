@@ -1,0 +1,21 @@
+{
+  "publisher": "Valmyndigheten",
+  "retrievedAt": "2026-09-06",
+  "purpose": "Official rehearsal fixtures only; never production results",
+  "files": [
+    {
+      "phase": "preliminar",
+      "url": "https://resultat.val.se/resultatfiler/genrep2026/p/rd/Genrep_2026_preliminar_00_RD.zip",
+      "entry": "Genrep_2026_preliminar_mandatfordelning_00_RD.json",
+      "sha256": "b2e8a4473e790d1ff858a3cc85afd4f56f7977313937d69cbceba98303885156",
+      "test": true
+    },
+    {
+      "phase": "slutlig",
+      "url": "https://resultat.val.se/resultatfiler/genrep2026/s/rd/Genrep_2026_slutlig_00_RD.zip",
+      "entry": "Genrep_2026_slutlig_mandatfordelning_00_RD.json",
+      "sha256": "e7cb6672ef70b050d83fb2620fcd029e760e1203bf44ad6faf8060d7640d2fa5",
+      "test": true
+    }
+  ]
+}

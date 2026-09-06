@@ -1,4 +1,6 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import { useState } from "react";
 import { PARTIES, PARTY_ORDER } from "@/lib/data/elections/parties";
@@ -48,7 +50,7 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
     })),
   }));
 
-  return (
+  return <Localize>{(
     <div className={compact ? "trend-chart trend-chart--compact" : "trend-chart"}>
       <div className="chart-controls" aria-label="Select a party to highlight">
         <button
@@ -141,5 +143,5 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
         <span>Final results · Riksdag</span>
       </div>
     </div>
-  );
+  )}</Localize>;
 }

@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import { PartyMark } from "@/components/party-mark";
 import type { ElectionForecast } from "@/lib/forecast/types";
 import { PARTIES } from "@/lib/parties";
@@ -11,7 +13,7 @@ function pct(value: number): string {
 export function PartySeatForecast({ forecast }: { forecast: ElectionForecast }) {
   const chartMaximum = Math.max(...forecast.parties.map((party) => party.seatInterval80[1]));
 
-  return (
+  return <Localize>{(
     <div className="seat-forecast">
       <div className="seat-forecast__head" aria-hidden="true">
         <span>Parti</span><span>Röstprognos</span><span>Mandat</span><span>80 % intervall</span><span>Över 4 %</span>
@@ -37,5 +39,5 @@ export function PartySeatForecast({ forecast }: { forecast: ElectionForecast }) 
         <span>Övriga är en samlad restkategori och får inga mandat i v1; modellen skattar inte att ett nytt namngivet parti tar sig in.</span>
       </footer>
     </div>
-  );
+  )}</Localize>;
 }

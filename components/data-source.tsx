@@ -1,5 +1,7 @@
+"use client";
+import { Localize } from "@/components/localize";
 export function DataSource({ compact = false }: { compact?: boolean }) {
-  return (
+  return <Localize>{(
     <a
       className={compact ? "data-source data-source--compact" : "data-source"}
       href="https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022"
@@ -12,5 +14,5 @@ export function DataSource({ compact = false }: { compact?: boolean }) {
         <small>Valmyndigheten ↗</small>
       </span>
     </a>
-  );
+  )}</Localize>;
 }

@@ -1,0 +1,68 @@
+name: Refresh official election-night data
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Early-voting source publishes at 06:00 and 14:00 Swedish summer time.
+    - cron: "17 4,12 * 8,9 *"
+    # Best-effort five-minute checks during the election and final count.
+    - cron: "2-57/5 * 13-30 9 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: politicalverse-official-live-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.repository == 'willrydh/Into-The-Politicalverse'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Limit scheduled collection to the 2026 election
+        id: period
+        run: |
+          if [ "$(date -u +%Y)" = "2026" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "active=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.period.outputs.active == 'true'
+        with:
+          ref: main
+          path: code
+      - uses: actions/checkout@v4
+        if: steps.period.outputs.active == 'true'
+        with:
+          ref: live-data
+          path: published
+      - uses: actions/setup-node@v4
+        if: steps.period.outputs.active == 'true'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: code/package-lock.json
+      - run: npm ci
+        if: steps.period.outputs.active == 'true'
+        working-directory: code
+      - name: Validate signatures, votes, mandates and source versions
+        id: collect
+        if: steps.period.outputs.active == 'true'
+        continue-on-error: true
+        working-directory: code
+        run: npm run data:live:update -- --output ../published/election-2026.json
+      - name: Publish checked status and retained verified data
+        if: steps.period.outputs.active == 'true'
+        working-directory: published
+        run: |
+          git add -- election-2026.json
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data: verify official election feed"
+            git push origin HEAD:live-data
+          fi
+      - name: Keep genuine source failures visible
+        if: steps.collect.outcome == 'failure'
+        run: exit 1

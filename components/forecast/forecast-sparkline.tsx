@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 type ForecastSparklineProps = {
   values: number[];
   label: string;
@@ -20,12 +22,12 @@ export function ForecastSparkline({ values, label, threshold, color = "currentCo
   }).join(" ");
   const thresholdY = threshold === undefined ? null : height - padding - ((threshold - minimum) / span) * (height - padding * 2);
 
-  return (
+  return <Localize>{(
     <svg className="forecast-sparkline" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
       <title>{label}</title>
       {thresholdY !== null ? <line className="forecast-sparkline__threshold" x1={padding} x2={width - padding} y1={thresholdY} y2={thresholdY} /> : null}
       <polyline points={points} fill="none" stroke={color} />
       {points ? <circle cx={points.split(" ").at(-1)?.split(",")[0]} cy={points.split(" ").at(-1)?.split(",")[1]} r="3.5" fill={color} /> : null}
     </svg>
-  );
+  )}</Localize>;
 }

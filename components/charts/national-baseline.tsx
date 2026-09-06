@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import { getElection, getNationalRanking, getPartyChange } from "@/lib/data/elections";
 import { PARTIES } from "@/lib/data/elections/parties";
 import { formatDelta, formatNumber } from "@/lib/format";
@@ -7,7 +9,7 @@ export function NationalBaseline() {
   const election = getElection(2022);
   const ranking = getNationalRanking();
 
-  return (
+  return <Localize>{(
     <aside className="baseline-panel">
       <div className="baseline-panel__header">
         <div>
@@ -38,5 +40,5 @@ export function NationalBaseline() {
         <span>Change vs. 2018 in pp</span>
       </div>
     </aside>
-  );
+  )}</Localize>;
 }

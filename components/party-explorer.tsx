@@ -1,4 +1,6 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import { useState, type CSSProperties } from "react";
 import { PartyMark } from "@/components/party-mark";
@@ -13,7 +15,7 @@ export function PartyExplorer({ profiles }: { profiles: PartyProfile[] }) {
   const party = PARTIES[profile.partyId];
   const maxShare = Math.max(...profile.history.map((point) => point.share));
 
-  return (
+  return <Localize>{(
     <div className="party-explorer">
       <div className="party-explorer__rail" aria-label="Choose party">
         {profiles.map((item) => {
@@ -61,5 +63,5 @@ export function PartyExplorer({ profiles }: { profiles: PartyProfile[] }) {
         <div className="party-detail__footer"><span>{formatNumber(profile.current.votes)} votes</span><span>{profile.current.seats} seats</span><span>{profile.geographicBreadth.improved}/{profile.geographicBreadth.comparable} municipalities improved · DERIVED v2.0.0</span><span>Final 2022 result</span></div>
       </div>
     </div>
-  );
+  )}</Localize>;
 }

@@ -1,0 +1,942 @@
+[
+  [
+    "Räkna mandaten.",
+    "Count the seats."
+  ],
+  [
+    "Pröva nationella röstandelsscenarier mot Sveriges valregler. Resultatet är en deterministisk modell, varken en opinionsmätning eller en prognos.",
+    "Test national vote-share scenarios against Sweden's electoral rules. The output is a deterministic model—not a poll and not a forecast."
+  ],
+  [
+    "Riksdagsmandat",
+    "Riksdag seats"
+  ],
+  [
+    "Nationell spärr",
+    "National threshold"
+  ],
+  [
+    "Majoritet",
+    "Majority"
+  ],
+  [
+    "Metod · pv-riksdag-scenario v1.0.0",
+    "Method · pv-riksdag-scenario v1.0.0"
+  ],
+  [
+    "Reglerna först. Antagandena synliga.",
+    "Rules first. Assumptions visible."
+  ],
+  [
+    "Mandatmotorn tillämpar 310 fasta valkretsmandat, 39 utjämningsmandat, den jämkade uddatalsmetoden med första divisorn 1,2, riksdagsspärren på 4 procent och valkretsspärren på 12 procent.",
+    "The seat engine implements 310 fixed constituency seats, 39 adjustment seats, the modified odd-numbers method with first divisor 1.2, the national 4% threshold and the constituency-only 12% rule."
+  ],
+  [
+    "Officiell mandatstruktur",
+    "Official structure"
+  ],
+  [
+    "Antalet fasta mandat 2026 i var och en av Sveriges 29 valkretsar kommer från Valmyndigheten.",
+    "The 2026 number of fixed seats in each of Sweden's 29 constituencies comes from Valmyndigheten."
+  ],
+  [
+    "Geografisk fördelning",
+    "Geographic projection"
+  ],
+  [
+    "Varje inmatad nationell röstandel behåller partiets fördelning mellan valkretsar från 2022. Detta är modellens antagande, inte ett officiellt faktum.",
+    "Each entered national share retains that party's 2022 distribution between constituencies. This is the model assumption—not an official fact."
+  ],
+  [
+    "Historiskt verifierad mandatmotor",
+    "Backtested engine"
+  ],
+  [
+    "Samma oberoende regelmotor återskapar exakt de officiella fasta mandaten, utjämningsmandaten och totalmandaten för 2018 och 2022.",
+    "The same independent rule engine exactly reproduces the official 2018 and 2022 fixed, adjustment and total seat outcomes."
+  ],
+  [
+    "Ingen prognos",
+    "Not a forecast"
+  ],
+  [
+    "Här finns ingen modell för opinion, sannolikhet eller osäkerhet. Sidan besvarar bara frågan: vad händer om röstandelarna blir så här?",
+    "No polling, probability or uncertainty model is present. The page answers “what if these shares occurred?” only."
+  ],
+  [
+    "Valmyndigheten: mandatfördelningsmetod",
+    "Valmyndigheten: seat allocation method"
+  ],
+  [
+    "Vallag (2005:837), kapitel 14",
+    "Vallag (2005:837), chapter 14"
+  ],
+  [
+    "Politicalverses metod",
+    "Politicalverse methodology"
+  ],
+  [
+    "Senaste officiella jämförelseval",
+    "Latest official baseline"
+  ],
+  [
+    "Riksresultat",
+    "National result"
+  ],
+  [
+    "giltiga röster",
+    "valid votes"
+  ],
+  [
+    "Förändring mot 2018 i procentenheter",
+    "Change vs. 2018 in pp"
+  ],
+  [
+    "Välj ett parti att markera",
+    "Select a party to highlight"
+  ],
+  [
+    "Alla",
+    "All"
+  ],
+  [
+    "Rullningsbar grafyta",
+    "Scrollable chart area"
+  ],
+  [
+    "Partiernas röstandelar i riksdagsvalen 2002–2022",
+    "Swedish Riksdag election vote share by party, 2002 to 2022"
+  ],
+  [
+    "Officiella slutliga röstandelar i riket från Valmyndigheten. Välj ett parti ovan för att markera dess historik.",
+    "Official final national vote shares from Valmyndigheten. Select a party above to highlight its history."
+  ],
+  [
+    "Andel giltiga röster",
+    "Share of valid votes"
+  ],
+  [
+    "Slutresultat · Riksdagen",
+    "Final results · Riksdag"
+  ],
+  [
+    "Officiella data",
+    "Official data"
+  ],
+  [
+    "dagar",
+    "days"
+  ],
+  [
+    "till valet",
+    "to election"
+  ],
+  [
+    "11 sep. 2022",
+    "11 Sep 2022"
+  ],
+  [
+    "13 sep. 2026",
+    "13 Sep 2026"
+  ],
+  [
+    "mätningar i aktuell modell",
+    "polls in the current model"
+  ],
+  [
+    "oberoende mätserier",
+    "independent polling series"
+  ],
+  [
+    "summerade intervjusvar*",
+    "interview responses in total*"
+  ],
+  [
+    "Prognosens datagrund",
+    "Forecast evidence base"
+  ],
+  [
+    "DATAGRUND",
+    "EVIDENCE BASE"
+  ],
+  [
+    "Det här ligger bakom prognosen",
+    "What the forecast is based on"
+  ],
+  [
+    "*Respondenter kan förekomma i flera mätningar; summan är inte antal unika personer.",
+    "*Respondents may appear in multiple polls; the sum is not a count of unique people."
+  ],
+  [
+    "SPÄRRLÄGE",
+    "THRESHOLD WATCH"
+  ],
+  [
+    "över riksdagsspärren",
+    "above the parliamentary threshold"
+  ],
+  [
+    "Små rörelser runt fyra procent kan flytta många mandat mellan blocken. Detta är modellens känsligaste tröskel just nu.",
+    "Small movements around four percent can shift many seats between the blocs. This is the model's most sensitive threshold at present."
+  ],
+  [
+    "STÖRSTA PARTI",
+    "LARGEST PARTY"
+  ],
+  [
+    "modellfrekvens",
+    "simulation frequency"
+  ],
+  [
+    "blir störst i denna andel av simuleringarna. Det stärker ett förhandlingsläge men utser inte statsminister.",
+    "is largest in this share of simulations. That strengthens a negotiating position but does not appoint a prime minister."
+  ],
+  [
+    "NÄRMAST 175",
+    "CLOSEST TO 175"
+  ],
+  [
+    "Mittscenariot ligger",
+    "The central scenario is"
+  ],
+  [
+    "mandat från majoritetsgränsen. Politisk förenlighet modelleras separat som källbelagd kontext.",
+    "seats from the majority threshold. Political compatibility is treated separately as sourced context."
+  ],
+  [
+    "STÖRST MANDATSPANN",
+    "WIDEST SEAT RANGE"
+  ],
+  [
+    "Det bredaste 80-procentiga intervallet visar var mandatutfallet varierar mest i simuleringarna — inte att ytterkanterna är omöjliga.",
+    "The widest 80% interval shows where seat outcomes vary most across simulations. Outcomes beyond the interval remain possible."
+  ],
+  [
+    "Historisk kontroll av prognosmodellen",
+    "Historical validation of the forecast model"
+  ],
+  [
+    "Roll",
+    "Role"
+  ],
+  [
+    "Datagrund",
+    "Evidence base"
+  ],
+  [
+    "Medelfel",
+    "Mean error"
+  ],
+  [
+    "Största avvikelse",
+    "Largest deviation"
+  ],
+  [
+    "stopp",
+    "cutoff"
+  ],
+  [
+    "LÅST TEST",
+    "LOCKED HOLDOUT"
+  ],
+  [
+    "mätningar",
+    "polls"
+  ],
+  [
+    "institut",
+    "pollsters"
+  ],
+  [
+    "procentenheter",
+    "percentage points"
+  ],
+  [
+    "prognos minus utfall",
+    "forecast minus result"
+  ],
+  [
+    "SAMTLIGA PARTIUTFALL",
+    "ALL PARTY OUTCOMES"
+  ],
+  [
+    "Jämförbara utfall från",
+    "Comparable outcomes from"
+  ],
+  [
+    "val.",
+    "elections."
+  ],
+  [
+    "GENOMSNITTLIGT ABSOLUTFEL",
+    "MEAN ABSOLUTE ERROR"
+  ],
+  [
+    "Procentenheter över samtliga redovisade partiutfall.",
+    "Percentage points across all reported party outcomes."
+  ],
+  [
+    "80 %-INTERVALLENS TRÄFF",
+    "80% INTERVAL COVERAGE"
+  ],
+  [
+    "Historisk täckning i lämna-ett-val-ut-kontrollen. Ett 80 %-intervall är alltså inte en garanti.",
+    "Historical coverage in leave-one-election-out validation. An 80% interval is not a guarantee."
+  ],
+  [
+    "Så ska kontrollen läsas:",
+    "How to read the validation:"
+  ],
+  [
+    "Den frysta designen bedöms mot 2010–2018 och 2022 hålls undan som ett låst sluttest. Repositoriet återskapar den fasta modellen, inte en uttömmande parameterjakt. Fyra val är ett litet underlag; historiska fel kan underskatta nya politiska skiften.",
+    "The frozen design is assessed against 2010–2018, with 2022 reserved as a locked holdout. The repository reproduces the fixed model, not an exhaustive parameter search. Four elections are a small sample; historical errors may understate new political shifts."
+  ],
+  [
+    "Publicerade mätningar",
+    "Published polls"
+  ],
+  [
+    "Tid och institut",
+    "Time and pollster"
+  ],
+  [
+    "Historiskt prognosfel",
+    "Historical forecast error"
+  ],
+  [
+    "Mandat, varje gång",
+    "Seats, every time"
+  ],
+  [
+    "INTEGRITETSREGISTER",
+    "INTEGRITY RECORD"
+  ],
+  [
+    "Varje prognos går att återskapa.",
+    "Every forecast can be reproduced."
+  ],
+  [
+    "Dataversion, källdataset, kodversion och kontroller visas tillsammans. Om en uppdatering inte klarar verifieringen ska den senast godkända prognosen ligga kvar.",
+    "The snapshot, source dataset, code version and checks are shown together. If an update fails validation, the last accepted forecast stays published."
+  ],
+  [
+    "Hämta dataversion (JSON)",
+    "Download snapshot (JSON)"
+  ],
+  [
+    "Klassificering",
+    "Classification"
+  ],
+  [
+    "Modellversion",
+    "Model version"
+  ],
+  [
+    "Genererad",
+    "Generated"
+  ],
+  [
+    "Rådata",
+    "Raw data"
+  ],
+  [
+    "rader · från",
+    "rows · from"
+  ],
+  [
+    "Källrevision",
+    "Source revision"
+  ],
+  [
+    "Källadapter",
+    "Source adapter"
+  ],
+  [
+    "Lottningar vid lika tal",
+    "Ties requiring a draw"
+  ],
+  [
+    "simuleringar ·",
+    "simulations ·"
+  ],
+  [
+    "OPINIONSMÄTNING · CC0",
+    "POLL · CC0"
+  ],
+  [
+    "Dataset och dokumentation ↗",
+    "Dataset and documentation ↗"
+  ],
+  [
+    "PRIMÄRKONTROLL ·",
+    "PRIMARY SOURCE CHECK ·"
+  ],
+  [
+    "Öppna publicerad mätning ↗",
+    "Open the published poll ↗"
+  ],
+  [
+    "Källrättelse:",
+    "Source correction:"
+  ],
+  [
+    ", fältarbete",
+    ", fieldwork"
+  ],
+  [
+    "Publiceringsdatum används som",
+    "Publication date is recorded as"
+  ],
+  [
+    "enligt",
+    "according to"
+  ],
+  [
+    "primärkällan ↗",
+    "the primary source ↗"
+  ],
+  [
+    "i stället för samlingsfilens",
+    "instead of the aggregate file's"
+  ],
+  [
+    ". Originalfilen är bevarad.",
+    ". The original file is preserved."
+  ],
+  [
+    "Begränsningar som följer med varje siffra",
+    "Limitations accompanying every number"
+  ],
+  [
+    "Övriga är en osäkerhetskategori som håller röstandelarna uttömmande, men den får inga mandat i v1. Ett nytt namngivet partis inträde modelleras alltså inte.",
+    "Other is an uncertainty category that keeps vote shares exhaustive, but receives no seats in v1. The entry of a new named party is therefore not modelled."
+  ],
+  [
+    "Intervjusumman är inte unika personer; samma respondent kan förekomma i flera mätningar.",
+    "The interview total does not count unique people; the same respondent may appear in multiple polls."
+  ],
+  [
+    "Mätningar beskriver opinion vid fältarbetet. Kampanjhändelser efter datastoppet finns inte i prognosen.",
+    "Polls describe opinion during fieldwork. Campaign events after the data cutoff are not included in the forecast."
+  ],
+  [
+    "Regeringsalternativens mandat räknas av modellen. Partiernas villkor redovisas som daterad källkontext och får inga påhittade sannolikheter.",
+    "The model calculates seats for government alternatives. Party conditions are presented as dated, sourced context without invented probabilities."
+  ],
+  [
+    "Vid exakt lika jämförelsetal använder simuleringen en seedad, reproducerbar lottning. Frekvensen av val där en sådan lottning behövdes visas i registret.",
+    "Exact comparison-figure ties are resolved by a seeded, reproducible draw in the simulation. The record shows the frequency of elections requiring such a draw."
+  ],
+  [
+    "Mätdata till",
+    "Polling data through"
+  ],
+  [
+    "Politicalverse prognos · 2026",
+    "Politicalverse forecast · 2026"
+  ],
+  [
+    "Så tror modellen",
+    "How the model"
+  ],
+  [
+    "att valet",
+    "expects the election"
+  ],
+  [
+    "slutar.",
+    "to end."
+  ],
+  [
+    "Opinionsmätningar, fyra jämförbara historiska val och Sveriges riktiga mandatregler — sammanvägt till en prognos som visar både utfall och osäkerhet.",
+    "Opinion polls, four comparable historical elections and Sweden's actual seat allocation rules, combined in a forecast showing outcomes and uncertainty."
+  ],
+  [
+    "simulerade val",
+    "simulated elections"
+  ],
+  [
+    "HUVUDPROGNOS",
+    "MAIN FORECAST"
+  ],
+  [
+    "NEJ",
+    "NO"
+  ],
+  [
+    "JA",
+    "YES"
+  ],
+  [
+    "Vad betyder sannolikheten?",
+    "What does the probability mean?"
+  ],
+  [
+    "Central mandatprognos",
+    "Central mandate forecast"
+  ],
+  [
+    "mandat i centralprognosen",
+    "seats in the central forecast"
+  ],
+  [
+    "Senaste datapunkt",
+    "Latest data point"
+  ],
+  [
+    "Sedan föregående datapunkt",
+    "Since the previous data point"
+  ],
+  [
+    ": mandatbas",
+    ": seat grouping"
+  ],
+  [
+    "Öppna hela prognosen",
+    "Open the full forecast"
+  ],
+  [
+    "Mandatprognosens utveckling för oppositionspartierna och Tidöpartierna",
+    "Seat forecast history for opposition parties and Tidö parties"
+  ],
+  [
+    "Mandatprognosens utveckling",
+    "Seat forecast history"
+  ],
+  [
+    "175 mandat",
+    "175 seats"
+  ],
+  [
+    "Textsammanfattning av prognoskurvan",
+    "Text summary of the forecast chart"
+  ],
+  [
+    "Första redovisade punkt",
+    "First reported point"
+  ],
+  [
+    "Varje punkt räknas om med den information som hade publicerats vid datumet. Linjen visar modellens mandatmittpunkt, inte observerade valresultat.",
+    "Each point is recalculated using only information published by that date. The line shows the model's central seat estimate, not observed election results."
+  ],
+  [
+    "gäller från",
+    "effective from"
+  ],
+  [
+    "DEKLARERAT ALTERNATIV",
+    "DECLARED ALTERNATIVE"
+  ],
+  [
+    "POLITISKT OMSTRITT",
+    "POLITICALLY CONTESTED"
+  ],
+  [
+    "MANDATBAS ·",
+    "SEAT GROUPING ·"
+  ],
+  [
+    "når gränsen för egen majoritet i",
+    "reaches an outright majority in"
+  ],
+  [
+    "av modellkörningarna · inte statsministerodds",
+    "of simulations · not prime minister odds"
+  ],
+  [
+    "· KONTROLLERAT",
+    "· CHECKED"
+  ],
+  [
+    "/ 349 mandat i mittscenariot",
+    "/ 349 seats in the central scenario"
+  ],
+  [
+    "modellfrekvens för minst 175",
+    "simulation frequency of at least 175"
+  ],
+  [
+    "Egen majoritet beskriver mandatmatematik. Regeringsduglighet kräver även att partiernas villkor går att förena eller tolereras.",
+    "An outright majority describes seat arithmetic. Forming a government also requires party conditions to be compatible or tolerated."
+  ],
+  [
+    "UTTALAT · KONTEXT",
+    "DECLARED · CONTEXT"
+  ],
+  [
+    "Partiledare och deklarerade regeringslinjer",
+    "Party leaders and stated positions on government"
+  ],
+  [
+    "Daterade offentliga besked, kontrollerade",
+    "Dated public statements, checked"
+  ],
+  [
+    ". De är källkontext – inte modellodds.",
+    ". These are sourced context, not model odds."
+  ],
+  [
+    "Ledarkälla ·",
+    "Leadership source ·"
+  ],
+  [
+    "Grundlagskontext hos",
+    "Constitutional context from"
+  ],
+  [
+    "Parti",
+    "Party"
+  ],
+  [
+    "Röstprognos",
+    "Vote forecast"
+  ],
+  [
+    "Mandat",
+    "Seats"
+  ],
+  [
+    "80 % intervall",
+    "80% interval"
+  ],
+  [
+    "Över 4 %",
+    "Above 4%"
+  ],
+  [
+    "median",
+    "median"
+  ],
+  [
+    "mandat",
+    "seats"
+  ],
+  [
+    "modellsannolikhet",
+    "model probability"
+  ],
+  [
+    "Centralprognosen summerar exakt till 349 mandat.",
+    "The central forecast sums to exactly 349 seats."
+  ],
+  [
+    "Intervallen visar 10:e–90:e percentilen och behöver inte summera till 349.",
+    "Intervals show the 10th–90th percentiles and need not sum to 349."
+  ],
+  [
+    "Övriga är en samlad restkategori och får inga mandat i v1; modellen skattar inte att ett nytt namngivet parti tar sig in.",
+    "Other is a combined residual category and receives no seats in v1; the model does not estimate the entry of a new named party."
+  ],
+  [
+    "Definition och osäkerhet",
+    "Definition and uncertainty"
+  ],
+  [
+    "Prognosen är en modell, inte ett marknadspris eller ett löfte.",
+    "The forecast is a model, not a market price or a promise."
+  ],
+  [
+    "Se alla prognosfrågor",
+    "See all forecast questions"
+  ],
+  [
+    "Största parti per kommun",
+    "Municipality plurality leader"
+  ],
+  [
+    "290 kommuner",
+    "290 municipalities"
+  ],
+  [
+    "Största partier per kommun",
+    "Municipality plurality leaders"
+  ],
+  [
+    "Bygger på slutliga riksdagsröster 2022, summerade från 6 578 rapporteringsdistrikt. Detta är ett geografiskt röstmått, inte kontroll över kommunfullmäktige.",
+    "Based on final 2022 Riksdag votes, aggregated from 6,578 reporting districts. This is a geographic vote measure, not municipal council control."
+  ],
+  [
+    "Deltagande",
+    "Participation"
+  ],
+  [
+    "Högst valdeltagande",
+    "Highest turnout"
+  ],
+  [
+    "BERÄKNAT · municipality-swing v1.0.0",
+    "Derived · municipality-swing v1.0.0"
+  ],
+  [
+    "Officiellt mått · Riksdagen 2022",
+    "Official metric · Riksdag 2022"
+  ],
+  [
+    "Valförändring per kommun",
+    "Election swing by municipality"
+  ],
+  [
+    "Valdeltagande per kommun",
+    "Turnout by municipality"
+  ],
+  [
+    "Röstandel per kommun",
+    "Vote share by municipality"
+  ],
+  [
+    "Välj en vy och ett parti och tryck på en kommun för att se exakta officiella värden och den öppna beräkningen.",
+    "Select a view and party, then tap a municipality for exact official inputs and the transparent calculation."
+  ],
+  [
+    "Välj kartvy",
+    "Choose map view"
+  ],
+  [
+    "Röstandel",
+    "Vote share"
+  ],
+  [
+    "Välj parti",
+    "Choose party"
+  ],
+  [
+    "En neutral skala visar minskning och ökning i procentenheter. Förändringen är röstandelen 2022 minus den jämförbara andelen 2018.",
+    "A neutral diverging scale shows percentage-point decrease and increase. Swing is 2022 share minus the comparable 2018 share."
+  ],
+  [
+    "Fem lika stora kommungrupper. Färgstyrkan är relativ; varje valt värde är exakt.",
+    "Five equal-sized municipality groups. Color intensity is relative; every selected value is exact."
+  ],
+  [
+    "Vald kommun",
+    "Selected municipality"
+  ],
+  [
+    "Valdeltagande 2022",
+    "Turnout 2022"
+  ],
+  [
+    "Röstandel 2018",
+    "2018 vote share"
+  ],
+  [
+    "Röstandel 2022",
+    "2022 vote share"
+  ],
+  [
+    "Förändring i riket",
+    "National swing"
+  ],
+  [
+    "procentenheter",
+    "pp"
+  ],
+  [
+    "Jämfört med rikets förändring",
+    "Against national swing"
+  ],
+  [
+    "Valdeltagande 2018",
+    "2018 turnout"
+  ],
+  [
+    "Förändrat valdeltagande",
+    "Turnout change"
+  ],
+  [
+    "Avgivna röster 2022",
+    "Ballots cast 2022"
+  ],
+  [
+    "Rikets förändring i valdeltagande",
+    "National turnout change"
+  ],
+  [
+    "Förändring sedan 2018",
+    "Change since 2018"
+  ],
+  [
+    "Jämfört med riket",
+    "Against national"
+  ],
+  [
+    "Giltiga röster 2022",
+    "Valid votes 2022"
+  ],
+  [
+    "Riksdagsröster i",
+    "Riksdag ballots in"
+  ],
+  [
+    ". Största parti 2022:",
+    ". Plurality party in 2022:"
+  ],
+  [
+    ". Detta är inte valet till kommunfullmäktige.",
+    ". This is not the municipal council election."
+  ],
+  [
+    "Officiella resultat 2018",
+    "2018 official results"
+  ],
+  [
+    "Officiella resultat 2022",
+    "2022 official results"
+  ],
+  [
+    "Officiell geografi 2022",
+    "2022 official geometry"
+  ],
+  [
+    "Jämförbarhetsgrund",
+    "Comparability basis"
+  ],
+  [
+    "Partiutforskaren · Riket",
+    "Party explorer · National"
+  ],
+  [
+    "Starkaste kommuner",
+    "Strongest municipalities"
+  ],
+  [
+    "Lägst röstandel",
+    "Lowest vote share"
+  ],
+  [
+    "röster",
+    "votes"
+  ],
+  [
+    "kommuner med ökad andel · BERÄKNAT v2.0.0",
+    "municipalities improved · DERIVED v2.0.0"
+  ],
+  [
+    "Slutresultat 2022",
+    "Final 2022 result"
+  ],
+  [
+    "12-procentsregeln i valkretsen",
+    "12% constituency rule"
+  ],
+  [
+    "Under spärren",
+    "Below threshold"
+  ],
+  [
+    "Scenariot kunde inte beräknas",
+    "The scenario could not be calculated"
+  ],
+  [
+    "Scenarioinmatning",
+    "Scenario input"
+  ],
+  [
+    "Ange nationell röstandel",
+    "Set national vote share"
+  ],
+  [
+    "Återställ till 2022",
+    "Reset to 2022"
+  ],
+  [
+    "Modellerade partier",
+    "Modeled parties"
+  ],
+  [
+    "Övriga partier · restkategori",
+    "Other parties · residual"
+  ],
+  [
+    "Övriga är en ofördelad restkategori, inte ett gemensamt parti.",
+    "Other is an unallocated residual, not one combined party."
+  ],
+  [
+    "MODELL · v1.0.0",
+    "MODEL · v1.0.0"
+  ],
+  [
+    "Startvärdena återskapar de officiella nationella procenttalen 2022. De nationella andelarna fördelas efter varje partis officiella valkretsmönster 2022 och räknas sedan med 2026 års officiella fördelning av fasta mandat.",
+    "Initial shares reproduce the official 2022 national percentages. National shares are distributed using each party's official 2022 constituency pattern, then calculated with the official 2026 fixed-seat allocation."
+  ],
+  [
+    "Deterministiskt resultat",
+    "Deterministic result"
+  ],
+  [
+    "Riksdagsscenario",
+    "Riksdag scenario"
+  ],
+  [
+    "Scenariot pausat",
+    "Scenario paused"
+  ],
+  [
+    "Fördelade",
+    "Allocated"
+  ],
+  [
+    "krävs",
+    "required"
+  ],
+  [
+    "Över spärren",
+    "Qualifying"
+  ],
+  [
+    "partier",
+    "parties"
+  ],
+  [
+    "Mandatfördelning; majoritetsgränsen vid 175 mandat",
+    "Seat distribution; majority marker at 175 seats"
+  ],
+  [
+    "Andel",
+    "Share"
+  ],
+  [
+    "Spärr",
+    "Threshold"
+  ],
+  [
+    "mot 2022",
+    "vs 2022"
+  ],
+  [
+    "fasta +",
+    "fixed +"
+  ],
+  [
+    "utjämning",
+    "adjustment"
+  ],
+  [
+    "Exakt lika jämförelsetal upptäcktes. Simulatorn använde en stabil partiordning; i ett officiellt val skulle lottning användas.",
+    "Exact comparison-figure tie detected. The simulator used stable party order; an official election would use a drawing of lots."
+  ],
+  [
+    "Koalitionsmatematik",
+    "Coalition arithmetic"
+  ],
+  [
+    "Bygg en kombination",
+    "Build a combination"
+  ],
+  [
+    "Välj partier för koalitionsberäkning",
+    "Select parties for coalition arithmetic"
+  ],
+  [
+    "Inget politiskt block är förvalt. Koalitionsberäkningen speglar bara de partier som användaren väljer.",
+    "No political bloc is predefined. Coalition arithmetic reflects only the parties selected by the user."
+  ],
+  [
+    ">99,9 %",
+    ">99.9 %"
+  ],
+  [
+    "<0,1 %",
+    "<0.1 %"
+  ]
+]

@@ -18,6 +18,9 @@
     "data:import:seats": "node --import tsx scripts/import-valmyndigheten-seats.ts",
     "data:forecast:generate": "node --import tsx scripts/generate-election-forecast.ts",
     "data:polls:update": "node --import tsx scripts/update-opinion-polls.ts",
+    "data:live:update": "node --import tsx scripts/update-election-live.ts",
+    "data:live:rehearse": "node --import tsx scripts/update-election-live.ts --rehearsal",
+    "data:import:preparation": "node --import tsx scripts/import-election-preparation.ts",
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
     "safety:check": "node scripts/safety-preflight.mjs"
   },

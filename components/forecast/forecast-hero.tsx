@@ -1,3 +1,5 @@
+"use client";
+import { Localize } from "@/components/localize";
 import Link from "next/link";
 import { PartyMark } from "@/components/party-mark";
 import { ForecastFreshness } from "@/components/forecast/forecast-freshness";
@@ -23,7 +25,7 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
     .map((partyId) => ({ partyId, change: forecast.pollingAverage[partyId] - previous.partyShares[partyId] }))
     .sort((left, right) => Math.abs(right.change) - Math.abs(left.change));
 
-  return (
+  return <Localize>{(
     <section className="forecast-hero">
       <ForecastFreshness dataCutoff={forecast.model.dataCutoff} electionDate={forecast.model.electionDate} />
       <div className="forecast-hero__grid">
@@ -92,5 +94,5 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
         </footer>
       </div>
     </section>
-  );
+  )}</Localize>;
 }

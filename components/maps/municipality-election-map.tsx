@@ -1,4 +1,6 @@
 "use client";
+import { Localize } from "@/components/localize";
+
 
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { PartyMark } from "@/components/party-mark";
@@ -117,7 +119,7 @@ export function MunicipalityElectionMap({ model }: { model: MunicipalityMapModel
   const previousShare = partyMetric(selectedArea, "previousShares", partyId);
   const currentShare = partyMetric(selectedArea, "shares", partyId);
 
-  return (
+  return <Localize>{(
     <div className="election-map">
       <div className="election-map__controls">
         <div>
@@ -236,5 +238,5 @@ export function MunicipalityElectionMap({ model }: { model: MunicipalityMapModel
         </aside>
       </div>
     </div>
-  );
+  )}</Localize>;
 }
