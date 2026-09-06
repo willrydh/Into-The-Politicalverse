@@ -2,7 +2,8 @@
 import { Localize } from "@/components/localize";
 
 
-import { useState, type CSSProperties } from "react";
+import { type CSSProperties } from "react";
+import { navigateLocalQuery, useLocalQuery } from "./maps/local-url";
 import { PartyMark } from "@/components/party-mark";
 import { PARTIES } from "@/lib/data/elections/parties";
 import type { PartyProfile } from "@/lib/data/elections";
@@ -10,13 +11,15 @@ import type { PartyId } from "@/lib/data/elections/types";
 import { formatDelta, formatNumber } from "@/lib/format";
 
 export function PartyExplorer({ profiles }: { profiles: PartyProfile[] }) {
-  const [selected, setSelected] = useState<PartyId>("S");
+  const query = useLocalQuery();
+  const requested = new URLSearchParams(query).get("party") as PartyId;
+  const selected = profiles.some(p => p.partyId === requested) ? requested : "S";
   const profile = profiles.find((item) => item.partyId === selected) ?? profiles[0];
   const party = PARTIES[profile.partyId];
   const maxShare = Math.max(...profile.history.map((point) => point.share));
 
   return <Localize>{(
-    <div className="party-explorer">
+    <div className="party-explorer" id="party-profile">
       <div className="party-explorer__rail" aria-label="Choose party">
         {profiles.map((item) => {
           const itemParty = PARTIES[item.partyId];
@@ -24,7 +27,7 @@ export function PartyExplorer({ profiles }: { profiles: PartyProfile[] }) {
             <button
               key={item.partyId}
               className={item.partyId === selected ? "party-choice is-active" : "party-choice"}
-              onClick={() => setSelected(item.partyId)}
+              onClick={() => navigateLocalQuery(`?party=${item.partyId}`)}
               type="button"
               aria-pressed={item.partyId === selected}
             >

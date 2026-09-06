@@ -13,7 +13,7 @@ export function LocalPersonalVotes({ area, county, municipality, selection, cons
   const defaultCode = options.find(c => area.constituencies?.includes(c.code))?.code ?? options[0]?.code ?? "";
   const code = options.some(c => c.code === selection.constituency) ? selection.constituency : defaultCode;
   const [state, setState] = useState<{ code: string; data?: PersonalConstituency; error?: boolean }>({ code: "" });
-  const [attempt, setAttempt] = useState(0); const [search, setSearch] = useState(""); const [all, setAll] = useState(false);
+  const [attempt, setAttempt] = useState(0); const [searchInput, setSearch] = useState<string | null>(null); const [all, setAll] = useState(false);
   useEffect(() => {
     if (!code || selection.year !== 2022) return;
     const controller = new AbortController(); let active = true; const timeout = setTimeout(() => controller.abort(), 20_000);
@@ -26,7 +26,9 @@ export function LocalPersonalVotes({ area, county, municipality, selection, cons
     return () => { active = false; clearTimeout(timeout); controller.abort(); };
   }, [code, selection.year, attempt]);
   const data = state.code === code ? state.data : undefined;
-  const candidates = data?.candidates.filter(c => c.partyId === selection.party && `${c.name} ${c.partyName}`.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const target = data?.candidates.find(c => `${c.partyCode}:${c.id}` === selection.candidate && c.partyId === selection.party);
+  const search = searchInput ?? target?.name ?? "";
+  const candidates = data?.candidates.filter(c => c.partyId === selection.party && (selection.candidate && searchInput === null ? c === target : `${c.name} ${c.partyName}`.toLocaleLowerCase().includes(search.toLocaleLowerCase()))) ?? [];
   const f = (n: number, d = 0) => new Intl.NumberFormat(sv ? "sv-SE" : "en-GB", { minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
   function chooseConstituency(value: string) { onConstituency(value); setSearch(""); setAll(false); }
   return <section className="local-personal" id="personal-votes" aria-labelledby="personal-votes-title"><div className="local-section-title"><h2 id="personal-votes-title">{sv ? "Personröster" : "Personal votes"}</h2><span>2022 · {sv ? "Riksdagsvalkrets" : "Riksdag constituency"}</span></div>

@@ -10,10 +10,14 @@ import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/fore
 import type { ElectionForecast } from "../lib/forecast/types";
 import { verifyLocalData } from "../lib/data/geography/verify-local";
 import { electionArchive, validateElectionArchive } from "../lib/elections/outcomes";
+import { buildSearchIndex } from "../lib/search/build";
 
 const ROOT = resolve(import.meta.dirname, "..");
 await verifyLocalData(ROOT);
 validateElectionArchive(electionArchive);
+buildSearchIndex();
+const localityManifest = JSON.parse(await readFile(resolve(ROOT, "data/raw/scb/localities-source-manifest.json"), "utf8"));
+if (createHash("sha256").update(await readFile(resolve(ROOT, "data/normalized/scb-localities-2023.json"))).digest("hex") !== localityManifest.normalizedSha256) throw new Error("SCB locality output checksum mismatch");
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);

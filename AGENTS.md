@@ -51,6 +51,8 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Universal search must rebuild from verified source identities and current page text, preserve bilingual URLs and exact party/candidate/constituency scope, and validate public payloads before showing results. Keep the index out of the shared header bundle. SCB locality links open municipality results with explicit scope; never infer district geometry or votes from a locality name. Preserve split localities and normalized/source checksums. See `docs/data-sources/universal-search.md`.
+
 - The historical archive must distinguish largest party, year-specific bloc seat totals and the first government following the election. Use reviewed `election-outcomes.json` context, never infer government from vote-share rank. Preserve 349-seat coverage, the 175-seat threshold, separate cabinet/support parties and the 2018 election versus January 2019 formation. See `docs/methodology/election-outcomes-v1.md`.
 
 - Preserve the scroll-aware header and localized location trail. The map owns geographic breadcrumb names; do not infer labels from codes or leave a previous page's location visible after navigation. Verify downward hiding, upward reveal, keyboard access and mobile menu visibility.

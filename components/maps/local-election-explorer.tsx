@@ -128,13 +128,14 @@ export function LocalElectionExplorer({ model }: { model: LocalIndexModel }) {
   const children = municipality ? districtState.data?.areas ?? [] : county ? model.municipalities.filter(m => m.parent === county.code) : model.counties;
   const map = municipality ? districtState.data?.map : county ? model.countyMaps[county.code] : model.map;
   usePublishSiteLocation("/maps", query, [
-    ...(county ? [{ label: county.name, href: `/maps${localSelectionQuery({ ...selection, municipality: "", district: "", constituency: "" })}` }] : []),
-    ...(municipality ? [{ label: municipality.name, href: `/maps${localSelectionQuery({ ...selection, district: "", constituency: "" })}` }] : []),
+    ...(county ? [{ label: county.name, href: `/maps${localSelectionQuery({ ...selection, municipality: "", district: "", constituency: "", candidate: "" })}` }] : []),
+    ...(municipality ? [{ label: municipality.name, href: `/maps${localSelectionQuery({ ...selection, district: "", constituency: "", candidate: "" })}` }] : []),
     ...(district ? [{ label: nameFor(district, t), href: `/maps${localSelectionQuery(selection)}` }] : []),
   ]);
   function update(patch: Partial<LocalSelection>) {
     const geographyChanged = (["county", "municipality", "district"] as const).some(key => patch[key] !== undefined && patch[key] !== selection[key]);
-    navigateLocalQuery(localSelectionQuery({ ...selection, ...(geographyChanged ? { constituency: "" } : {}), ...patch })); setCopyState("");
+    const candidateScopeChanged = geographyChanged || patch.party !== undefined && patch.party !== selection.party || patch.constituency !== undefined && patch.constituency !== selection.constituency;
+    navigateLocalQuery(localSelectionQuery({ ...selection, ...(geographyChanged ? { constituency: "" } : {}), ...(candidateScopeChanged ? { candidate: "" } : {}), ...patch })); setCopyState("");
   }
   function choose(area: LocalArea) {
     if (area.level === "county") update({ county: area.code, municipality: "", district: "" });
@@ -143,7 +144,7 @@ export function LocalElectionExplorer({ model }: { model: LocalIndexModel }) {
     requestAnimationFrame(() => document.querySelector(area.level === "district" || area.level === "collection" ? ".local-profile" : ".local-workspace")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
   }
   const activeYear = selection.metric === "swing" ? 2022 : selection.year;
-  return <div className="local-explorer" style={{ "--local-party": PARTIES[selection.party].color } as CSSProperties}>
+  return <div className="local-explorer" id="local-results" style={{ "--local-party": PARTIES[selection.party].color } as CSSProperties}>
     <p className="local-election-scope">{t.historicalElection}</p>
     <div className="local-filters">
       <label>{t.county}<select value={selection.county} onChange={e => update({ county: e.target.value, municipality: "", district: "" })}><option value="">{t.country}</option>{model.counties.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></label>
@@ -158,7 +159,7 @@ export function LocalElectionExplorer({ model }: { model: LocalIndexModel }) {
       {map ? <LocalShapeMap map={map} areas={children} selection={selection} selected={district?.code ?? ""} onSelect={choose} t={t} f={f} /> : <div className="local-map-placeholder" role="status"><p>{districtState.error ? t.error : t.loading}</p>{districtState.error && <button type="button" className="button" onClick={() => setAttempt(n => n + 1)}>{t.retry}</button>}</div>}
       <p className="local-note">{t.availability}</p>
     </div><AreaProfile area={selectedArea} parent={parent} selection={selection} t={t} f={f} onParty={party => update({ party })} /></div>
-    <LocalPersonalVotes area={selectedArea} county={county} municipality={municipality} selection={selection} constituencies={model.constituencies} onConstituency={constituency => update({ constituency })} />
+    <LocalPersonalVotes key={`${selection.county}:${selection.municipality}:${selection.district}:${selection.constituency}:${selection.party}:${selection.candidate ?? ""}`} area={selectedArea} county={county} municipality={municipality} selection={selection} constituencies={model.constituencies} onConstituency={constituency => update({ constituency })} />
     {children.length > 0 && <AreaList key={selection.municipality || selection.county || "SE"} areas={children} selection={selection} selected={district?.code ?? ""} onSelect={choose} t={t} f={f} />}
     <div className="local-share"><button className="button" type="button" onClick={() => navigator.clipboard.writeText(window.location.href).then(() => setCopyState(t.copied)).catch(() => setCopyState(t.copyFailed))}>{t.shareLink}</button><span role="status">{copyState}</span><a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/elections/local/${municipality ? `municipalities/${municipality.code}.json` : "index.json"}`}>{t.readData} ↗</a></div>
     <details className="local-details local-method"><summary>{t.source}</summary><p>{t.method}</p><p>{t.geometry}</p><p>{t.historyNote}</p><a href="https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022" target="_blank" rel="noreferrer">{t.sourceLink} ↗</a><p>{t.inspected}: {model.source.retrievedAt} · {model.source.methodVersion}</p></details>
