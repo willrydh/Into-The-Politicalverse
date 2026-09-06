@@ -8,6 +8,8 @@
 
 The public UI is available in Swedish at the existing routes and English under `/en/`, with a same-page language switch. Official 2026 counting has its own `/valnatt/` view, independently refreshed signed data and a [source catalogue](docs/data-sources/election-2026.md). See the [election-night runbook](docs/operations/election-night-2026.md) for cadence, validation, fallback and the remaining production verification gate.
 
+The `/maps/` explorer now drills from 21 counties to 290 municipalities and 6,264 physical 2022 electoral districts. It includes municipal/county Riksdag history for 2010–2022, 4,162 verified district comparisons with 2018, collection votes, and the related constituency's 2022 personal-vote table. Swedish/English switching preserves the selected area, party and year. See [local election sources and methodology](docs/data-sources/local-election-geography.md) for boundary changes, overseas votes and the precise geographic limit of personal votes.
+
 This README is the canonical product and engineering description for **Into The Politicalverse**. New contributors and coding agents should read it before changing architecture or product behavior.
 
 The initial market is **Sweden**, with the 2026 general election as the first live election cycle. The architecture must not assume that Sweden is the final market: election types, parties, geography, sources and electoral systems should remain extensible.
@@ -709,6 +711,11 @@ Poll source provenance, license, hashes, primary anchors and quarantine behavior
 - `GET /api/elections/comparisons/2018-2022/municipalities.json`
 - `GET /api/forecasts/2026.json`
 - `GET /api/context/government-formation-2026.json`
+- `GET /api/elections/local/index.json`
+- `GET /api/elections/local/municipalities/{municipalityCode}.json`
+- `GET /api/elections/local/personal/{constituencyCode}.json`
+
+Regenerate the local explorer with `npm run data:import:local` and its personal-vote source with `npm run data:import:personal`. Both preserve pinned sources and output hashes. `data:verify` checks every county/municipality total and every district map join, including collection votes and personal-vote denominators.
 
 The `.json` paths are intentionally static-export compatible and include source/classification metadata.
 

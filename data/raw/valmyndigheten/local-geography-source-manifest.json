@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "publisher": "Valmyndigheten",
+  "retrievedAt": "2026-09-06",
+  "classification": "OFFICIAL",
+  "methodVersion": "local-geography-1.0.0",
+  "sourcePage": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022",
+  "sources": [
+    {
+      "file": "rd2022.xlsx",
+      "url": "https://www.val.se/download/18.162047b519a91d0533118f4b/1764336897948/Roster-per-distrikt-slutligt-antal-roster-inklusive-totalt-valdeltagande-riksdagsvalet-2022.xlsx",
+      "sha256": "02220e73a7f497d02e23e11cc0765b9891f3a11b3738a5750182ca0c2c58a04d"
+    },
+    {
+      "file": "rd2018-districts.xlsx",
+      "url": "https://historik.val.se/val/val2018/statistik/2018_R_per_valdistrikt.xlsx",
+      "sha256": "dc344784743cb546b4d8b3a80048985512f32d14319ffb01ef1dde84afe5c29b"
+    },
+    {
+      "file": "comparisons.xlsx",
+      "url": "https://www.val.se/download/18.162047b519a91d0533119148/1666857349837/jamforelser-2018-och-2022-valdistrikt-och-uppsamlingsdistrikt-v2.xlsx",
+      "sha256": "78912cf461c6e44cc40ac5f1342ebfa7fd0a5160d9ee5f6b9f9b3c90e9826a39"
+    },
+    {
+      "file": "rd2014.skv",
+      "url": "https://historik.val.se/val/val2014/statistik/2014_riksdagsval_per_kommun.skv",
+      "sha256": "a92f7110a3dc6d3847858d205224be8280097b6a727928ff61fd68c3e3af7800"
+    },
+    {
+      "file": "rd2010.skv",
+      "url": "https://historik.val.se/val/val2010/statistik/slutligt_valresultat_kommuner_R.skv",
+      "sha256": "9a42386bebba3acba9ed2c0b78eb0afcf6858611609443619563cf2137f35ffc"
+    }
+  ],
+  "outputs": {
+    "data/normalized/local-election-index.json": "87b992233a9743fc332184d7105c4f1d9202437ab22a5364df37b5ef5b4d8dd4",
+    "data/normalized/local-election-districts.json": "47c54290429b49e633c03d78d78995481e0c96225afb9644cb17cd5667d24128",
+    "data/normalized/district-paths-2022.json": "cc8d88315e41e2c573cc6b66742b523c773d931d465f296d30b7375ab4b4213e"
+  },
+  "districtNameFallbacks": [
+    {
+      "code": "01200503",
+      "name": "Ingarö 3 Ingaröstrand",
+      "source": "Pinned 2022 GIS archive; result workbook has an empty name"
+    },
+    {
+      "code": "06430102",
+      "name": "Centrum-Gunnarsbo",
+      "source": "Pinned 2022 GIS archive; result workbook has an empty name"
+    },
+    {
+      "code": "06430107",
+      "name": "Kärr",
+      "source": "Pinned 2022 GIS archive; result workbook has an empty name"
+    },
+    {
+      "code": "06430108",
+      "name": "Kråkeryd-Mölekullen",
+      "source": "Pinned 2022 GIS archive; result workbook has an empty name"
+    }
+  ]
+}

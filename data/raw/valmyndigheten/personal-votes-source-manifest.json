@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "publisher": "Valmyndigheten",
+  "electionType": "RD",
+  "year": 2022,
+  "retrievedAt": "2026-09-06",
+  "sourceUrl": "https://www.val.se/download/18.162047b519a91d0533118f73/1667212068773/Personroster-i-val-till-riksdagen-region-och-kommunfullmaktige-2022.xlsx",
+  "sourceSha256": "08974e9c561d3d8df8c246bbf1ddb6774ffee87abbb2736f3594164d8e689d8c",
+  "outputs": {
+    "data/normalized/personal-votes-2022.json": "838fe293727d43b677a64f18eccb7c45c1ebb0e05b0428b946e6002cd60d592b"
+  },
+  "expected": {
+    "sourceRows": 14172,
+    "candidacies": 13775,
+    "personalVotes": 1457836,
+    "constituencies": 29
+  }
+}
