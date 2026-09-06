@@ -66,6 +66,8 @@ The percentage is candidate personal votes / all valid votes for that candidate'
 
 The RD source has no municipal or physical-district personal-vote breakdown. The UI therefore shows the related **whole constituency**, never a guessed local allocation. A municipality's voters cannot be inferred from a candidate's constituency total.
 
+The personal-vote selector retains every constituency in the selected administrative county when drilling down to municipalities or districts. Visible buttons expose multi-constituency counties: Västra Götaland has Göteborgs kommun (16), västra (17), norra (18), södra (19) and östra (20). Borås defaults to 19 and the interface keeps that geographic relationship explicit when another constituency is selected. Only the personal-vote table changes; the map and local results keep their selected area. Geographic navigation returns to the new area's default constituency; browser history and language switching retain an explicit choice. The national view offers all 29 constituencies.
+
 ## Public static endpoints
 
 - `/api/elections/local/index.json`: county and municipality history, hierarchy and source metadata;
@@ -79,3 +81,5 @@ All 290 municipal and 29 personal-vote payloads are generated at build time. The
 On 6 September 2026, `data:verify`, the full `check` pipeline (66 passing tests), and `build:pages` passed. All 290 exported municipal payloads were checked against the municipal index; all 29 exported personal-vote files retained the 1,457,836-vote total. Both exported language pages use the GitHub Pages base path.
 
 Browser checks covered county/municipality/district selection, party and year changes, unavailable history, collection votes without turnout, exact-code GIS name fallbacks, personal-vote constituency identity, keyboard activation and language changes preserving the view. Deliberately blocked district requests produced the correct Swedish and English errors; retry restored the map while municipal figures remained available. Layouts were checked at 390, 768 and 1280 pixels without page-width overflow.
+
+The constituency-navigation fix was validated on 7 September 2026 with `data:verify`, `check` (66 passing tests) and `build:pages`. All 29 personal-vote exports still match the normalized source. Browser checks selected all five Västra Götaland constituencies from Borås and matched their leading candidate counts; they also covered district access, municipality defaults, search reset, keyboard activation, reload/back, English switching, older-year availability and layouts at 390/768/1280 pixels. Stockholm exposes two choices, Uppsala one and the national view all 29.
