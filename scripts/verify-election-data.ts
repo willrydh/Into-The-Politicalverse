@@ -8,8 +8,10 @@ import { validateForecastInputs } from "../lib/forecast/model";
 import { daysBetween, parsePollCsv, qualifyingPolls, subtractDays } from "../lib/forecast/polls";
 import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/forecast/source-corrections";
 import type { ElectionForecast } from "../lib/forecast/types";
+import { verifyLocalData } from "../lib/data/geography/verify-local";
 
 const ROOT = resolve(import.meta.dirname, "..");
+await verifyLocalData(ROOT);
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);

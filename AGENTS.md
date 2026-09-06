@@ -51,6 +51,12 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- The local explorer uses 21 administrative counties, 290 municipalities and 2022 district boundaries; never substitute Riksdag constituency codes for county codes. Retain exact municipality-to-constituency links for candidate tables.
+- Keep local history and personal-vote source/output checksums, the four official GIS name fallbacks and the two ambiguous shared-baseline district cases. Only verified district comparisons can produce 2018 history or swing. See `docs/data-sources/local-election-geography.md`.
+- Include collection votes exactly once in higher-level totals, without mapping them onto physical districts or treating them all as overseas votes. An absent electorate or unavailable history is null, not zero.
+- Personal-vote data is election/party/candidate/constituency scoped. Sum distinct ballot-list counts, use the actual party's votes as denominator, and never mislabel constituency personal votes as municipal/district observations. Reaching the 5% threshold is not proof of election.
+- Keep local APIs static and `.json`-suffixed, validate detail payloads, preserve query state on language changes, and verify failure/retry behavior. These imports must not modify forecast parameters or the independent 2026 live feed.
+
 - Keep Swedish default pages and English `/en/` pages complete and separate. Localize server text before serialization, and preserve machine keys, URLs and numeric inputs. Verify hydration and interactive error states in both languages.
 - The `live-data` branch publishes only the verified 2026 live JSON; never merge it into `main`. Preserve independent preliminary/final-count snapshots and the last verified data on source failure. Never publish rehearsal data as production results.
 - Keep the pinned Valmyndigheten certificate, preparation manifests, phase/identity checks and official arithmetic checks intact. A source or certificate change requires review and regression coverage. Follow `docs/operations/election-night-2026.md`.

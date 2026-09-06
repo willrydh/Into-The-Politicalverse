@@ -22,7 +22,9 @@
     "data:live:rehearse": "node --import tsx scripts/update-election-live.ts --rehearsal",
     "data:import:preparation": "node --import tsx scripts/import-election-preparation.ts",
     "data:verify": "node --import tsx scripts/verify-election-data.ts",
-    "safety:check": "node scripts/safety-preflight.mjs"
+    "safety:check": "node scripts/safety-preflight.mjs",
+    "data:import:local": "node --import tsx scripts/import-local-geography.ts",
+    "data:import:personal": "node --import tsx scripts/import-personal-votes.ts"
   },
   "dependencies": {
     "next": "^16.0.0",
