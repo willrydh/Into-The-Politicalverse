@@ -43,6 +43,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+The shared header is sticky with direction-based visibility: it hides on downward scrolling, reappears on upward scrolling and remains accessible to keyboard focus. Its localized location trail identifies every site page and receives verified geographic names from the local explorer through `SiteLocationProvider`; stale route/query entries are ignored. Preserve active-page semantics, mobile menu centering, reduced-motion behavior and the measured header offset for in-page navigation.
+
 The local explorer release expands `/maps/` and `/en/maps/` to county → municipality → electoral district. Four official elections (2010, 2014, 2018, 2022) cover 21 counties and 290 municipalities; 6,264 physical 2022 district geometries have 4,162 verified 2018 histories. Keep the 2,100 changed districts and two shared-baseline cases unavailable instead of inventing swing. Four blank workbook district names are filled from the exact-code official 2022 GIS source and recorded in the local manifest.
 
 Collection votes, including late overseas votes, contribute once to municipality/county/national totals. They are grouped per municipality, have no map polygons or separate electorate, and are not exclusively overseas votes. Personal-vote tables contain 1,457,836 final 2022 RD votes, aggregated across ballot lists within candidate/party/constituency. They always name the whole Riksdag constituency; the source does not expose municipal/district personal-vote counts. Preserve actual minor-party denominators, rather than using the aggregated OTHER category for candidate shares. See `docs/data-sources/local-election-geography.md`.

@@ -51,6 +51,8 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Preserve the scroll-aware header and localized location trail. The map owns geographic breadcrumb names; do not infer labels from codes or leave a previous page's location visible after navigation. Verify downward hiding, upward reveal, keyboard access and mobile menu visibility.
+
 - The local explorer uses 21 administrative counties, 290 municipalities and 2022 district boundaries; never substitute Riksdag constituency codes for county codes. Retain exact municipality-to-constituency links for candidate tables.
 - Keep local history and personal-vote source/output checksums, the four official GIS name fallbacks and the two ambiguous shared-baseline district cases. Only verified district comparisons can produce 2018 history or swing. See `docs/data-sources/local-election-geography.md`.
 - Include collection votes exactly once in higher-level totals, without mapping them onto physical districts or treating them all as overseas votes. An absent electorate or unavailable history is null, not zero.
