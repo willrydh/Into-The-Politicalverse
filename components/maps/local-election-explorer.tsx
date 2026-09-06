@@ -12,6 +12,7 @@ import { validateDistrictPayload } from "@/lib/data/geography/local-validation";
 import { localCopy, type LocalCopy } from "./local-copy";
 import { navigateLocalQuery, useLocalQuery } from "./local-url";
 import { LocalPersonalVotes } from "./local-personal-votes";
+import { usePublishSiteLocation } from "@/components/site-location";
 
 type NumberFormat = (n: number | null | undefined, digits?: number) => string;
 function metricValue(area: LocalArea, s: LocalSelection) {
@@ -126,6 +127,11 @@ export function LocalElectionExplorer({ model }: { model: LocalIndexModel }) {
   const parent = district ? municipality : municipality ? county : county ? model.national : undefined;
   const children = municipality ? districtState.data?.areas ?? [] : county ? model.municipalities.filter(m => m.parent === county.code) : model.counties;
   const map = municipality ? districtState.data?.map : county ? model.countyMaps[county.code] : model.map;
+  usePublishSiteLocation("/maps", query, [
+    ...(county ? [{ label: county.name, href: `/maps${localSelectionQuery({ ...selection, municipality: "", district: "" })}` }] : []),
+    ...(municipality ? [{ label: municipality.name, href: `/maps${localSelectionQuery({ ...selection, district: "" })}` }] : []),
+    ...(district ? [{ label: nameFor(district, t), href: `/maps${localSelectionQuery(selection)}` }] : []),
+  ]);
   function update(patch: Partial<LocalSelection>) { navigateLocalQuery(localSelectionQuery({ ...selection, ...patch })); setCopyState(""); }
   function choose(area: LocalArea) {
     if (area.level === "county") update({ county: area.code, municipality: "", district: "" });

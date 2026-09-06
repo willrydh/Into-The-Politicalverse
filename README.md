@@ -8,6 +8,8 @@
 
 The public UI is available in Swedish at the existing routes and English under `/en/`, with a same-page language switch. Official 2026 counting has its own `/valnatt/` view, independently refreshed signed data and a [source catalogue](docs/data-sources/election-2026.md). See the [election-night runbook](docs/operations/election-night-2026.md) for cadence, validation, fallback and the remaining production verification gate.
 
+The site header hides when scrolling down and returns when scrolling up. An active menu item and a localized “You are here” trail identify the current page; the map adds its verified county, municipality and district with links back through the hierarchy. Keyboard access, reduced motion and anchor offsets remain available.
+
 The `/maps/` explorer now drills from 21 counties to 290 municipalities and 6,264 physical 2022 electoral districts. It includes municipal/county Riksdag history for 2010–2022, 4,162 verified district comparisons with 2018, collection votes, and the related constituency's 2022 personal-vote table. Swedish/English switching preserves the selected area, party and year. See [local election sources and methodology](docs/data-sources/local-election-geography.md) for boundary changes, overseas votes and the precise geographic limit of personal votes.
 
 This README is the canonical product and engineering description for **Into The Politicalverse**. New contributors and coding agents should read it before changing architecture or product behavior.
