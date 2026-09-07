@@ -4,14 +4,17 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "../localize";
 import { useLocalQuery, navigateLocalQuery } from "../maps/local-url";
 import { localizedHref } from "@/lib/i18n/translate";
-import { SEARCH_TYPES, type SearchEntry, type SearchIndex, type SearchType } from "@/lib/search/types";
+import { SEARCH_TYPES, type SearchEntry, type SearchType } from "@/lib/search/types";
 import { normalizeSearch, prepareSearch, preferredSearchLink, searchEntries, validateSearchIndex } from "@/lib/search/engine";
+import { prepareCandidateSearch } from "@/lib/candidates/search";
 import { SearchIcon } from "./search-trigger";
 
 const labels: Record<SearchType, [string, string]> = {
   person: ["Personer", "People"], party: ["Partier", "Parties"], county: ["Län", "Counties"], municipality: ["Kommuner", "Municipalities"], locality: ["Orter", "Localities"], district: ["Valdistrikt & röstgrupper", "Districts & vote groups"], constituency: ["Valkretsar", "Constituencies"], page: ["Sidor", "Pages"], election: ["Val", "Elections"], topic: ["Ämnen & metoder", "Topics & methods"], source: ["Källor", "Sources"],
 };
-let accepted: SearchIndex | undefined;
+type PreparedIndex = ReturnType<typeof prepareSearch>;
+let accepted: PreparedIndex | undefined;
+const emptyIndex: PreparedIndex = [];
 
 function SearchResult({ entry, query }: { entry: SearchEntry; query: string }) {
   const locale = useLocale(); const sv = locale === "sv";
@@ -22,7 +25,7 @@ function SearchResult({ entry, query }: { entry: SearchEntry; query: string }) {
     <h2><Link href={href} prefetch={false}>{entry.title[locale]}<span aria-hidden="true">↗</span></Link></h2>
     <p>{entry.description[locale]}</p>
     {preferred && <Link className="search-result__destination" href={href} prefetch={false}>{preferred.title[locale]} →</Link>}
-    {entry.links && entry.links.length > 1 && <details><summary>{sv ? "Visa alla" : "Show all"} {entry.links.length} {entry.type === "locality" ? (sv ? "kommuner" : "municipalities") : (sv ? "valkretsar" : "constituencies")}</summary><ul>{entry.links.map(link => <li key={link.href}><Link href={localizedHref(link.href, locale)} prefetch={false}>{link.title[locale]} →</Link></li>)}</ul></details>}
+    {entry.links && entry.links.length > 1 && <details><summary>{sv ? "Visa alla" : "Show all"} {entry.links.length} {entry.type === "locality" ? (sv ? "kommuner" : "municipalities") : (entry.type === "person" ? (sv ? "valområden" : "election areas") : (sv ? "valkretsar" : "constituencies"))}</summary><ul>{entry.links.map(link => <li key={link.href}><Link href={localizedHref(link.href, locale)} prefetch={false}>{link.title[locale]} →</Link></li>)}</ul></details>}
   </li>;
 }
 
@@ -34,7 +37,7 @@ export function UniversalSearch() {
   const type = SEARCH_TYPES.includes(rawType) ? rawType : "all";
   const page = Math.max(1, Math.min(1000, Number(params.get("page")) || 1));
   const deferred = useDeferredValue(query);
-  const [index, setIndex] = useState<SearchIndex | undefined>(undefined);
+  const [index, setIndex] = useState<PreparedIndex | undefined>(undefined);
   const [error, setError] = useState(false); const [attempt, setAttempt] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const f = (n: number) => n.toLocaleString(sv ? "sv-SE" : "en-GB");
@@ -46,13 +49,17 @@ export function UniversalSearch() {
       if (accepted) return accepted;
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/search/index.json`, { signal: controller.signal });
       if (!response.ok) throw new Error("Search response failed");
-      const data: unknown = await response.json(); validateSearchIndex(data); accepted = data; return data;
+      const data: unknown = await response.json(); validateSearchIndex(data);
+      const candidates = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/candidates/search.json`, {signal:controller.signal});
+      if (!candidates.ok) throw new Error("Candidate search response failed");
+      const candidateIndex = await prepareCandidateSearch(await candidates.json(), controller.signal);
+      const combined = [...prepareSearch(data.entries), ...candidateIndex];
+      controller.signal.throwIfAborted(); accepted = combined; return combined;
     };
     load().then(data => { if (active) { setIndex(data); setError(false); } }).catch(() => { if (active) setError(true); }).finally(() => clearTimeout(timeout));
     return () => { active = false; clearTimeout(timeout); controller.abort(); };
   }, [attempt]);
-  const prepared = useMemo(() => prepareSearch(index?.entries ?? []), [index]);
-  const result = useMemo(() => searchEntries(prepared, deferred, type), [prepared, deferred, type]);
+  const result = useMemo(() => searchEntries(index ?? emptyIndex, deferred, type), [index, deferred, type]);
   const hasQuery = normalizeSearch(query).length > 0;
   const totalPages = Math.max(1, Math.ceil(result.hits.length / 24));
   const currentPage = Math.min(Math.floor(page), totalPages);
@@ -89,6 +96,6 @@ export function UniversalSearch() {
         </>}
       </section>
     </div>
-    <div className="search-container search-coverage"><details><summary>{sv ? "Vad ingår i sökningen?" : "What does search cover?"}</summary><p>{sv ? "Sajtens sidor och innehåll, partier, val, daterad regeringskontext, 2022 års personröstkandidater och valkretsar, 21 län, 290 kommuner, valdistrikt och uppsamlingsröster samt SCB:s 2 017 tätorter från 2023. Tätortsnamnen uppdaterades av SCB 24 november 2025." : "Site pages and content, parties, elections, dated government context, 2022 personal-vote candidates and constituencies, 21 counties, 290 municipalities, districts and collection votes, plus Statistics Sweden's 2,017 urban localities from 2023. SCB updated the locality names on 24 November 2025."}</p><p>{sv ? "Orter och valdistrikt är olika geografiska områden. Ortträffar öppnar den eller de berörda kommunernas valresultat. Personröstträffar avser 2022 och är inte en lista över kandidaturer 2026. Småorter saknar namn i SCB:s aktuella register; lokala namn kan ändå hittas i valdistriktsnamnen." : "Localities and electoral districts are different geographic areas. Locality results open the relevant municipalities' election results. Personal-vote results refer to 2022 and are not a list of 2026 candidacies. SCB's current smaller-locality register has no names; local names may still be found in electoral district names."}</p><a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/boende-bebyggelse-och-mark/bebyggelseomraden/tatorter-och-smaorter/" target="_blank" rel="noreferrer">{sv ? "SCB: tätorter och småorter" : "Statistics Sweden: localities"} ↗</a></details></div>
+    <div className="search-container search-coverage"><details><summary>{sv ? "Vad ingår i sökningen?" : "What does search cover?"}</summary><p>{sv ? "Sajtens sidor och innehåll, partier, val, daterad regeringskontext, personröstkandidater och valområden från riksdags-, region- och kommunvalen 2010–2022, 21 län, 290 kommuner, valdistrikt och uppsamlingsröster samt SCB:s 2 017 tätorter från 2023. Tätortsnamnen uppdaterades av SCB 24 november 2025." : "Site pages and content, parties, elections, dated government context, personal-vote candidates and areas from the 2010–2022 Riksdag, regional and municipal elections, 21 counties, 290 municipalities, districts and collection votes, plus Statistics Sweden's 2,017 urban localities from 2023. SCB updated the locality names on 24 November 2025."}</p><p>{sv ? "Orter och valdistrikt är olika geografiska områden. Ortträffar öppnar den eller de berörda kommunernas valresultat. Personröstträffar avser 2010–2022 och är inte en lista över kandidaturer 2026. Småorter saknar namn i SCB:s aktuella register; lokala namn kan ändå hittas i valdistriktsnamnen." : "Localities and electoral districts are different geographic areas. Locality results open the relevant municipalities' election results. Personal-vote results refer to 2010–2022 and are not a list of 2026 candidacies. SCB's current smaller-locality register has no names; local names may still be found in electoral district names."}</p><a href="https://www.scb.se/hitta-statistik/statistik-efter-amne/boende-bebyggelse-och-mark/bebyggelseomraden/tatorter-och-smaorter/" target="_blank" rel="noreferrer">{sv ? "SCB: tätorter och småorter" : "Statistics Sweden: localities"} ↗</a></details></div>
   </div>;
 }

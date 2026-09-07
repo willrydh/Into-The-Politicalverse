@@ -8,10 +8,10 @@ export function voteShare(result: LocalObservation | undefined, party: PartyId):
 export function localTurnout(result: LocalObservation | undefined): number | null {
   return result && result.eligibleVoters > 0 ? result.totalVotes / result.eligibleVoters * 100 : null;
 }
-export function localSwing(area: LocalArea, party: PartyId): number | null {
+export function localSwing(area: LocalArea, party: PartyId, year: LocalYear = 2022): number | null {
   if (area.level === "district" && area.comparison?.status !== "comparable") return null;
-  const current = voteShare(area.results.find(r => r.year === 2022), party);
-  const previous = voteShare(area.results.find(r => r.year === 2018), party);
+  const current = voteShare(area.results.find(r => r.year === year), party);
+  const previous = voteShare(area.results.find(r => r.year === year - 4), party);
   return current === null || previous === null ? null : current - previous;
 }
 export function sumObservations(results: LocalObservation[], year: LocalYear): LocalObservation {
@@ -32,4 +32,13 @@ export function validateObservation(result: LocalObservation): void {
   // Collection districts have votes but no separate electorate. Their votes
   // belong in municipality/county totals, never in a fabricated local turnout.
   if (result.eligibleVoters > 0 && result.totalVotes > result.eligibleVoters) throw new Error("Local turnout exceeds the electorate");
+}
+
+export function localVoteChange(area: LocalArea, party: PartyId, year: LocalYear) {
+  const absent = { delta: null, percent: null };
+  if (area.level === "district" && area.comparison?.status !== "comparable") return absent;
+  const current = area.results.find(r => r.year === year), previous = area.results.find(r => r.year === year - 4);
+  if (!current || !previous) return absent;
+  const old = previous.votes[party], delta = current.votes[party] - old;
+  return { delta, percent: old > 0 ? delta / old * 100 : null };
 }

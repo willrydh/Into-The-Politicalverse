@@ -15,11 +15,12 @@ are ordinary shareable URL state, retained on reload, browser back and language 
 - Eight parliamentary parties link to their selected Party Explorer profile.
 - 21 counties, 290 municipalities, 6,264 physical districts and 290 collection
   groups use exact Valmyndigheten codes. Collection groups remain non-spatial.
-- All 5,948 candidate/party identities from the final 2022 personal-vote dataset
-  appear once, with all 13,775 constituency relations available. Links carry the
-  source party code, candidate ID, canonical party, constituency and year. These
-  are **2022 personal-vote records**, not 2026 candidacies. No candidate vote
-  totals are combined by search, and no elected status is inferred.
+- All 142,108 imported candidate profiles cover 207,104 election-scoped
+  identities across the 2010, 2014, 2018 and 2022 RD/RF/KF regular elections.
+  Profiles retain every election-area relation. All 13,775 existing 2022
+  Riksdag candidate/party/constituency relations are checked against the new
+  profiles. These are historical results, not 2026 candidacies. Search does
+  not combine vote totals or infer elected status.
 - Changing map geography, party or constituency clears the candidate override.
   Language changes and history preserve it. Invalid or missing candidates cannot
   silently display another person's votes as the selected person's result.
@@ -56,14 +57,22 @@ normalized hash, coverage, source metadata and search index.
 Search normalizes Unicode, case, accents, punctuation and whitespace. Every query
 word must match; exact titles, name tokens and prefixes rank ahead of context.
 Exact party abbreviations receive explicit priority, under identical party rules.
-Names are ordered alphabetically when relevance ties. No popularity, voting
-strength, inferred political preference or personal search history affects rank.
+When relevance ties, more recent/multi-election candidate coverage ranks first,
+then names alphabetically. No popularity, voting strength, inferred political
+preference or personal search history affects rank.
 When no exact matches exist, one-character name spelling suggestions are visibly
 labelled. Short tokens and numeric codes never use this fallback.
 
 Filters retain counts for all categories. Results are paginated 24 at a time.
-The roughly 0.5 MB gzip index is lazy-loaded and schema/URL validated; bad payloads
+The core index (less than 650 KB gzip) and compact candidate supplement (less
+than 2.5 MB gzip) load only on the search page. Preparation yields to the browser
+in small batches; shared labels are normalized once and full cards/links are
+materialized only for the visible results. Both payloads are validated; bad payloads
 or request failures show a localized retry state. No old result is attributed to
 a failed new payload. Tests cover full candidate/destination joins, all geography
 links, split localities, languages, matching, approximate matches, empty results,
 malicious payloads, duplicate IDs and the transfer budget.
+
+## Candidate-history extension (7 September 2026)
+
+Personal-vote discovery now covers RD/RF/KF regular elections in 2010, 2014, 2018 and 2022. The core page/geography index remains small; the search page also fetches a compact candidate catalogue with dictionaries for party and area names. Results open a derived/source candidate profile in the requested election and area, preserving language. Full vote histories are fetched only from the selected profile shard. Do not treat source candidate IDs as lifetime IDs. The previous 2022 map endpoints remain available for existing links. Source coverage, checksums and matching limitations are documented in `candidate-history.md`.

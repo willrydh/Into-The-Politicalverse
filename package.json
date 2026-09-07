@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "npm run safety:check",
+    "predev": "npm run safety:check && npm run data:build:candidates",
     "dev": "next dev --hostname 127.0.0.1 --port 4317",
     "build": "next build",
     "build:pages": "PAGES_BASE_PATH=/Into-The-Politicalverse next build",
@@ -25,7 +25,11 @@
     "safety:check": "node scripts/safety-preflight.mjs",
     "data:import:local": "node --import tsx scripts/import-local-geography.ts",
     "data:import:localities": "node --import tsx scripts/import-scb-localities.ts",
-    "data:import:personal": "node --import tsx scripts/import-personal-votes.ts"
+    "data:import:personal": "node --import tsx scripts/import-personal-votes.ts",
+    "data:import:candidates": "python3 scripts/import-candidate-history.py",
+    "data:build:candidates": "node --import tsx scripts/build-candidate-data.ts",
+    "prebuild": "npm run data:build:candidates",
+    "prebuild:pages": "npm run data:build:candidates"
   },
   "dependencies": {
     "next": "^16.0.0",

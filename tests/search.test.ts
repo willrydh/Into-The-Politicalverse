@@ -9,9 +9,12 @@ import { validateLocalities } from "../lib/search/localities";
 import { localizedHref, ROUTES } from "../lib/i18n/translate";
 import type { LocalDistrictData, LocalElectionIndex } from "../lib/data/geography/local-types";
 import type { PersonalVoteData } from "../lib/data/geography/personal-votes";
+import { getCandidateData, buildCandidateSearch } from "../lib/candidates/build";
+import { candidateSearchEntries, prepareCandidateSearch } from "../lib/candidates/search";
 import type { LocalityData } from "../lib/search/localities";
 
-const data = buildSearchIndex(); const index = prepareSearch(data.entries);
+const core = buildSearchIndex(); const candidates = getCandidateData();
+const data = {...core,entries:[...core.entries,...candidateSearchEntries(buildCandidateSearch())]}; const index = prepareSearch(data.entries);
 const read = <T,>(file: string): T => JSON.parse(readFileSync(`data/normalized/${file}`, "utf8"));
 const geography = read<LocalElectionIndex>("local-election-index.json");
 const personal = read<PersonalVoteData>("personal-votes-2022.json");
@@ -24,16 +27,14 @@ test("global search covers every imported identity without duplicating candidate
   assert.equal(data.entries.filter(e => e.type === "district").length, 6554);
   assert.equal(data.entries.filter(e => e.type === "constituency").length, 29);
   assert.equal(data.entries.filter(e => e.type === "locality").length, 2017);
-  assert.equal(data.entries.filter(e => e.id.startsWith("candidate:")).length, 5948);
-  assert.equal(data.entries.filter(e => e.id.startsWith("candidate:")).reduce((n, e) => n + e.links!.length, 0), 13775);
+  assert.equal(data.entries.filter(e => e.id.startsWith("candidate:")).length, candidates.people.length);
   const byId = new Map(data.entries.map(e => [e.id, e]));
   for (const c of personal.constituencies) for (const person of c.candidates) {
-    const result = byId.get(`candidate:${person.partyCode}:${person.id}`)!;
-    assert.equal(result.title.sv, person.name);
-    const link = result.links!.find(l => new URL(l.href, "https://example.test").searchParams.get("constituency") === c.code)!;
-    const s = readLocalSelection(new URL(link.href, "https://example.test").search, geography);
-    assert.equal(s.candidate, `${person.partyCode}:${person.id}`);
-    assert.equal(s.party, person.partyId); assert.equal(s.year, 2022);
+    const profile = candidates.sourcePeople.get(`2022:${person.id}`)!;
+    const result = byId.get(`candidate:${profile.id}`)!;
+    assert.ok(profile.aliases.includes(person.name));
+    const link = result.links!.find(l => {const p=new URL(l.href,"https://example.test").searchParams;return p.get("election")==="RD"&&p.get("area")===c.code;})!;
+    assert.equal(new URL(link.href,"https://example.test").searchParams.get("person"), profile.id);
   }
 });
 
@@ -61,7 +62,7 @@ test("search handles Swedish accents, word order, prefixes, aliases and exact pa
   assert.equal(find("S")[0].id, "party:S");
   assert.equal(find("Social Democrats")[0].id, "party:S");
   assert.ok(find("FP").some(e => e.id === "party:L"));
-  assert.equal(preferredSearchLink(find("Ulf Kristersson")[0], "Stockholms län")!.title.sv, "Stockholms län");
+  assert.equal(preferredSearchLink(find("Ulf Kristersson")[0], "Stockholms län")!.title.sv, "Stockholms län · Riksdag");
   assert.equal(find("Herfindahl")[0].href, "/indicators/");
   assert.ok(find("Monte Carlo").some(e => e.id === "topic:method"));
   assert.equal(find("Novus")[0].id, "poll-source:Novus");
@@ -92,7 +93,7 @@ test("filters retain total counts, all exported page routes are localized and ma
   assert.throws(() => validateSearchIndex(damaged));
   const duplicate = { ...data, entries: [data.entries[0], data.entries[0]] };
   assert.throws(() => validateSearchIndex(duplicate));
-  assert.ok(gzipSync(JSON.stringify(data)).length < 650_000, "Keep the on-demand index within the transfer budget");
+  assert.ok(gzipSync(JSON.stringify(core)).length < 650_000, "Keep the on-demand index within the transfer budget");
 });
 
 test("SCB localities reject omissions, duplicate/unknown municipalities and broken provenance", () => {
@@ -101,4 +102,23 @@ test("SCB localities reject omissions, duplicate/unknown municipalities and brok
   assert.throws(() => validateLocalities({ ...places, localities: places.localities.slice(1) }, codes));
   const invalid = structuredClone(places); invalid.localities[0].municipalities = ["9999"];
   assert.throws(() => validateLocalities(invalid, codes));
+});
+
+test("mobile search keeps compact data, yields during preparation and preserves results and exact destinations", async () => {
+  const compact = buildCandidateSearch();
+  let yielded = false;
+  const pending = prepareCandidateSearch(compact);
+  setTimeout(() => { yielded = true; }, 0);
+  const prepared = [...prepareSearch(core.entries), ...await pending];
+  assert.ok(yielded, "Preparation must give the browser time to paint and accept input");
+  for (const query of ["Lars Gustaf Andersson", "Ulf Kristersson", "Fritsla", "Borås", "FP", "Magdalena Andersosn", "Regional election 2018", "zx"]) {
+    const old = searchEntries(index, query), current = searchEntries(prepared, query);
+    assert.equal(current.approximate, old.approximate, query);
+    assert.deepEqual(current.counts, old.counts, query);
+    assert.deepEqual(current.hits.slice(0, 24).map(h => h.entry), old.hits.slice(0, 24).map(h => h.entry), query);
+  }
+  const controller = new AbortController(); controller.abort();
+  await assert.rejects(prepareCandidateSearch(compact, controller.signal), { name: "AbortError" });
+  const broken = { ...compact, areas: { ...compact.areas, "KF:1490": ["Borås", "KF", "../bad"] } };
+  await assert.rejects(prepareCandidateSearch(broken));
 });

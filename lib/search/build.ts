@@ -80,19 +80,9 @@ export function buildSearchIndex(): SearchIndex {
     const name = translated(p.name);
     entries.push({ id: `party:${p.id}`, type: "party", title: name, description: b(`Parti · ${p.id} · Historik, röster och mandat`, `Party · ${p.id} · History, votes and seats`), href: `/parties/?party=${p.id}#party-profile`, keywords: p.id === "L" ? "Folkpartiet FP Liberals" : "" });
   }
-  const people = new Map<string, SearchEntry>();
-  for (const c of personal.constituencies) {
-    entries.push({ id: `constituency:${c.code}`, type: "constituency", title: b(c.name), description: b(`Riksdagsvalkrets · Personröster 2022 · ${c.code}`, `Riksdag constituency · Personal votes 2022 · ${c.code}`), href: mapHref({ constituency: c.code }, "personal-votes") });
-    for (const p of c.candidates) {
-      const id = `candidate:${p.partyCode}:${p.id}`;
-      const party = translated(p.partyId === "OTHER" ? p.partyName : PARTIES[p.partyId].name);
-      const href = mapHref({ constituency: c.code, party: p.partyId, candidate: `${p.partyCode}:${p.id}` }, "personal-votes");
-      const entry = people.get(id) ?? { id, type: "person", title: b(p.name), description: b(`${party.sv} · Personröster i riksdagsvalet 2022`, `${party.en} · Personal votes in the 2022 Riksdag election`), href, links: [] };
-      if (entry.title.sv !== p.name) throw new Error(`Conflicting candidate name ${id}`);
-      entry.links!.push({ title: b(c.name), href }); people.set(id, entry);
-    }
-  }
-  entries.push(...people.values());
+  // Candidate histories are served as a compact, separately validated payload.
+  // Keep the general page/geography index small and out of the shared header.
+  for (const c of personal.constituencies) entries.push({ id: `constituency:${c.code}`, type: "constituency", title: b(c.name), description: b(`Riksdagsvalkrets · Personröster 2010–2022 · ${c.code}`, `Riksdag constituency · Personal votes 2010–2022 · ${c.code}`), href: mapHref({ constituency: c.code }, "personal-votes") });
   for (const p of government.partyContexts) for (const name of p.leaders) entries.push({ id: `leader:${p.partyId}:${name}`, type: "person", title: b(name), description: b(`${PARTIES[p.partyId].name} · Daterad regeringskontext 2026`, `${translateText(PARTIES[p.partyId].name, "en")} · Dated government context 2026`), href: `/forecasts/#leader-${p.partyId}`, keywords: p.claims.flatMap(c => [c.headline, c.summary, translateText(c.headline, "en"), translateText(c.summary, "en")]).join(" ") });
   for (const claim of government.constitutionalClaims) entries.push({ id: `context:${claim.id}`, type: "topic", title: translated(claim.headline), description: translated(claim.summary), href: "/forecasts/#regering", keywords: `${claim.source.publisher} ${claim.source.title}` });
   for (const question of forecast.questions) entries.push({ id: `question:${question.id}`, type: "topic", title: translated(question.question), description: b(`MODELL · Prognos 2026. ${translateText(question.resolution, "sv")}`, `MODEL · Forecast 2026. ${translateText(question.resolution, "en")}`), href: `/forecasts/#${question.id}`, keywords: `${question.explanation} ${translateText(question.explanation, "en")}` });
