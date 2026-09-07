@@ -84,10 +84,9 @@ export function SiteHeader() {
   }, [pathname]);
 
   return <Localize>{(
-    // The sticky host never paints. Its independently visible banner keeps one
-    // transform layer; scrolling must not toggle the painted surface's visibility.
+    <div className="site-header-slot">
     <div className="site-header" ref={headerRef} data-menu-open={menuOpen}>
-      <header className="site-header__surface">
+      <header>
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
           <SiteBrand />
@@ -131,6 +130,7 @@ export function SiteHeader() {
         </div>
       </div>
       </header>
+    </div>
     </div>
   )}</Localize>;
 }
