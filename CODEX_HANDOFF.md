@@ -45,6 +45,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+Compact sharing previews use the original square 1024px crown as their sole Open Graph image. Safari cropped the previous wide card to its wordmark; the already-correct Apple/home-screen icon did not control that image preview. Keep the wide localized cards specific to Twitter metadata and verify actual square crops when changing branding. See `docs/brand/README.md`.
+
 The supplied crown with a Nordic cross replaces the old PV mark through `SiteBrand`, including mobile and the 404. Preserve the live-text serif name, original SVG/PNG geometry, readable dark-theme colors and neutral focus styling. Shared `brandMetadata` covers both languages' sharing images, favicons and Apple icons; both static web manifests use the Pages base path and original standard/maskable icons. Assets are versioned under `public/brand/crown-2026/`; see [project branding](docs/brand/README.md) before replacing or regenerating them.
 
 Global focus styles use neutral gray in both themes. Text-entry fields and simulator number groups use an inset underline without a colored outer frame. Keep keyboard focus visible and warning accents separate from the focus palette.

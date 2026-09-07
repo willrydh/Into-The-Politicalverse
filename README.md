@@ -6,6 +6,8 @@ Focus styling is neutral in both themes. Text-entry fields use a discreet inset 
 
 The owner-supplied crown identity appears in the shared header/footer, both language versions, sharing previews, favicons and home-screen icons. Asset provenance, responsive behavior and regeneration are documented in [project branding](docs/brand/README.md).
 
+Compact link previews use the square crown directly so it remains recognizable in Safari's share sheet. The wide localized artwork is used for Twitter's large-image cards.
+
 > **Politics, quantified.**
 >
 > A source-traceable quantitative election intelligence platform for exploring elections through official results, geography, historical patterns, transparent indicators, polling models and scenario simulation.
