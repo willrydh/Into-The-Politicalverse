@@ -159,12 +159,12 @@ button { color: inherit; }
   position: sticky;
   top: 0;
   z-index: 20;
-  transition: transform .2s ease, box-shadow .2s ease, visibility 0s;
+  /* No outer shadow: its fade would trail behind the moving edge. */
+  transition: transform .2s ease, visibility 0s;
 }
 /* Translation alone leaves a cached toolbar tint in iOS Safari. Hide the
    non-header surface after its exit; reveal it immediately on the way back. */
-.site-header[data-hidden="true"] { transform: translateY(calc(-100% - 1px)); visibility: hidden; transition-delay: 0s, 0s, .2s; }
-.site-header[data-scrolled="true"][data-hidden="false"] { box-shadow: 0 5px 16px rgba(11,32,45,.12); }
+.site-header[data-hidden="true"] { transform: translateY(calc(-100% - 1px)); visibility: hidden; transition-delay: 0s, .2s; }
 
 .site-header__utility { border-bottom: 1px solid var(--line); }
 .site-header__utility-inner, .site-header__navigation-inner { width: var(--page); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
