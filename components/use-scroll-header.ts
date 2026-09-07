@@ -1,55 +1,81 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { advanceScrollHeader, createScrollHeaderState } from "@/lib/ui/scroll-header";
 
 export function useScrollHeader(pathname: string, pinned = false) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const header = ref.current;
     if (!header) return;
-    const position = () => Math.max(0, Math.min(window.scrollY, document.documentElement.scrollHeight - window.innerHeight));
-    let previous = position(), anchor = previous, direction = 0, frame = 0;
-    header.dataset.hidden = "false";
-    const measure = () => document.documentElement.style.setProperty("--site-header-height", `${header.offsetHeight}px`);
+    const surface = header.querySelector<HTMLElement>(".site-header__surface");
+    if (!surface) return;
+    const root = document.documentElement;
+    let state = createScrollHeaderState(window.scrollY);
+    let headerHeight = 0, maxScroll = 0, frame = 0;
+    let keyboardFocus = !!surface.querySelector(":focus-visible");
+
+    function showImmediately() {
+      state = createScrollHeaderState(window.scrollY);
+      header!.dataset.motion = "instant";
+      header!.dataset.hidden = "false";
+      surface!.inert = false;
+    }
+
+    function measure() {
+      const nextHeight = header!.offsetHeight;
+      if (nextHeight !== headerHeight) {
+        headerHeight = nextHeight;
+        root.style.setProperty("--site-header-height", `${headerHeight}px`);
+      }
+      maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
+      // Toolbar/keyboard/viewport resizing is not a new scroll direction.
+      state = createScrollHeaderState(Math.min(window.scrollY, maxScroll), state.hidden);
+    }
+
+    showImmediately();
     const observer = new ResizeObserver(measure);
     observer.observe(header);
+    observer.observe(document.body);
     measure();
     function update() {
       frame = 0;
-      const y = position();
-      const nextDirection = Math.sign(y - previous);
-      header!.dataset.scrolled = String(y > 8);
-      if (pinned || y <= header!.offsetHeight || header!.querySelector(":focus-visible")) {
-        header!.dataset.hidden = "false";
-        anchor = y;
-      } else if (nextDirection) {
-        if (nextDirection !== direction) anchor = previous;
-        // Small thresholds reject trackpad jitter without delaying an upward reveal.
-        if (Math.abs(y - anchor) >= (nextDirection < 0 ? 4 : 12)) {
-          header!.dataset.hidden = String(nextDirection > 0);
-          anchor = y;
-        }
+      const next = advanceScrollHeader(state, window.scrollY, { headerHeight, maxScroll, pinned: pinned || keyboardFocus });
+      if (next.hidden !== state.hidden) {
+        header!.dataset.motion = "slide";
+        header!.dataset.hidden = String(next.hidden);
+        surface!.inert = next.hidden;
       }
-      if (nextDirection) direction = nextDirection;
-      previous = y;
+      state = next;
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
-    function onFocus() { header!.dataset.hidden = "false"; }
+    function onFocus(event: FocusEvent) {
+      keyboardFocus = event.target instanceof Element && surface!.contains(event.target) && event.target.matches(":focus-visible");
+      if (keyboardFocus) showImmediately();
+    }
+    function onBlur() { keyboardFocus = false; }
     function onKeyDown(event: KeyboardEvent) {
-      // visibility:hidden releases Safari's cached tint, but also removes the
-      // controls from tab order. Reveal before the browser moves keyboard focus.
-      if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) onFocus();
+      // Restore off-screen controls before native Tab traversal, without making
+      // the browser scroll a still-translated focused link into the viewport.
+      if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) showImmediately();
     }
     window.addEventListener("scroll", onScroll, { passive: true });
-    header.addEventListener("focusin", onFocus);
+    window.addEventListener("resize", measure);
+    window.visualViewport?.addEventListener("resize", measure);
+    document.addEventListener("focusin", onFocus);
+    document.addEventListener("focusout", onBlur);
     document.addEventListener("keydown", onKeyDown, true);
     return () => {
       window.removeEventListener("scroll", onScroll);
-      header.removeEventListener("focusin", onFocus);
+      window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
+      document.removeEventListener("focusin", onFocus);
+      document.removeEventListener("focusout", onBlur);
       document.removeEventListener("keydown", onKeyDown, true);
       observer.disconnect();
       cancelAnimationFrame(frame);
-      document.documentElement.style.removeProperty("--site-header-height");
+      root.style.removeProperty("--site-header-height");
+      surface.inert = false;
     };
   }, [pathname, pinned]);
   return ref;

@@ -84,10 +84,10 @@ export function SiteHeader() {
   }, [pathname]);
 
   return <Localize>{(
-    // WebKit retains the tint of hidden sticky <header> elements. Keep the
-    // semantic banner inside the independently hidden, non-header surface.
+    // The sticky host never paints. Its independently visible banner keeps one
+    // transform layer; scrolling must not toggle the painted surface's visibility.
     <div className="site-header" ref={headerRef} data-menu-open={menuOpen}>
-      <header>
+      <header className="site-header__surface">
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
           <SiteBrand />
