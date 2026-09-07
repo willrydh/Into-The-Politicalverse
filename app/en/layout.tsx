@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import "../globals.css";
 import { LocaleProvider } from "@/components/localize";
 import { SiteLocationProvider } from "@/components/site-location";
+import { ThemeInit } from "@/components/theme-init";
 
 export const metadata: Metadata = {
   title: {
@@ -15,7 +16,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head><ThemeInit /></head>
       <body>
         <LocaleProvider locale="en"><SiteLocationProvider><SiteHeader />
         <main>{children}</main>

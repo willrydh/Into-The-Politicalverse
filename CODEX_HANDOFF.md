@@ -1,5 +1,7 @@
 # Codex takeover brief — Into The Politicalverse
 
+A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
+
 ## Mission
 
 Continue **Into The Politicalverse** as a production-quality quantitative election intelligence platform. Sweden and the 2026 Riksdag election are the first live cycle. `README.md` remains the canonical product specification.

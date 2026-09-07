@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./language-switcher";
 import { SearchTrigger } from "./search/search-trigger";
+import { ThemeToggle } from "./theme-toggle";
 import { useSiteLocation } from "./site-location";
 import { useScrollHeader } from "./use-scroll-header";
 import { navigateLocalQuery, useLocalQuery } from "./maps/local-url";
@@ -54,6 +55,7 @@ export function SiteHeader() {
             <span className="wordmark__text"><small>Into the</small><strong>Politicalverse</strong></span>
           </Link>
           <SearchTrigger />
+          <ThemeToggle />
           <LanguageSwitcher />
         </div>
       </div>
