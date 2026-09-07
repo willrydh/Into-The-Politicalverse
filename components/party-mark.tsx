@@ -6,7 +6,7 @@ import { translateText } from "@/lib/i18n/translate";
 
 type PartyMarkProps = {
   party: PartyDefinition;
-  size?: "inline" | "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg";
   label?: string;
 };
 

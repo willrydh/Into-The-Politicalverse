@@ -4,31 +4,36 @@ import { PartyMark } from "./party-mark";
 import { useLocale } from "./localize";
 import { PARTIES } from "@/lib/parties";
 import type { PartyId } from "@/lib/data/elections/types";
-import { partyDisplayName, splitPartyText } from "@/lib/party-labels";
+import { partyDisplayName, partyShortName, splitPartyText } from "@/lib/party-labels";
 import { translateText } from "@/lib/i18n/translate";
 
-export function PartyGroup({ parties, year }: { parties: readonly PartyId[]; year?: number }) {
-  return <span className="party-group">{parties.map((id, i) => <Fragment key={`${id}-${i}`}>
-    {i > 0 && <span className="party-group__separator" aria-hidden="true">+</span>}
-    <PartyMark party={PARTIES[id]} label={partyDisplayName(id, year)} size="sm" />
+export function PartyAbbreviation({ partyId, year }: { partyId: PartyId; year?: number }) {
+  const name = translateText(partyDisplayName(partyId, year), useLocale());
+  if (partyId === "OTHER") return <>{name}</>;
+  return <abbr className="party-abbreviation" title={name}>{partyShortName(partyId, year)}</abbr>;
+}
+
+/** Text suits compact comparisons; dedicated identity panels can opt into logos. */
+export function PartyGroup({ parties, year, variant = "text" }: { parties: readonly PartyId[]; year?: number; variant?: "text" | "logos" }) {
+  return <span className={`party-group party-group--${variant}`}>{parties.map((id, i) => <Fragment key={`${id}-${i}`}>
+    {i > 0 && <span className="party-group__separator" aria-hidden={variant === "logos" || undefined}>{" + "}</span>}
+    {variant === "logos"
+      ? <PartyMark party={PARTIES[id]} label={partyDisplayName(id, year)} size="sm" />
+      : <PartyAbbreviation partyId={id} year={year} />}
   </Fragment>)}</span>;
 }
 
-/** Translate the complete sentence before replacing its party abbreviations. */
+/** Keep prose as readable text, translating the whole sentence before annotating abbreviations. */
 export function PartyText({ children }: { children: string }) {
   const text = translateText(children, useLocale());
   return <>{splitPartyText(text).map((part, index) => part.partyId
-    ? <PartyMark key={index} party={PARTIES[part.partyId]} label={partyDisplayName(part.partyId, part.historical ? 2014 : undefined)} size="inline" />
+    ? <PartyAbbreviation key={index} partyId={part.partyId} year={part.historical ? 2014 : undefined} />
     : <Fragment key={index}>{part.text}</Fragment>)}</>;
 }
 
-export function PartySvgMark({ partyId, x, y, size = 24 }: { partyId: PartyId; x: number; y: number; size?: number }) {
-  const name = translateText(PARTIES[partyId].name, useLocale());
-  const logo = PARTIES[partyId].logo;
-  if (!logo) return <text x={x} y={y}>{name}</text>;
-  return <g className="party-svg-mark" role="img" aria-label={name}>
-    <title>{name}</title>
-    <circle cx={x + size / 2} cy={y + size / 2} r={size / 2} fill="#fff" stroke="#d7dce0" />
-    <image href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${logo}`} x={x + size * .11} y={y + size * .11} width={size * .78} height={size * .78} preserveAspectRatio="xMidYMid meet" />
-  </g>;
+export function PartySvgLabel({ partyId, x, y, year }: { partyId: PartyId; x: number; y: number; year?: number }) {
+  const name = translateText(partyDisplayName(partyId, year), useLocale());
+  return <text className="party-svg-label" x={x} y={y} dominantBaseline="middle" aria-label={name}>
+    <title>{name}</title>{partyId === "OTHER" ? name : partyShortName(partyId, year)}
+  </text>;
 }

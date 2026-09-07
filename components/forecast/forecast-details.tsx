@@ -1,7 +1,7 @@
 "use client";
 import { Localize } from "@/components/localize";
 import { PartyMark } from "@/components/party-mark";
-import { PartyText } from "@/components/party-label";
+import { PartyAbbreviation, PartyText } from "@/components/party-label";
 import { PARTIES } from "@/lib/parties";
 import type { ElectionForecast, ForecastBacktestElection } from "@/lib/forecast/types";
 import type { SimulatorPartyId } from "@/lib/simulator/types";
@@ -82,7 +82,7 @@ export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) 
               <div role="cell"><span className={`backtest-role backtest-role--${backtest.role}`}>{backtest.role === "holdout" ? "LÅST TEST" : "KALIBRERING"}</span></div>
               <div role="cell"><strong>{backtest.polls} mätningar</strong><span>{backtest.houses} institut</span></div>
               <div role="cell"><strong>{decimal(backtest.meanAbsoluteError)}</strong><span>procentenheter</span></div>
-              <div role="cell"><strong><PartyMark party={PARTIES[miss.partyId]} size="inline"/> {miss.difference > 0 ? "+" : ""}{decimal(miss.difference)}</strong><span>prognos minus utfall</span></div>
+              <div role="cell"><strong><PartyAbbreviation partyId={miss.partyId} year={backtest.year}/> {miss.difference > 0 ? "+" : ""}{decimal(miss.difference)}</strong><span>prognos minus utfall</span></div>
             </article>
           );
         })}

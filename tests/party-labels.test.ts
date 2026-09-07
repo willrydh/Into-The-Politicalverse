@@ -12,7 +12,7 @@ test("political copy recognizes whole party tokens without changing figures, wor
   assert.deepEqual(splitPartyText("Övriga partier och Borås lokala parti"), [{ text: "Övriga partier och Borås lokala parti" }]);
 });
 
-test("complete forecast sentences translate before party labels are inserted", () => {
+test("complete forecast sentences translate before party abbreviations are annotated", () => {
   const original = "Når S, V, MP och C minst 175 mandat?";
   const translated = translateText(original, "en");
   assert.notEqual(translated, original);

@@ -35,8 +35,8 @@ Build a production-quality quantitative election intelligence platform, initiall
 - Do not publish person, minister, cabinet-post or party-leader odds without a separately sourced, backtested and documented model.
 - Do not require an account for initial public browsing.
 - Do not prioritize Stripe/auth/paywall before charts/data/party/maps/indicators/simulator.
-- Real party logos are mandatory; use local assets and record provenance.
-- Use the shared party labels sitewide, including candidate changes and SVG chart labels. Other/local parties remain text. Keep full accessible names and native select labels; do not substitute party tokens inside personal names or machine values. See `docs/data-sources/party-assets.md`.
+- Use official local party logos on dedicated identity surfaces: party cards, leader headers, selectors and result rows. Preserve asset provenance.
+- Use names or abbreviations in prose, sentence headings, dense chart labels and inline candidate changes. Shared party groups default to text; opt into logos only for dedicated identity panels. Other/local parties remain text. Keep full accessible names and native select labels; never substitute party tokens inside personal names or machine values. See `docs/data-sources/party-assets.md`.
 - All major UI must work on phone, tablet, laptop and wide desktop.
 - Do not rely on hover for essential interactions.
 - Stay politically neutral and apply identical data rules to all parties.

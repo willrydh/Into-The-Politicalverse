@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useLocale } from "../localize";
 import { PARTIES } from "@/lib/parties";
 import { PartyMark } from "../party-mark";
+import { PartyAbbreviation } from "../party-label";
 import { translateText } from "@/lib/i18n/translate";
 import { CANDIDATE_METHOD } from "@/lib/candidates/types";
 import type { CandidateComparison, CandidateElection, CandidateResult, ComparisonReason } from "@/lib/candidates/types";
@@ -24,8 +25,9 @@ export function CandidateLoading({error,retry}: {error?:boolean;retry:()=>void})
 }
 export const electionLabel = (type: CandidateElection, sv: boolean) => ({RD:sv?"Riksdag":"Riksdag",RF:sv?"Region":"Region",KF:sv?"Kommunfullmäktige":"Municipal council"})[type];
 export const partyLabel = (r: Pick<CandidateResult,"partyName"|"partyId"> & {year?:number}, sv: boolean) => r.partyId === "L" && r.year && r.year <= 2014 ? (sv ? "Folkpartiet liberalerna" : "Liberal People’s Party") : r.partyId === "OTHER" ? r.partyName : translateText(PARTIES[r.partyId].name, sv ? "sv" : "en");
-export function CandidateParty({ result, withName = false }: { result: Pick<CandidateResult,"partyName"|"partyId"> & {year?:number}; withName?: boolean }) {
+export function CandidateParty({ result, withName = false, variant = "logo" }: { result: Pick<CandidateResult,"partyName"|"partyId"> & {year?:number}; withName?: boolean; variant?: "logo" | "text" }) {
   const label = partyLabel(result, useLocale() === "sv");
+  if (variant === "text") return <span className="candidate-party">{result.partyId === "OTHER" || withName ? label : <PartyAbbreviation partyId={result.partyId} year={result.year}/>}</span>;
   return <span className="candidate-party"><PartyMark party={PARTIES[result.partyId]} label={label} size="sm" />{withName && result.partyId !== "OTHER" && <span>{label}</span>}</span>;
 }
 export const reasonLabel = (reason: ComparisonReason, sv: boolean) => ({
