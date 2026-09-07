@@ -84,7 +84,10 @@ export function SiteHeader() {
   }, [pathname]);
 
   return <Localize>{(
-    <header className="site-header" ref={headerRef} data-menu-open={menuOpen}>
+    // WebKit retains the tint of hidden sticky <header> elements. Keep the
+    // semantic banner inside the independently hidden, non-header surface.
+    <div className="site-header" ref={headerRef} data-menu-open={menuOpen}>
+      <header>
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
           <SiteBrand />
@@ -127,6 +130,7 @@ export function SiteHeader() {
           </nav>
         </div>
       </div>
-    </header>
+      </header>
+    </div>
   )}</Localize>;
 }
