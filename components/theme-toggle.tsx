@@ -33,5 +33,5 @@ export function ThemeToggle() {
     const theme = dark ? "light" : "dark";
     try { localStorage.setItem(key, theme); } catch { /* The current page still changes if storage is unavailable. */ }
     apply(theme);
-  }}><span aria-hidden="true" className="theme-toggle__moon">☾</span><span aria-hidden="true" className="theme-toggle__sun">☀</span><span className="theme-toggle__label">{sv ? "Mörkt / ljust" : "Dark / light"}</span></button>;
+  }}><span aria-hidden="true" className="theme-toggle__moon">☾</span><span aria-hidden="true" className="theme-toggle__sun">☀</span><span className="theme-toggle__label">{sv ? "Mörkt / ljust" : "Dark / light"}</span><span className="theme-toggle__options" aria-hidden="true"><span data-theme-option="light">{sv ? "Ljust" : "Light"}</span><span data-theme-option="dark">{sv ? "Mörkt" : "Dark"}</span></span></button>;
 }

@@ -188,3 +188,5 @@ Report `implemented`, `tested`, `pushed`, `published` and `live-verified` separa
 7. Keep auth, billing and paywall outside the data engine and secondary to public analytical value.
 
 Do not rewrite the existing architecture without a demonstrated defect. This file is the operational brief; when behavior changes, update it and `README.md` deliberately.
+
+- Mobile navigation (≤980px) uses one compact header with language, segmented theme toggle and a Menu disclosure. The vertical menu keeps the active page visible, scrolls independently on short screens, closes on navigation/outside click/Escape, and pins the scroll-aware header while open. Desktop navigation and localized breadcrumbs remain available.
