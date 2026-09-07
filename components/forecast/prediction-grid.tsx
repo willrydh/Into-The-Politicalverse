@@ -1,4 +1,5 @@
 "use client";
+import { PartyText } from "@/components/party-label";
 import { Localize } from "@/components/localize";
 import Link from "next/link";
 import type { ElectionForecast, ForecastQuestion } from "@/lib/forecast/types";
@@ -43,7 +44,7 @@ export function PredictionGrid({ forecast, limit }: { forecast: ElectionForecast
         return (
           <article className="prediction-card" id={question.id} key={question.id}>
             <header><span>PV/F{String(index + 1).padStart(2, "0")}</span><b>MODEL</b></header>
-            <h3>{question.question}</h3>
+            <h3><PartyText>{question.question}</PartyText></h3>
             <div className="prediction-card__signal">
               <strong>{probability(question.probability)}<small>%</small></strong>
               <ForecastSparkline values={series.values} threshold={series.threshold} label={`Historisk modellrörelse för ${question.resultLabel}`} />
@@ -56,8 +57,8 @@ export function PredictionGrid({ forecast, limit }: { forecast: ElectionForecast
               aria-valuemax={100}
               aria-valuenow={Math.round(question.probability * 100)}
             ><span style={{ width: `${question.probability * 100}%` }} /></div>
-            <p>{question.explanation}</p>
-            <details><summary>Definition och osäkerhet</summary><p>{question.resolution} Prognosen är en modell, inte ett marknadspris eller ett löfte.</p></details>
+            <p><PartyText>{question.explanation}</PartyText></p>
+            <details><summary>Definition och osäkerhet</summary><p><PartyText>{question.resolution}</PartyText> Prognosen är en modell, inte ett marknadspris eller ett löfte.</p></details>
           </article>
         );
       })}

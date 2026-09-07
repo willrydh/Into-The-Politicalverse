@@ -3,6 +3,7 @@ import "./candidates.css";
 import { useEffect, useState } from "react";
 import { useLocale } from "../localize";
 import { PARTIES } from "@/lib/parties";
+import { PartyMark } from "../party-mark";
 import { translateText } from "@/lib/i18n/translate";
 import type { CandidateComparison, CandidateElection, CandidateResult, ComparisonReason } from "@/lib/candidates/types";
 export function useCandidateResource<T>(path: string, validate: (data: unknown) => asserts data is T) {
@@ -22,7 +23,10 @@ export function CandidateLoading({error,retry}: {error?:boolean;retry:()=>void})
 }
 export const electionLabel = (type: CandidateElection, sv: boolean) => ({RD:sv?"Riksdag":"Riksdag",RF:sv?"Region":"Region",KF:sv?"Kommunfullmäktige":"Municipal council"})[type];
 export const partyLabel = (r: Pick<CandidateResult,"partyName"|"partyId"> & {year?:number}, sv: boolean) => r.partyId === "L" && r.year && r.year <= 2014 ? (sv ? "Folkpartiet liberalerna" : "Liberal People’s Party") : r.partyId === "OTHER" ? r.partyName : translateText(PARTIES[r.partyId].name, sv ? "sv" : "en");
-export const partyAbbreviation = (r: Pick<CandidateResult,"partyName"|"partyId"|"year">) => r.partyId === "L" && r.year <= 2014 ? "FP" : r.partyId === "OTHER" ? r.partyName : r.partyId;
+export function CandidateParty({ result, withName = false }: { result: Pick<CandidateResult,"partyName"|"partyId"> & {year?:number}; withName?: boolean }) {
+  const label = partyLabel(result, useLocale() === "sv");
+  return <span className="candidate-party"><PartyMark party={PARTIES[result.partyId]} label={label} size="sm" />{withName && result.partyId !== "OTHER" && <span>{label}</span>}</span>;
+}
 export const reasonLabel = (reason: ComparisonReason, sv: boolean) => ({
   "comparable":sv?"Jämförbart":"Comparable", "no-baseline":sv?"Tidigare jämförbart resultat saknas":"No matched previous result",
   "zero-baseline":sv?"Från 0 röster – procent saknas":"From 0 votes – percentage unavailable", "changed-area":sv?"Området är ändrat eller inte verifierat":"Area changed or not verified",

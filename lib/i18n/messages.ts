@@ -5,6 +5,7 @@ import context from "./messages-context.json";
 import model from "./messages-model.json";
 export type Locale = "sv" | "en";
 export const messages = [
+  ["Folkpartiet liberalerna", "Liberal People’s Party"],
   ["Topplistor", "Leaderboards"],
   ["Personröster och kandidathistorik 2010–2022", "Personal votes and candidate histories 2010–2022"],
   ["XML + XLSX + CSV · fyra ordinarie val", "XML + XLSX + CSV · four regular elections"],

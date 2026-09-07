@@ -8,6 +8,7 @@ import { SEARCH_TYPES, type SearchEntry, type SearchType } from "@/lib/search/ty
 import { normalizeSearch, prepareSearch, preferredSearchLink, searchEntries, validateSearchIndex } from "@/lib/search/engine";
 import { prepareCandidateSearch } from "@/lib/candidates/search";
 import { SearchIcon } from "./search-trigger";
+import { PartyText } from "../party-label";
 
 const labels: Record<SearchType, [string, string]> = {
   person: ["Personer", "People"], party: ["Partier", "Parties"], county: ["Län", "Counties"], municipality: ["Kommuner", "Municipalities"], locality: ["Orter", "Localities"], district: ["Valdistrikt & röstgrupper", "Districts & vote groups"], constituency: ["Valkretsar", "Constituencies"], page: ["Sidor", "Pages"], election: ["Val", "Elections"], topic: ["Ämnen & metoder", "Topics & methods"], source: ["Källor", "Sources"],
@@ -20,10 +21,11 @@ function SearchResult({ entry, query }: { entry: SearchEntry; query: string }) {
   const locale = useLocale(); const sv = locale === "sv";
   const preferred = preferredSearchLink(entry, query);
   const href = localizedHref(preferred?.href ?? entry.href, locale);
+  const politicalCopy = entry.type === "party" || entry.type === "topic";
   return <li className="search-result">
     <div className="search-result__kind">{labels[entry.type][sv ? 0 : 1]}</div>
-    <h2><Link href={href} prefetch={false}>{entry.title[locale]}<span aria-hidden="true">↗</span></Link></h2>
-    <p>{entry.description[locale]}</p>
+    <h2><Link href={href} prefetch={false}><span className="search-result__title">{politicalCopy ? <PartyText>{entry.title[locale]}</PartyText> : entry.title[locale]}</span><span aria-hidden="true">↗</span></Link></h2>
+    <p>{politicalCopy ? <PartyText>{entry.description[locale]}</PartyText> : entry.description[locale]}</p>
     {preferred && <Link className="search-result__destination" href={href} prefetch={false}>{preferred.title[locale]} →</Link>}
     {entry.links && entry.links.length > 1 && <details><summary>{sv ? "Visa alla" : "Show all"} {entry.links.length} {entry.type === "locality" ? (sv ? "kommuner" : "municipalities") : (entry.type === "person" ? (sv ? "valområden" : "election areas") : (sv ? "valkretsar" : "constituencies"))}</summary><ul>{entry.links.map(link => <li key={link.href}><Link href={localizedHref(link.href, locale)} prefetch={false}>{link.title[locale]} →</Link></li>)}</ul></details>}
   </li>;

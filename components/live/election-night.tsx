@@ -7,6 +7,7 @@ import { acceptPublicFeed, feedIsDelayed, LIVE_FEED_URL, LIVE_POLL_INTERVAL_MS, 
 import type { CountingStage, LiveArea, LiveFeed } from "@/lib/live/types";
 import { PARTY_CODE_TO_ID } from "@/lib/live/constants";
 import { PARTIES } from "@/lib/parties";
+import { PartyMark } from "@/components/party-mark";
 
 function ResultTable({ area }: { area: LiveArea }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
@@ -14,7 +15,7 @@ function ResultTable({ area }: { area: LiveArea }) {
   return <Localize><div className="live-table" role="table" aria-label="Räknade röster och officiella mandat">
     <div role="row" className="live-table__head"><span role="columnheader">Parti</span><span role="columnheader">Röster</span><span role="columnheader">Andel</span><span role="columnheader">Mandat</span></div>
     {parties.map(p => <div role="row" key={p.code}>
-      <span role="cell" className="live-party"><i style={{ background: PARTIES[PARTY_CODE_TO_ID[p.code]]?.color ?? "#8c9189" }} aria-hidden="true" />{PARTIES[PARTY_CODE_TO_ID[p.code]]?.name ?? p.name}</span>
+      <span role="cell" className="live-party">{PARTIES[PARTY_CODE_TO_ID[p.code]] && <PartyMark party={PARTIES[PARTY_CODE_TO_ID[p.code]]} size="sm"/>}{PARTIES[PARTY_CODE_TO_ID[p.code]]?.name ?? p.name}</span>
       <span role="cell">{p.votes.toLocaleString(language)}</span><span role="cell">{p.share === null ? "—" : `${p.share.toLocaleString(language, { maximumFractionDigits: 2 })} %`}</span><strong role="cell">{p.seats ?? "—"}</strong>
     </div>)}
     <div role="row"><span role="cell">Övriga rapporterade partier</span><span role="cell">{area.otherVotes.toLocaleString(language)}</span><span role="cell">{area.validVotes > 0 ? `${(area.otherVotes / area.validVotes * 100).toLocaleString(language, { maximumFractionDigits: 2 })} %` : "—"}</span><span role="cell">—</span></div>

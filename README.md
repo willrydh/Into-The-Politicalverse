@@ -249,6 +249,8 @@ Each party entity should support at minimum:
 
 Components should use a shared PartyMark/PartyIdentity abstraction. Missing artwork must degrade gracefully without breaking layout.
 
+Compact party labels now use the official local logos throughout forecasts, charts, maps, election archives, candidate histories, leaderboards and live results. Other and local parties retain plain names. Both themes preserve the original logo colors on white; Swedish/English accessible names and native select labels remain complete. Historical views use current symbols with year-appropriate party names. See [party asset provenance and display rules](docs/data-sources/party-assets.md).
+
 ---
 
 ## 5. Authoritative data sources

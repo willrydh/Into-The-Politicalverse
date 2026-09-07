@@ -25,7 +25,7 @@ export function NationalBaseline() {
           return (
             <div className="baseline-row" key={result.partyId}>
               <span className="baseline-row__rank">{String(index + 1).padStart(2, "0")}</span>
-              <PartyMark party={party} size="sm" />
+              {party.logo ? <PartyMark party={party} size="sm" /> : <span aria-hidden="true"/>}
               <div className="baseline-row__bar-wrap">
                 <div className="baseline-row__meta"><strong>{party.name}</strong><span>{result.share.toFixed(2)}%</span></div>
                 <div className="baseline-row__bar"><span style={{ background: party.color, width: `${(result.share / 32) * 100}%` }} /></div>

@@ -31,8 +31,8 @@
 .candidate-scoreboard small { display:block; margin-top:5px; font-size:11px; font-weight:400; color:var(--muted); }
 .candidate-scoreboard .candidate-rank { font-size:25px; font-weight:600; color:var(--muted); }
 .candidate-scoreboard .candidate-total { font-size:21px; font-weight:700; }
-.candidate-party-tag { font-weight:700; }
-.candidate-party-change { white-space:nowrap; }
+.candidate-party { display:inline-flex; align-items:center; gap:8px; vertical-align:middle; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.candidate-scoreboard .candidate-party-change { display:flex; flex-wrap:wrap; align-items:center; gap:5px; }
 .vote-delta { display:inline-flex; flex-direction:column; gap:3px; font-variant-numeric:tabular-nums; line-height:1.4; }
 .vote-delta strong { white-space:nowrap; font-size:16px; }
 .vote-delta small { display:block; font-size:11px; font-weight:400; color:var(--muted); max-width:210px; }
@@ -59,7 +59,7 @@
 .candidate-stat-grid > div > strong,.candidate-stat-grid .vote-delta strong { font-size:clamp(28px,3.2vw,42px); letter-spacing:-.04em; }
 .candidate-stat-grid small { font-size:12px; color:var(--muted); }
 .candidate-switch { padding:18px; background:var(--acid-soft); color:var(--ink); }
-.candidate-switch strong { display:inline-block; margin-right:16px; }
+.candidate-switch strong { display:inline-flex; flex-wrap:wrap; align-items:center; gap:6px; margin-right:16px; vertical-align:middle; }
 .candidate-history-chart { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; margin:40px 0; border-bottom:1px solid var(--line); }
 .candidate-history-year { display:flex; flex-direction:column; justify-content:flex-end; align-items:center; gap:10px; padding:12px 6px; min-height:215px; }
 .candidate-history-bar { display:flex; flex-direction:column; align-items:center; width:100%; gap:5px; }

@@ -16,3 +16,9 @@ Acquired on 2026-08-21. SHA-256 values pin the exact checked-in files.
 | Liberalerna | `public/parties/l.png` | [Official graphic profile](https://www.liberalerna.se/grafisk-profil) | Official linked digital-logo package, round PNG | `a9ee036ef5dea4e093cad9bc7ee8331112042a4067c2fb532ad6de60c35c47ed` |
 
 Do not replace these files silently. Record a new acquisition date, source, and checksum when a party publishes a revised identity.
+
+## Display rules
+
+Use `PartyMark` for compact party labels throughout the product, including candidate histories, rankings, selectors, tables and live results. `PartyGroup` and `PartyText` identify parties in bloc lists and political copy; translate complete sentences before inserting logos. Do not apply text substitution to personal names, source identifiers, URLs or native form values. Native select options retain full party names.
+
+Other parties and named local parties remain plain text, without an invented badge. All eight logos retain their colors on a white ground in both themes. Accessible names identify the party in the selected language. Historical views use these current identity symbols, with the historical Folkpartiet liberalerna name through 2014; the artwork is not claimed to be historical. SVG chart labels use the same local assets and leader lines to the unchanged data endpoints.
