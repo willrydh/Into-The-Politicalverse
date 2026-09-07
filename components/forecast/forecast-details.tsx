@@ -1,5 +1,6 @@
 "use client";
-import { Localize } from "@/components/localize";
+import { SortHeaders, MobileTableSort, useTableSort } from "@/components/table-sort";
+import { Localize, useLocale } from "@/components/localize";
 import { PartyMark } from "@/components/party-mark";
 import { PartyAbbreviation, PartyText } from "@/components/party-label";
 import { PARTIES } from "@/lib/parties";
@@ -68,13 +69,21 @@ export function ForecastDrivers({ forecast }: { forecast: ElectionForecast }) {
 }
 
 export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) {
+  const sv = useLocale() === "sv";
+  const table = useTableSort(forecast.backtests, [
+    {key:"year",label:sv?"Val":"Election",name:sv?"Valår":"Year",value:b=>b.year},
+    {key:"role",label:sv?"Roll":"Role",name:sv?"Roll":"Role",direction:"ascending",value:b=>b.role==="holdout"?(sv?"Låst test":"Holdout"):(sv?"Kalibrering":"Calibration")},
+    {key:"polls",label:sv?"Datagrund":"Data basis",name:sv?"Antal mätningar":"Number of polls",value:b=>b.polls},
+    {key:"error",label:sv?"Medelfel":"Mean error",name:sv?"Medelfel":"Mean error",direction:"ascending",value:b=>b.meanAbsoluteError},
+    {key:"miss",label:sv?"Största avvikelse":"Largest miss",name:sv?"Största absoluta avvikelse":"Largest absolute miss",value:b=>Math.abs(largestMiss(b).difference)},
+  ], {key:"year",direction:"ascending"});
   return <Localize>{(
-    <div className="backtest-product">
+    <div className="backtest-product"><MobileTableSort control={table} className="table-sort-tablet"/>
       <div className="backtest-table" role="table" aria-label="Historisk kontroll av prognosmodellen">
         <div className="backtest-table__head" role="row">
-          <span role="columnheader">Val</span><span role="columnheader">Roll</span><span role="columnheader">Datagrund</span><span role="columnheader">Medelfel</span><span role="columnheader">Största avvikelse</span>
+          <SortHeaders control={table} as="span"/>
         </div>
-        {forecast.backtests.map((backtest) => {
+        {table.rows.map((backtest) => {
           const miss = largestMiss(backtest);
           return (
             <article className="backtest-row" role="row" key={backtest.year}>

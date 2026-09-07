@@ -7,6 +7,8 @@ on:
     - cron: "17 4,12 * 8,9 *"
     # Best-effort five-minute checks during the election and final count.
     - cron: "2-57/5 * 13-30 9 *"
+    # Keep checking final protocols and corrections after the intensive count.
+    - cron: "17 12 * 10-12 *"
 
 permissions:
   contents: write

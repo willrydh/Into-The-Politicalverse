@@ -99,8 +99,8 @@
   .candidate-stat-grid .vote-delta small { font-size:11px; }
   .candidate-history-chart { gap:6px; }
   .candidate-scoreboard--ranking table, .candidate-scoreboard--ranking tbody { display:block; }
-  .candidate-scoreboard--ranking thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
-  .candidate-scoreboard--ranking tr { display:grid; grid-template-columns:30px minmax(0,1fr) auto; gap:10px 10px; padding:20px 2px; border-bottom:1px solid var(--line); }
+  .candidate-scoreboard--ranking thead { display:none; }
+  .candidate-scoreboard--ranking tr { display:grid; grid-template-columns:minmax(30px,max-content) minmax(0,1fr) auto; gap:10px 10px; padding:20px 2px; border-bottom:1px solid var(--line); }
   .candidate-scoreboard--ranking td, .candidate-scoreboard--ranking th { border:0; padding:0; }
   .candidate-scoreboard--ranking th a { font-size:17px; }
   .candidate-scoreboard--ranking td:nth-child(1) { grid-column:1; grid-row:1/4; font-size:20px; }
@@ -113,7 +113,7 @@
   .candidate-scoreboard--ranking td[data-label]::before { content:attr(data-label); display:block; font-size:10px; font-weight:500; color:var(--muted); margin-bottom:2px; }
   .candidate-scoreboard--ranking .vote-delta small { font-size:10px; max-width:140px; }
   .candidate-scoreboard--profile table, .candidate-scoreboard--profile tbody { display:block; }
-  .candidate-scoreboard--profile thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .candidate-scoreboard--profile thead { display:none; }
   .candidate-scoreboard--profile tr { display:grid; grid-template-columns:1fr 1fr; gap:15px; padding:20px 12px; margin-bottom:15px; border:1px solid var(--line); border-radius:8px; }
   .candidate-scoreboard--profile td, .candidate-scoreboard--profile th { padding:0; border:0; }
   .candidate-scoreboard--profile th { font-size:22px; }

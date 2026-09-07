@@ -45,6 +45,11 @@ The prediction layer adds:
 
 ## September maintenance
 
+Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
+
+Election transition preparation adds an immutable pre-election reference, a dormant national forecast-versus-result table and a separate, signature-verified 2026 Riksdag personal-vote intake. Poll refresh stops at the start of election day; the reference follows accepted forecasts until that boundary and refuses retrospective creation. Keep `data:forecast:reference` in the refresh workflow and its file in accepted-data commits. Final-count collection continues daily October–December; new historical geography and identity links still require review. See [election transition](docs/operations/election-transition-2026.md).
+
+
 Compact sharing previews use the original square 1024px crown as their sole Open Graph image. Safari cropped the previous wide card to its wordmark; the already-correct Apple/home-screen icon did not control that image preview. Keep the wide localized cards specific to Twitter metadata and verify actual square crops when changing branding. See `docs/brand/README.md`.
 
 The supplied crown with a Nordic cross replaces the old PV mark through `SiteBrand`, including mobile and the 404. Preserve the live-text serif name, original SVG/PNG geometry, readable dark-theme colors and neutral focus styling. Shared `brandMetadata` covers both languages' sharing images, favicons and Apple icons; both static web manifests use the Pages base path and original standard/maskable icons. Assets are versioned under `public/brand/crown-2026/`; see [project branding](docs/brand/README.md) before replacing or regenerating them.

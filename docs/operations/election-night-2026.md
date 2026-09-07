@@ -5,7 +5,7 @@
 - Svenska sidor använder ordinarie adresser. Engelska versioner finns under `/en/`. Språkväljaren behåller aktuell sida. Servertexter översätts före serialisering; interaktiva komponenter använder samma språkregister. HTML-språk, menyer, diagramförklaringar, formulär och källtexter följer språkvalet.
 - `/valnatt/` visar officiell rösträkning för riket och valkretsarna, med separata räkningstillfällen. Innan produktionen finns visas vänteläge och verifierade förvalsuppgifter.
 - `.github/workflows/election-live.yml` hämtar och validerar myndighetsdata. Det skriver bara `election-2026.json` på datagrenen `live-data`; det bygger inte om hela webbplatsen för varje siffra.
-- Webbläsaren kontrollerar den publicerade datafilen varje minut. Schemat hämtar förtidsröster efter källans två dagliga uppdateringar och valresultat ungefär var femte minut 13–30 september 2026. GitHub Actions och källans publicering ger ingen garanterad maximal fördröjning. Köer kan förlänga intervallen.
+- Webbläsaren kontrollerar den publicerade datafilen varje minut. Schemat hämtar förtidsröster efter källans två dagliga uppdateringar och valresultat ungefär var femte minut 13–30 september 2026. Under oktober–december fortsätter en daglig kontroll av slutliga protokoll och rättelser. GitHub Actions och källans publicering ger ingen garanterad maximal fördröjning. Köer kan förlänga intervallen.
 - Valideringsfel syns i arbetsflödet och som fördröjning i produkten. Senast godkända data behålls. Felmail tystas inte genom att dölja verkliga fel.
 
 Senaste data: <https://raw.githubusercontent.com/willrydh/Into-The-Politicalverse/live-data/election-2026.json>.
@@ -28,3 +28,5 @@ Båda myndighetsgenrepen är kryptografiskt och matematiskt verifierade. Förtid
 Produktionsresultaten finns ännu inte den 6 september. Det första riktiga produktionspaketet och myndighetens faktiska publiceringstakt kan därför inte slutverifieras i förväg. Beredskapen är provad mot officiella genrep och feltester; den är ingen garanti för obruten realtidsleverans eller en statistiskt felfri förvalsprognos.
 
 Källinventering: [2026 års datakällor](../data-sources/election-2026.md). Matematik: [Valnattsmetod v1](../methodology/election-night-v1.md).
+
+Prognosreferens, utvärdering och separat personröstmottagning: [övergång till 2026 års resultat](election-transition-2026.md).

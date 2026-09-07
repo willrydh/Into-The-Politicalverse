@@ -35,6 +35,7 @@ jobs:
         run: npm run data:polls:update
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run data:forecast:reference
       - run: npm run data:verify
       - run: npm run check
       - name: Stage accepted data only
@@ -44,7 +45,8 @@ jobs:
           git add -- \
             data/raw/polls/SwedishPolls.csv \
             data/raw/polls/source-manifest.json \
-            data/normalized/election-forecast-2026.json
+            data/normalized/election-forecast-2026.json \
+            data/normalized/election-forecast-reference-2026.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else

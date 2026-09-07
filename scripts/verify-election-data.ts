@@ -10,6 +10,7 @@ import { POLLS_ADAPTER_VERSION, PUBLICATION_DATE_CORRECTIONS } from "../lib/fore
 import type { ElectionForecast } from "../lib/forecast/types";
 import { verifyLocalData } from "../lib/data/geography/verify-local";
 import { electionArchive, validateElectionArchive } from "../lib/elections/outcomes";
+import { forecastReferenceFrozen, validateForecastReference, type ForecastReference } from "../lib/forecast/reference";
 import { buildSearchIndex } from "../lib/search/build";
 
 import { getCandidateData } from "../lib/candidates/build";
@@ -62,6 +63,10 @@ const pollManifest = JSON.parse(await readFile(resolve(ROOT, "data/raw/polls/sou
 const forecastContents = await readFile(resolve(ROOT, "data/normalized/election-forecast-2026.json"), "utf8");
 const forecast = JSON.parse(forecastContents) as ElectionForecast;
 const polls = parsePollCsv(pollContents);
+const reference = JSON.parse(await readFile(resolve(ROOT, "data/normalized/election-forecast-reference-2026.json"), "utf8")) as ForecastReference;
+validateForecastReference(reference);
+assert(createHash("sha256").update(`${JSON.stringify(reference.forecast, null, 2)}\n`).digest("hex") === reference.forecastSha256, "Saved forecast reference checksum mismatch");
+if (!forecastReferenceFrozen(new Date().toISOString())) assert(reference.forecastSha256 === pollManifest.normalizedForecastSha256, "Pre-election reference must follow the accepted forecast");
 
 assert(election.schemaVersion === 1, "Unexpected election schema version");
 assert(election.source.publisher === "Valmyndigheten", "Election source must be Valmyndigheten");

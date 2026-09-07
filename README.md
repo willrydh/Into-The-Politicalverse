@@ -8,6 +8,10 @@ The owner-supplied crown identity appears in the shared header/footer, both lang
 
 Compact link previews use the square crown directly so it remains recognizable in Safari's share sheet. The wide localized artwork is used for Twitter's large-image cards.
 
+Column headings sort comparable data tables across maps, personal votes, candidate histories, rankings, historical results, forecasts and live results. Sorting uses raw values, keeps unavailable observations last and preserves leaderboard ranks; mobile card layouts have the same controls in a compact selector. Profile JSON exports download only the selected person.
+
+Election-day preparation now preserves a checksum-verified forecast reference, frozen at the start of 13 September (Swedish time). The national live view loads that reference when real counting starts; aggregate accuracy is withheld until the final count has full coverage, 349 reported seats and a protocol. Signed 2026 personal votes can be staged separately for review without altering historical profiles or maps. See [2026 transition and forecast evaluation](docs/operations/election-transition-2026.md).
+
 > **Politics, quantified.**
 >
 > A source-traceable quantitative election intelligence platform for exploring elections through official results, geography, historical patterns, transparent indicators, polling models and scenario simulation.
