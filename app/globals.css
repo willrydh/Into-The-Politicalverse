@@ -1584,18 +1584,3 @@ button { color: inherit; }
 .live-forecast-comparison h2 { margin: 10px 0 18px; }
 .live-forecast-comparison table { min-width: 690px; }
 .reference-checksum { overflow-wrap: anywhere; }
-
-/* iOS draws light status icons over the page in translucent standalone mode.
-   A fading, non-interactive shade preserves their contrast over light sections;
-   it reserves no space and content continues scrolling underneath. */
-@media (display-mode: standalone) {
-  body::before {
-    content: ""; position: fixed; inset: 0 0 auto; height: var(--safe-area-top);
-    z-index: 30; pointer-events: none;
-    background: linear-gradient(to bottom, rgba(5,20,30,.7), rgba(5,20,30,.55) 70%, transparent);
-    /* Keep scrolling content visible: WebKit treats filtered backdrops as
-       multiple colors instead of extending one sampled opaque strip. */
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
-  }
-}
