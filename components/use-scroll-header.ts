@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 export function useScrollHeader(pathname: string, pinned = false) {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const header = ref.current;
     if (!header) return;
@@ -35,11 +35,18 @@ export function useScrollHeader(pathname: string, pinned = false) {
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
     function onFocus() { header!.dataset.hidden = "false"; }
+    function onKeyDown(event: KeyboardEvent) {
+      // visibility:hidden releases Safari's cached tint, but also removes the
+      // controls from tab order. Reveal before the browser moves keyboard focus.
+      if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) onFocus();
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     header.addEventListener("focusin", onFocus);
+    document.addEventListener("keydown", onKeyDown, true);
     return () => {
       window.removeEventListener("scroll", onScroll);
       header.removeEventListener("focusin", onFocus);
+      document.removeEventListener("keydown", onKeyDown, true);
       observer.disconnect();
       cancelAnimationFrame(frame);
       document.documentElement.style.removeProperty("--site-header-height");
