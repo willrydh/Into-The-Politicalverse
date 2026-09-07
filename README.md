@@ -735,3 +735,5 @@ The `.json` paths are intentionally static-export compatible and include source/
 4. Add SCB aggregate context through a separate, provenance-preserving PxWeb adapter.
 5. Expand models only when every new assumption, source and resolution rule remains explicit and backtested.
 6. Consider saved workspaces/auth only after they provide a concrete analytical benefit; keep billing outside the data engine.
+
+- Mobile navigation (≤980px) uses one compact header with language, segmented theme toggle and a Menu disclosure. The vertical menu keeps the active page visible, scrolls independently on short screens, closes on navigation/outside click/Escape, and pins the scroll-aware header while open. Desktop navigation and localized breadcrumbs remain available.

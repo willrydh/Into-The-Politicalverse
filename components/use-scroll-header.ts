@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export function useScrollHeader(pathname: string) {
+export function useScrollHeader(pathname: string, pinned = false) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
     const header = ref.current;
@@ -19,7 +19,7 @@ export function useScrollHeader(pathname: string) {
       const y = position();
       const nextDirection = Math.sign(y - previous);
       header!.dataset.scrolled = String(y > 8);
-      if (y <= header!.offsetHeight || header!.querySelector(":focus-visible")) {
+      if (pinned || y <= header!.offsetHeight || header!.querySelector(":focus-visible")) {
         header!.dataset.hidden = "false";
         anchor = y;
       } else if (nextDirection) {
@@ -44,6 +44,6 @@ export function useScrollHeader(pathname: string) {
       cancelAnimationFrame(frame);
       document.documentElement.style.removeProperty("--site-header-height");
     };
-  }, [pathname]);
+  }, [pathname, pinned]);
   return ref;
 }
