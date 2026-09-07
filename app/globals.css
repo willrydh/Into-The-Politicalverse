@@ -151,29 +151,32 @@ button { color: inherit; }
   box-shadow: inset 0 -2px 0 var(--focus);
 }
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  /* This layout host never paints. WebKit must not sample it as a solid fixed
-     edge and then switch the status-area tint when an animation finishes. */
-  visibility: hidden;
-  pointer-events: none;
-}
-.site-header__surface {
+.site-header-slot {
   position: relative;
-  visibility: visible;
-  pointer-events: auto;
+  min-height: var(--site-header-height, 0px);
+  overflow-anchor: none;
+}
+.site-header {
+  position: relative;
+  z-index: 20;
   background: var(--surface);
   padding-top: var(--safe-area-top);
   border-bottom: 1px solid var(--line);
-  /* Retain a single painted layer in both positions, including at rest. */
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-  transition: transform 240ms cubic-bezier(.2, .7, .2, 1);
 }
-.site-header[data-hidden="true"] .site-header__surface { transform: translate3d(0, calc(-100% - 1px), 0); pointer-events: none; }
-.site-header[data-motion="instant"] .site-header__surface { transition: none; }
+.site-header[data-position="floating"] {
+  position: fixed;
+  top: 0;
+  left: var(--safe-area-left);
+  right: var(--safe-area-right);
+}
+/* Released at its current document position, it leaves with native scrolling. */
+.site-header[data-position="released"] {
+  position: absolute;
+  top: var(--header-release-y);
+  left: 0;
+  right: 0;
+}
+.site-header[data-offscreen="true"] { visibility: hidden; pointer-events: none; }
 
 .site-header__utility { border-bottom: 1px solid var(--line); }
 .site-header__utility-inner, .site-header__navigation-inner { width: var(--page); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
@@ -869,7 +872,6 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
-  .site-header__surface { transition: none !important; will-change: auto; }
 }
 
 /* Election forecast terminal */
