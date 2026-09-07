@@ -1,4 +1,4 @@
-import GlobalNotFoundPage from "@/components/global-not-found";
+import GlobalNotFoundPage from "./global-not-found-document";
 import { siteViewport } from "@/lib/viewport";
 import "./globals.css";
 
