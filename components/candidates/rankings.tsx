@@ -18,7 +18,12 @@ export function CandidateRankings() {
   const election = ELECTION_TYPES.includes(p.get("election") as CandidateElection) ? p.get("election") as CandidateElection : "KF";
   const metric = (["percent","delta","votes","sharePoints"] as const).includes(p.get("metric") as RankingMetric) ? String(p.get("metric")) as RankingMetric : "percent";
   const county=String(p.get("county")??""), area=String(p.get("area")??""), party=String(p.get("party")??""), minimum=[0,1,10,50,100].includes(Number(p.get("minimum"))) && p.has("minimum") ? Number(p.get("minimum")) : 1;
-  const [search,setSearch]=useState(""), [page,setPage]=useState(0);
+  const [search,setSearch]=useState("");
+  const tableContext = JSON.stringify([year,election,metric,county,area,party,minimum,search]);
+  const [pagination,setPagination]=useState({context:tableContext,page:0});
+  if(pagination.context!==tableContext) setPagination({context:tableContext,page:0});
+  const page=pagination.context===tableContext?pagination.page:0;
+  function setPage(nextPage:number) { setPagination({context:tableContext,page:nextPage}); }
   const catalogState = useCandidateResource("index.json",validateCatalog), state=useCandidateResource(`rankings/${year}-${election}.json`,validateRankings), catalog=catalogState.data;
   const data=state.data?.year===year && state.data.electionType===election ? state.data : undefined;
   function update(values: Record<string,string>) { const next=new URLSearchParams(query);for(const [key,value]of Object.entries(values)){if(value)next.set(key,value);else next.delete(key);} navigateLocalQuery(`?${next}`);setPage(0); }
@@ -45,7 +50,7 @@ export function CandidateRankings() {
     {key:"change",label:sv?"Förändring":"Change",name:sv?"Förändring i procent":"Percentage change",value:({row})=>row.comparison.percent},
   ];
   if(metric==="sharePoints") columns.push({key:"sharePoints",label:sv?"Andelslyft":"Share gain",name:sv?"Andelslyft":"Share gain",value:({row})=>row.comparison.sharePoints});
-  const table = useTableSort(ranking, columns, {key:"rank",direction:"ascending"});
+  const table = useTableSort(ranking, columns, {key:"rank",direction:"ascending"}, tableContext);
   const currentPage=Math.min(page,Math.max(0,Math.ceil(ranking.length/50)-1));
   return <div className="candidate-page">
     <section className="candidate-hero"><span className="eyebrow">{sv?"PERSONRÖSTER · STATISTIKARKIV":"PERSONAL VOTES · STATS ARCHIVE"} / 2010–2022</span><h1>{sv?"Politikernas":"Politicians’"}<br/><em>{sv?"topplistor.":"leaderboards."}</em></h1><p>{sv?"Vem ökar mest? Vem får flest kryss? Följ personerna, partierna och utvecklingen från val till val.":"Who is gaining fastest? Who wins the most personal votes? Follow candidates, parties and performance from one election to the next."}</p></section>

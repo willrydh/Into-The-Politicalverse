@@ -54,6 +54,7 @@ Scoped feature branches: `codex/*`
 ## Current implementation rules
 
 - Sort table rows using explicit source values before pagination or top-N limits. Keep unavailable values last in both directions, stable ties and original leaderboard ranks. Preserve chart chronology, accessible column buttons, localized sort labels and the mobile equivalents for card layouts.
+- Align sortable headings with their column contents. Reset leaderboard column sorting and pagination whenever its metric, filters or candidate search change; never retain an earlier manual sort when returning to a previous selection.
 - Preserve the pre-election reference checksum and freeze boundary. Never create a reference retrospectively or grade a partial count as final. Stage 2026 personal votes separately; enabling a new history year still requires verified geography, source coverage and conservative identity linking. See `docs/operations/election-transition-2026.md`.
 
 
@@ -65,6 +66,7 @@ Scoped feature branches: `codex/*`
 - The historical archive must distinguish largest party, year-specific bloc seat totals and the first government following the election. Use reviewed `election-outcomes.json` context, never infer government from vote-share rank. Preserve 349-seat coverage, the 175-seat threshold, separate cabinet/support parties and the 2018 election versus January 2019 formation. See `docs/methodology/election-outcomes-v1.md`.
 
 - Preserve the scroll-aware header and localized location trail. The map owns geographic breadcrumb names; do not infer labels from codes or leave a previous page's location visible after navigation. Verify downward hiding, upward reveal, keyboard access and mobile menu visibility.
+- Preserve the full-screen PWA viewport in both language roots and the 404. Keep top safe-area spacing on the disappearing header, with no permanent body top inset. Check menu/footer safety, status-icon contrast and actual installed iPhone behavior separately from browser viewport emulation.
 
 - The local explorer uses 21 administrative counties, 290 municipalities and 2022 district boundaries; never substitute Riksdag constituency codes for county codes. Retain exact municipality-to-constituency links for candidate tables.
 - Keep local history and personal-vote source/output checksums, the four official GIS name fallbacks and the two ambiguous shared-baseline district cases. Only verified district comparisons can produce 2018 history or swing. See `docs/data-sources/local-election-geography.md`.
