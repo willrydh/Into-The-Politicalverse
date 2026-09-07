@@ -13,6 +13,8 @@ export function useScrollHeader(pathname: string, pinned = false) {
     if (!header) return;
     const root = document.documentElement;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const nativeTimeline = CSS.supports("animation-timeline: scroll(root block)");
+    header.dataset.scrollDriver = nativeTimeline ? "timeline" : "frame";
     let state = createScrollHeaderState(window.scrollY);
     let headerHeight = 0, maxScroll = 0, frame = 0;
     let releasedY: number | null = null;
@@ -36,6 +38,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
       releasedY = null;
       header!.dataset.position = "flow";
       header!.style.removeProperty("--header-release-y");
+      header!.style.removeProperty("--header-scroll-y");
       setOffscreen(y >= headerHeight);
     }
 
@@ -44,6 +47,8 @@ export function useScrollHeader(pathname: string, pinned = false) {
       const from = instant ? 0 : Math.max(-headerHeight, Math.min(0, header!.getBoundingClientRect().top));
       cancelAnimation();
       releasedY = null;
+      // Also supplies the initial position before a native timeline is sampled.
+      header!.style.setProperty("--header-scroll-y", `${Math.max(0, window.scrollY)}px`);
       header!.dataset.position = "floating";
       header!.style.removeProperty("--header-release-y");
       setOffscreen(false);
@@ -62,6 +67,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
       cancelAnimation();
       header!.style.setProperty("--header-release-y", `${releasedY}px`);
       header!.dataset.position = "released";
+      header!.style.removeProperty("--header-scroll-y");
     }
 
     function showImmediately() {
@@ -77,6 +83,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
         headerHeight = nextHeight;
         maxScroll = nextMax;
         root.style.setProperty("--site-header-height", `${headerHeight}px`);
+        root.style.setProperty("--site-scroll-range", `${maxScroll}px`);
         state = createScrollHeaderState(Math.min(window.scrollY, maxScroll), state.floating);
       }
     }
@@ -91,6 +98,9 @@ export function useScrollHeader(pathname: string, pinned = false) {
       frame = 0;
       const y = window.scrollY;
       if (!Number.isFinite(y) || y < 0 || y > maxScroll) return;
+      // Older browsers use the same document positioning, with one compositor
+      // property write per scroll frame and no scroll-time layout measurement.
+      if (state.floating && !nativeTimeline) header!.style.setProperty("--header-scroll-y", `${y}px`);
       const next = advanceScrollHeader(state, y, { headerHeight, maxScroll, pinned: pinnedRef.current || keyboardFocus });
       if (next.floating !== state.floating) {
         if (next.floating) float();
@@ -134,6 +144,8 @@ export function useScrollHeader(pathname: string, pinned = false) {
       cancelAnimationFrame(frame);
       returnToFlow(0);
       root.style.removeProperty("--site-header-height");
+      root.style.removeProperty("--site-scroll-range");
+      delete header.dataset.scrollDriver;
       revealRef.current = null;
     };
   }, [pathname]);

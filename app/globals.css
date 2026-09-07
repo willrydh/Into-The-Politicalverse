@@ -139,6 +139,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height, 170px) + 12px); }
+/* The navigation itself is above the content's anchor exclusion area. */
+html:has(.site-header :focus) { scroll-padding-top: 0; }
 body { margin: 0; padding-inline: var(--safe-area-left) var(--safe-area-right); background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
@@ -164,10 +166,24 @@ button { color: inherit; }
   border-bottom: 1px solid var(--line);
 }
 .site-header[data-position="floating"] {
-  position: fixed;
+  /* Keep the same document coordinate system throughout every scroll cycle.
+     A root-scroll translation holds the navigation in view without fixed/sticky
+     positioning participating in WebKit's native status-area color sampling. */
+  position: absolute;
   top: 0;
-  left: var(--safe-area-left);
-  right: var(--safe-area-right);
+  left: 0;
+  right: 0;
+  translate: 0 var(--header-scroll-y, 0px);
+}
+.site-header[data-position="floating"][data-scroll-driver="timeline"] {
+  animation: site-header-follow-scroll linear both;
+  /* This cancels document scrolling; it is positioning, not optional motion. */
+  animation-duration: auto !important;
+  animation-timeline: scroll(root block);
+}
+@keyframes site-header-follow-scroll {
+  from { translate: 0 0; }
+  to { translate: 0 var(--site-scroll-range, 0px); }
 }
 /* Released at its current document position, it leaves with native scrolling. */
 .site-header[data-position="released"] {
