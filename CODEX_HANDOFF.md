@@ -45,6 +45,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+Global focus styles use neutral gray in both themes. Text-entry fields and simulator number groups use an inset underline without a colored outer frame. Keep keyboard focus visible and warning accents separate from the focus palette.
+
 Shared `PartyMark`, `PartyGroup` and `PartyText` components replace compact party abbreviations throughout the site, including candidate party changes and SVG trend labels. The eight pinned official assets are unchanged. Other/local parties remain text. Translate complete political sentences before inserting logos, preserve historical party names and keep personal names, machine keys, native selects and source payloads out of token substitution. See `docs/data-sources/party-assets.md`.
 
 Candidate history 1.0.1 corrects MP/KD to the official codes `0055`/`0068` across all four elections. The former mapping put 2022 records into Other and could display false party changes. Originals, counts, denominators and identity links are unchanged; normalized output hashes are renewed with the old hashes retained in the manifest. Preserve the new source-code checks in the importer, build and public-payload validation.

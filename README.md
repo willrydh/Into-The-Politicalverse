@@ -2,6 +2,8 @@
 
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
 
+Focus styling is neutral in both themes. Text-entry fields use a discreet inset underline instead of an outer frame; keyboard navigation retains a visible focus indicator.
+
 > **Politics, quantified.**
 >
 > A source-traceable quantitative election intelligence platform for exploring elections through official results, geography, historical patterns, transparent indicators, polling models and scenario simulation.
