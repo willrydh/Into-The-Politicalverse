@@ -1,6 +1,7 @@
 "use client";
 import { Localize } from "@/components/localize";
-
+import { PartyMark } from "@/components/party-mark";
+import { PartySvgMark } from "@/components/party-label";
 
 import { useState } from "react";
 import { PARTIES, PARTY_ORDER } from "@/lib/data/elections/parties";
@@ -16,13 +17,6 @@ const WIDTH = 900;
 const HEIGHT = 430;
 const MARGIN = { top: 25, right: 76, bottom: 48, left: 48 };
 const MAX_SHARE = 40;
-const END_LABEL_OFFSETS: Partial<Record<PartyId, number>> = {
-  V: -17,
-  C: -5,
-  KD: -4,
-  MP: 6,
-  L: 17,
-};
 
 function xPosition(index: number, length: number): number {
   const plotWidth = WIDTH - MARGIN.left - MARGIN.right;
@@ -49,6 +43,12 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
       share: election.parties.find((party) => party.partyId === partyId)?.share ?? 0,
     })),
   }));
+  // Space the logo labels independently of the data points; leaders retain the exact endpoint.
+  const labels = series.map(({ partyId, points }) => ({ partyId, y: yPosition(points.at(-1)!.share) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < labels.length; i++) labels[i].y = Math.max(labels[i].y, labels[i - 1].y + 28);
+  labels[labels.length - 1].y = Math.min(labels.at(-1)!.y, HEIGHT - MARGIN.bottom - 12);
+  for (let i = labels.length - 2; i >= 0; i--) labels[i].y = Math.min(labels[i].y, labels[i + 1].y - 28);
+  const labelY = new Map(labels.map(label => [label.partyId, label.y]));
 
   return <Localize>{(
     <div className={compact ? "trend-chart trend-chart--compact" : "trend-chart"}>
@@ -70,9 +70,9 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
             onFocus={() => setActiveParty(partyId)}
             type="button"
             aria-pressed={activeParty === partyId}
+            aria-label={PARTIES[partyId].name}
           >
-            <span style={{ background: PARTIES[partyId].color }} />
-            {PARTIES[partyId].shortName}
+            <PartyMark party={PARTIES[partyId]} size="sm" />
           </button>
         ))}
       </div>
@@ -98,9 +98,9 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
             const party = PARTIES[partyId];
             const muted = activeParty !== null && activeParty !== partyId;
             const lastPoint = points.at(-1)!;
-            const labelOffset = END_LABEL_OFFSETS[partyId] ?? 0;
             const lastX = xPosition(points.length - 1, points.length);
             const lastY = yPosition(lastPoint.share);
+            const logoY = labelY.get(partyId)!;
             return (
               <g
                 className={muted ? "party-line is-muted" : activeParty === partyId ? "party-line is-active" : "party-line"}
@@ -122,17 +122,8 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
                     <title>{`${party.name}, ${point.year}: ${point.share.toFixed(2)}%`}</title>
                   </circle>
                 ))}
-                {labelOffset !== 0 ? (
-                  <line className="party-line__leader" x1={lastX + 4} y1={lastY} x2={lastX + 9} y2={lastY + labelOffset} stroke={party.color} />
-                ) : null}
-                <text
-                  className="party-line__label"
-                  x={lastX + 11}
-                  y={lastY + labelOffset + 4}
-                  fill={party.color}
-                >
-                  {party.shortName}
-                </text>
+                <line className="party-line__leader" x1={lastX + 4} y1={lastY} x2={lastX + 18} y2={logoY} stroke={party.color} />
+                <PartySvgMark partyId={partyId} x={lastX + 18} y={logoY - 12} />
               </g>
             );
           })}

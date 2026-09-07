@@ -1,25 +1,23 @@
 "use client";
-import { Localize } from "@/components/localize";
+import { useLocale } from "@/components/localize";
 import Image from "next/image";
-import type { CSSProperties } from "react";
 import type { PartyDefinition } from "@/lib/parties";
+import { translateText } from "@/lib/i18n/translate";
 
 type PartyMarkProps = {
   party: PartyDefinition;
-  size?: "sm" | "md" | "lg";
+  size?: "inline" | "sm" | "md" | "lg";
+  label?: string;
 };
 
-export function PartyMark({ party, size = "md" }: PartyMarkProps) {
-  const style = { "--party": party.color, "--party-text": party.textColor } as CSSProperties;
+export function PartyMark({ party, size = "md", label }: PartyMarkProps) {
+  const name = translateText(label ?? party.name, useLocale());
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
-  return <Localize>{(
-    <span className={`party-mark party-mark--${size}`} style={style} title={party.name}>
-      {party.logo ? (
-        <Image src={`${basePath}${party.logo}`} alt={`${party.name} logo`} width={72} height={72} />
-      ) : (
-        <span className="party-mark__fallback" aria-hidden="true">{party.shortName}</span>
-      )}
+  if (!party.logo) return <span className="party-other">{name}</span>;
+  return (
+    <span className={`party-mark party-mark--${size}`} title={name}>
+      <Image src={`${basePath}${party.logo}`} alt={name} width={72} height={72} />
     </span>
-  )}</Localize>;
+  );
 }

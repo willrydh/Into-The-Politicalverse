@@ -22,7 +22,7 @@ export function PartySeatForecast({ forecast }: { forecast: ElectionForecast }) 
         const definition = PARTIES[party.partyId];
         return (
           <article className="seat-forecast__row" key={party.partyId}>
-            <div className="seat-party"><PartyMark party={definition} size="md" /><div><strong>{definition.name}</strong><span>{party.partyId}</span></div></div>
+            <div className="seat-party"><PartyMark party={definition} size="md" /><div><strong>{definition.name}</strong></div></div>
             <div className="seat-share"><strong>{party.meanShare.toLocaleString("sv-SE")} %</strong><span>{party.shareInterval80[0].toLocaleString("sv-SE")}–{party.shareInterval80[1].toLocaleString("sv-SE")} %</span></div>
             <div className="seat-number"><strong>{party.centralSeats}</strong><span>median {party.medianSeats}</span></div>
             <div className="seat-range" aria-label={`${definition.name}: 80-procentigt mandatintervall ${party.seatInterval80[0]} till ${party.seatInterval80[1]}`}>

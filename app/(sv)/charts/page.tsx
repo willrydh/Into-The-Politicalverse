@@ -2,6 +2,7 @@ import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 import { DataSource } from "@/components/data-source";
+import { PartyMark } from "@/components/party-mark";
 import { NationalTrendChart } from "@/components/charts/national-trend-chart";
 import { nationalHistory } from "@/lib/data/elections";
 import { PARTIES, PARTY_ORDER } from "@/lib/data/elections/parties";
@@ -25,7 +26,7 @@ export default function ChartsPage({ locale = "sv" }: { locale?: Locale } = {}) 
         <div className="panel-heading"><div><span className="mini-label">Underlying values</span><h2>Election data table</h2><p>Share of valid national votes, percent</p></div></div>
         <div className="data-table-wrap">
           <table className="data-table">
-            <thead><tr><th>Election</th>{partyOrder.map((id) => <th key={id}><span style={{ background: PARTIES[id].color }} />{id}</th>)}<th>Turnout</th></tr></thead>
+            <thead><tr><th>Election</th>{partyOrder.map((id) => <th key={id}><PartyMark party={PARTIES[id]} size="sm" /></th>)}<th>Turnout</th></tr></thead>
             <tbody>
               {nationalHistory.elections.map((election) => (
                 <tr key={election.year}>

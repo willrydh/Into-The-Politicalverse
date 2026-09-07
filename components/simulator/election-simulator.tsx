@@ -72,7 +72,7 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
               <div className="party-share-control" key={partyId} style={{ "--party-color": party.color } as CSSProperties}>
                 <label htmlFor={inputId}>
                   <PartyMark party={party} size="sm" />
-                  <span><strong>{party.name}</strong><small>{party.shortName}</small></span>
+                  <strong>{party.name}</strong>
                 </label>
                 <input
                   aria-label={`${party.name} vote share slider`}
@@ -171,12 +171,12 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
                       type="button"
                       key={partyId}
                       aria-pressed={selected}
+                      aria-label={PARTIES[partyId].name}
                       className={selected ? "coalition-party is-selected" : "coalition-party"}
                       onClick={() => toggleCoalition(partyId)}
                       style={{ "--party-color": PARTIES[partyId].color } as CSSProperties}
                     >
                       <PartyMark party={PARTIES[partyId]} size="sm" />
-                      <span>{partyId}</span>
                       <strong>{result.parties.find((party) => party.partyId === partyId)?.totalSeats ?? 0}</strong>
                     </button>
                   );

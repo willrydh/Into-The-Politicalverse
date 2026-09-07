@@ -1,4 +1,5 @@
 "use client";
+import { PartyMark } from "@/components/party-mark";
 import { Localize } from "@/components/localize";
 import { getMunicipalityLeaders, riksdag2022 } from "@/lib/data/elections";
 import { PARTIES } from "@/lib/data/elections/parties";
@@ -26,8 +27,7 @@ export function GeographicBreadth() {
         <div className="breadth-legend">
           {leaders.map((leader) => (
             <div key={leader.partyId}>
-              <span style={{ background: PARTIES[leader.partyId].color }} />
-              <strong>{PARTIES[leader.partyId].shortName}</strong>
+              <PartyMark party={PARTIES[leader.partyId]} size="sm" />
               <b>{leader.count}</b>
               <small>{leader.share}%</small>
             </div>

@@ -22,7 +22,7 @@ RAW = ROOT / 'data/raw/downloads/candidate-history'
 MANIFEST = ROOT / 'data/raw/valmyndigheten/candidate-history-source-manifest.json'
 manifest = json.loads(MANIFEST.read_text())
 SOURCES = {s['file']: s for s in manifest['sources']}
-PARTIES = {'0001': 'M', '0002': 'S', '0003': 'L', '0004': 'C', '0005': 'V', '0053': 'MP', '0077': 'KD', '0110': 'SD'}
+PARTIES = {'0001': 'M', '0002': 'S', '0003': 'L', '0004': 'C', '0005': 'V', '0055': 'MP', '0068': 'KD', '0110': 'SD'}
 ABBR = {v: k for k, v in PARTIES.items()} | {'FP': '0003'}
 municipalities = {m['code']: m for m in json.loads((ROOT / 'data/normalized/local-election-index.json').read_text())['municipalities']}
 counties = {m['code']: m['name'] for m in json.loads((ROOT / 'data/normalized/local-election-index.json').read_text())['counties']}
@@ -131,6 +131,8 @@ def historical(year, meta):
                 for party in unit.findall('GILTIGA') + unit.findall('ÖVRIGA_GILTIGA/GILTIGA'):
                     lists = party.findall('VALSEDEL')
                     party_code = ABBR.get(party.attrib['PARTI']) or ((lists + party.findall('PARTISEDEL'))[0].attrib['LISTNUMMER'].split('-')[0] if lists or party.findall('PARTISEDEL') else party.attrib['PARTI'].zfill(4))
+                    if party.attrib['PARTI'] in ABBR:
+                        assert all(b.attrib['LISTNUMMER'].split('-')[0] == party_code for b in lists + party.findall('PARTISEDEL')), f'Party code/ballot disagreement {year}:{code}:{party_code}'
                     party_name = next(p.attrib['BETECKNING'] for p in root.findall('PARTI') if p.attrib['FÖRKORTNING'] == party.attrib['PARTI'])
                     votes = count(party.attrib['RÖSTER'])
                     area['partyVotes'][party_code] = votes

@@ -93,7 +93,7 @@ function AreaProfile({ area, parent, selection, t, f, onParty }: { area: LocalAr
   return <article className="local-profile" aria-label={nameFor(area, t)}>
     <span className="mini-label">{t.official} · {selection.year}</span><h2>{nameFor(area, t)}</h2>
     <p className="local-area-code">{area.level === "collection" ? t.collection : area.level === "district" ? t.district : area.level === "municipality" ? t.municipality : area.level === "county" ? t.county : t.national}{area.code !== "SE" && ` · ${area.code}`}</p><p className="local-note" data-classification="DERIVED">{t.derived}</p>
-    <div className="local-party-title"><PartyMark party={party} /><strong>{selection.party === "OTHER" ? t.other : party.name}</strong></div>
+    <div className="local-party-title">{selection.party !== "OTHER" && <PartyMark party={party} />}<strong>{selection.party === "OTHER" ? t.other : party.name}</strong></div>
     {result ? <>
       <div className="local-main-value">{f(share, 2)}<span>%</span></div>
       <p className="local-note">{f(result.votes[selection.party])} / {f(result.validVotes)} {t.validVotes.toLowerCase()}</p>
@@ -102,7 +102,7 @@ function AreaProfile({ area, parent, selection, t, f, onParty }: { area: LocalAr
     </> : <p className="local-notice">{t.unavailable}</p>}
     {area.level === "collection" && <p className="local-notice">{t.collectionNote}</p>}
     <History area={area} party={selection.party} t={t} f={f} color={party.color} />
-    {result && <details className="local-details"><summary>{t.allParties}</summary><table className="local-table"><thead><tr><th>{t.party}</th><th>{t.votes}</th><th>{t.change}</th><th>{t.share}</th></tr></thead><tbody>{[...PARTY_ORDER].sort((a, b) => result.votes[b] - result.votes[a]).map(p => <tr key={p}><th><button type="button" onClick={() => onParty(p)}>{p === "OTHER" ? t.other : PARTIES[p].shortName}</button></th><td>{f(result.votes[p])}</td><td><AreaVoteDelta area={area} party={p} year={selection.year} compact/></td><td>{f(voteShare(result, p), 2)}%</td></tr>)}</tbody></table></details>}
+    {result && <details className="local-details"><summary>{t.allParties}</summary><table className="local-table"><thead><tr><th>{t.party}</th><th>{t.votes}</th><th>{t.change}</th><th>{t.share}</th></tr></thead><tbody>{[...PARTY_ORDER].sort((a, b) => result.votes[b] - result.votes[a]).map(p => <tr key={p}><th><button type="button" onClick={() => onParty(p)} aria-label={p === "OTHER" ? t.other : PARTIES[p].name}><PartyMark party={PARTIES[p]} size="sm" label={p === "OTHER" ? t.other : undefined}/></button></th><td>{f(result.votes[p])}</td><td><AreaVoteDelta area={area} party={p} year={selection.year} compact/></td><td>{f(voteShare(result, p), 2)}%</td></tr>)}</tbody></table></details>}
   </article>;
 }
 
@@ -159,7 +159,7 @@ export function LocalElectionExplorer({ model }: { model: LocalIndexModel }) {
       <label>{t.year}<select value={activeYear} onChange={e => update({ year: Number(e.target.value) as LocalYear })}>{LOCAL_YEARS.map(year => <option key={year} value={year}>{year}</option>)}</select></label>
       <label>{t.metric}<select value={selection.metric} onChange={e => update({ metric: e.target.value as LocalSelection["metric"] })}><option value="share">{t.share}</option><option value="swing">{t.swing}</option><option value="turnout">{t.turnout}</option></select></label>
     </div>
-    <div className="local-party-picker" aria-label={t.selectParty}>{PARTY_ORDER.map(p => <button type="button" key={p} aria-pressed={selection.party === p} onClick={() => update({ party: p })} aria-label={p === "OTHER" ? t.other : PARTIES[p].name}><PartyMark party={PARTIES[p]} size="sm" /><span>{p === "OTHER" ? t.other : p}</span></button>)}</div>
+    <div className="local-party-picker" aria-label={t.selectParty}>{PARTY_ORDER.map(p => <button type="button" key={p} aria-pressed={selection.party === p} onClick={() => update({ party: p })} aria-label={p === "OTHER" ? t.other : PARTIES[p].name}><PartyMark party={PARTIES[p]} size="sm" label={p === "OTHER" ? t.other : undefined}/></button>)}</div>
     <nav className="local-breadcrumbs" aria-label={t.area}><button type="button" onClick={() => update({ county: "", municipality: "", district: "" })}>{t.country}</button>{county && <><span>/</span><button type="button" onClick={() => update({ municipality: "", district: "" })}>{county.name}</button></>}{municipality && <><span>/</span><button type="button" onClick={() => update({ district: "" })}>{municipality.name}</button></>}{district && <><span>/</span><strong>{nameFor(district, t)}</strong></>}</nav>
     {selection.district && districtState.data && !district && <p className="local-notice">{t.missingDistrict}</p>}
     <div className="local-workspace"><div className="local-map-column"><div className="local-section-title"><h2>{municipality ? t.districts : county ? t.municipalities : t.counties}</h2><span>{selection.metric === "swing" ? `${selection.year-4} → ${selection.year}` : activeYear}</span></div>

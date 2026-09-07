@@ -1,6 +1,7 @@
 "use client";
 import { Localize } from "@/components/localize";
 import Link from "next/link";
+import { PartyGroup, PartyText } from "@/components/party-label";
 import { PartyMark } from "@/components/party-mark";
 import { ForecastFreshness } from "@/components/forecast/forecast-freshness";
 import { PARTY_ORDER, PARTIES } from "@/lib/parties";
@@ -44,7 +45,7 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
 
         <article className="forecast-call">
           <div className="forecast-call__top"><span>HUVUDPROGNOS</span><span>PV/F01</span></div>
-          <p>{mainQuestion.question}</p>
+          <p><PartyText>{mainQuestion.question}</PartyText></p>
           <strong>{probability(mainQuestion.probability)}</strong>
           <div
             className="forecast-probability-track"
@@ -57,16 +58,16 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
           <div className="forecast-call__labels"><span>NEJ</span><span>JA</span></div>
           <details>
             <summary>Vad betyder sannolikheten?</summary>
-            <p>{mainQuestion.explanation} {mainQuestion.resolution}</p>
+            <p><PartyText>{mainQuestion.explanation}</PartyText> <PartyText>{mainQuestion.resolution}</PartyText></p>
           </details>
         </article>
       </div>
 
       <div className="mandate-board" aria-label="Central mandate forecast">
         <div className="mandate-board__headline">
-          <div><span>S · V · MP · C</span><strong>{forecast.centralScenario.oppositionSeats}</strong><small>mandat i centralprognosen</small></div>
+          <div><PartyGroup parties={["S", "V", "MP", "C"]}/><strong>{forecast.centralScenario.oppositionSeats}</strong><small>mandat i centralprognosen</small></div>
           <div className="mandate-board__majority"><span>Majoritet</span><b>175</b></div>
-          <div><span>M · SD · KD · L</span><strong>{forecast.centralScenario.tidoSeats}</strong><small>mandat i centralprognosen</small></div>
+          <div><PartyGroup parties={["M", "SD", "KD", "L"]}/><strong>{forecast.centralScenario.tidoSeats}</strong><small>mandat i centralprognosen</small></div>
         </div>
         <div className="mandate-bar">
           {PARTY_ORDER.filter((partyId): partyId is SimulatorPartyId => partyId !== "OTHER")
@@ -81,14 +82,14 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
         </div>
         <div className="mandate-legend">
           {PARTY_ORDER.filter((partyId): partyId is SimulatorPartyId => partyId !== "OTHER").map((partyId) => (
-            <div key={partyId}><PartyMark party={PARTIES[partyId]} size="sm" /><span>{partyId}</span><strong>{forecast.centralScenario.seats[partyId]}</strong></div>
+            <div key={partyId}><PartyMark party={PARTIES[partyId]} size="sm" /><strong>{forecast.centralScenario.seats[partyId]}</strong></div>
           ))}
         </div>
         <footer className="mandate-board__update">
           <p><span className="model-badge">MODEL</span> Senaste datapunkt {forecast.model.dataCutoff}</p>
           <p>
             Sedan föregående datapunkt {change.date}: mandatbas {change.oppositionSeatDelta > 0 ? "+" : ""}{change.oppositionSeatDelta} / {change.tidoSeatDelta > 0 ? "+" : ""}{change.tidoSeatDelta}
-            <span className="mandate-board__movers"> · {movers.slice(0, 3).map(({ partyId, change: partyChange }) => `${partyId} ${signed(partyChange)}`).join(" · ")}</span>
+            <span className="mandate-board__movers"> · <PartyText>{movers.slice(0, 3).map(({ partyId, change: partyChange }) => `${partyId} ${signed(partyChange)}`).join(" · ")}</PartyText></span>
           </p>
           <Link href="/forecasts">Öppna hela prognosen <span>→</span></Link>
         </footer>

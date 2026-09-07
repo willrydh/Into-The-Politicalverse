@@ -1,4 +1,7 @@
 "use client";
+import { PartyMark } from "@/components/party-mark";
+import { PartyText } from "@/components/party-label";
+import { PARTIES } from "@/lib/parties";
 import { Localize } from "@/components/localize";
 import {
   getConstitutionalClaim,
@@ -50,13 +53,13 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
       <div className="pm-paths">
         <article className="pm-path pm-path--lead">
           <header><span>MANDATBAS · {andersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
-          <p>{opposition.name} når gränsen för egen majoritet i</p>
+          <p><PartyText>{opposition.name}</PartyText> når gränsen för egen majoritet i</p>
           <strong>{pct(opposition.majorityProbability)}</strong>
           <small>av modellkörningarna · inte statsministerodds</small>
         </article>
         <article className="pm-path">
           <header><span>MANDATBAS · {kristersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
-          <p>{tido.name} når gränsen för egen majoritet i</p>
+          <p><PartyText>{tido.name}</PartyText> når gränsen för egen majoritet i</p>
           <strong>{pct(tido.majorityProbability)}</strong>
           <small>av modellkörningarna · inte statsministerodds</small>
         </article>
@@ -74,13 +77,13 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
       <div className="coalition-list">
         {coalitions.map((coalition) => (
           <article key={coalition.id}>
-            <header><strong>{coalition.name}</strong><span>{statusLabel(coalition.status)}</span></header>
+            <header><strong><PartyText>{coalition.name}</PartyText></strong><span>{statusLabel(coalition.status)}</span></header>
             <div>
               <strong>{coalition.centralSeats}</strong>
               <span>/ 349 mandat i mittscenariot</span>
               <b>{pct(coalition.majorityProbability)} modellfrekvens för minst 175</b>
             </div>
-            <p>{coalition.explanation}</p>
+            <p><PartyText>{coalition.explanation}</PartyText></p>
             <small>Egen majoritet beskriver mandatmatematik. Regeringsduglighet kräver även att partiernas villkor går att förena eller tolereras.</small>
           </article>
         ))}
@@ -98,7 +101,7 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
               return (
                 <article className="minister-radar__party" key={party.partyId} id={`leader-${party.partyId}`}>
                   <header>
-                    <span>{party.partyId}</span>
+                    <PartyMark party={PARTIES[party.partyId]}/>
                     <div>
                       <strong>{party.leaders.join(" & ")}</strong>
                       <small>{party.leaderTitle}</small>
@@ -113,9 +116,9 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
                       return (
                         <li key={claim.id}>
                           <span>{claim.classification}</span>
-                          <strong>{claim.headline}</strong>
-                          <p>{claim.summary}</p>
-                          <small>{claim.consequence}</small>
+                          <strong><PartyText>{claim.headline}</PartyText></strong>
+                          <p><PartyText>{claim.summary}</PartyText></p>
+                          <small><PartyText>{claim.consequence}</PartyText></small>
                           <a href={claim.source.url} target="_blank" rel="noreferrer">
                             {claim.source.publisher} · {dated.label} <time dateTime={dated.value}>{formatDate(dated.value)}</time> ↗
                           </a>

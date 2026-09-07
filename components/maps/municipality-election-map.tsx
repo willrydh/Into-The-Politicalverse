@@ -149,7 +149,6 @@ export function MunicipalityElectionMap({ model }: { model: MunicipalityMapModel
                   type="button"
                 >
                   <PartyMark party={party} size="sm" />
-                  <span>{party.shortName}</span>
                 </button>
               );
             })}
@@ -228,7 +227,7 @@ export function MunicipalityElectionMap({ model }: { model: MunicipalityMapModel
             </>}
           </dl>
 
-          <p className="municipality-detail__note">Riksdag ballots in {selectedArea.name}. Plurality party in 2022: <span className="detail-party-dot" style={{ background: pluralityParty.color }} /> <strong>{pluralityParty.shortName}</strong>. This is not the municipal council election.</p>
+          <p className="municipality-detail__note">Riksdag ballots in {selectedArea.name}. Plurality party in 2022: <PartyMark party={pluralityParty} size="inline" />. This is not the municipal council election.</p>
           <div className="map-source-links">
             <a className="map-source-link" href={model.source.results2018.sourceUrl} rel="noreferrer" target="_blank">2018 official results <span>↗</span></a>
             <a className="map-source-link" href={model.source.results2022.sourceUrl} rel="noreferrer" target="_blank">2022 official results <span>↗</span></a>

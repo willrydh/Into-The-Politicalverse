@@ -1,5 +1,7 @@
 "use client";
 import { Localize } from "@/components/localize";
+import { PartyMark } from "@/components/party-mark";
+import { PartyText } from "@/components/party-label";
 import { PARTIES } from "@/lib/parties";
 import type { ElectionForecast, ForecastBacktestElection } from "@/lib/forecast/types";
 import type { SimulatorPartyId } from "@/lib/simulator/types";
@@ -39,20 +41,20 @@ export function ForecastDrivers({ forecast }: { forecast: ElectionForecast }) {
     <div className="forecast-drivers">
       <article>
         <span>SPÄRRLÄGE</span>
-        <strong>{thresholdRisk.partyId}</strong>
+        <strong><PartyMark party={PARTIES[thresholdRisk.partyId]} size="lg"/></strong>
         <h3>{pct(thresholdRisk.thresholdProbability)} över riksdagsspärren</h3>
         <p>Små rörelser runt fyra procent kan flytta många mandat mellan blocken. Detta är modellens känsligaste tröskel just nu.</p>
       </article>
       <article>
         <span>STÖRSTA PARTI</span>
-        <strong>{largestParty.partyId}</strong>
+        <strong><PartyMark party={PARTIES[largestParty.partyId]} size="lg"/></strong>
         <h3>{pct(largestParty.largestPartyProbability)} modellfrekvens</h3>
         <p>{PARTIES[largestParty.partyId].name} blir störst i denna andel av simuleringarna. Det stärker ett förhandlingsläge men utser inte statsminister.</p>
       </article>
       <article>
         <span>NÄRMAST 175</span>
         <strong>{closestCoalition.centralSeats}</strong>
-        <h3>{closestCoalition.name}</h3>
+        <h3><PartyText>{closestCoalition.name}</PartyText></h3>
         <p>Mittscenariot ligger {Math.abs(closestCoalition.centralSeats - forecast.centralScenario.majoritySeats)} mandat från majoritetsgränsen. Politisk förenlighet modelleras separat som källbelagd kontext.</p>
       </article>
       <article>
@@ -80,7 +82,7 @@ export function ForecastBacktests({ forecast }: { forecast: ElectionForecast }) 
               <div role="cell"><span className={`backtest-role backtest-role--${backtest.role}`}>{backtest.role === "holdout" ? "LÅST TEST" : "KALIBRERING"}</span></div>
               <div role="cell"><strong>{backtest.polls} mätningar</strong><span>{backtest.houses} institut</span></div>
               <div role="cell"><strong>{decimal(backtest.meanAbsoluteError)}</strong><span>procentenheter</span></div>
-              <div role="cell"><strong>{miss.partyId} {miss.difference > 0 ? "+" : ""}{decimal(miss.difference)}</strong><span>prognos minus utfall</span></div>
+              <div role="cell"><strong><PartyMark party={PARTIES[miss.partyId]} size="inline"/> {miss.difference > 0 ? "+" : ""}{decimal(miss.difference)}</strong><span>prognos minus utfall</span></div>
             </article>
           );
         })}

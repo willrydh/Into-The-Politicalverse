@@ -1,4 +1,5 @@
 "use client";
+import { PartyGroup } from "@/components/party-label";
 import { Localize } from "@/components/localize";
 import type { ElectionForecast } from "@/lib/forecast/types";
 
@@ -34,10 +35,10 @@ export function ForecastHistory({ forecast }: { forecast: ElectionForecast }) {
         <text className="forecast-history__date" x="40" y={height - 5}>{forecast.trend[0].date}</text>
         <text className="forecast-history__date" textAnchor="end" x={width - 20} y={height - 5}>{forecast.trend.at(-1)?.date}</text>
       </svg>
-      <div className="forecast-history__legend"><span><i /> S · V · MP · C</span><span><i /> M · SD · KD · L</span><span><i /> 175 mandat</span></div>
+      <div className="forecast-history__legend"><span><i /><PartyGroup parties={["S", "V", "MP", "C"]}/></span><span><i /><PartyGroup parties={["M", "SD", "KD", "L"]}/></span><span><i /> 175 mandat</span></div>
       <div className="forecast-history__summary" aria-label="Textsammanfattning av prognoskurvan">
-        <p><span>Första redovisade punkt</span><strong>{formatDate(first.date)}</strong><small>S · V · MP · C: {first.oppositionSeats} · M · SD · KD · L: {first.tidoSeats}</small></p>
-        <p><span>Senaste datapunkt</span><strong>{formatDate(latest.date)}</strong><small>S · V · MP · C: {latest.oppositionSeats} · M · SD · KD · L: {latest.tidoSeats}</small></p>
+        <p><span>Första redovisade punkt</span><strong>{formatDate(first.date)}</strong><small><span><PartyGroup parties={["S", "V", "MP", "C"]}/> {first.oppositionSeats}</span><span><PartyGroup parties={["M", "SD", "KD", "L"]}/> {first.tidoSeats}</span></small></p>
+        <p><span>Senaste datapunkt</span><strong>{formatDate(latest.date)}</strong><small><span><PartyGroup parties={["S", "V", "MP", "C"]}/> {latest.oppositionSeats}</span><span><PartyGroup parties={["M", "SD", "KD", "L"]}/> {latest.tidoSeats}</span></small></p>
       </div>
       <p className="forecast-history__note">Varje punkt räknas om med den information som hade publicerats vid datumet. Linjen visar modellens mandatmittpunkt, inte observerade valresultat.</p>
     </div>
