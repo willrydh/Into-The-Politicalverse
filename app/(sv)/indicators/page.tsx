@@ -2,6 +2,7 @@ import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 import { IndicatorGrid } from "@/components/indicator-grid";
+import { PartyText } from "@/components/party-label";
 import { calculateNationalIndicators, effectiveNumberOfParties, topTwoConcentration } from "@/lib/indicators/national";
 
 export const metadata: Metadata = { title: "Indikatorer" };
@@ -22,7 +23,7 @@ export default function IndicatorsPage({ locale = "sv" }: { locale?: Locale } = 
             <article key={indicator.id} id={indicator.id}>
               <span>PV-{String(index + 1).padStart(2, "0")}</span>
               <div><h2>{indicator.label}</h2><p>{indicator.methodology}</p></div>
-              <strong>{indicator.value}</strong>
+              <strong><PartyText>{indicator.value}</PartyText></strong>
             </article>
           ))}
         </div>

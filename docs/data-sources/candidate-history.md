@@ -2,6 +2,12 @@
 
 Publisher: Valmyndigheten. Retrieved 7 September 2026. Manifest: `data/raw/valmyndigheten/candidate-history-source-manifest.json`. This is historical final-result data, not a live 2026 candidate/result feed.
 
+## Party-code correction, 7 September 2026
+
+The original 2010, 2014 and 2018 `slutresultat_00R.xml` files identify MP and KD through ballot lists beginning `0055-` and `0068-`. The 2022 `kandidaturer.csv` in the pinned candidate ZIP confirms these identities in `PARTIBETECKNING`, `PARTIFÖRKORTNING` and `PARTIKOD`. The 1.0.1 importer fixes its former `0053`/`0077` mapping and checks recognized historical parties against every available ballot-list prefix.
+
+All four outputs were regenerated from the existing verified originals and checked against an expected transformation limited to those party codes/identities and the method version. No vote counts, denominators, source names, ages, geography or candidate links changed. This gives MP/KD candidates the right logos, party filters and search identity, and removes false party-change indicators between 2018 and 2022. Previous output hashes remain in the manifest’s normalization-correction record.
+
 ## Historical names and vote counts
 
 The original final XML ZIP archives for 2010, 2014 and 2018 contain source names, election-scoped candidate numbers, personal votes, ballot lists, party votes and election geography for all three election types. Some currently served historical pages have had names removed. The importer uses preserved **original Valmyndigheten archives**, not search snippets or invented identities:

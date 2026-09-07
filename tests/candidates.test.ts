@@ -15,6 +15,22 @@ import type { PersonalVoteData } from "../lib/data/geography/personal-votes";
 
 const data=getCandidateData();
 const lars=data.sourcePeople.get("2022:46783")!;
+test("all eight parties keep official source codes and identity across elections, including MP and KD",()=>{
+  const expected:Record<string,string>={"0001":"M","0002":"S","0003":"L","0004":"C","0005":"V","0055":"MP","0068":"KD","0110":"SD"};
+  for(const ranking of data.rankings.values()) {
+    for(const row of ranking.rows) assert.equal(row.partyId,expected[row.partyCode]??"OTHER");
+    assert.equal(new Set(ranking.rows.filter(r=>r.partyId!=="OTHER").map(r=>r.partyId)).size,8);
+    for(const id of ["MP","KD"]) if(ranking.year===2022) {
+      const continuing=ranking.rows.filter(r=>r.partyId===id&&r.comparison.previous?.partyId===id);
+      assert.ok(continuing.length>0);
+      for(const row of continuing) assert.equal(row.partyCode,row.comparison.previous!.partyCode,"Same-party candidates must not appear to switch parties");
+    }
+  }
+  const ranking=data.rankings.get("2022-RD")!;
+  const sample={...ranking,rows:[structuredClone(ranking.rows.find(r=>r.partyId==="MP")!)]};
+  sample.rows[0].partyId="OTHER";assert.throws(()=>validateRankings(sample));
+  sample.rows[0].partyId="MP";sample.rows[0].partyCode="0053";assert.throws(()=>validateRankings(sample));
+});
 test("all four pinned source archives reconcile nationwide and preserve the existing 2022 Riksdag dataset",()=>{
   assert.equal(data.catalog.electionIdentities,207104);
   assert.equal(data.catalog.people,142108);

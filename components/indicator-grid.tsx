@@ -1,5 +1,6 @@
 "use client";
 import { Localize } from "@/components/localize";
+import { PartyText } from "@/components/party-label";
 import type { Indicator } from "@/lib/indicators/national";
 
 export function IndicatorGrid({ indicators }: { indicators: Indicator[] }) {
@@ -12,7 +13,7 @@ export function IndicatorGrid({ indicators }: { indicators: Indicator[] }) {
             <span className="classification-badge">{indicator.classification} · v{indicator.methodologyVersion}</span>
           </div>
           <p>{indicator.label}</p>
-          <strong>{indicator.value}</strong>
+          <strong><PartyText>{indicator.value}</PartyText></strong>
           <small>{indicator.detail}</small>
         </article>
       ))}

@@ -8,6 +8,7 @@ import { ForecastHistory } from "@/components/forecast/forecast-history";
 import { ForecastFreshness } from "@/components/forecast/forecast-freshness";
 import { GovernmentFormation } from "@/components/forecast/government-formation";
 import { PartySeatForecast } from "@/components/forecast/party-seat-forecast";
+import { PartyText } from "@/components/party-label";
 import { PredictionGrid } from "@/components/forecast/prediction-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { electionForecast } from "@/lib/forecast/data";
@@ -45,7 +46,7 @@ export default function ForecastsPage({ locale = "sv" }: { locale?: Locale } = {
         </div>
         <article className="forecast-page-hero__signal">
           <header><span>HUVUDSIGNAL · MODEL</span><b>{electionForecast.status}</b></header>
-          <p>{headline.question}</p>
+          <p><PartyText>{headline.question}</PartyText></p>
           <strong>{probability(headline.probability)}</strong>
           <div role="progressbar" aria-label={headline.question} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(headline.probability * 100)}><span style={{ width: `${headline.probability * 100}%` }} /></div>
           <dl>
