@@ -5,13 +5,14 @@ import "../globals.css";
 import { LocaleProvider } from "@/components/localize";
 import { SiteLocationProvider } from "@/components/site-location";
 import { ThemeInit } from "@/components/theme-init";
+import { brandMetadata } from "@/lib/brand-metadata";
 
 export const metadata: Metadata = {
+  ...brandMetadata("sv"),
   title: {
     default: "Politicalverse — Databaserad valprognos 2026",
     template: "%s — Politicalverse",
   },
-  description: "Svensk valprognos med öppna mätdata, mandatintervall, regeringsvägar, officiell valhistorik och synlig metod.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

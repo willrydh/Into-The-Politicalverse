@@ -4,6 +4,8 @@ A shared light/dark palette is available from the header. The initial mode follo
 
 Focus styling is neutral in both themes. Text-entry fields use a discreet inset underline instead of an outer frame; keyboard navigation retains a visible focus indicator.
 
+The owner-supplied crown identity appears in the shared header/footer, both language versions, sharing previews, favicons and home-screen icons. Asset provenance, responsive behavior and regeneration are documented in [project branding](docs/brand/README.md).
+
 > **Politics, quantified.**
 >
 > A source-traceable quantitative election intelligence platform for exploring elections through official results, geography, historical patterns, transparent indicators, polling models and scenario simulation.

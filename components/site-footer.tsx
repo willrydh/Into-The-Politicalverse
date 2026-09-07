@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { Localize } from "@/components/localize";
+import { SiteBrand } from "./site-brand";
 
 export function SiteFooter() { return <Localize><footer className="site-footer">
           <div className="site-footer__brand">
-            <span className="wordmark__mark" aria-hidden="true"><span>PV</span></span>
-            <div><strong>INTO THE POLITICALVERSE</strong><small>Databaserad valanalys.</small></div>
+            <SiteBrand />
+            <small>Databaserad valanalys.</small>
           </div>
           <div className="site-footer__links">
             <Link href="/forecasts">Prognos</Link>

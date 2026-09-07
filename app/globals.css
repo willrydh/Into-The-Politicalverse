@@ -5,8 +5,8 @@
   --paper-deep: #e9f0f4;
   --white: #ffffff;
   --surface: #ffffff;
-  --brand-surface: #1c5170;
-  --brand-deep: #153d54;
+  --brand-surface: #0c3d59;
+  --brand-deep: #092e43;
   --on-acid: #0b202d;
   --warning-bg: #fff9e9;
   --warning-ink: #654200;
@@ -18,11 +18,11 @@
   color-scheme: light;
   --acid: #e0ed44;
   --acid-soft: #fcfdec;
-  --blue: #1c5170;
-  --blue-deep: #153d54;
+  --blue: #0c3d59;
+  --blue-deep: #092e43;
   --blue-darkest: #0b202d;
   --blue-light: #75b2dd;
-  --line: rgba(28, 81, 112, 0.22);
+  --line: rgba(12, 61, 89, 0.22);
   --muted: #545454;
   --positive: #3a7728;
   --negative: #c41e3a;
@@ -163,9 +163,7 @@ button { color: inherit; }
 .site-header__utility-inner { min-height: 76px; gap: 12px; }
 .site-header__navigation-inner { min-height: 54px; }
 .wordmark { display: inline-flex; align-items: center; gap: 14px; width: fit-content; color: var(--blue); }
-.wordmark__mark { width: 42px; height: 42px; border: 2px solid var(--blue); border-radius: 2px; display: grid; place-items: center; position: relative; background: var(--surface); color: var(--blue); }
-.wordmark__mark::after { content: ""; position: absolute; right: -2px; bottom: -2px; width: 12px; height: 12px; background: var(--acid); border-left: 2px solid var(--white); border-top: 2px solid var(--white); }
-.wordmark__mark span { position: relative; z-index: 1; font-size: 12px; line-height: 1; font-weight: 800; letter-spacing: -.04em; }
+.wordmark__mark { width: 42px; height: 42px; display: block; flex-shrink: 0; }
 .wordmark__text { display: grid; line-height: 1; }
 .wordmark__text small { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
 .wordmark__text strong { margin-top: 4px; font-family: var(--serif); font-size: 20px; letter-spacing: -.025em; }
@@ -371,11 +369,9 @@ button { color: inherit; }
 .source-band > a { border-bottom: 1px solid var(--blue); color: var(--blue); padding: 8px 0; font-size: 11px; font-weight: 750; display: flex; gap: 30px; white-space: nowrap; }
 
 .site-footer { background: var(--brand-deep); color: var(--white); min-height: 215px; border-top: 1px solid var(--blue-darkest); padding: 52px max(32px, calc((100vw - min(1280px, calc(100vw - 64px))) / 2)); display: grid; grid-template-columns: 1fr auto; gap: 42px; align-items: start; }
-.site-footer__brand { display: flex; align-items: center; gap: 16px; }
-.site-footer .wordmark__mark { border-color: var(--white); background: transparent; color: var(--white); }
-.site-footer__brand > div { display: grid; gap: 5px; }
-.site-footer__brand strong { font-size: 12px; letter-spacing: .1em; }
-.site-footer__brand small { font-family: var(--serif); color: rgba(255,255,255,.64); }
+.site-footer__brand { display: grid; gap: 12px; }
+.site-footer .wordmark { color: var(--white); }
+.site-footer__brand > small { font-family: var(--serif); color: rgba(255,255,255,.64); }
 .site-footer__links { display: flex; gap: 28px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .08em; font-size: 9px; }
 .site-footer__links a:hover { text-decoration: underline; }
 .site-footer > p { grid-column: 1 / -1; border-top: 1px solid rgba(255,255,255,.2); margin: 0; padding-top: 18px; font-size: 9px; color: rgba(255,255,255,.58); }
@@ -1511,9 +1507,9 @@ button { color: inherit; }
 @media (max-width: 980px) {
   .site-header__utility-inner { width:100%; min-height:76px; padding:10px 16px; gap:8px; flex-wrap:nowrap; }
   .site-header__utility-inner .wordmark { margin-right:auto; gap:8px; min-width:0; }
-  .site-header .wordmark__mark { display:none; }
+  .site-header .wordmark__mark { width:32px; height:32px; }
   .site-header .wordmark__text small { font-size:8px; }
-  .site-header .wordmark__text strong { font-size:19px; }
+  .site-header .wordmark__text strong { font-size:clamp(15px, 4.1vw, 19px); }
   .site-header .header-search { display:none; }
   .site-header__utility-inner .language-switcher { order:1; width:auto; margin:0; gap:0; font-size:12px; }
   .language-switcher__full, .language-switcher > span, .language-switcher a[aria-current="page"] { display:none; }
@@ -1546,7 +1542,7 @@ button { color: inherit; }
 }
 @media (max-width:360px) {
   .site-header__utility-inner { gap:4px; padding:10px 10px; }
-  .site-header .wordmark__text strong { font-size:16px; }
+  .site-header .wordmark__text { display:none; }
   .theme-toggle__options span { padding:8px 5px; }
   .header-menu-button { min-width:54px; padding:8px; }
 }

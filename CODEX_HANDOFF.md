@@ -45,6 +45,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+The supplied crown with a Nordic cross replaces the old PV mark through `SiteBrand`, including mobile and the 404. Preserve the live-text serif name, original SVG/PNG geometry, readable dark-theme colors and neutral focus styling. Shared `brandMetadata` covers both languages' sharing images, favicons and Apple icons; both static web manifests use the Pages base path and original standard/maskable icons. Assets are versioned under `public/brand/crown-2026/`; see [project branding](docs/brand/README.md) before replacing or regenerating them.
+
 Global focus styles use neutral gray in both themes. Text-entry fields and simulator number groups use an inset underline without a colored outer frame. Keep keyboard focus visible and warning accents separate from the focus palette.
 
 Party identity now depends on context: `PartyMark` remains on dedicated cards, leader headers, selectors and result rows. `PartyText` renders ordinary text with annotated abbreviations; it never embeds logos in sentences. `PartyGroup` defaults to text, with explicit logos for mandate/cabinet identity panels. Dense SVG labels and inline candidate changes use abbreviations. Translate complete sentences before annotating party tokens, preserve historical FP/names, and keep personal names, machine keys, native selects and source payloads out of substitution. The eight pinned official assets are unchanged; other/local parties remain text. See `docs/data-sources/party-assets.md`.

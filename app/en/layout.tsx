@@ -5,13 +5,14 @@ import "../globals.css";
 import { LocaleProvider } from "@/components/localize";
 import { SiteLocationProvider } from "@/components/site-location";
 import { ThemeInit } from "@/components/theme-init";
+import { brandMetadata } from "@/lib/brand-metadata";
 
 export const metadata: Metadata = {
+  ...brandMetadata("en"),
   title: {
     default: "Politicalverse — Data-driven election forecast 2026",
     template: "%s — Politicalverse",
   },
-  description: "Swedish election forecasts with open polling data, seat intervals, government context, official results and transparent methodology.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
