@@ -65,9 +65,9 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
 
       <div className="mandate-board" aria-label="Central mandate forecast">
         <div className="mandate-board__headline">
-          <div><PartyGroup parties={["S", "V", "MP", "C"]}/><strong>{forecast.centralScenario.oppositionSeats}</strong><small>mandat i centralprognosen</small></div>
+          <div><PartyGroup parties={["S", "V", "MP", "C"]} variant="logos"/><strong>{forecast.centralScenario.oppositionSeats}</strong><small>mandat i centralprognosen</small></div>
           <div className="mandate-board__majority"><span>Majoritet</span><b>175</b></div>
-          <div><PartyGroup parties={["M", "SD", "KD", "L"]}/><strong>{forecast.centralScenario.tidoSeats}</strong><small>mandat i centralprognosen</small></div>
+          <div><PartyGroup parties={["M", "SD", "KD", "L"]} variant="logos"/><strong>{forecast.centralScenario.tidoSeats}</strong><small>mandat i centralprognosen</small></div>
         </div>
         <div className="mandate-bar">
           {PARTY_ORDER.filter((partyId): partyId is SimulatorPartyId => partyId !== "OTHER")

@@ -5,6 +5,10 @@ export function partyDisplayName(partyId: PartyId, year?: number): string {
   return partyId === "L" && year !== undefined && year <= 2014 ? "Folkpartiet liberalerna" : PARTIES[partyId].name;
 }
 
+export function partyShortName(partyId: PartyId, year?: number): string {
+  return partyId === "L" && year !== undefined && year <= 2014 ? "FP" : PARTIES[partyId].shortName;
+}
+
 type PartyTextPart = { text: string; partyId?: PartyId; historical?: boolean };
 
 /** Only for political copy, never names, source identifiers, URLs or form values. */

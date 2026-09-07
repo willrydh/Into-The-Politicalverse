@@ -4,6 +4,7 @@ import { Localize } from "@/components/localize";
 
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { PartyMark } from "@/components/party-mark";
+import { PartyAbbreviation } from "@/components/party-label";
 import type { MunicipalityMapModel } from "@/lib/data/geography";
 import { formatDelta, formatNumber } from "@/lib/format";
 import { PARTIES, PARTY_ORDER } from "@/lib/parties";
@@ -227,7 +228,7 @@ export function MunicipalityElectionMap({ model }: { model: MunicipalityMapModel
             </>}
           </dl>
 
-          <p className="municipality-detail__note">Riksdag ballots in {selectedArea.name}. Plurality party in 2022: <PartyMark party={pluralityParty} size="inline" />. This is not the municipal council election.</p>
+          <p className="municipality-detail__note">Riksdag ballots in {selectedArea.name}. Plurality party in 2022: <PartyAbbreviation partyId={pluralityParty.id} />. This is not the municipal council election.</p>
           <div className="map-source-links">
             <a className="map-source-link" href={model.source.results2018.sourceUrl} rel="noreferrer" target="_blank">2018 official results <span>↗</span></a>
             <a className="map-source-link" href={model.source.results2022.sourceUrl} rel="noreferrer" target="_blank">2022 official results <span>↗</span></a>

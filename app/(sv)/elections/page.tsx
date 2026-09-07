@@ -49,7 +49,7 @@ export default function ElectionsPage({ locale = "sv" }: { locale?: Locale } = {
                 <section className="archive-government" data-classification="CONTEXT" aria-label={sv ? "Regering efter valet" : "Government after the election"}>
                   <span className="mini-label">{sv ? "Regering efter valet · kontext" : "Government after the election · context"}</span>
                   <div className="archive-prime-minister"><PartyMark party={PARTIES[government.primeMinisterParty]} size="sm" /><h3>{government.primeMinister}<small>{sv ? "Statsminister" : "Prime minister"}</small></h3></div>
-                  <p className="archive-cabinet"><PartyGroup parties={government.parties} year={election.year}/><span data-classification="DERIVED">{result.governmentMajority ? (sv ? "Majoritetsregering" : "Majority government") : (sv ? "Minoritetsregering" : "Minority government")} · {f(result.governmentSeats)} {sv ? "mandat" : "seats"}</span></p>
+                  <p className="archive-cabinet"><PartyGroup parties={government.parties} year={election.year} variant="logos"/><span data-classification="DERIVED">{result.governmentMajority ? (sv ? "Majoritetsregering" : "Majority government") : (sv ? "Minoritetsregering" : "Minority government")} · {f(result.governmentSeats)} {sv ? "mandat" : "seats"}</span></p>
                   <p className="archive-formation-date">{government.continued ? (sv ? "Fortsatte efter valet" : "Remained in office after the election") : `${sv ? "Tillträdde" : "Took office"} ${date(government.formationDate!)}`}</p>
                   <p className="archive-context-note"><PartyText>{government.note[locale]}</PartyText></p>
                 </section>
