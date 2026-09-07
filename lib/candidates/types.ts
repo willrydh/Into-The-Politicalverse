@@ -1,0 +1,27 @@
+import type { PartyId } from "../data/elections/types";
+export const CANDIDATE_YEARS = [2010, 2014, 2018, 2022] as const;
+export type CandidateYear = typeof CANDIDATE_YEARS[number];
+export const ELECTION_TYPES = ["RD", "RF", "KF"] as const;
+export type CandidateElection = typeof ELECTION_TYPES[number];
+export const CANDIDATE_METHOD = "candidate-history-1.0.0";
+export type SourceCandidate = { id: string; name: string; partyCode: string; partyId: PartyId; partyName: string; votes: number; partyVotes: number; lists: number };
+export type CandidateArea = { electionType: CandidateElection; code: string; name: string; level: "constituency" | "municipality" | "region"; county: string; parent: string | null; supersededBy: number | null; boundaryChanged?: boolean; members?: string[]; partyVotes: Record<string, number>; candidates: SourceCandidate[] };
+export type ElectionIdentity = { names: string[]; ages: number[]; municipalities: string[] };
+export type CandidateSource = { schemaVersion: 1; year: CandidateYear; classification: "OFFICIAL"; status: "final"; methodVersion: string; sourceFiles: string[]; anchors: Record<string, { validVotes: number; personalVotes: number }>; areas: CandidateArea[]; identities: Record<string, ElectionIdentity> };
+export type CandidateResult = SourceCandidate & { year: CandidateYear; electionType: CandidateElection; areaCode: string; areaName: string; level: CandidateArea["level"]; county: string; supersededBy: number | null; boundaryKey: string | null };
+export type Person = { id: string; name: string; aliases: string[]; sourceIds: string[]; linked: boolean; results: CandidateResult[] };
+export type ComparisonReason = "comparable" | "no-baseline" | "zero-baseline" | "changed-area" | "replaced-election" | "multiple-parties";
+export type PreviousResult = Pick<CandidateResult, "year" | "partyCode" | "partyId" | "partyName" | "votes" | "partyVotes">;
+export type CandidateComparison = { reason: ComparisonReason; previous: PreviousResult | null; delta: number | null; percent: number | null; sharePoints: number | null };
+export type RankingRow = CandidateResult & { person: string; linked: boolean; comparison: CandidateComparison };
+export type CandidateCatalog = { schemaVersion: 1; version: string; methodVersion: string; publisher: "Valmyndigheten"; retrievedAt: string; years: CandidateYear[]; people: number; linkedPeople: number; electionIdentities: number; results: number; counties: { code: string; name: string }[]; municipalities: { code: string; name: string; parent: string }[]; constituencies: { code: string; name: string; county: string }[]; sources: { file: string; url: string; archiveUrl?: string; sha256: string }[] };
+export type RankingsPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: CandidateElection; rows: RankingRow[] };
+export type PersonShard = { schemaVersion: 1; version: string; people: Record<string, Person> };
+export type PersonalAreaPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: "RD"; code: string; name: string; rows: RankingRow[] };
+export type RankingMetric = "percent" | "delta" | "votes" | "sharePoints";
+export const personShard = (id: string) => {
+  let hash = 0;
+  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return (hash % 256).toString(16).padStart(2, "0");
+};
+export const personHref = (id: string, election?: CandidateElection, area?: string) => `/people/?${new URLSearchParams({ person: id, ...(election ? { election } : {}), ...(area ? { area } : {}) })}`;

@@ -1,6 +1,8 @@
 import { bilingual as b, type SearchEntry } from "./types";
 
 export const SEARCH_PAGES = [
+  { route: "rankings", title: b("Politikernas topplistor", "Candidate leaderboards"), description: b("Störst ökning i personröster, flest nya röster och totalt antal per parti, kommun och region.", "Biggest increase in personal votes, most votes gained and totals by party, municipality and region.") },
+  { route: "people", title: b("Kandidatprofiler och personhistorik", "Candidate profiles and histories"), description: b("Personröster och partikandidaturer över valen 2010–2022.", "Personal votes and party candidacies across the 2010–2022 elections.") },
   { route: "", title: b("Start · Valprognos 2026", "Home · Election forecast 2026"), description: b("Översikt över prognosen, mandat och vägar till fördjupning.", "Forecast overview, seats and paths to further analysis.") },
   { route: "forecasts", title: b("Prognos 2026", "Forecast 2026"), description: b("Opinionsmätningar, sannolikheter, mandatintervall och regeringsbildning.", "Opinion polls, probabilities, seat intervals and government formation.") },
   { route: "maps", title: b("Karta och lokala valresultat", "Map and local election results"), description: b("Län, kommuner, valdistrikt, historik och personröster.", "Counties, municipalities, districts, history and personal votes.") },

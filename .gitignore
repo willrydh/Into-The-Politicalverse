@@ -21,3 +21,7 @@
 !.env.example
 # Official test-election output is never a production data source.
 data/rehearsal/
+
+# Generated deterministically from pinned candidate election data.
+/public/api/candidates/
+/scripts/__pycache__/

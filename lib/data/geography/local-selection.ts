@@ -11,7 +11,7 @@ export function readLocalSelection(query: string, model: LocalElectionIndex): Lo
   const district = p.get("district") ?? "";
   const constituency = p.get("constituency") ?? "";
   const candidate = p.get("candidate") ?? "";
-  return { county, municipality: municipality?.code ?? "", district: municipality && (district.startsWith(municipality.code) && /^\d{8}$/.test(district) || district === `${municipality.code}-collection`) ? district : "", constituency: model.national.constituencies?.includes(constituency) ? constituency : "", ...(/^\d{4}:\d+$/.test(candidate) ? { candidate } : {}), party: PARTY_IDS.includes(party) ? party : "S", metric: metric === "swing" || metric === "turnout" ? metric : "share", year: metric === "swing" ? 2022 : LOCAL_YEARS.includes(year) ? year : 2022 };
+  return { county, municipality: municipality?.code ?? "", district: municipality && (district.startsWith(municipality.code) && /^\d{8}$/.test(district) || district === `${municipality.code}-collection`) ? district : "", constituency: model.national.constituencies?.includes(constituency) ? constituency : "", ...(/^\d{4}:\d+$/.test(candidate) ? { candidate } : {}), party: PARTY_IDS.includes(party) ? party : "S", metric: metric === "swing" || metric === "turnout" ? metric : "share", year: LOCAL_YEARS.includes(year) ? year : 2022 };
 }
 export function localSelectionQuery(selection: LocalSelection): string {
   const p = new URLSearchParams();

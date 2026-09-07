@@ -9,6 +9,7 @@ export type SearchEntry = {
   description: SearchText;
   href: string;
   keywords?: string;
+  priority?: number;
   links?: SearchLink[];
 };
 export type SearchIndex = { schemaVersion: 1; version: string; entries: SearchEntry[] };

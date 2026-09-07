@@ -12,6 +12,9 @@ import { verifyLocalData } from "../lib/data/geography/verify-local";
 import { electionArchive, validateElectionArchive } from "../lib/elections/outcomes";
 import { buildSearchIndex } from "../lib/search/build";
 
+import { getCandidateData } from "../lib/candidates/build";
+
+getCandidateData();
 const ROOT = resolve(import.meta.dirname, "..");
 await verifyLocalData(ROOT);
 validateElectionArchive(electionArchive);

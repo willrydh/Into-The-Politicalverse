@@ -5,7 +5,7 @@ export function normalizeSearch(value: string) {
 }
 
 export function safeSearchHref(href: unknown): href is string {
-  return typeof href === "string" && /^\/(?:maps|parties|elections|forecasts|charts|indicators|simulator|valnatt|sources|overview|search)?\/?(?:[?#][^\s<>]*)?$/.test(href) && !/[\\\u0000-\u001f]/.test(href);
+  return typeof href === "string" && /^\/(?:maps|parties|elections|forecasts|charts|indicators|simulator|valnatt|sources|overview|search|rankings|people)?\/?(?:[?#][^\s<>]*)?$/.test(href) && !/[\\\u0000-\u001f]/.test(href);
 }
 export function validateSearchIndex(value: unknown): asserts value is SearchIndex {
   const data = value as SearchIndex;
@@ -15,16 +15,23 @@ export function validateSearchIndex(value: unknown): asserts value is SearchInde
   for (const e of data.entries) {
     if (!e || typeof e.id !== "string" || ids.has(e.id) || !SEARCH_TYPES.includes(e.type) || !text(e.title) || !e.title.sv || !e.title.en || !text(e.description) || !safeSearchHref(e.href) || (e.keywords !== undefined && typeof e.keywords !== "string")) throw new Error("Invalid search entry");
     if (e.links !== undefined && (!Array.isArray(e.links) || e.links.some(l => !l || !text(l.title) || !safeSearchHref(l.href) || (l.keywords !== undefined && typeof l.keywords !== "string")))) throw new Error("Invalid search destination");
+    if (e.priority !== undefined && (!Number.isInteger(e.priority) || e.priority < 0 || e.priority > 20)) throw new Error("Invalid search priority");
     ids.add(e.id);
   }
 }
 
-export function prepareSearch(entries: SearchEntry[]) {
+export type PreparedSearchEntry = {
+  id: string; type: SearchType; title: string; priority: number;
+  titles: string[]; words: string[]; context: string; contextWords: string;
+  readonly entry: SearchEntry;
+};
+
+export function prepareSearch(entries: SearchEntry[]): PreparedSearchEntry[] {
   return entries.map(entry => {
     const titles = [...new Set([entry.title.sv, entry.title.en].map(normalizeSearch))];
     const words = [...new Set(titles.flatMap(s => s.split(" ")))];
     const context = normalizeSearch([entry.description.sv, entry.description.en, entry.keywords, ...(entry.links ?? []).flatMap(l => [l.title.sv, l.title.en, l.keywords])].join(" "));
-    return { entry, titles, words, context, contextWords: new Set(context.split(" ")) };
+    return { id: entry.id, type: entry.type, title: entry.title.sv, priority: entry.priority ?? 0, entry, titles, words, context, contextWords: ` ${context} ` };
   });
 }
 
@@ -48,23 +55,26 @@ export function searchEntries(index: ReturnType<typeof prepareSearch>, rawQuery:
         if (item.words.includes(token)) score += 40;
         else if (token.length > 1 && item.words.some(w => w.startsWith(token))) score += 26;
         else if (token.length > 2 && item.titles.some(t => t.includes(token))) score += 15;
-        else if (item.contextWords.has(token)) score += 8;
+        else if (item.contextWords.includes(` ${token} `)) score += 8;
         else if (token.length > 2 && item.context.includes(token)) score += 3;
         else if (approximate && item.words.some(w => closeWord(token, w))) score += 1;
         else return [];
       }
-      if (item.titles.includes(query)) score += 200 + (item.entry.type === "municipality" ? 6 : item.entry.type === "county" ? 4 : 0);
+      if (item.titles.includes(query)) score += 200 + (item.type === "municipality" ? 6 : item.type === "county" ? 4 : 0);
       else if (item.titles.some(t => t.startsWith(query))) score += 80;
       // Exact party abbreviations must outrank incidental single-letter tokens.
-      if (item.entry.type === "party" && normalizeSearch(item.entry.id.slice(6)) === query) score += 240;
-      return [{ entry: item.entry, score }];
-    }).sort((a, b) => b.score - a.score || a.entry.title.sv.localeCompare(b.entry.title.sv, "sv") || a.entry.id.localeCompare(b.entry.id));
+      if (item.type === "party" && normalizeSearch(item.id.slice(6)) === query) score += 240;
+      return [{ item, score }];
+    }).sort((a, b) => b.score - a.score || b.item.priority - a.item.priority || a.item.title.localeCompare(b.item.title, "sv") || a.item.id.localeCompare(b.item.id));
   }
   let hits = rank(false); let approximate = false;
   if (!hits.length) { hits = rank(true); approximate = hits.length > 0; }
   const counts = empty().counts;
-  for (const h of hits) counts[h.entry.type]++;
-  return { hits: type === "all" ? hits : hits.filter(h => h.entry.type === type), counts, total: hits.length, approximate };
+  for (const h of hits) counts[h.item.type]++;
+  const selected = type === "all" ? hits : hits.filter(h => h.item.type === type);
+  // Candidate descriptions and destination links are materialized only for the
+  // displayed page, rather than for every person matching a broad query.
+  return { hits: selected.map(({ item, score }) => ({ get entry() { return item.entry; }, score })), counts, total: hits.length, approximate };
 }
 
 export function preferredSearchLink(entry: SearchEntry, query: string) {
