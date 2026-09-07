@@ -85,7 +85,8 @@ export function SiteHeader() {
 
   return <Localize>{(
     <div className="site-header-slot">
-    <div className="site-header" ref={headerRef} data-menu-open={menuOpen}>
+    <div className="site-header-positioner" ref={headerRef}>
+    <div className="site-header" data-menu-open={menuOpen}>
       <header>
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
@@ -130,6 +131,7 @@ export function SiteHeader() {
         </div>
       </div>
       </header>
+    </div>
     </div>
     </div>
   )}</Localize>;
