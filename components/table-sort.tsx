@@ -13,15 +13,18 @@ export type SortColumn<T> = {
 };
 type SortControl<T> = { columns: readonly SortColumn<T>[]; sort: TableSort | null; choose: (key: string, direction?: SortDirection) => void };
 
-export function useTableSort<T>(rows: readonly T[], columns: readonly SortColumn<T>[], initial: TableSort | null = null) {
+export function useTableSort<T>(rows: readonly T[], columns: readonly SortColumn<T>[], initial: TableSort | null = null, resetKey = "") {
   const locale = useLocale();
-  const [selected, setSelected] = useState(initial);
+  const [selection, setSelection] = useState({ resetKey, sort: initial });
+  // Discard the old choice during render, including when revisiting a previous filter set.
+  if (selection.resetKey !== resetKey) setSelection({ resetKey, sort: initial });
+  const selected = selection.resetKey === resetKey ? selection.sort : initial;
   const sort = columns.some(c => c.key === selected?.key) ? selected : initial;
   const column = columns.find(c => c.key === sort?.key);
   const sorted = useMemo(() => column && sort ? sortTableRows(rows, column.value, sort.direction, locale) : [...rows], [rows, column, sort, locale]);
   function choose(key: string, direction?: SortDirection) {
     const next = columns.find(c => c.key === key);
-    if (next) setSelected({ key, direction: direction ?? (sort?.key === key ? sort.direction === "ascending" ? "descending" : "ascending" : next.direction ?? "descending") });
+    if (next) setSelection({ resetKey, sort: { key, direction: direction ?? (sort?.key === key ? sort.direction === "ascending" ? "descending" : "ascending" : next.direction ?? "descending") } });
   }
   return { rows: sorted, columns, sort, choose };
 }
@@ -36,7 +39,7 @@ export function SortHeaders<T>({ control, as = "th", onSort }: { control: SortCo
     const action = sv ? `Sortera efter ${column.name}, ${next === "ascending" ? "stigande" : "fallande"}` : `Sort by ${column.name}, ${next}`;
     return <Cell key={column.key} scope={as === "th" ? "col" : undefined} role={as === "span" ? "columnheader" : undefined} aria-sort={direction} className="sortable-column">
       <button type="button" className="table-sort-button" data-sort-key={column.key} aria-label={action} title={action} onClick={() => { control.choose(column.key); onSort?.(); }}>
-        <span>{column.label}</span><svg className="table-sort-icon" viewBox="0 0 12 16" width="12" height="16" aria-hidden="true" data-direction={direction}><path className="sort-up" d="m3 6 3-3 3 3"/><path className="sort-down" d="m3 10 3 3 3-3"/></svg>
+        <span className="table-sort-label"><span>{column.label}</span><svg className="table-sort-icon" viewBox="0 0 12 16" width="12" height="16" aria-hidden="true" data-direction={direction}><path className="sort-up" d="m3 6 3-3 3 3"/><path className="sort-down" d="m3 10 3 3 3-3"/></svg></span>
       </button>
     </Cell>;
   });

@@ -6,6 +6,9 @@ import { LocaleProvider } from "@/components/localize";
 import { SiteLocationProvider } from "@/components/site-location";
 import { ThemeInit } from "@/components/theme-init";
 import { brandMetadata } from "@/lib/brand-metadata";
+import { siteViewport } from "@/lib/viewport";
+
+export const viewport = siteViewport;
 
 export const metadata: Metadata = {
   ...brandMetadata("en"),

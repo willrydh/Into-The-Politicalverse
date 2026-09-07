@@ -10,6 +10,8 @@ Compact link previews use the square crown directly so it remains recognizable i
 
 Column headings sort comparable data tables across maps, personal votes, candidate histories, rankings, historical results, forecasts and live results. Sorting uses raw values, keeps unavailable observations last and preserves leaderboard ranks; mobile card layouts have the same controls in a compact selector. Profile JSON exports download only the selected person.
 
+Sortable headings follow each column's alignment. Changing a leaderboard metric, filter or candidate search resets column sorting to the selected leaderboard's rank order and returns to its first page.
+
 Election-day preparation now preserves a checksum-verified forecast reference, frozen at the start of 13 September (Swedish time). The national live view loads that reference when real counting starts; aggregate accuracy is withheld until the final count has full coverage, 349 reported seats and a protocol. Signed 2026 personal votes can be staged separately for review without altering historical profiles or maps. See [2026 transition and forecast evaluation](docs/operations/election-transition-2026.md).
 
 > **Politics, quantified.**
@@ -23,6 +25,8 @@ The public UI is available in Swedish at the existing routes and English under `
 Universal search is available from every header (⌘/Ctrl K) at `/search/` and `/en/search/`. It indexes site content, dated political context, all imported 2010–2022 RD/RF/KF personal-vote candidate profiles, parties, counties, municipalities, constituencies, districts and collection votes, plus SCB’s 2,017 named urban localities (2023 geography, names revised November 2025). Search keeps query/filter/page state across language changes and history. Candidate links open the profile in its exact election type and area; locality links explicitly open municipal results. See [search coverage and sources](docs/data-sources/universal-search.md).
 
 The site header hides when scrolling down and returns when scrolling up. An active menu item and a localized “You are here” trail identify the current page; the map adds its verified county, municipality and district with links back through the hierarchy. Keyboard access, reduced motion and anchor offsets remain available.
+
+Installed iPhone web apps use a translucent status bar and a full-screen viewport. The top safe-area spacing belongs to the disappearing header, so content scrolls behind the system status area. Menus and footer controls retain device-safe margins; a transparent fading shade keeps light status icons legible over pale sections. See [PWA display behavior](docs/brand/README.md#pwa-display).
 
 The election archive separates the largest party, each election's bloc seat totals and the government that followed. It shows majority status, cabinet parties, support-party context and source-linked party mandates for 2002–2022, including the distinct January 2019 government formation after the 2018 election. See [historical election outcomes](docs/methodology/election-outcomes-v1.md).
 

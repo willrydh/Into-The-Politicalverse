@@ -1,6 +1,7 @@
 import type { Metadata, MetadataRoute } from "next";
 import type { Locale } from "./i18n/messages";
 import { BRAND_DESCRIPTION, BRAND_DIRECTORY, BRAND_ICONS, BRAND_NAME, PUBLIC_SITE_URL, brandAsset, brandManifestPath } from "./brand";
+import { pwaStatusBarStyle } from "./viewport";
 
 export function brandMetadata(locale: Locale): Metadata {
   // Safari's compact share preview crops the Open Graph image to a square.
@@ -29,7 +30,8 @@ export function brandMetadata(locale: Locale): Metadata {
       apple: { url: brandAsset("politicalverse-app-icon-180.png"), sizes: "180x180", type: "image/png" },
     },
     manifest: brandManifestPath(locale),
-    appleWebApp: { capable: true, title: "Politicalverse", statusBarStyle: "default" },
+    appleWebApp: { capable: true, title: "Politicalverse", statusBarStyle: pwaStatusBarStyle },
+    other: { "apple-mobile-web-app-capable": "yes" },
     // Next fills the sharing title/description from each page's final metadata.
     // Only the image and identity are shared, so an election link keeps its title.
     openGraph: { siteName: BRAND_NAME, type: "website", locale: locale === "sv" ? "sv_SE" : "en_GB", images: [sharingIcon] },
