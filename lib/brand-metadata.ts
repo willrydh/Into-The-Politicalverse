@@ -3,7 +3,16 @@ import type { Locale } from "./i18n/messages";
 import { BRAND_DESCRIPTION, BRAND_DIRECTORY, BRAND_ICONS, BRAND_NAME, PUBLIC_SITE_URL, brandAsset, brandManifestPath } from "./brand";
 
 export function brandMetadata(locale: Locale): Metadata {
-  const image = {
+  // Safari's compact share preview crops the Open Graph image to a square.
+  // Use the supplied crown itself so the symbol cannot disappear off-center.
+  const sharingIcon = {
+    url: new URL(`${BRAND_DIRECTORY}/politicalverse-app-icon-1024.png`, PUBLIC_SITE_URL).href,
+    width: 1024,
+    height: 1024,
+    type: "image/png",
+    alt: locale === "sv" ? "Politicalverse – gul krona med nordiskt kors på blå bakgrund." : "Politicalverse – a yellow crown with a Nordic cross on a blue background.",
+  };
+  const wideImage = {
     url: new URL(`${BRAND_DIRECTORY}/opengraph-${locale}.png`, PUBLIC_SITE_URL).href,
     width: 1200,
     height: 630,
@@ -23,8 +32,8 @@ export function brandMetadata(locale: Locale): Metadata {
     appleWebApp: { capable: true, title: "Politicalverse", statusBarStyle: "default" },
     // Next fills the sharing title/description from each page's final metadata.
     // Only the image and identity are shared, so an election link keeps its title.
-    openGraph: { siteName: BRAND_NAME, type: "website", locale: locale === "sv" ? "sv_SE" : "en_GB", images: [image] },
-    twitter: { card: "summary_large_image", images: [image] },
+    openGraph: { siteName: BRAND_NAME, type: "website", locale: locale === "sv" ? "sv_SE" : "en_GB", images: [sharingIcon] },
+    twitter: { card: "summary_large_image", images: [wideImage] },
   };
 }
 
