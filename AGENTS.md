@@ -53,6 +53,10 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Sort table rows using explicit source values before pagination or top-N limits. Keep unavailable values last in both directions, stable ties and original leaderboard ranks. Preserve chart chronology, accessible column buttons, localized sort labels and the mobile equivalents for card layouts.
+- Preserve the pre-election reference checksum and freeze boundary. Never create a reference retrospectively or grade a partial count as final. Stage 2026 personal votes separately; enabling a new history year still requires verified geography, source coverage and conservative identity linking. See `docs/operations/election-transition-2026.md`.
+
+
 - Candidate histories use election-scoped source numbers and the versioned full-name/age/municipality linker. Never force name-only identity matches or infer membership dates from a changed party candidature. Preserve normalized gzip checksums, re-run flags, actual-party denominators, source municipality membership for constituency comparisons, and null/zero distinctions. Every change compares the same election type and area four years earlier. Keep the compact candidate search and profile shards out of shared header bundles. See `docs/methodology/candidate-history-v1.md` and `docs/data-sources/candidate-history.md`.
 
 

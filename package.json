@@ -29,7 +29,9 @@
     "data:import:candidates": "python3 scripts/import-candidate-history.py",
     "data:build:candidates": "node --import tsx scripts/build-candidate-data.ts",
     "prebuild": "npm run data:build:candidates",
-    "prebuild:pages": "npm run data:build:candidates"
+    "prebuild:pages": "npm run data:build:candidates",
+    "data:forecast:reference": "node --import tsx scripts/preserve-forecast-reference.ts",
+    "data:2026:stage": "node --import tsx scripts/stage-election-2026.ts"
   },
   "dependencies": {
     "next": "^16.0.0",

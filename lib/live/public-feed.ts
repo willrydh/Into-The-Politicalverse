@@ -73,7 +73,8 @@ export function acceptPublicFeed(previous: LiveFeed, incoming: unknown): LiveFee
 
 export function feedIsDelayed(checkedAt: string, now: number): boolean {
   const countingPeriod = now >= Date.parse("2026-09-13T18:00:00Z") && now < Date.parse("2026-10-01T00:00:00Z");
-  return now - Date.parse(checkedAt) > (countingPeriod ? 15 * 60_000 : 20 * 60 * 60_000);
+  const afterCount = now >= Date.parse("2026-10-01T00:00:00Z");
+  return now - Date.parse(checkedAt) > (countingPeriod ? 15 * 60_000 : (afterCount ? 48 : 20) * 60 * 60_000);
 }
 
 export function preferredStage(feed: LiveFeed): LiveResult["stage"] {

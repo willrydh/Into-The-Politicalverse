@@ -25,3 +25,6 @@ data/rehearsal/
 # Generated deterministically from pinned candidate election data.
 /public/api/candidates/
 /scripts/__pycache__/
+
+# New-election intake must be reviewed before promotion to public history.
+/data/staging/

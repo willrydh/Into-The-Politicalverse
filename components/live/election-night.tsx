@@ -1,5 +1,6 @@
 "use client";
 
+import { ForecastResultComparison } from "./forecast-comparison";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Localize, useLocale } from "@/components/localize";
@@ -7,14 +8,22 @@ import { acceptPublicFeed, feedIsDelayed, LIVE_FEED_URL, LIVE_POLL_INTERVAL_MS, 
 import type { CountingStage, LiveArea, LiveFeed } from "@/lib/live/types";
 import { PARTY_CODE_TO_ID } from "@/lib/live/constants";
 import { PARTIES } from "@/lib/parties";
+import { SortHeaders, useTableSort } from "@/components/table-sort";
+import { translateText } from "@/lib/i18n/translate";
 import { PartyMark } from "@/components/party-mark";
 
 function ResultTable({ area }: { area: LiveArea }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
-  const parties = [...area.parties].sort((a, b) => b.votes - a.votes || a.code.localeCompare(b.code));
+  const sv = locale === "sv";
+  const table = useTableSort(area.parties, [
+    {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:p=>translateText(PARTIES[PARTY_CODE_TO_ID[p.code]]?.name??p.name,locale)},
+    {key:"votes",label:sv?"Röster":"Votes",name:sv?"Röster":"Votes",value:p=>p.votes},
+    {key:"share",label:sv?"Andel":"Share",name:sv?"Andel":"Share",value:p=>p.share},
+    {key:"seats",label:sv?"Mandat":"Seats",name:sv?"Mandat":"Seats",value:p=>p.seats},
+  ], {key:"votes",direction:"descending"});
   return <Localize><div className="live-table" role="table" aria-label="Räknade röster och officiella mandat">
-    <div role="row" className="live-table__head"><span role="columnheader">Parti</span><span role="columnheader">Röster</span><span role="columnheader">Andel</span><span role="columnheader">Mandat</span></div>
-    {parties.map(p => <div role="row" key={p.code}>
+    <div role="row" className="live-table__head"><SortHeaders control={table} as="span"/></div>
+    {table.rows.map(p => <div role="row" key={p.code}>
       <span role="cell" className="live-party">{PARTIES[PARTY_CODE_TO_ID[p.code]] && <PartyMark party={PARTIES[PARTY_CODE_TO_ID[p.code]]} size="sm"/>}{PARTIES[PARTY_CODE_TO_ID[p.code]]?.name ?? p.name}</span>
       <span role="cell">{p.votes.toLocaleString(language)}</span><span role="cell">{p.share === null ? "—" : `${p.share.toLocaleString(language, { maximumFractionDigits: 2 })} %`}</span><strong role="cell">{p.seats ?? "—"}</strong>
     </div>)}
@@ -77,6 +86,7 @@ export function ElectionNight({ initialFeed, preparation }: { initialFeed: LiveF
         {area.countedDistricts > 0 ? <ResultTable area={area} /> : <p className="live-empty">Inga distrikt har rapporterat i detta område ännu.</p>}
         <p className="live-explanation">Röstandelar beräknas från giltiga röster. Tidiga distrikt är inte ett representativt urval. Mandaten är Valmyndighetens publicerade beräkning och kan ändras under räkningen.</p>
         {result.protocolUrl && <a href={result.protocolUrl} target="_blank" rel="noreferrer">Öppna Valmyndighetens protokoll ↗</a>}
+        {area.code === "00" && <ForecastResultComparison result={result}/>}
       </> : <div className="live-empty"><h2>Rösträkningen har inte publicerats.</h2><p>Vallokalerna stänger klockan 20 den 13 september. Här kommer räknade distrikt, röster, röstandelar och officiella mandat att visas.</p></div>}
     </section>
     <section className="product-section live-preparation"><p className="eyebrow eyebrow--dark">OFFICIAL · Inför valet</p><h2>Mer data redan före valnatten</h2>

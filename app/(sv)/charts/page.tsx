@@ -1,6 +1,8 @@
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
+import { StaticSortableTable } from "@/components/table-sort";
+import { translateText } from "@/lib/i18n/translate";
 import { DataSource } from "@/components/data-source";
 import { PartyMark } from "@/components/party-mark";
 import { NationalTrendChart } from "@/components/charts/national-trend-chart";
@@ -25,18 +27,16 @@ export default function ChartsPage({ locale = "sv" }: { locale?: Locale } = {}) 
       <section className="interior-panel">
         <div className="panel-heading"><div><span className="mini-label">Underlying values</span><h2>Election data table</h2><p>Share of valid national votes, percent</p></div></div>
         <div className="data-table-wrap">
-          <table className="data-table">
-            <thead><tr><th>Election</th>{partyOrder.map((id) => <th key={id}><PartyMark party={PARTIES[id]} size="sm" /></th>)}<th>Turnout</th></tr></thead>
-            <tbody>
-              {nationalHistory.elections.map((election) => (
-                <tr key={election.year}>
-                  <th>{election.year}</th>
-                  {partyOrder.map((id) => <td key={id}>{election.parties.find((party) => party.partyId === id)?.share.toFixed(2)}</td>)}
-                  <td><strong>{election.turnout.toFixed(2)}</strong></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <StaticSortableTable className="data-table" initial={{key:"year",direction:"ascending"}} columns={[
+            {key:"year",label:locale==="sv"?"Val":"Election",name:locale==="sv"?"Valår":"Year"},
+            ...partyOrder.map(id=>({key:id,label:<PartyMark party={PARTIES[id]} size="sm"/>,name:translateText(PARTIES[id].name,locale)})),
+            {key:"turnout",label:locale==="sv"?"Valdeltagande":"Turnout",name:locale==="sv"?"Valdeltagande":"Turnout"},
+          ]} rows={nationalHistory.elections.map(election=>({
+            key:election.year,
+            values:{year:election.year,turnout:election.turnout,...Object.fromEntries(partyOrder.map(id=>[id,election.parties.find(p=>p.partyId===id)?.share]))},
+            content:<tr key={election.year}><th scope="row">{election.year}</th>{partyOrder.map(id=><td key={id}>{election.parties.find(p=>p.partyId===id)?.share.toFixed(2)??"—"}</td>)}<td><strong>{election.turnout.toFixed(2)}</strong></td></tr>,
+          }))}/>
+
         </div>
       </section>
     </div>

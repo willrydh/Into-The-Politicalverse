@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { useLocale } from "@/components/localize";
+import { SortHeaders, MobileTableSort, useTableSort } from "@/components/table-sort";
 import { PartyMark } from "@/components/party-mark";
 import { PARTIES, PARTY_ORDER } from "@/lib/parties";
 import type { PartyId } from "@/lib/data/elections/types";
@@ -70,6 +71,13 @@ function LocalShapeMap({ map, areas, selection, selected, onSelect, t, f }: { ma
 
 function History({ area, party, t, f, color }: { area: LocalArea; party: PartyId; t: LocalCopy; f: NumberFormat; color: string }) {
   const values = area.results.map(r => ({ year: r.year, share: voteShare(r, party), result: r }));
+  const table = useTableSort(values, [
+    {key:"year",label:t.year,name:t.year,value:v=>v.year},
+    {key:"votes",label:t.votes,name:t.votes,value:v=>v.result.votes[party]},
+    {key:"change",label:t.change,name:t.change,value:v=>localVoteChange(area,party,v.year).percent},
+    {key:"share",label:t.share,name:t.share,value:v=>v.share},
+    {key:"turnout",label:t.turnout,name:t.turnout,value:v=>localTurnout(v.result)},
+  ], {key:"year",direction:"ascending"});
   const max = Math.max(10, ...values.map(v => v.share ?? 0)) * 1.15;
   const x = (year: number) => 38 + (year - 2010) / 12 * 420; const y = (share: number) => 145 - share / max * 119;
   return <section className="local-history">
@@ -80,7 +88,7 @@ function History({ area, party, t, f, color }: { area: LocalArea; party: PartyId
       {LOCAL_YEARS.map(year => <text key={year} x={x(year)} y="178" textAnchor="middle">{year}</text>)}
       {values.filter(v => v.share !== null).map(v => <g key={v.year}><circle cx={x(v.year)} cy={y(v.share!)} r="4.5" fill={color} /><text x={x(v.year)} y={y(v.share!) - 11} textAnchor="middle" className="local-history-value">{f(v.share, 2)}%</text></g>)}
     </svg>
-    <div className="local-table-scroll"><table className="local-table"><thead><tr><th>{t.year}</th><th>{t.votes}</th><th>{t.change}</th><th>{t.share}</th><th>{t.turnout}</th></tr></thead><tbody>{values.map(v => <tr key={v.year}><th>{v.year}</th><td>{f(v.result.votes[party])}</td><td><AreaVoteDelta area={area} party={party} year={v.year}/></td><td>{f(v.share, 2)}%</td><td>{localTurnout(v.result) === null ? "—" : `${f(localTurnout(v.result), 2)}%`}</td></tr>)}</tbody></table></div>
+    <div className="local-table-scroll"><table className="local-table"><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(v => <tr key={v.year}><th>{v.year}</th><td>{f(v.result.votes[party])}</td><td><AreaVoteDelta area={area} party={party} year={v.year}/></td><td>{f(v.share, 2)}%</td><td>{localTurnout(v.result) === null ? "—" : `${f(localTurnout(v.result), 2)}%`}</td></tr>)}</tbody></table></div>
     {area.comparison?.status === "not-comparable" && <p className="local-notice">{area.comparison.reason === "shared-baseline" ? t.sharedBaseline : t.comparisonMissing}</p>}
     {area.comparison?.status === "comparable" && <p className="local-note">{t.comparison}: {area.comparison.previousNames.map((name, i) => `${name} (${area.comparison!.previousCodes[i]})`).join(" + ")}.{area.comparison.previousCodes.length > 1 && ` ${t.combined}.`}</p>}
   </section>;
@@ -90,6 +98,12 @@ function AreaProfile({ area, parent, selection, t, f, onParty }: { area: LocalAr
   const result = area.results.find(r => r.year === selection.year); const party = PARTIES[selection.party];
   const share = voteShare(result, selection.party); const parentShare = voteShare(parent?.results.find(r => r.year === selection.year), selection.party);
   const delta = localSwing(area, selection.party, selection.year);
+  const parties = useTableSort(PARTY_ORDER, [
+    {key:"party",label:t.party,name:t.party,direction:"ascending",value:p=>p==="OTHER"?t.other:PARTIES[p].name},
+    {key:"votes",label:t.votes,name:t.votes,value:p=>result?.votes[p]},
+    {key:"change",label:t.change,name:t.change,value:p=>localVoteChange(area,p,selection.year).percent},
+    {key:"share",label:t.share,name:t.share,value:p=>voteShare(result,p)},
+  ], {key:"votes",direction:"descending"});
   return <article className="local-profile" aria-label={nameFor(area, t)}>
     <span className="mini-label">{t.official} · {selection.year}</span><h2>{nameFor(area, t)}</h2>
     <p className="local-area-code">{area.level === "collection" ? t.collection : area.level === "district" ? t.district : area.level === "municipality" ? t.municipality : area.level === "county" ? t.county : t.national}{area.code !== "SE" && ` · ${area.code}`}</p><p className="local-note" data-classification="DERIVED">{t.derived}</p>
@@ -102,21 +116,24 @@ function AreaProfile({ area, parent, selection, t, f, onParty }: { area: LocalAr
     </> : <p className="local-notice">{t.unavailable}</p>}
     {area.level === "collection" && <p className="local-notice">{t.collectionNote}</p>}
     <History area={area} party={selection.party} t={t} f={f} color={party.color} />
-    {result && <details className="local-details"><summary>{t.allParties}</summary><table className="local-table"><thead><tr><th>{t.party}</th><th>{t.votes}</th><th>{t.change}</th><th>{t.share}</th></tr></thead><tbody>{[...PARTY_ORDER].sort((a, b) => result.votes[b] - result.votes[a]).map(p => <tr key={p}><th><button type="button" onClick={() => onParty(p)} aria-label={p === "OTHER" ? t.other : PARTIES[p].name}><PartyMark party={PARTIES[p]} size="sm" label={p === "OTHER" ? t.other : undefined}/></button></th><td>{f(result.votes[p])}</td><td><AreaVoteDelta area={area} party={p} year={selection.year} compact/></td><td>{f(voteShare(result, p), 2)}%</td></tr>)}</tbody></table></details>}
+    {result && <details className="local-details"><summary>{t.allParties}</summary><table className="local-table"><thead><tr><SortHeaders control={parties}/></tr></thead><tbody>{parties.rows.map(p => <tr key={p}><th><button type="button" onClick={() => onParty(p)} aria-label={p === "OTHER" ? t.other : PARTIES[p].name}><PartyMark party={PARTIES[p]} size="sm" label={p === "OTHER" ? t.other : undefined}/></button></th><td>{f(result.votes[p])}</td><td><AreaVoteDelta area={area} party={p} year={selection.year} compact/></td><td>{f(voteShare(result, p), 2)}%</td></tr>)}</tbody></table></details>}
   </article>;
 }
 
 function AreaList({ areas, selection, selected, onSelect, t, f }: { areas: LocalArea[]; selection: LocalSelection; selected: string; onSelect: (area: LocalArea) => void; t: LocalCopy; f: NumberFormat }) {
-  const [search, setSearch] = useState(""); const [sort, setSort] = useState("strongest");
-  const filtered = useMemo(() => areas.filter(a => `${nameFor(a, t)} ${a.code}`.toLocaleLowerCase().includes(search.toLocaleLowerCase())).sort((a, b) => {
-    if (sort === "name") return a.name.localeCompare(b.name, "sv");
-    const av = metricValue(a, selection), bv = metricValue(b, selection);
-    if (av === null || bv === null) return av === bv ? a.code.localeCompare(b.code) : av === null ? 1 : -1;
-    return (sort === "weakest" ? av - bv : bv - av) || a.code.localeCompare(b.code);
-  }), [areas, search, sort, selection, t]);
+  const [search, setSearch] = useState("");
+  const filtered = areas.filter(a => `${nameFor(a, t)} ${a.code}`.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  const label = selection.metric === "swing" ? t.swing : selection.metric === "turnout" ? t.turnout : t.share;
+  const table = useTableSort(filtered, [
+    {key:"area",label:t.area,name:t.area,direction:"ascending",value:a=>nameFor(a,t)},
+    {key:"metric",label,name:label,value:a=>metricValue(a,selection)},
+    {key:"votes",label:t.votes,name:t.votes,value:a=>a.results.find(r=>r.year===selection.year)?.votes[selection.party]},
+    {key:"change",label:t.change,name:t.change,value:a=>localVoteChange(a,selection.party,selection.year).percent},
+    {key:"turnout",label:t.turnout,name:t.turnout,value:a=>localTurnout(a.results.find(r=>r.year===selection.year))},
+  ], {key:"metric",direction:"descending"});
   return <section className="local-area-list"><div className="local-section-title"><h2>{t.list}</h2><span>{f(filtered.length)} {t.count}</span></div>
-    <div className="local-list-controls"><label>{t.search}<input type="search" value={search} onChange={e => setSearch(e.target.value)} /></label><label>{t.sort}<select value={sort} onChange={e => setSort(e.target.value)}><option value="strongest">{t.strongest}</option><option value="weakest">{t.weakest}</option><option value="name">{t.alphabetical}</option></select></label></div>
-    <div className="local-table-scroll"><table className="local-table local-area-table"><thead><tr><th>{t.area}</th><th>{selection.metric === "swing" ? t.swing : selection.metric === "turnout" ? t.turnout : t.share}</th><th>{t.votes}</th><th>{t.change}</th><th>{t.turnout}</th></tr></thead><tbody>{filtered.map(area => {
+    <div className="local-list-controls"><label>{t.search}<input type="search" value={search} onChange={e => setSearch(e.target.value)} /></label><MobileTableSort control={table} className="table-sort-always"/></div>
+    <div className="local-table-scroll"><table className="local-table local-area-table"><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(area => {
       const v = metricValue(area, selection); const r = area.results.find(r => r.year === selection.year);
       return <tr key={area.code} className={selected === area.code ? "is-selected" : ""}><th><button type="button" onClick={() => onSelect(area)} aria-label={`${t.open} ${nameFor(area, t)}`}>{nameFor(area, t)}<span aria-hidden="true">→</span><small>{area.code}</small></button></th><td>{v === null ? "—" : `${selection.metric === "swing" && v > 0 ? "+" : ""}${f(v, 2)}${selection.metric === "swing" ? " pp" : "%"}`}</td><td>{r ? f(r.votes[selection.party]) : "—"}</td><td><AreaVoteDelta area={area} party={selection.party} year={selection.year} compact/></td><td>{localTurnout(r) === null ? "—" : `${f(localTurnout(r), 2)}%`}</td></tr>;
     })}</tbody></table></div>{!filtered.length && <p>{t.noMatches}</p>}

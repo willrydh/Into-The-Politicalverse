@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import { MobileTableSort, SortHeaders, useTableSort } from "../table-sort";
+import { ProfileDownload } from "./profile-download";
 import { useLocale } from "../localize";
 import { useLocalQuery, navigateLocalQuery } from "../maps/local-url";
 import { usePublishSiteLocation } from "../site-location";
@@ -7,7 +9,7 @@ import { localizedHref } from "@/lib/i18n/translate";
 import { ELECTION_TYPES, CANDIDATE_YEARS, personShard, type CandidateElection, type Person } from "@/lib/candidates/types";
 import { validatePersonShard } from "@/lib/candidates/validation";
 import { compareCandidate, personalVoteShare } from "@/lib/candidates/math";
-import { CandidateLoading, CandidateMethod, electionLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta } from "./shared";
+import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta } from "./shared";
 
 function Profile({person}: {person:Person}) {
   const locale=useLocale(),sv=locale==="sv",query=useLocalQuery(),params=new URLSearchParams(query);
@@ -17,6 +19,21 @@ function Profile({person}: {person:Person}) {
   const areas=[...new Map(mainResults.map(r=>[r.areaCode,{code:r.areaCode,name:r.areaName}])).values()];
   const area=areas.some(a=>a.code===params.get("area"))?params.get("area")!:mainResults[0]?.areaCode;
   const results=mainResults.filter(r=>r.areaCode===area).sort((a,b)=>a.year-b.year||a.partyCode.localeCompare(b.partyCode));
+  const table = useTableSort(results.map(r=>({...r,comparison:compareCandidate(r,person.results)})), [
+    {key:"year",label:sv?"Valår":"Year",name:sv?"Valår":"Year",value:r=>r.year},
+    {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
+    {key:"votes",label:sv?"Personröster":"Personal votes",name:sv?"Personröster":"Personal votes",value:r=>r.votes},
+    {key:"change",label:sv?"Förändring":"Change",name:sv?"Förändring i procent":"Percentage change",value:r=>r.comparison.percent},
+    {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
+    {key:"share",label:sv?"Andel":"Share",name:sv?"Andel":"Share",value:personalVoteShare},
+  ], {key:"year",direction:"ascending"});
+  const constituencies = useTableSort(person.results.filter(r=>r.electionType===election&&r.level==="constituency"&&r.areaCode.startsWith(area)), [
+    {key:"year",label:sv?"Val":"Election",name:sv?"Valår":"Year",value:r=>r.year},
+    {key:"area",label:sv?"Valkrets":"Constituency",name:sv?"Valkrets":"Constituency",direction:"ascending",value:r=>r.areaName},
+    {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
+    {key:"votes",label:sv?"Personröster":"Personal votes",name:sv?"Personröster":"Personal votes",value:r=>r.votes},
+    {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
+  ]);
   const latest=results.at(-1)!;const comparison=compareCandidate(latest,person.results);
   const fmt=(n:number,d=0)=>n.toLocaleString(sv?"sv-SE":"en-GB",{maximumFractionDigits:d,minimumFractionDigits:d});
   const name=areas.find(a=>a.code===area)?.name;
@@ -34,11 +51,11 @@ function Profile({person}: {person:Person}) {
       <div className="candidate-stat-grid"><div><span>{sv?"Personröster":"Personal votes"} · {latest.year}</span><strong>{fmt(latest.votes)}</strong><small><CandidateParty result={latest} withName/></small></div><div><span>{latest.year-4} → {latest.year}</span><VoteDelta comparison={comparison}/></div><div><span>{sv?"Andel av partiets röster":"Share of party votes"}</span><strong>{personalVoteShare(latest)===null?"—":`${fmt(personalVoteShare(latest)!,2)} %`}</strong><small>{comparison.sharePoints===null?"—":`${comparison.sharePoints>0?"↑ +":comparison.sharePoints<0?"↓ ":"→ "}${fmt(comparison.sharePoints,2)} ${sv?"procentenheter":"percentage points"}`}</small></div></div>
       {comparison.previous&&comparison.previous.partyCode!==latest.partyCode&&<p className="candidate-switch"><strong><CandidateParty result={comparison.previous} variant="text"/> <span>→</span> <CandidateParty result={latest} variant="text"/></strong> {sv?"Ändrad partikandidatur mellan de här valen.":"Changed party candidacy between these elections."}</p>}
       <div className="candidate-history-chart" aria-label={sv?"Personröster per valår":"Personal votes by election year"}>{CANDIDATE_YEARS.map(year=>{const records=results.filter(r=>r.year===year);return <div className="candidate-history-year" key={year}>{records.length?records.map(r=><div key={r.partyCode} className="candidate-history-bar"><strong>{fmt(r.votes)}</strong><i style={{height:`${Math.max(2,r.votes/max*145)}px`}}/><small><CandidateParty result={r} variant="text"/></small></div>):<div className="candidate-history-gap">—<small>{sv?"Saknas":"Missing"}</small></div>}<b>{year}</b></div>;})}</div>
-      <div className="local-table-scroll candidate-scoreboard candidate-scoreboard--profile"><table><thead><tr><th>{sv?"Valår":"Year"}</th><th>{sv?"Parti":"Party"}</th><th>{sv?"Personröster":"Personal votes"}</th><th>{sv?"Förändring":"Change"}</th><th>{sv?"Partiets röster":"Party votes"}</th><th>{sv?"Andel":"Share"}</th></tr></thead><tbody>{results.map(r=>{const change=compareCandidate(r,person.results);return <tr key={`${r.year}:${r.partyCode}`}><th>{r.year}{r.supersededBy&&<small>{sv?"Omval":"Re-run"} {r.supersededBy}</small>}</th><td><CandidateParty result={r} withName/></td><td data-label={sv?"Personröster":"Personal votes"} className="candidate-total">{fmt(r.votes)}</td><td data-label={sv?"Förändring":"Change"}><VoteDelta comparison={change}/></td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td><td data-label={sv?"Andel":"Share"}>{personalVoteShare(r)===null?"—":`${fmt(personalVoteShare(r)!,2)} %`}</td></tr>;})}</tbody></table></div>
+      <MobileTableSort control={table}/><div className="local-table-scroll candidate-scoreboard candidate-scoreboard--profile"><table><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(r=>{const change=r.comparison;return <tr key={`${r.year}:${r.partyCode}`}><th>{r.year}{r.supersededBy&&<small>{sv?"Omval":"Re-run"} {r.supersededBy}</small>}</th><td><CandidateParty result={r} withName/></td><td data-label={sv?"Personröster":"Personal votes"} className="candidate-total">{fmt(r.votes)}</td><td data-label={sv?"Förändring":"Change"}><VoteDelta comparison={change}/></td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td><td data-label={sv?"Andel":"Share"}>{personalVoteShare(r)===null?"—":`${fmt(personalVoteShare(r)!,2)} %`}</td></tr>;})}</tbody></table></div>
       <p className="local-note">{sv?"Tomma valår är saknat eller okopplat underlag, inte noll röster. Andelen är av partiets samtliga giltiga röster i området. När en kandidat byter parti ändras därför också jämförelsens partibas.":"Empty years mean missing or unmatched records, not zero votes. The share uses all valid party votes in the area. When a candidate changes parties, the party denominator changes too."}</p>
       {comparison.reason!=="comparable"&&comparison.reason!=="zero-baseline"&&<p className="local-notice">{reasonLabel(comparison.reason,sv)}</p>}
-      {election!=="RD"&&<details className="candidate-method"><summary>{sv?"Visa valkretsarnas egna röstetal":"Show individual constituency results"}</summary><div className="local-table-scroll"><table className="local-table"><thead><tr><th>{sv?"Val":"Election"}</th><th>{sv?"Valkrets":"Constituency"}</th><th>{sv?"Parti":"Party"}</th><th>{sv?"Personröster":"Personal votes"}</th><th>{sv?"Partiets röster":"Party votes"}</th></tr></thead><tbody>{person.results.filter(r=>r.electionType===election&&r.level==="constituency"&&r.areaCode.startsWith(area)).map(r=><tr key={`${r.year}:${r.areaCode}:${r.partyCode}`}><th>{r.year}</th><td>{r.areaName} · {r.areaCode}</td><td><CandidateParty result={r} withName/></td><td>{fmt(r.votes)}</td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td></tr>)}</tbody></table></div></details>}
-      <details className="candidate-method"><summary>{sv?"Kandidatnummer i källorna":"Candidate numbers in the sources"}</summary><p>{person.sourceIds.join(" · ")}</p>{person.aliases.length>1&&<p>{sv?"Namnformer":"Source name spellings"}: {person.aliases.join(" / ")}</p>}<a href={`${process.env.NEXT_PUBLIC_BASE_PATH??""}/api/candidates/people/${personShard(person.id)}.json`}>{sv?"Läs profilens data":"Read profile data"} ↗</a></details>
+      {election!=="RD"&&<details className="candidate-method"><summary>{sv?"Visa valkretsarnas egna röstetal":"Show individual constituency results"}</summary><div className="local-table-scroll"><table className="local-table"><thead><tr><SortHeaders control={constituencies}/></tr></thead><tbody>{constituencies.rows.map(r=><tr key={`${r.year}:${r.areaCode}:${r.partyCode}`}><th>{r.year}</th><td>{r.areaName} · {r.areaCode}</td><td><CandidateParty result={r} withName/></td><td>{fmt(r.votes)}</td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td></tr>)}</tbody></table></div></details>}
+      <details className="candidate-method"><summary>{sv?"Kandidatnummer i källorna":"Candidate numbers in the sources"}</summary><p>{person.sourceIds.join(" · ")}</p>{person.aliases.length>1&&<p>{sv?"Namnformer":"Source name spellings"}: {person.aliases.join(" / ")}</p>}<ProfileDownload person={person}/></details>
       <CandidateMethod/>
     </div>
   </>;

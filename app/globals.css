@@ -1546,3 +1546,29 @@ button { color: inherit; }
   .theme-toggle__options span { padding:8px 5px; }
   .header-menu-button { min-width:54px; padding:8px; }
 }
+/* Shared column sorting: restrained arrows, generous touch targets, existing neutral focus. */
+.sortable-column .table-sort-button {
+  appearance: none; display: inline-flex; align-items: center; justify-content: flex-end;
+  gap: 7px; width: 100%; min-height: 44px; padding: 4px 0; border: 0; border-radius: 3px;
+  background: transparent; color: inherit; font: inherit; font-weight: 600;
+  text-align: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
+}
+.sortable-column:first-child .table-sort-button { justify-content: flex-start; }
+.sortable-column[aria-sort] .table-sort-button { color: var(--blue); }
+.table-sort-button > span { min-width: 0; }
+.table-sort-icon { flex: 0 0 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.table-sort-icon path { opacity: .4; }
+.table-sort-icon[data-direction="ascending"] .sort-up, .table-sort-icon[data-direction="descending"] .sort-down { opacity: 1; }
+.table-sort-icon[data-direction="ascending"] .sort-down, .table-sort-icon[data-direction="descending"] .sort-up { opacity: .12; }
+@media (hover: hover) { .sortable-column .table-sort-button:hover { color: var(--blue); text-decoration: underline; text-underline-offset: 4px; } }
+.table-sort-mobile { display: none; padding: 12px 0; }
+.table-sort-mobile label { display: grid; gap: 7px; min-width: 0; color: var(--muted); font-size: 12px; font-weight: 600; }
+.table-sort-mobile select { width: 100%; max-width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; font-size: 16px; }
+.table-sort-always { display: block; padding: 0; }
+@media (max-width: 820px) { .table-sort-tablet { display: block; padding: 14px 18px; } }
+@media (max-width: 600px) { .table-sort-mobile { display: block; } }
+
+.live-forecast-comparison { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--line); }
+.live-forecast-comparison h2 { margin: 10px 0 18px; }
+.live-forecast-comparison table { min-width: 690px; }
+.reference-checksum { overflow-wrap: anywhere; }

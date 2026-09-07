@@ -189,8 +189,8 @@ if (!currentManifest.normalizedForecastSha256 || sha256(currentForecast) !== cur
 }
 
 const stockholmToday = dateInTimeZone(new Date(), "Europe/Stockholm");
-if (stockholmToday > FORECAST_ELECTION_DATE) {
-  console.log(`Election day ${FORECAST_ELECTION_DATE} has passed; the last pre-election forecast is retained.`);
+if (stockholmToday >= FORECAST_ELECTION_DATE) {
+  console.log(`Election day ${FORECAST_ELECTION_DATE} has begun; the pre-election forecast is frozen.`);
   process.exit(0);
 }
 
@@ -282,6 +282,12 @@ const forecast = generateElectionForecast({
 const forecastContents = `${JSON.stringify(forecast, null, 2)}\n`;
 candidateManifest.normalizedForecastSha256 = sha256(forecastContents);
 const candidateManifestContents = `${JSON.stringify(candidateManifest, null, 2)}\n`;
+
+// Do not cross the election-day boundary during a slow download or model run.
+if (dateInTimeZone(new Date(), "Europe/Stockholm") >= FORECAST_ELECTION_DATE) {
+  console.log("Election-day boundary reached during refresh; accepted pre-election data retained.");
+  process.exit(0);
+}
 
 await replaceValidatedDataset(
   [
