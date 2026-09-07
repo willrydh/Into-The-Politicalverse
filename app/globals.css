@@ -158,6 +158,7 @@ button { color: inherit; }
   min-height: var(--site-header-height, 0px);
   overflow-anchor: none;
 }
+.site-header-positioner { display: contents; }
 .site-header {
   position: relative;
   z-index: 20;
@@ -165,34 +166,26 @@ button { color: inherit; }
   padding-top: var(--safe-area-top);
   border-bottom: 1px solid var(--line);
 }
-.site-header[data-position="floating"] {
-  /* Keep the same document coordinate system throughout every scroll cycle.
-     A root-scroll translation holds the navigation in view without fixed/sticky
-     positioning participating in WebKit's native status-area color sampling. */
-  position: absolute;
+.site-header-positioner[data-position="floating"] {
+  /* A real viewport container lets iOS extend the visible navigation behind
+     its status area. On release, display:contents removes this renderer, so
+     WebKit cannot retain its former fixed-container color while we scroll. */
+  display: block;
+  position: fixed;
+  z-index: 20;
   top: 0;
-  left: 0;
-  right: 0;
-  translate: 0 var(--header-scroll-y, 0px);
-}
-.site-header[data-position="floating"][data-scroll-driver="timeline"] {
-  animation: site-header-follow-scroll linear both;
-  /* This cancels document scrolling; it is positioning, not optional motion. */
-  animation-duration: auto !important;
-  animation-timeline: scroll(root block);
-}
-@keyframes site-header-follow-scroll {
-  from { translate: 0 0; }
-  to { translate: 0 var(--site-scroll-range, 0px); }
+  left: var(--safe-area-left);
+  right: var(--safe-area-right);
+  background: var(--surface);
 }
 /* Released at its current document position, it leaves with native scrolling. */
-.site-header[data-position="released"] {
+.site-header-positioner[data-position="released"] > .site-header {
   position: absolute;
   top: var(--header-release-y);
   left: 0;
   right: 0;
 }
-.site-header[data-offscreen="true"] { visibility: hidden; pointer-events: none; }
+.site-header-positioner[data-offscreen="true"] > .site-header { visibility: hidden; pointer-events: none; }
 
 .site-header__utility { border-bottom: 1px solid var(--line); }
 .site-header__utility-inner, .site-header__navigation-inner { width: var(--page); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
