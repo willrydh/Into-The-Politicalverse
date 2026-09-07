@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import NotFound from "@/app/(sv)/not-found";
 import type { Locale } from "@/lib/i18n/messages";
+import { BrandIcons } from "@/components/brand-icons";
+import { ThemeInit } from "@/components/theme-init";
 import "./globals.css";
 
 function subscribe(callback: () => void) {
@@ -20,5 +22,5 @@ function currentLanguage(): Locale {
 // from that path after hydration; normal pages have complete per-language HTML.
 export default function GlobalNotFound() {
   const locale = useSyncExternalStore(subscribe, currentLanguage, (): Locale => "sv");
-  return <html lang={locale}><head><title>404 — Politicalverse</title><meta name="robots" content="noindex" /></head><body><LocaleProvider locale={locale}><SiteHeader /><main><NotFound /></main><SiteFooter /></LocaleProvider></body></html>;
+  return <html lang={locale} suppressHydrationWarning><head><title>404 — Politicalverse</title><meta name="robots" content="noindex" /><BrandIcons locale={locale} /><ThemeInit /></head><body><LocaleProvider locale={locale}><SiteHeader /><main><NotFound /></main><SiteFooter /></LocaleProvider></body></html>;
 }

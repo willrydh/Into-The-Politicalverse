@@ -9,6 +9,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { useSiteLocation } from "./site-location";
 import { useScrollHeader } from "./use-scroll-header";
 import { navigateLocalQuery, useLocalQuery } from "./maps/local-url";
+import { SiteBrand } from "./site-brand";
 
 const NAVIGATION = [
   { href: "/", label: "Start" },
@@ -86,10 +87,7 @@ export function SiteHeader() {
     <header className="site-header" ref={headerRef} data-menu-open={menuOpen}>
       <div className="site-header__utility">
         <div className="site-header__utility-inner">
-          <Link className="wordmark" href="/" aria-label="Into the Politicalverse, startsida">
-            <span className="wordmark__mark" aria-hidden="true"><span>PV</span></span>
-            <span className="wordmark__text"><small>Into the</small><strong>Politicalverse</strong></span>
-          </Link>
+          <SiteBrand />
           <SearchTrigger />
           <ThemeToggle />
           <LanguageSwitcher />

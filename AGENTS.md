@@ -36,6 +36,7 @@ Build a production-quality quantitative election intelligence platform, initiall
 - Do not require an account for initial public browsing.
 - Do not prioritize Stripe/auth/paywall before charts/data/party/maps/indicators/simulator.
 - Use official local party logos on dedicated identity surfaces: party cards, leader headers, selectors and result rows. Preserve asset provenance.
+- Project branding uses the owner-supplied crown, separate from party identities. Keep header/footer, both languages, sharing metadata, favicons and home-screen manifests synchronized with the versioned originals in `docs/brand/README.md`.
 - Use names or abbreviations in prose, sentence headings, dense chart labels and inline candidate changes. Shared party groups default to text; opt into logos only for dedicated identity panels. Other/local parties remain text. Keep full accessible names and native select labels; never substitute party tokens inside personal names or machine values. See `docs/data-sources/party-assets.md`.
 - All major UI must work on phone, tablet, laptop and wide desktop.
 - Do not rely on hover for essential interactions.
