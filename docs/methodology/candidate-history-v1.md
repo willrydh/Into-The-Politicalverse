@@ -20,7 +20,7 @@ For a single reported age, the known election date defines a possible birth-date
 
 Municipality metadata can be from a municipal candidacy or an explicit residence field. A regional/riksdag constituency alone is not a municipality. Historical gaps, moves, changed names and missing ages can split a real person into multiple profiles. The UI explains this and labels linked histories as calculated. Do not imply that all people have been exhaustively identified, or label someone a political newcomer based on an absent match.
 
-Identifiers such as `p2014-430402` derive from the earliest joined source identity. New future election years preserve that anchor; introducing older archives requires preserving old profile links through aliases if a group gains an earlier anchor.
+Identifiers such as `p2014-430402` derive from the earliest joined source identity. Future imports must preserve existing profile links through aliases whenever added years or new identity evidence merge groups or change the earliest anchor.
 
 ## Changes
 
