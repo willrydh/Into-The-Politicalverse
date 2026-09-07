@@ -19,6 +19,7 @@ test("all four pinned source archives reconcile nationwide and preserve the exis
   assert.equal(data.catalog.electionIdentities,207104);
   assert.equal(data.catalog.people,142108);
   validateCatalog(data.catalog);
+  assert.ok(Buffer.byteLength(JSON.stringify(data.catalog))<50_000,"The navigation catalogue must not preload candidate histories");
   const previous=JSON.parse(readFileSync("data/normalized/personal-votes-2022.json","utf8")) as PersonalVoteData;
   const rows=data.rankings.get("2022-RD")!.rows;
   assert.equal(rows.length,previous.constituencies.reduce((sum,c)=>sum+c.candidates.length,0));
