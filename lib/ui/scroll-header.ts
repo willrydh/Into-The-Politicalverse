@@ -1,26 +1,20 @@
 export interface ScrollHeaderState {
   y: number;
-  documentY: number;
+  hidden: boolean;
 }
 
-export function createScrollHeaderState(y: number, shown = false): ScrollHeaderState {
-  const scrollY = Number.isFinite(y) ? Math.max(0, y) : 0;
-  return { y: scrollY, documentY: shown ? scrollY : 0 };
+export function createScrollHeaderState(y: number): ScrollHeaderState {
+  return { y: Number.isFinite(y) ? Math.max(0, y) : 0, hidden: false };
 }
 
-/** Re-anchor only when leaving a fully shown/hidden edge. Native sticky owns movement. */
+/** Direction selects the endpoint; CSS owns the whole reversible slide. */
 export function advanceScrollHeader(
   state: ScrollHeaderState,
   y: number,
-  { headerHeight, maxScroll, pinned = false }: { headerHeight: number; maxScroll: number; pinned?: boolean },
+  { maxScroll, pinned = false }: { maxScroll: number; pinned?: boolean },
 ): ScrollHeaderState {
   if (!Number.isFinite(y) || y < 0 || y > maxScroll) return state;
-  if (pinned) return createScrollHeaderState(y, true);
-  if (y === 0) return createScrollHeaderState(0);
+  if (pinned || y === 0) return createScrollHeaderState(y);
   if (y === state.y) return state;
-  let documentY = state.documentY;
-  const previousTop = documentY - state.y;
-  if (y > state.y && previousTop >= 0) documentY = state.y;
-  else if (y < state.y && previousTop <= -headerHeight) documentY = Math.max(0, state.y - headerHeight);
-  return { y, documentY };
+  return { y, hidden: y > state.y };
 }

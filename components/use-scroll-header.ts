@@ -10,79 +10,51 @@ export function useScrollHeader(pathname: string, pinned = false) {
 
   useEffect(() => {
     const positioner = ref.current;
-    const spacer = positioner?.previousElementSibling as HTMLElement | null;
-    const surface = positioner?.querySelector<HTMLElement>(".site-header");
-    if (!positioner || !spacer || !surface) return;
+    if (!positioner) return;
+    const surface = positioner.querySelector<HTMLElement>(".site-header");
+    if (!surface) return;
     const root = document.documentElement;
     let state = createScrollHeaderState(window.scrollY);
-    let headerHeight = 0, viewportHeight = 0, maxScroll = 0, frame = 0;
+    let maxScroll = 0, frame = 0;
     let keyboardFocus = !!surface.querySelector(":focus-visible");
 
-    function render(next: ScrollHeaderState, y: number) {
-      if (next.documentY !== state.documentY) {
-        const anchor = `${next.documentY}px`;
-        spacer!.style.setProperty("--header-document-y", anchor);
-        positioner!.style.setProperty("--header-document-y", anchor);
-      }
-      const forced = pinnedRef.current || keyboardFocus;
-      if (positioner!.dataset.pinned !== String(forced)) positioner!.dataset.pinned = String(forced);
-      const offscreen = !forced && y >= next.documentY + headerHeight;
-      if (positioner!.dataset.offscreen !== String(offscreen)) {
-        positioner!.dataset.offscreen = String(offscreen);
-        positioner!.inert = offscreen;
+    function render(next: ScrollHeaderState) {
+      if (positioner!.dataset.hidden !== String(next.hidden)) {
+        positioner!.dataset.hidden = String(next.hidden);
+        positioner!.inert = next.hidden;
       }
       state = next;
     }
-
-    function showImmediately() {
-      render(createScrollHeaderState(Math.min(Math.max(0, window.scrollY), maxScroll), true), window.scrollY);
+    function reveal() {
+      render(createScrollHeaderState(Math.min(maxScroll, Math.max(0, window.scrollY))));
     }
-    revealRef.current = showImmediately;
-
+    revealRef.current = reveal;
     function update() {
       frame = 0;
-      const y = window.scrollY;
-      if (!Number.isFinite(y) || y < 0 || y > maxScroll) return;
-      // The pinned CSS constraint owns scrolling while a menu/control has focus.
-      render(pinnedRef.current || keyboardFocus ? { ...state, y } : advanceScrollHeader(state, y, { headerHeight, maxScroll }), y);
+      render(advanceScrollHeader(state, window.scrollY, { maxScroll, pinned: pinnedRef.current || keyboardFocus }));
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
-
     function measure() {
-      const nextHeight = surface!.offsetHeight;
-      const nextViewport = root.clientHeight;
-      const nextMax = Math.max(0, root.scrollHeight - nextViewport);
-      if (nextHeight === headerHeight && nextMax === maxScroll && nextViewport === viewportHeight) return;
-      viewportHeight = nextViewport;
-      headerHeight = nextHeight;
-      maxScroll = nextMax;
-      root.style.setProperty("--site-header-height", `${headerHeight}px`);
-      // Viewport/toolbar resizing must not count as a change of scroll direction.
-      root.style.setProperty("--header-viewport-height", `${viewportHeight}px`);
-      state = { ...state, y: Math.min(Math.max(0, window.scrollY), maxScroll) };
-      onScroll();
+      root.style.setProperty("--site-header-height", `${surface!.offsetHeight}px`);
+      maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
+      // Toolbar and content resizing must not trigger a direction change.
+      state = { ...state, y: Math.min(maxScroll, Math.max(0, window.scrollY)) };
+    }
+    function onFocus(event: FocusEvent) {
+      keyboardFocus = event.target instanceof Element && positioner!.contains(event.target) && event.target.matches(":focus-visible");
+      if (keyboardFocus) reveal();
+    }
+    function onBlur() { keyboardFocus = false; }
+    function onKeyDown(event: KeyboardEvent) {
+      // Make all controls available before native keyboard traversal.
+      if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) reveal();
     }
 
     measure();
-    render(state, window.scrollY);
+    render(state);
     const observer = new ResizeObserver(measure);
     observer.observe(surface);
     observer.observe(document.body);
-
-    function onFocus(event: FocusEvent) {
-      keyboardFocus = event.target instanceof Element && positioner!.contains(event.target) && event.target.matches(":focus-visible");
-      if (keyboardFocus) showImmediately();
-      else onScroll();
-    }
-    function onBlur() {
-      const wasKeyboardFocus = keyboardFocus;
-      keyboardFocus = false;
-      if (wasKeyboardFocus) showImmediately();
-    }
-    function onKeyDown(event: KeyboardEvent) {
-      // Restore controls before native Tab traversal can scroll a hidden link.
-      if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) showImmediately();
-    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
     window.visualViewport?.addEventListener("resize", measure);
@@ -98,11 +70,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
       document.removeEventListener("keydown", onKeyDown, true);
       observer.disconnect();
       cancelAnimationFrame(frame);
-      render(createScrollHeaderState(0), 0);
       root.style.removeProperty("--site-header-height");
-      root.style.removeProperty("--header-viewport-height");
-      spacer.style.removeProperty("--header-document-y");
-      positioner.style.removeProperty("--header-document-y");
       revealRef.current = null;
     };
   }, [pathname]);
