@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MobileTableSort, SortHeaders, useTableSort } from "../table-sort";
 import { ProfileDownload } from "./profile-download";
 import { CandidateBallotPositions } from "./ballot-positions";
+import { PocketPoliticsReferral } from "./pocketpolitics-referral";
 import { useLocale } from "../localize";
 import { useLocalQuery, navigateLocalQuery } from "../maps/local-url";
 import { usePublishSiteLocation } from "../site-location";
@@ -55,6 +56,7 @@ function Profile({person}: {person:Person}) {
       <MobileTableSort control={table}/><div className="local-table-scroll candidate-scoreboard candidate-scoreboard--profile"><table><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(r=>{const change=r.comparison;return <tr key={`${r.year}:${r.partyCode}`}><th>{r.year}{r.supersededBy&&<small>{sv?"Omval":"Re-run"} {r.supersededBy}</small>}</th><td><CandidateParty result={r} withName/></td><td data-label={sv?"Personröster":"Personal votes"} className="candidate-total"><span className="candidate-vote-count">{fmt(r.votes)}</span><CandidateBallotPositions ballots={r.ballotPositions} year={r.year}/></td><td data-label={sv?"Förändring":"Change"}><VoteDelta comparison={change}/></td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td><td data-label={sv?"Andel":"Share"}>{personalVoteShare(r)===null?"—":`${fmt(personalVoteShare(r)!,2)} %`}</td></tr>;})}</tbody></table></div>
       <p className="local-note">{sv?"Tomma valår är saknat eller okopplat underlag, inte noll röster. Andelen är av partiets samtliga giltiga röster i området. När en kandidat byter parti ändras därför också jämförelsens partibas.":"Empty years mean missing or unmatched records, not zero votes. The share uses all valid party votes in the area. When a candidate changes parties, the party denominator changes too."}</p>
       {comparison.reason!=="comparable"&&comparison.reason!=="zero-baseline"&&<p className="local-notice">{reasonLabel(comparison.reason,sv)}</p>}
+      <PocketPoliticsReferral/>
       {election!=="RD"&&<details className="candidate-method"><summary>{sv?"Visa valkretsarnas egna röstetal":"Show individual constituency results"}</summary><div className="local-table-scroll"><table className="local-table"><thead><tr><SortHeaders control={constituencies}/></tr></thead><tbody>{constituencies.rows.map(r=><tr key={`${r.year}:${r.areaCode}:${r.partyCode}`}><th>{r.year}</th><td>{r.areaName} · {r.areaCode}</td><td><CandidateParty result={r} withName/></td><td>{fmt(r.votes)}</td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td></tr>)}</tbody></table></div></details>}
       <details className="candidate-method"><summary>{sv?"Kandidatnummer i källorna":"Candidate numbers in the sources"}</summary><p>{person.sourceIds.join(" · ")}</p>{person.aliases.length>1&&<p>{sv?"Namnformer":"Source name spellings"}: {person.aliases.join(" / ")}</p>}<ProfileDownload person={person}/></details>
       <CandidateMethod/>
