@@ -14,17 +14,14 @@ export function useScrollHeader(pathname: string, pinned = false) {
     if (!positioner || !surface) return;
     const root = document.documentElement;
     let state = createScrollHeaderState(window.scrollY);
-    let headerHeight = 0, maxScroll = 0, frame = 0;
+    let headerHeight = 0, viewportHeight = 0, maxScroll = 0, frame = 0;
     let keyboardFocus = !!surface.querySelector(":focus-visible");
 
     function render(next: ScrollHeaderState, y: number) {
-      if (next.documentY !== state.documentY) {
-        if (next.documentY === null) positioner!.style.removeProperty("--header-document-y");
-        else positioner!.style.setProperty("--header-document-y", `${next.documentY}px`);
-      }
-      // Tracking/flow use display:contents, so the prior fixed renderer is gone.
-      if (positioner!.dataset.position !== next.phase) positioner!.dataset.position = next.phase;
-      const offscreen = next.phase !== "floating" && y >= (next.documentY ?? 0) + headerHeight;
+      if (next.documentY !== state.documentY) root.style.setProperty("--header-document-y", `${next.documentY}px`);
+      const forced = pinnedRef.current || keyboardFocus;
+      if (positioner!.dataset.pinned !== String(forced)) positioner!.dataset.pinned = String(forced);
+      const offscreen = !forced && y >= next.documentY + headerHeight;
       if (positioner!.dataset.offscreen !== String(offscreen)) {
         positioner!.dataset.offscreen = String(offscreen);
         positioner!.inert = offscreen;
@@ -47,13 +44,16 @@ export function useScrollHeader(pathname: string, pinned = false) {
 
     function measure() {
       const nextHeight = surface!.offsetHeight;
-      const nextMax = Math.max(0, root.scrollHeight - root.clientHeight);
-      if (nextHeight === headerHeight && nextMax === maxScroll) return;
+      const nextViewport = root.clientHeight;
+      const nextMax = Math.max(0, root.scrollHeight - nextViewport);
+      if (nextHeight === headerHeight && nextMax === maxScroll && nextViewport === viewportHeight) return;
+      viewportHeight = nextViewport;
       headerHeight = nextHeight;
       maxScroll = nextMax;
       root.style.setProperty("--site-header-height", `${headerHeight}px`);
       // Viewport/toolbar resizing must not count as a change of scroll direction.
-      state = { ...state, anchorY: Math.min(Math.max(0, window.scrollY), maxScroll) };
+      root.style.setProperty("--header-viewport-height", `${viewportHeight}px`);
+      state = { ...state, y: Math.min(Math.max(0, window.scrollY), maxScroll) };
       onScroll();
     }
 
@@ -66,8 +66,9 @@ export function useScrollHeader(pathname: string, pinned = false) {
     function onFocus(event: FocusEvent) {
       keyboardFocus = event.target instanceof Element && positioner!.contains(event.target) && event.target.matches(":focus-visible");
       if (keyboardFocus) showImmediately();
+      else onScroll();
     }
-    function onBlur() { keyboardFocus = false; }
+    function onBlur() { keyboardFocus = false; onScroll(); }
     function onKeyDown(event: KeyboardEvent) {
       // Restore controls before native Tab traversal can scroll a hidden link.
       if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) showImmediately();
@@ -89,13 +90,16 @@ export function useScrollHeader(pathname: string, pinned = false) {
       cancelAnimationFrame(frame);
       render(createScrollHeaderState(0), 0);
       root.style.removeProperty("--site-header-height");
+      root.style.removeProperty("--header-viewport-height");
+      root.style.removeProperty("--header-document-y");
       revealRef.current = null;
     };
   }, [pathname]);
 
   useEffect(() => {
+    const wasPinned = pinnedRef.current;
     pinnedRef.current = pinned;
-    if (pinned) revealRef.current?.();
+    if (pinned || wasPinned) revealRef.current?.();
   }, [pathname, pinned]);
   return ref;
 }
