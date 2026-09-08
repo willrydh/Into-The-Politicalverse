@@ -12,7 +12,7 @@ Compact link previews use the square crown directly so it remains recognizable i
 
 Column headings sort comparable data tables across maps, personal votes, candidate histories, rankings, historical results, forecasts and live results. Sorting uses raw values, keeps unavailable observations last and preserves leaderboard ranks; mobile card layouts have the same controls in a compact selector. Profile JSON exports download only the selected person.
 
-Missing vote comparisons appear as a dash, with a short visible footnote below the table and the exact reason available to screen readers. Narrow columns retain their numeric density; missing data remains distinct from a zero change.
+Missing vote comparisons appear as a dash, with a short visible footnote below the table (after pagination on leaderboards) and the exact reason available to screen readers. Narrow columns retain their numeric density; missing data remains distinct from a zero change.
 
 Sortable headings follow each column's alignment. Changing a leaderboard metric, filter or candidate search resets column sorting to the selected leaderboard's rank order and returns to its first page.
 

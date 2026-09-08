@@ -53,7 +53,7 @@ Candidate profiles include a scoped PocketPolitics referral after their vote his
 
 Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
 
-Missing vote comparisons use a dash in rankings, profile histories and map tables. The exact reason remains accessible; a concise visible footnote explains unavailable comparisons outside the numeric columns. Numeric changes, sorting and null/zero distinctions remain unchanged.
+Missing vote comparisons use a dash in rankings, profile histories and map tables. The exact reason remains accessible; a concise visible footnote explains unavailable comparisons outside the numeric columns, after pagination alongside the other leaderboard notes. Numeric changes, sorting and null/zero distinctions remain unchanged.
 
 Header labels and arrows inherit their column's alignment while preserving the full button target. Leaderboards scope sorting and pagination to the metric, election year/type, county, area, party, minimum and search; a changed selection discards manual sorting and returns to the first page in earned-rank order.
 

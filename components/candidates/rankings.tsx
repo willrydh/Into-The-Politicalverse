@@ -114,9 +114,9 @@ export function CandidateRankings() {
             </tr>)}</tbody>
           </table>
         </div>
-        {metric!=="support"&&table.rows.some(({row})=>row.comparison.delta===null)&&<VoteComparisonNote/>}
         {!ranking.length&&<p className="candidate-empty">{sv?"Inga resultat uppfyller urvalet. Prova ett annat val, lägre minimiantal eller listan med flest personröster.":"No results meet these filters. Try another election, a lower minimum or the total personal-votes leaderboard."}</p>}
         {ranking.length>50&&<nav className="candidate-pagination" aria-label={sv?"Topplistans sidor":"Leaderboard pages"}><button className="button" disabled={currentPage===0} onClick={()=>setPage(currentPage-1)}>{sv?"Föregående":"Previous"}</button><span>{currentPage+1} / {Math.ceil(ranking.length/50)}</span><button className="button" disabled={(currentPage+1)*50>=ranking.length} onClick={()=>setPage(currentPage+1)}>{sv?"Nästa":"Next"}</button></nav>}
+        {metric!=="support"&&table.rows.some(({row})=>row.comparison.delta===null)&&<VoteComparisonNote/>}
         </>}
       </>}
       <p className="local-note">{sv?"Listplats avser placeringen på partiets valsedel. Flera platser kan förekomma; öppna uppgiften för alla listnummer.":"List position is the candidate’s place on the party’s ballot. Positions can differ between lists; open the entry for all list numbers."}</p>
