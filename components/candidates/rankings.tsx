@@ -25,7 +25,7 @@ function RankingParty({ row, year }: { row: RankingRow; year: number }) {
 
 export function CandidateRankings() {
   const locale = useLocale(), sv = locale === "sv", query = useLocalQuery(), p = new URLSearchParams(query);
-  const year = CANDIDATE_YEARS.includes(Number(p.get("year")) as CandidateYear) ? Number(p.get("year")) as CandidateYear : 2022;
+  const year = CANDIDATE_YEARS.includes(Number(p.get("year")) as CandidateYear) ? Number(p.get("year")) as CandidateYear : CANDIDATE_YEARS.at(-1)!;
   const election = ELECTION_TYPES.includes(p.get("election") as CandidateElection) ? p.get("election") as CandidateElection : "KF";
   const metric = RANKING_METRICS.includes(p.get("metric") as RankingMetric) ? String(p.get("metric")) as RankingMetric : DEFAULT_RANKING_METRIC;
   const county=String(p.get("county")??""), area=String(p.get("area")??""), party=String(p.get("party")??""), minimum=[0,1,10,50,100].includes(Number(p.get("minimum"))) && p.has("minimum") ? Number(p.get("minimum")) : 1;
@@ -61,15 +61,15 @@ export function CandidateRankings() {
     {key:"rank",label:"#",name:sv?"Placering":"Rank",direction:"ascending",value:r=>r.rank},
     {key:"name",label:sv?"Kandidat / område":"Candidate / area",name:sv?"Kandidat":"Candidate",direction:"ascending",value:({row})=>row.name},
     {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:({row})=>partyLabel(row,sv)},
-    {key:"previous",label:year-4,name:`${sv?"Personröster":"Personal votes"} ${year-4}`,value:({row})=>row.comparison.previous?.votes},
     {key:"votes",label:year,name:`${sv?"Personröster":"Personal votes"} ${year}`,value:({row})=>row.votes},
+    {key:"previous",label:year-4,name:`${sv?"Personröster":"Personal votes"} ${year-4}`,value:({row})=>row.comparison.previous?.votes},
     {key:"change",label:metric==="support"?(sv?"Personstöd":"Personal support"):(sv?"Förändring":"Change"),name:metric==="support"?(sv?"Andel personröster":"Personal-vote share"):(sv?"Förändring i procent":"Percentage change"),value:({row})=>metric==="support"?personalVoteShare(row):row.comparison.percent},
   ];
   if(metric==="sharePoints") columns.push({key:"sharePoints",label:sv?"Andelslyft":"Share gain",name:sv?"Andelslyft":"Share gain",value:({row})=>row.comparison.sharePoints});
   const table = useTableSort(ranking, columns, {key:"rank",direction:"ascending"}, tableContext);
   const currentPage=Math.min(page,Math.max(0,Math.ceil(ranking.length/50)-1));
   return <div className="candidate-page candidate-page--rankings">
-    <section className="candidate-hero"><span className="eyebrow">{sv?"PERSONRÖSTER · STATISTIKARKIV":"PERSONAL VOTES · STATS ARCHIVE"} / 2010–2022</span><h1>{sv?"Politikernas":"Politicians’"}<br/><em>{sv?"topplistor.":"leaderboards."}</em></h1><p>{sv?"Vem ökar mest? Vem får flest kryss? Följ personerna, partierna och utvecklingen från val till val.":"Who is gaining fastest? Who wins the most personal votes? Follow candidates, parties and performance from one election to the next."}</p></section>
+    <section className="candidate-hero"><span className="eyebrow">{sv?"PERSONRÖSTER · STATISTIKARKIV":"PERSONAL VOTES · STATS ARCHIVE"} / {CANDIDATE_YEARS[0]}–{CANDIDATE_YEARS.at(-1)}</span><h1>{sv?"Politikernas":"Politicians’"}<br/><em>{sv?"topplistor.":"leaderboards."}</em></h1><p>{sv?"Vem ökar mest? Vem får flest kryss? Följ personerna, partierna och utvecklingen från val till val.":"Who is gaining fastest? Who wins the most personal votes? Follow candidates, parties and performance from one election to the next."}</p></section>
     <div className="candidate-body">
       <div className="candidate-metric-tabs" role="group" aria-label={sv?"Välj topplista":"Choose leaderboard"}>{metrics.map(m=><button type="button" key={m.id} aria-label={`${m.name}: ${m.detail}`} aria-pressed={metric===m.id} onClick={()=>update({metric:m.id})}><strong className="candidate-metric-full">{m.name}</strong><strong className="candidate-metric-short">{m.shortName}</strong><small>{m.detail}</small></button>)}</div>
       <div className="candidate-filters" id="ranking-filters">
@@ -107,8 +107,8 @@ export function CandidateRankings() {
                 <small className="candidate-ranking-meta"><span>{r.areaName}</span><span className="candidate-ranking-party"><span aria-hidden="true">·</span><RankingParty row={r} year={year}/></span></small>
               </th>
               <td><RankingParty row={r} year={year}/></td>
-              <td data-label={String(year-4)}>{r.comparison.previous?<><span className="candidate-vote-count">{f(r.comparison.previous.votes)}</span><CandidateBallotPositions ballots={r.comparison.previous.ballotPositions} year={year-4}/></>:"—"}</td>
               <td data-label={String(year)} className="candidate-total"><span className="candidate-vote-count">{f(r.votes)}</span><CandidateBallotPositions ballots={r.ballotPositions} year={year}/></td>
+              <td data-label={String(year-4)}>{r.comparison.previous?<><span className="candidate-vote-count">{f(r.comparison.previous.votes)}</span><CandidateBallotPositions ballots={r.comparison.previous.ballotPositions} year={year-4}/></>:"—"}</td>
               <td>{metric==="support"?<span className="vote-delta"><strong>{f(personalVoteShare(r)!,2)} %</strong><small>{sv?"av partiets röster":"of party votes"}</small></span>:<VoteDelta comparison={r.comparison}/>}</td>
               {metric==="sharePoints"&&<td data-label={sv?"Andelslyft":"Share gain"}>{r.comparison.sharePoints===null?"—":`+${f(r.comparison.sharePoints,2)} pp`}</td>}
             </tr>)}</tbody>
@@ -120,7 +120,7 @@ export function CandidateRankings() {
         </>}
       </>}
       <p className="local-note">{sv?"Listplats avser placeringen på partiets valsedel. Flera platser kan förekomma; öppna uppgiften för alla listnummer.":"List position is the candidate’s place on the party’s ballot. Positions can differ between lists; open the entry for all list numbers."}</p>
-      {catalog&&<p className="local-note">{f(catalog.people)} {sv?"kandidatprofiler":"candidate profiles"} · {f(catalog.linkedPeople)} {sv?"historiker kopplade över flera val":"histories linked across elections"} · 2010–2022</p>}
+      {catalog&&<p className="local-note">{f(catalog.people)} {sv?"kandidatprofiler":"candidate profiles"} · {f(catalog.linkedPeople)} {sv?"historiker kopplade över flera val":"histories linked across elections"} · {CANDIDATE_YEARS[0]}–{CANDIDATE_YEARS.at(-1)}</p>}
       <CandidateMethod/>
     </div>
   </div>;

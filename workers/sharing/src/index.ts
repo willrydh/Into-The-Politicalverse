@@ -1,6 +1,7 @@
 import { personShard } from "../../../lib/candidates/types";
-import { SHARE_DESIGN, SHARE_SCHEMA, selectShareScope, shareDescription, shareTitle, validateSharePerson, type ShareLocale, type SharePerson, type ShareScope } from "../../../lib/candidates/sharing";
+import { SHARE_DESIGN, SHARE_SCHEMA, selectShareScope, validateSharePerson, type ShareLocale, type SharePerson, type ShareScope } from "../../../lib/candidates/sharing";
 import { renderCard } from "./card";
+import { candidateShareMetadata, shareImageURL } from "../../../lib/candidates/sharing-metadata";
 
 const TTL = 60;
 const ID = /^p\d{4}-\d{1,12}$/;
@@ -38,22 +39,31 @@ async function loadPerson(id: string, origin: string) {
   return { person, sourceVersion: data.sourceVersion! };
 }
 
-function profileURL(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale) {
-  return `${origin}${locale === "en" ? "/en" : ""}/people/?${new URLSearchParams({ person: person.id, election: scope.election, area: scope.area })}`;
-}
-function imageURL(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale) {
-  return `${origin}/share/candidate/${person.id}.png?${new URLSearchParams({ election: scope.election, area: scope.area, lang: locale, v: `${person.revision}-${SHARE_DESIGN}` })}`;
+function metadata(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale) {
+  const { title, tags } = candidateShareMetadata(origin, person, scope, locale);
+  return `<title data-pv-sharing="">${escape(title)}</title>` + tags.map(({ tag, attributes }) => `<${tag} ${Object.entries(attributes).map(([key, value]) => `${key}="${escape(value)}"`).join(" ")} data-pv-sharing="">`).join("");
 }
 
-function metadata(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale) {
-  const title = shareTitle(person, scope), description = shareDescription(person, scope, locale);
-  const url = profileURL(origin, person, scope, locale), image = imageURL(origin, person, scope, locale);
-  const meta = (key: string, value: string, attr = "property") => `<meta ${attr}="${key}" content="${escape(value)}">`;
-  return `<title>${escape(title)}</title>` + meta("description", description, "name") +
-    `<link rel="canonical" href="${escape(url)}">` +
-    (["sv", "en", "x-default"] as const).map(lang => `<link rel="alternate" hreflang="${lang}" href="${escape(profileURL(origin, person, scope, lang === "en" ? "en" : "sv"))}">`).join("") +
-    [["og:type", "profile"], ["og:site_name", "Into the Politicalverse"], ["og:title", title], ["og:description", description], ["og:url", url], ["og:locale", locale === "sv" ? "sv_SE" : "en_GB"], ["og:image", image], ["og:image:secure_url", image], ["og:image:type", "image/png"], ["og:image:width", "1200"], ["og:image:height", "630"], ["og:image:alt", description]].map(([key, value]) => meta(key, value)).join("") +
-    [["twitter:card", "summary_large_image"], ["twitter:title", title], ["twitter:description", description], ["twitter:image", image], ["twitter:image:alt", description]].map(([key, value]) => meta(key, value, "name")).join("");
+// Crawlers read the candidate metadata directly from HTML. Before the browser
+// hydrates the static Next document, hand its original head back to React. The
+// profile then updates those existing nodes from the same candidate data. This
+// runs during parsing, never removes React-owned nodes, and needs no observer.
+function profileRewriter(candidateMetadata: string) {
+  const original: string[] = [];
+  let titleIndex = -1;
+  return new HTMLRewriter()
+    .on('head title', {
+      element(e) { titleIndex = original.length; original.push("<title>"); e.remove(); },
+      text(t) { original[titleIndex] += escape(t.text); if (t.lastInTextNode) original[titleIndex] += "</title>"; },
+    })
+    .on('head meta[name="description"], head meta[property^="og:"], head meta[name^="twitter:"], head link[rel="canonical"], head link[rel="alternate"][hreflang]', {
+      element(e) { original.push(`<${e.tagName} ${Array.from(e.attributes, ([key, value]) => `${key}="${escape(value)}"`).join(" ")}>`); e.remove(); },
+    })
+    .on("head", { element(e) { e.onEndTag(end => {
+      const fallback = JSON.stringify(original.join("")).replaceAll("<", "\\u003c").replaceAll("\u2028", "\\u2028").replaceAll("\u2029", "\\u2029");
+      const bootstrap = `<script data-pv-sharing-bootstrap>document.head.querySelectorAll('[data-pv-sharing]').forEach(function(n){n.remove()});document.head.insertAdjacentHTML('beforeend',${fallback});</script>`;
+      end.before(candidateMetadata + bootstrap, { html: true });
+    }); } });
 }
 
 function fail(status: number) {
@@ -66,7 +76,7 @@ async function imageResponse(request: Request, env: Env, ctx: ExecutionContext, 
   if (!loaded) return fail(404);
   const { person, sourceVersion } = loaded;
   const scope = selectShareScope(person, url.searchParams), locale = url.searchParams.get("lang") === "en" ? "en" : "sv";
-  const canonical = imageURL(env.SITE_ORIGIN, person, scope, locale);
+  const canonical = shareImageURL(env.SITE_ORIGIN, person, scope, locale);
   if (url.href !== canonical) return new Response(null, { status: 302, headers: { Location: canonical, "Cache-Control": "no-store" } });
   // Resolve current data BEFORE looking in the image cache: even an old image link
   // redirects to the current revision after an accepted new election/correction.
@@ -119,9 +129,7 @@ export default {
       headers.set("X-PV-Source-Version", sourceVersion);
       headers.set("X-PV-Card-Revision", person.revision);
       if (request.method === "HEAD") return new Response(null, { headers });
-      return new HTMLRewriter()
-        .on('title, meta[name="description"], meta[property^="og:"], meta[name^="twitter:"], link[rel="canonical"], link[rel="alternate"][hreflang]', { element(e) { e.remove(); } })
-        .on("head", { element(e) { e.append(metadata(env.SITE_ORIGIN, person, scope, locale), { html: true }); } })
+      return profileRewriter(metadata(env.SITE_ORIGIN, person, scope, locale))
         .transform(new Response(upstream.body, { headers }));
     } catch {
       // A sharing dependency failure must not break the existing public profile.

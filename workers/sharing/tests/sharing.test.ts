@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readdirSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
+import { runInNewContext } from "node:vm";
 import { execFileSync } from "node:child_process";
 import { Miniflare, convertV4MiniflareOptions } from "miniflare";
 import { buildSharePerson } from "../../../lib/candidates/build-sharing";
@@ -41,9 +42,22 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
     assert.match(body, /Kommunfullmäktige · Göteborg · 2022/);
     assert.equal((body.match(/property="og:image"/g) ?? []).length, 1);
     assert.equal((body.match(/name="twitter:image"/g) ?? []).length, 1);
-    assert.equal((body.match(/<title>/g) ?? []).length, 1);
+    assert.equal((body.match(/<title(?:\s|>)/g) ?? []).length, 1);
     assert.equal(body.split("<body>")[1], html.split("<body>")[1]);
     assert.match(body, /width=device-width/); assert.match(body, /rel="canonical" href="https:\/\/politicalverse.se\/people\/\?person=/);
+    // Execute the real parse-time handoff with a minimal head adapter. React must
+    // receive its original title/canonical and no extra edge-owned DOM nodes.
+    const bootstrap = body.match(/<script data-pv-sharing-bootstrap>([\s\S]*?)<\/script>/)![1];
+    let removed = 0, restored = "";
+    runInNewContext(bootstrap, { document: { head: {
+      querySelectorAll(selector: string) { assert.equal(selector, "[data-pv-sharing]"); return [{ remove() { removed++; } }]; },
+      insertAdjacentHTML(position: string, value: string) { assert.equal(position, "beforeend"); restored = value; },
+    } } });
+    assert.equal(removed, 1);
+    assert.match(restored, /<title>Generic<\/title>/);
+    assert.match(restored, /property="og:image" content="generic.png"/);
+    assert.match(restored, /rel="canonical" href="https:\/\/politicalverse.se\/people\/"/);
+    assert.ok(!restored.includes("Jonas"));
     firstImage = imageURL(body);
     assert.match(firstImage, /election=KF&area=1480&lang=sv&v=/);
   });

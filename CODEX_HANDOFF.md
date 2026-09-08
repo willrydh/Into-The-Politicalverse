@@ -51,6 +51,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+Paired leaderboard year columns put the selected election before its four-year baseline on desktop and mobile (2022, 2018). Votes and ballot positions stay together, and the selected result retains its emphasis. Default selection/archive years follow `CANDIDATE_YEARS`, ready for a verified new history year.
+
 Candidate profiles include a scoped PocketPolitics referral after their vote history. Its single primary link opens exactly `https://pocketpolitics.io/welcome`. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English and accessible new-tab labels. Consented referral measurement is prepared separately and remains unpublished. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
 
 Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
