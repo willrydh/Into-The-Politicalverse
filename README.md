@@ -12,7 +12,7 @@ Column headings sort comparable data tables across maps, personal votes, candida
 
 Sortable headings follow each column's alignment. Changing a leaderboard metric, filter or candidate search resets column sorting to the selected leaderboard's rank order and returns to its first page.
 
-Leaderboards show each candidate's printed ballot-list position directly below both years' vote counts. Candidate profiles retain the same detail per election. Expand a position to see every distinct ballot-list number; multiple positions remain explicit and missing data is never guessed. List positions are official observations, separate from calculated leaderboard ranks, and do not establish how much of a vote change was caused by ballot placement. See [candidate sources](docs/data-sources/candidate-history.md).
+Leaderboards keep their original columns and mobile proportions, with compact printed ballot-list positions directly below both years' vote counts. Candidate profiles retain the same detail per election. Expand a position to see every distinct ballot-list number; multiple positions remain explicit and missing data is never guessed. List positions are official observations, separate from calculated leaderboard ranks, and do not establish how much of a vote change was caused by ballot placement. See [candidate sources](docs/data-sources/candidate-history.md).
 
 Candidate profiles also link to PocketPolitics for municipal assignments, committees and remuneration. The bilingual referral identifies its owner, the demo's Marks kommun scope and the subscription for full access; it never implies a verified profile match. See [referral destinations and scope](docs/operations/pocketpolitics-referral.md).
 
