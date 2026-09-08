@@ -47,6 +47,8 @@ The prediction layer adds:
 
 ## September maintenance
 
+Candidate profiles include a scoped PocketPolitics referral after their vote history. Its main link opens the verified public demo for Marks kommun; the secondary link opens the features/subscriptions welcome page. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English, accessible new-tab labels and fixed UTM attribution without person data. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
+
 Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
 
 Header labels and arrows inherit their column's alignment while preserving the full button target. Leaderboards scope sorting and pagination to the metric, election year/type, county, area, party, minimum and search; a changed selection discards manual sorting and returns to the first page in earned-rank order.
