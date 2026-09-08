@@ -984,6 +984,17 @@ button { color: inherit; }
 .mandate-board__headline small { margin-top: 4px; text-transform: none; letter-spacing: 0; }
 .mandate-board__majority { border-right: 1px solid var(--line); border-left: 1px solid var(--line); place-items: center; text-align: center !important; }
 .mandate-board__majority b { font-size: 26px; }
+@media (min-width: 1024px) {
+  .mandate-board__headline > div:first-child,
+  .mandate-board__headline > div:last-child { grid-template-columns: max-content max-content; align-items: center; column-gap: 22px; }
+  .mandate-board__headline > div:first-child { grid-template-areas: "parties seats" "caption caption"; justify-content: end; }
+  .mandate-board__headline > div:last-child { grid-template-areas: "seats parties" "caption caption"; justify-content: start; }
+  .mandate-board__headline .party-group { grid-area: parties; flex-wrap: nowrap; gap: 8px; margin-bottom: 0; }
+  .mandate-board__headline .party-group__separator { display: none; }
+  .mandate-board__headline .party-mark { width: clamp(40px, 4vw, 56px); height: clamp(40px, 4vw, 56px); }
+  .mandate-board__headline strong { grid-area: seats; }
+  .mandate-board__headline small { grid-area: caption; }
+}
 .mandate-bar { height: 24px; display: flex; margin: 25px 27px 0; overflow: hidden; border: 1px solid rgba(11,32,45,.12); background: var(--paper-deep); }
 .mandate-bar span { min-width: 1px; height: 100%; border-right: 1px solid rgba(255,255,255,.72); }
 .mandate-legend { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); padding: 18px 27px 25px; }
