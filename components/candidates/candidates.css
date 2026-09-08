@@ -181,3 +181,79 @@
   .candidate-page--rankings .table-sort-mobile label { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:12px; font-size:11px; font-weight:450; }
   .candidate-page--rankings .table-sort-mobile select { border:0; border-bottom:1px solid var(--line); border-radius:0; background:transparent; font-size:16px; }
 }
+
+/* Profile standings: restrained, linked facts with visible year/peer controls. */
+.profile-standings { margin:32px 0; padding:24px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.profile-standings-heading { display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.profile-standings-heading h2 { margin:6px 0 0; font-size:26px; letter-spacing:-.03em; }
+.profile-standings-context { color:var(--muted); font-size:12px; }
+.profile-standings-controls { display:flex; gap:14px; margin:20px 0; }
+.profile-standings-controls label { width:210px; }
+.profile-standings-controls label:first-child { width:110px; }
+.profile-standings-table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; }
+.profile-standings-table th,.profile-standings-table td { padding:6px 8px; border-bottom:1px solid var(--line); text-align:right; }
+.profile-standings-table th:first-child { text-align:left; padding-left:0; width:40%; }
+.profile-standings-table thead th { font-size:11px; font-weight:450; color:var(--muted); }
+.profile-standings-table tbody th { font-size:13px; font-weight:500; }
+.profile-standings-table td { color:var(--muted); font-size:13px; }
+.profile-standings-table td a { display:inline-flex; min-height:44px; align-items:center; white-space:nowrap; font-weight:600; color:var(--blue); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:4px; }
+.profile-standings-table td a:hover { text-decoration-color:currentColor; }
+.profile-standings-table tr:last-child > * { border-bottom:0; }
+.profile-standings-note { color:var(--muted); font-size:11px; line-height:1.65; margin:14px 0 0; max-width:880px; }
+.profile-standings-empty { font-size:14px; color:var(--muted); }
+.profile-standings .candidate-loading { min-height:90px; padding-top:8px; }
+.candidate-leaderboard-intro { font-size:13px; line-height:1.65; color:var(--muted); max-width:940px; margin:14px 0; }
+.candidate-focused-result { font-size:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+.candidate-focused-result button { background:none; border:0; color:var(--blue); text-decoration:underline; text-underline-offset:3px; min-height:44px; padding:0 8px; cursor:pointer; }
+.candidate-metric-tabs { grid-template-columns:repeat(5,minmax(0,1fr)); }
+.candidate-metric-tabs strong { font-size:15px; }
+.riksdag-mobile-party { display:none; }
+.candidate-riksdag-totals .candidate-total { text-align:right; }
+.candidate-riksdag-totals .candidate-total small { font-size:10px; }
+.candidate-riksdag-totals thead th:last-child { text-align:right; }
+.riksdag-constituencies { margin-top:5px; font-weight:400; }
+.riksdag-constituencies > summary { cursor:pointer; font-size:11px; color:var(--muted); min-height:30px; padding:7px 0; }
+.riksdag-constituencies ul { padding:0; list-style:none; margin:8px 0; max-width:540px; }
+.riksdag-constituencies li { padding:12px 0; border-top:1px solid var(--line); }
+.riksdag-constituencies li > div { display:flex; justify-content:space-between; gap:14px; font-size:12px; }
+.candidate-scoreboard .riksdag-constituencies li a { font-size:12px; }
+.riksdag-constituencies .candidate-ballot-positions { margin-top:0; }
+.riksdag-constituencies .candidate-ballot-positions summary { font-size:10px; min-height:32px; }
+@media(max-width:800px) {
+  .candidate-metric-tabs { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .candidate-metric-tabs button:last-child { grid-column:1/-1; }
+}
+@media(max-width:600px) {
+  .profile-standings { padding:22px 0; }
+  .profile-standings-heading { display:block; }
+  .profile-standings-heading h2 { font-size:23px; }
+  .profile-standings-context { display:block; margin-top:8px; font-size:11px; }
+  .profile-standings-controls { gap:12px; }
+  .profile-standings-controls label { flex:1; width:auto; }
+  .profile-standings-controls label:first-child { flex:0 0 86px; }
+  .profile-standings-table th,.profile-standings-table td { padding:5px 3px; }
+  .profile-standings-table th:first-child { width:37%; }
+  .profile-standings-table thead th { font-size:9px; }
+  .profile-standings-table tbody th { font-size:11px; line-height:1.5; }
+  .profile-standings-table td { font-size:12px; }
+  .profile-standings-note { font-size:10px; }
+  .candidate-leaderboard-intro { font-size:12px; }
+  .candidate-riksdag-totals table,.candidate-riksdag-totals tbody { display:block; }
+  .candidate-riksdag-totals thead,.riksdag-desktop-party { display:none; }
+  .candidate-riksdag-totals tr { display:grid; grid-template-columns:24px minmax(0,1fr) max-content; column-gap:12px; padding:18px 0; border-bottom:1px solid var(--line); }
+  .candidate-riksdag-totals th,.candidate-riksdag-totals td { min-width:0; padding:0; border:0; }
+  .candidate-riksdag-totals .candidate-rank { font-size:16px; font-weight:450; line-height:1.5; }
+  .candidate-riksdag-totals th a { font-size:16px; line-height:1.4; text-decoration:none; }
+  .candidate-riksdag-totals .candidate-total { font-size:18px; }
+  .candidate-riksdag-totals .candidate-total small { margin-top:4px; }
+  .riksdag-candidate-name { display:flex; align-items:start; gap:10px; }
+  .riksdag-candidate-name > a { min-width:0; overflow-wrap:anywhere; }
+  .riksdag-mobile-party { display:inline-flex; padding-top:1px; }
+  .riksdag-mobile-party .party-mark { width:20px; height:20px; }
+  .candidate-scoreboard .riksdag-constituencies li a { font-size:11px; }
+  .riksdag-constituencies li > div { gap:8px; font-size:11px; }
+  .candidate-scoreboard .riksdag-constituencies .candidate-ballot-positions summary { font-size:10px; }
+}
+.profile-standings-table caption { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.profile-standings-table td a { min-width:44px; justify-content:flex-end; }
+@media(max-width:600px) { .riksdag-candidate-name { flex-wrap:wrap; gap:6px 10px; } }

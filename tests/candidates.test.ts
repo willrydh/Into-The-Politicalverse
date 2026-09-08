@@ -159,3 +159,109 @@ test("party vote arrows follow the selected election from national to municipal 
   assert.equal(localVoteChange(area,"M",2010).percent,null);
   assert.notEqual(localSwing(area,"M",2014),localSwing(area,"M",2022));
 });
+
+// Leaderboard v1 and the profile achievement index share the exact same cohorts.
+import { candidateLeaderboard, DEFAULT_RANKING_METRIC, LEADERBOARD_METHOD, standingLabel } from "../lib/candidates/leaderboards";
+import { buildStandings } from "../lib/candidates/build-standings";
+import { standingsHref, validateStandings, type StandingsShard } from "../lib/candidates/standings";
+import { compactCandidateNumber } from "../lib/candidates/format";
+
+test("total votes is the default and RD sums distinct constituencies once per candidate and party",()=>{
+  assert.equal(DEFAULT_RANKING_METRIC,"votes");
+  const rows=data.rankings.get("2022-RD")!.rows, ranked=candidateLeaderboard(rows,"votes");
+  assert.equal(ranked.length,new Set(rows.map(r=>`${r.person}:${r.partyCode}`)).size);
+  assert.equal(ranked.reduce((sum,e)=>sum+e.votes,0),rows.reduce((sum,r)=>sum+r.votes,0));
+  const jimmie=ranked.find(e=>e.row.name==="Jimmie Åkesson")!;
+  assert.equal(jimmie.members.length,29);assert.equal(jimmie.rank,1);
+  assert.equal(jimmie.votes,rows.filter(r=>r.person===jimmie.row.person&&r.partyCode===jimmie.row.partyCode).reduce((sum,r)=>sum+r.votes,0));
+  const county=rows.filter(r=>r.county==="14");
+  const local=candidateLeaderboard(county,"votes").find(e=>e.row.person===jimmie.row.person)!;
+  assert.equal(local.members.length,5);
+  assert.equal(local.votes,county.filter(r=>r.person===jimmie.row.person).reduce((sum,r)=>sum+r.votes,0));
+  const area=rows.filter(r=>r.areaCode==="19");
+  assert.deepEqual(candidateLeaderboard(area,"votes").map(e=>[e.row.person,e.rank,e.votes]),rankCandidates(area,"votes").map(e=>[e.row.person,e.rank,e.row.votes]));
+  assert.throws(()=>candidateLeaderboard([rows[0],rows[0]],"votes"));
+  assert.throws(()=>candidateLeaderboard([rows[0],{...rows[1],year:2018}],"votes"));
+  const changedParty={...rows[0],partyCode:"9999",votes:10};
+  assert.equal(candidateLeaderboard([rows[0],changedParty],"votes").length,2,"Do not silently merge different parties");
+});
+
+test("RD aggregate ties retain competition ranks and source observations stay untouched",()=>{
+  const source=data.rankings.get("2022-RD")!.rows[0];
+  const make=(person:string,areaCode:string,votes:number)=>({...source,person,areaCode,votes});
+  const rows=[make("p2022-1","01",60),make("p2022-1","02",40),make("p2022-2","01",100),make("p2022-3","01",20)];
+  const before=structuredClone(rows);
+  assert.deepEqual(candidateLeaderboard(rows,"votes").map(e=>[e.rank,e.votes]),[[1,100],[1,100],[3,20]]);
+  assert.deepEqual(rows,before);
+});
+
+test("down-ballot support requires 100 votes, every reported position >=6, and uses the actual party denominator",()=>{
+  const source=data.rankings.get("2022-KF")!.rows.find(r=>r.id==="50618"&&r.areaCode==="1480")!;
+  const base={...source,votes:100,partyVotes:1000,ballotPositions:[{listNumber:"0002-12345",position:6}]};
+  assert.equal(rankCandidates([base],"support")[0].row.votes,100);
+  assert.equal(rankCandidates([{...base,votes:99}],"support").length,0);
+  assert.equal(rankCandidates([{...base,ballotPositions:[]}],"support").length,0);
+  assert.equal(rankCandidates([{...base,ballotPositions:[...base.ballotPositions,{listNumber:"0002-23456",position:1}]}],"support").length,0);
+  assert.equal(rankCandidates([{...base,supersededBy:2023}],"support").length,0);
+  assert.equal(rankCandidates([{...base,partyVotes:0}],"support").length,0);
+  assert.equal(rankCandidates([{...base,comparison:{reason:"no-baseline",previous:null,delta:null,percent:null,sharePoints:null}}],"support",100).length,1,"New and unmatched candidates need no prior result");
+  const smaller={...base,person:"p2022-2",votes:120,partyVotes:2000};
+  assert.equal(candidateLeaderboard([smaller,base],"support")[0].row.person,base.person,"10% precedes 6%, despite fewer votes");
+  assert.equal(candidateLeaderboard([source],"support").length,0,"Attenius on printed position 1 is not a down-ballot candidate");
+});
+
+test("profile tiers and compact changes have exact display boundaries, without changing the numeric data",()=>{
+  for(const bad of [0,-1,101,1.5,NaN])assert.equal(standingLabel(bad,true),null);
+  assert.equal(standingLabel(1,true),"#1");assert.equal(standingLabel(49,true),"#49");
+  assert.equal(standingLabel(50,true),"Topp 50");assert.equal(standingLabel(51,true),"Topp 100");assert.equal(standingLabel(100,false),"Top 100");
+  assert.equal(compactCandidateNumber(13400,true),"13,4t");
+  assert.equal(compactCandidateNumber(13400,false),"13.4k");
+  assert.equal(compactCandidateNumber(-13400,true),"−13,4t");
+  assert.equal(compactCandidateNumber(45.5,true),"45,5");
+  assert.equal(compactCandidateNumber(1200000,true),"1,2M");
+});
+
+test("profile standings match full real leaderboards before filtering to the profile, across years, parties and scopes",()=>{
+  const standings=buildStandings(data.people,data.rankings.values());
+  for(const id of [lars.id,data.sourcePeople.get("2022:50618")!.id,data.rankings.get("2022-RD")!.rows.find(r=>r.name==="Jimmie Åkesson")!.person]) {
+    const records=standings.get(id)!;
+    const shard:StandingsShard={schemaVersion:1,method:LEADERBOARD_METHOD,sourceVersion:data.catalog.version,classification:"DERIVED",people:{[id]:records}};
+    validateStandings(shard);
+    for(const record of records)for(const standing of record.ranks) {
+      const [metric,scope,partyOnly,rank,total]=standing;
+      const rows=data.rankings.get(`${record.year}-${record.election}`)!.rows;
+      const subject=rows.find(r=>r.person===id&&r.areaCode===record.area&&r.partyCode===record.party)!;
+      const filtered=rows.filter(r=>(scope==="national"||scope==="county"&&r.county===subject.county||scope==="area"&&r.areaCode===record.area)&&(!partyOnly||r.partyCode===record.party));
+      const expected=candidateLeaderboard(filtered,metric,1);
+      const actual=expected.find(e=>e.members.some(r=>r.person===id&&r.areaCode===record.area&&r.partyCode===record.party))!;
+      assert.equal(rank,actual.rank);assert.equal(total,expected.length);assert.ok(rank<=100);
+      const url=new URL(standingsHref(id,record,standing,subject.county),"https://politicalverse.se");
+      assert.equal(url.searchParams.get("metric"),metric);assert.equal(url.searchParams.get("year"),String(record.year));
+      assert.equal(url.searchParams.get("election"),record.election);assert.equal(url.searchParams.get("candidate"),id);
+      assert.equal(url.searchParams.get("minimum"),"1");
+      assert.equal(url.searchParams.get("party"),partyOnly?record.party:null);
+      assert.equal(url.searchParams.get("county"),scope==="county"?subject.county:null);
+      assert.equal(url.searchParams.get("area"),scope==="area"?record.area:null);
+    }
+    assert.ok(gzipSync(JSON.stringify(shard)).length<15000,"An individual profile must not carry a leaderboard dataset");
+    const bad=structuredClone(shard);bad.method="old-method";assert.throws(()=>validateStandings(bad));
+    const badRank=structuredClone(shard);badRank.people[id][0].ranks[0][3]=101;assert.throws(()=>validateStandings(badRank));
+    const duplicate=structuredClone(shard);duplicate.people[id][0].ranks.push(duplicate.people[id][0].ranks[0]);assert.throws(()=>validateStandings(duplicate));
+  }
+  assert.equal(standings.size,data.people.length,"An empty achievement array is distinct from a failed download");
+});
+
+test("profile top-100 clipping keeps every tied candidate at the boundary and omits lower ranks",()=>{
+  const source=data.rankings.get("2022-RD")!.rows[0];
+  const rows=Array.from({length:102},(_,i)=>({...source,person:`p2022-${i+1}`,name:`Candidate ${String(i).padStart(3,"0")}`,areaCode:"01",county:"01",votes:102-i,ballotPositions:[],comparison:{reason:"no-baseline" as const,previous:null,delta:null,percent:null,sharePoints:null}}));
+  const people=rows.map(r=>({id:r.person,name:r.name,aliases:[r.name],sourceIds:[`2022:${r.id}`],linked:false,results:[r]}));
+  const payload={...data.rankings.get("2022-RD")!,rows};
+  const separate=buildStandings(people,[payload]);
+  assert.deepEqual(separate.get("p2022-102"),[]);
+  rows[100].votes=3;rows[101].votes=3;
+  const tied=buildStandings(people,[payload]);
+  for(const id of ["p2022-100","p2022-101","p2022-102"]) {
+    const national=tied.get(id)![0].ranks.find(s=>s[0]==="votes"&&s[1]==="national"&&s[2]===0)!;
+    assert.deepEqual(national,["votes","national",0,100,102]);
+  }
+});

@@ -19,7 +19,7 @@ export type CandidateCatalog = { schemaVersion: 1; version: string; methodVersio
 export type RankingsPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: CandidateElection; rows: RankingRow[] };
 export type PersonShard = { schemaVersion: 1; version: string; people: Record<string, Person> };
 export type PersonalAreaPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: "RD"; code: string; name: string; rows: RankingRow[] };
-export type RankingMetric = "percent" | "delta" | "votes" | "sharePoints";
+export type RankingMetric = "percent" | "delta" | "votes" | "sharePoints" | "support";
 export const personShard = (id: string) => {
   let hash = 0;
   for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;

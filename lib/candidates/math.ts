@@ -21,12 +21,13 @@ export function compareCandidate(current: CandidateResult, results: Person["resu
 }
 export function rankingValue(row: RankingRow, metric: RankingMetric): number | null {
   if (metric === "votes") return row.supersededBy ? null : row.votes;
+  if (metric === "support") return !row.supersededBy && row.votes >= 100 && row.ballotPositions.length > 0 && row.ballotPositions.every(b => b.position >= 6) ? personalVoteShare(row) : null;
   return row.comparison[metric];
 }
 export function rankCandidates(rows: RankingRow[], metric: RankingMetric, minimum = 1) {
   const eligible = rows.filter(row => {
     const value = rankingValue(row, metric);
-    return value !== null && (metric === "votes" || ((row.comparison.previous?.votes ?? -1) >= minimum && value > 0));
+    return value !== null && (metric === "votes" || metric === "support" || ((row.comparison.previous?.votes ?? -1) >= minimum && value > 0));
   }).sort((a, b) => rankingValue(b, metric)! - rankingValue(a, metric)! || a.name.localeCompare(b.name, "sv") || a.areaCode.localeCompare(b.areaCode) || a.person.localeCompare(b.person));
   let rank = 0;
   return eligible.map((row, i) => {
