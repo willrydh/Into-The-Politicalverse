@@ -2,6 +2,8 @@
 
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
 
+The central mandate comparison faces inward: align the left bloc to its right edge and the right bloc to its left edge, including party logos, seat totals and captions. The majority marker remains centered at every breakpoint.
+
 ## Mission
 
 Continue **Into The Politicalverse** as a production-quality quantitative election intelligence platform. Sweden and the 2026 Riksdag election are the first live cycle. `README.md` remains the canonical product specification.

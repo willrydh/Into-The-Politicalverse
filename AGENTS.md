@@ -53,6 +53,7 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Keep the central mandate comparison facing inward: both blocs' logos, seat totals and captions align toward the middle majority marker on all screen sizes.
 - Sort table rows using explicit source values before pagination or top-N limits. Keep unavailable values last in both directions, stable ties and original leaderboard ranks. Preserve chart chronology, accessible column buttons, localized sort labels and the mobile equivalents for card layouts.
 - Align sortable headings with their column contents. Reset leaderboard column sorting and pagination whenever its metric, filters or candidate search change; never retain an earlier manual sort when returning to a previous selection.
 - Adding data is not authorization to redesign the leaderboard. Preserve its original columns, density and mobile proportions. Ballot positions are compact secondary text under existing vote counts, always on one line with ellipsis when needed. Do not show counts such as "2 valsedlar" in the collapsed row; full list details expand on demand.

@@ -974,8 +974,8 @@ button { color: inherit; }
 }
 .mandate-board__headline { display: grid; grid-template-columns: 1fr 130px 1fr; align-items: stretch; border-bottom: 1px solid var(--line); }
 .mandate-board__headline > div { min-height: 125px; padding: 22px 27px; display: grid; align-content: center; }
-.mandate-board__headline > div:last-child { text-align: right; }
-.mandate-board__headline > div:last-child > .party-group { justify-self: end; }
+.mandate-board__headline > div:first-child { text-align: right; justify-items: end; }
+.mandate-board__headline > div:last-child { text-align: left; justify-items: start; }
 .mandate-board__headline .party-group { margin-bottom: 8px; }
 .mandate-board__headline span, .mandate-board__headline small { color: var(--muted); font-family: var(--mono); font-size: 8px; text-transform: uppercase; letter-spacing: .06em; }
 .mandate-board__headline strong { font-size: 58px; letter-spacing: -.07em; line-height: 1; }
