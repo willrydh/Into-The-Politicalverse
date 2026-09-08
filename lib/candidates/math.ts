@@ -1,4 +1,6 @@
 import type { CandidateComparison, CandidateResult, Person, RankingMetric, RankingRow } from "./types";
+export const DOWN_BALLOT_MIN_POSITION = 4;
+export const DOWN_BALLOT_MIN_VOTES = 100;
 export const personalVoteShare = (r: { votes: number; partyVotes: number }) => r.partyVotes > 0 ? r.votes / r.partyVotes * 100 : null;
 export function voteChange(current: number, previous: number | null) {
   if (previous === null) return { delta: null, percent: null };
@@ -21,7 +23,7 @@ export function compareCandidate(current: CandidateResult, results: Person["resu
 }
 export function rankingValue(row: RankingRow, metric: RankingMetric): number | null {
   if (metric === "votes") return row.supersededBy ? null : row.votes;
-  if (metric === "support") return !row.supersededBy && row.votes >= 100 && row.ballotPositions.length > 0 && row.ballotPositions.every(b => b.position >= 6) ? personalVoteShare(row) : null;
+  if (metric === "support") return !row.supersededBy && row.votes >= DOWN_BALLOT_MIN_VOTES && row.ballotPositions.length > 0 && row.ballotPositions.every(b => b.position >= DOWN_BALLOT_MIN_POSITION) ? personalVoteShare(row) : null;
   return row.comparison[metric];
 }
 export function rankCandidates(rows: RankingRow[], metric: RankingMetric, minimum = 1) {
