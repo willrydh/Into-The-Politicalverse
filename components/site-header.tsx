@@ -52,7 +52,6 @@ export function SiteHeader() {
   const [openOnPath, setOpenOnPath] = useState<string | null>(null);
   const menuOpen = openOnPath === rawPathname;
   const menuButton = useRef<HTMLButtonElement>(null);
-  const compactMenuButton = useRef<HTMLButtonElement>(null);
   const headerRef = useScrollHeader(rawPathname, menuOpen);
   useEffect(() => {
     if (!menuOpen) return;
@@ -62,8 +61,7 @@ export function SiteHeader() {
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpenOnPath(null);
-        const button = headerRef.current?.dataset.compact === "true" ? compactMenuButton : menuButton;
-        button.current?.focus({ preventScroll: true });
+        menuButton.current?.focus({ preventScroll: true });
       }
     };
     const desktop = window.matchMedia("(min-width: 981px)");
@@ -118,6 +116,8 @@ export function SiteHeader() {
           <div className="header-cycle"><span>Sverige</span><strong>Valet 2026</strong></div>
         </div>
       </div>
+      </header>
+    </div>
       <div className="site-location">
         <div className="site-location__inner">
           <span className="site-location__label">{locale === "sv" ? "Du är här" : "You are here"}</span>
@@ -132,11 +132,8 @@ export function SiteHeader() {
               }}>{crumb.label}</Link>}
             </li>)}</ol>
           </nav>
-          <button ref={compactMenuButton} className="header-menu-button header-menu-button--compact" type="button" aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setOpenOnPath(menuOpen ? null : rawPathname)}>{menuOpen ? (locale === "sv" ? "Stäng" : "Close") : (locale === "sv" ? "Meny" : "Menu")}</button>
         </div>
       </div>
-      </header>
-    </div>
     </div>
   </>)}</Localize>;
 }
