@@ -1,12 +1,18 @@
 # Personal votes, recurring candidacies and leaderboards v1
 
-Version: `candidate-history-1.0.1`. Published surfaces: `/rankings/`, `/people/`, the map’s personal-vote table, and universal search. All have Swedish and English versions.
+Version: `candidate-history-1.0.2`. Published surfaces: `/rankings/`, `/people/`, the map’s personal-vote table, and universal search. All have Swedish and English versions.
 
 The 1.0.1 correction uses the official party codes `0055` for Miljöpartiet and `0068` for Kristdemokraterna. Version 1.0.0 assigned different codes to their historical records and classified their 2022 candidates as Other, which could falsely indicate a party change. All four elections are regenerated from the same checksum-pinned originals. Vote counts, denominators, candidate identities, matching rules and change formulas are unchanged. Build and client validation now reject mismatched party codes/identities. The source manifest retains the previous output checksums and the correction record.
 
 ## Classification and scope
 
 Vote counts, candidate numbers, names, ballot lists and party codes are OFFICIAL observations from Valmyndigheten. Cross-election identities, changes, aggregate regional/municipal results and leaderboard positions are DERIVED. The records describe candidacies, not verified party-membership dates or judgments about a politician. No prediction or odds are calculated.
+
+Printed ballot-list positions are OFFICIAL observations. `ballotPositions` retains each distinct `{listNumber, position}` within the result's election, party and area. Municipal and regional results take the union across source constituencies; duplicate appearances of the same printed list/position are displayed once. The existing `lists` field still counts source constituency/list rows and is not a unique printed-list count. The UI shows all distinct position numbers (with expandable list numbers), not a minimum, mean, post-count ranking or inferred elected position. Empty source metadata is unavailable, never position zero. Previous-election comparisons carry the previous candidacy's own list positions, including when the party changed.
+
+Seeing more personal votes alongside a higher list position does not isolate the effect of that position. These views make the context observable but do not adjust growth percentages or estimate a causal relationship. Vote arithmetic, identity linking and leaderboard ordering are unchanged.
+
+Ballot coverage follows the final personal-vote result files. Other registered lists that are not represented there may be absent; the UI and source catalogue state this limitation. The current observations are not a complete nomination register.
 
 Imported regular elections are 2010, 2014, 2018 and 2022, across Riksdag (RD), region/county council (RF) and municipal council (KF). Constituency observations remain separate from administrative aggregates. Municipal totals sum each municipal constituency once; regional totals sum each regional constituency once. Riksdag rankings have one entry per candidate **and constituency**, never silently a nationwide unique-person ranking. Accepted overseas votes remain in the official Riksdag totals, and are not added again.
 

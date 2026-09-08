@@ -151,6 +151,7 @@ def historical(year, meta):
                     only_lists = set()
                     list_counts = collections.Counter()
                     list_votes = collections.Counter()
+                    ballot_positions = collections.defaultdict(list)
                     seen = set()
                     for ballot in lists:
                         for p in ballot.findall('PERSONVAL'):
@@ -160,6 +161,11 @@ def historical(year, meta):
                             seen.add(key)
                             list_counts[id] += 1
                             list_votes[id] += count(p.attrib.get('PERSONKRYSS', '0'))
+                            # KANDIDAT is the printed position. ORDNING
+                            # in result XML instead orders candidates by votes.
+                            position = count(p.attrib['KANDIDAT'])
+                            assert position > 0
+                            ballot_positions[id].append({'listNumber': ballot.attrib['LISTNUMMER'], 'position': position})
                             if id not in direct:
                                 direct[id] = p.attrib | {'PERSONKRYSS': '0'}
                                 only_lists.add(id)
@@ -171,7 +177,7 @@ def historical(year, meta):
                         assert n <= votes
                         personal_total += n
                         metadata_add(meta, id, name=p['NAMN'], municipality=parent if election == 'KF' else None)
-                        area['candidates'].append({'id': id, 'name': p['NAMN'], 'partyCode': party_code, 'partyId': PARTIES.get(party_code, 'OTHER'), 'partyName': party_name, 'votes': n, 'partyVotes': votes, 'lists': list_counts[id]})
+                        area['candidates'].append({'id': id, 'name': p['NAMN'], 'partyCode': party_code, 'partyId': PARTIES.get(party_code, 'OTHER'), 'partyName': party_name, 'votes': n, 'partyVotes': votes, 'lists': list_counts[id], 'ballotPositions': ballot_positions[id]})
                     if 'PERSONKRYSS' in party.attrib:
                         assert personal_total == count(party.attrib['PERSONKRYSS']), f'Party personal total {year}:{election}:{code}:{party_code}: {personal_total}/{party.attrib["PERSONKRYSS"]}'
                 areas.append(area)
@@ -201,6 +207,7 @@ def current(meta):
     rows = xlsx_rows(source('personal2022.xlsx'), 'Rådata')
     header = next(rows)
     assert header[:3] == ['Valtyp', 'Länskod', 'Län'] and header[18] == 'Antal personröster'
+    assert header[11:14] == ['Listnummer', 'Ordning', 'Kandidatnr']
     seen = set()
     grouped = {}
     for row in rows:
@@ -225,10 +232,13 @@ def current(meta):
         party_votes = denominators[(election, code, denominator_name)]
         assert not votes or party_votes > 0, f'Missing denominator {candidate_key}'
         area['partyVotes'][party_code] = party_votes
-        c = grouped.setdefault(candidate_key, {'id': id, 'name': row[16], 'partyCode': party_code, 'partyId': PARTIES.get(party_code, 'OTHER'), 'partyName': party_name, 'votes': 0, 'partyVotes': party_votes, 'lists': 0})
+        c = grouped.setdefault(candidate_key, {'id': id, 'name': row[16], 'partyCode': party_code, 'partyId': PARTIES.get(party_code, 'OTHER'), 'partyName': party_name, 'votes': 0, 'partyVotes': party_votes, 'lists': 0, 'ballotPositions': []})
         assert c['name'] == row[16]
         c['votes'] += votes
         c['lists'] += 1
+        position = count(row[12])
+        assert position > 0 and re.fullmatch(r'\d{5}', row[11])
+        c['ballotPositions'].append({'listNumber': f'{party_code}-{row[11]}', 'position': position})
         metadata_add(meta, id, name=row[16], municipality=code[:4] if election == 'KF' else None)
     for (election, code, _, _), candidate in grouped.items():
         assert candidate['votes'] <= candidate['partyVotes']
@@ -260,10 +270,11 @@ def aggregate_areas(areas, year):
         for c in area['candidates']:
             same = next((p for p in aggregate['candidates'] if p['id'] == c['id'] and p['partyCode'] == c['partyCode']), None)
             if same is None:
-                aggregate['candidates'].append(c.copy())
+                aggregate['candidates'].append(c | {'ballotPositions': list(c['ballotPositions'])})
             else:
                 same['votes'] += c['votes']
                 same['lists'] += c['lists']
+                same['ballotPositions'].extend(c['ballotPositions'])
     for area in aggregates.values():
         for c in area['candidates']:
             c['partyVotes'] = area['partyVotes'][c['partyCode']]
@@ -283,6 +294,12 @@ def run():
             area['candidates'].sort(key=lambda c: (-c['votes'], c['name'], c['id'], c['partyCode']))
             sums = collections.Counter()
             for c in area['candidates']:
+                # The same printed list can occur in several constituencies.
+                # Preserve every distinct list/position, never average or pick
+                # only the candidate's best position across the area.
+                pairs = {(p['listNumber'], p['position']) for p in c['ballotPositions']}
+                assert all(re.fullmatch(r'\d{4}-\d{5}', number) and number.startswith(c['partyCode'] + '-') for number, _ in pairs)
+                c['ballotPositions'] = [{'listNumber': number, 'position': position} for number, position in sorted(pairs)]
                 sums[c['partyCode']] += c['votes']
             assert all(sums[p] <= votes for p, votes in area['partyVotes'].items())
         areas.sort(key=lambda a: (a['electionType'], a['code']))

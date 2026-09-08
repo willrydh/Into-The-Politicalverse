@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "publisher": "Valmyndigheten",
   "retrievedAt": "2026-09-07",
-  "methodVersion": "candidate-history-1.0.1",
+  "methodVersion": "candidate-history-1.0.2",
   "sources": [
     {
       "file": "results2010-archived.zip",
@@ -74,10 +74,10 @@
     }
   ],
   "outputs": {
-    "data/normalized/candidate-elections-2010.json.gz": "903878f4d3a7e182cb29a3112f1556410cf3f94679c0bf7d85c1c421f5e05144",
-    "data/normalized/candidate-elections-2014.json.gz": "5f8ea0db819a78888ab6d021b623840f03f3d782366ceaa8467709dcfd57c6e5",
-    "data/normalized/candidate-elections-2018.json.gz": "d2104c900a679fa2eceb276a85e27262486e4c0212df0b20dd50d4f3f33eafec",
-    "data/normalized/candidate-elections-2022.json.gz": "5f1ad44515a66752b43d44f450a176d854cd1c7c699faacd8d88c78468cb2e60"
+    "data/normalized/candidate-elections-2010.json.gz": "bf3aca37fdb8ddc03db44c9243991c2912364ce9ce5b5308aa25ea1bcd5f6028",
+    "data/normalized/candidate-elections-2014.json.gz": "2fed9108c400cddae0c18c4f7a92b2ab8b3a65a959b2491a215b49971a8ebc2b",
+    "data/normalized/candidate-elections-2018.json.gz": "1ff786f9af49cc14f05797f8e5cccba085e6c538d483e1afaf60bedd30b335f5",
+    "data/normalized/candidate-elections-2022.json.gz": "414f62436cdd98c7ed40a44dd2385639933170ec514258ecd97cf85efa954078"
   },
   "normalizationCorrections": [
     {
@@ -89,6 +89,17 @@
         "data/normalized/candidate-elections-2014.json.gz": "c6e38508d7abb5002ead7a35ec0229f6562ff5d3c9f8f96d46c36b0cc05a9847",
         "data/normalized/candidate-elections-2018.json.gz": "e5487f2d22aacb31f7a83068f038e1c3cb18d1ea0bf960f33ccc8957c3073d5a",
         "data/normalized/candidate-elections-2022.json.gz": "3197b547b98a9d1a43ba145207b552844f2f2cec02d4823835422fa2ed434feb"
+      }
+    },
+    {
+      "version": "candidate-history-1.0.2",
+      "reviewedAt": "2026-09-08",
+      "reason": "Retain each distinct official ballot-list number and printed candidate position from historical XML KANDIDAT and 2022 workbook Ordning. Preserve all existing observations and identity metadata; deduplicate the same list/position across constituencies when displaying municipal and regional aggregates. These observations do not measure the causal effect of list placement.",
+      "previousOutputs": {
+        "data/normalized/candidate-elections-2010.json.gz": "903878f4d3a7e182cb29a3112f1556410cf3f94679c0bf7d85c1c421f5e05144",
+        "data/normalized/candidate-elections-2014.json.gz": "5f8ea0db819a78888ab6d021b623840f03f3d782366ceaa8467709dcfd57c6e5",
+        "data/normalized/candidate-elections-2018.json.gz": "d2104c900a679fa2eceb276a85e27262486e4c0212df0b20dd50d4f3f33eafec",
+        "data/normalized/candidate-elections-2022.json.gz": "5f1ad44515a66752b43d44f450a176d854cd1c7c699faacd8d88c78468cb2e60"
       }
     }
   ]

@@ -8,6 +8,24 @@ The original 2010, 2014 and 2018 `slutresultat_00R.xml` files identify MP and KD
 
 All four outputs were regenerated from the existing verified originals and checked against an expected transformation limited to those party codes/identities and the method version. No vote counts, denominators, source names, ages, geography or candidate links changed. This gives MP/KD candidates the right logos, party filters and search identity, and removes false party-change indicators between 2018 and 2022. Previous output hashes remain in the manifest’s normalization-correction record.
 
+## Printed ballot positions, 8 September 2026
+
+Normalization `candidate-history-1.0.2` adds ballot-list numbers and printed positions from the same checksum-verified original result sources for every imported year and election type. In 2010–2018 XML use `VALSEDEL@LISTNUMMER` and its direct `PERSONVAL@KANDIDAT`; **do not use `PERSONVAL@ORDNING`**, which orders personal-vote results. In the 2022 `Rådata` sheet use `Listnummer` (column 11) and `Ordning` (column 12), checked against the exact headers, and prefix the list number with the candidate's source party code. Indices here are zero-based. Positions must be positive integers and list prefixes must agree with the result's party.
+
+Each candidate retains all distinct list-number/position pairs, deduplicated across source constituencies in municipal and regional aggregates. No positions are inferred from vote counts. Removing the added field and restoring the prior method version produced exact equality with all four previous normalized datasets: vote counts, denominators, source names, identity evidence, geography, re-run flags and existing list counts did not change. All 646,271 scoped result rows have at least one observed ballot position; this is coverage of imported result rows, not of every possible candidacy outside the archives.
+
+Control case: Jonas Attenius, Göteborg municipal council, Socialdemokraterna:
+
+| Year | Election candidate number | Printed list | Position | Personal votes |
+|---|---|---|---:|---:|
+| 2014 | 497303 | 0002-07735 | 10 | 183 |
+| 2018 | 200507 | 0002-13869 | 4 | 545 |
+| 2022 | 50618 | 0002-04106 | 1 | 3,720 |
+
+The 2018 and 2022 candidacy CSVs independently agree with their result-source positions. The [2022 final protocol, ballot appendix](https://resultat.val.se/protokoll/protokoll_Val_20220911_1480_KF.pdf) also records position 1 and 3,720 votes. The old 2018 protocol remains search-indexed but returned 404 on retrieval; the imported evidence is the pinned original result archive, corroborated by `2018-candidates.skv`, not that unavailable PDF. These checks show the positions and counts; they do not quantify the causal effect of a higher list position.
+
+Scope is the ballot lists present for a candidate in the final personal-vote result source, not a complete nomination register. The 2018/2022 candidacy CSVs contain additional valid printed-list registrations absent from those result sources. They are not silently merged without verified area/ballot reconciliation across all years. The public method notes that other registered ballots may be absent; do not describe the result-list union as every ballot ever registered or printed for a candidate.
+
 ## Historical names and vote counts
 
 The original final XML ZIP archives for 2010, 2014 and 2018 contain source names, election-scoped candidate numbers, personal votes, ballot lists, party votes and election geography for all three election types. Some currently served historical pages have had names removed. The importer uses preserved **original Valmyndigheten archives**, not search snippets or invented identities:

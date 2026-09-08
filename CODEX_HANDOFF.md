@@ -49,6 +49,8 @@ Shared `useTableSort` / `SortHeaders` sort semantic source values before row lim
 
 Header labels and arrows inherit their column's alignment while preserving the full button target. Leaderboards scope sorting and pagination to the metric, election year/type, county, area, party, minimum and search; a changed selection discards manual sorting and returns to the first page in earned-rank order.
 
+Candidate source version `candidate-history-1.0.2` retains printed ballot positions alongside vote counts. Historical XML uses `VALSEDEL/PERSONVAL@KANDIDAT`, not its vote-sorted `ORDNING`; 2022 uses the combined workbook's `Listnummer` and `Ordning`. Municipal/regional aggregation unions distinct list-number/position pairs without choosing a best position. Both comparison years include this metadata, visible in leaderboard rows and profile histories. Jonas Attenius in Göteborg KF verifies 2014: position 10 / 183 votes, 2018: position 4 / 545 votes, 2022: position 1 / 3,720 votes. All existing observations and identity metadata were checked unchanged. The data does not estimate the causal effect of list placement.
+
 Election transition preparation adds an immutable pre-election reference, a dormant national forecast-versus-result table and a separate, signature-verified 2026 Riksdag personal-vote intake. Poll refresh stops at the start of election day; the reference follows accepted forecasts until that boundary and refuses retrospective creation. Keep `data:forecast:reference` in the refresh workflow and its file in accepted-data commits. Final-count collection continues daily October–December; new historical geography and identity links still require review. See [election transition](docs/operations/election-transition-2026.md).
 
 

@@ -12,7 +12,7 @@ export function compareCandidate(current: CandidateResult, results: Person["resu
   if (previous.length > 1 || sameScope.filter(r => r.year === current.year).length > 1) return { ...base, reason: "multiple-parties" };
   if (!previous.length) return base;
   const p = previous[0];
-  const context = { ...base, previous: { year: p.year, partyCode: p.partyCode, partyId: p.partyId, partyName: p.partyName, votes: p.votes, partyVotes: p.partyVotes } };
+  const context = { ...base, previous: { year: p.year, partyCode: p.partyCode, partyId: p.partyId, partyName: p.partyName, votes: p.votes, partyVotes: p.partyVotes, ballotPositions: p.ballotPositions } };
   if (current.supersededBy || p.supersededBy) return { ...context, reason: "replaced-election" };
   // Constituency codes alone do not prove that the same voters are covered.
   if (!current.boundaryKey || current.boundaryKey !== p.boundaryKey) return { ...context, reason: "changed-area" };

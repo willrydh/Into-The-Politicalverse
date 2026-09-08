@@ -7,6 +7,7 @@ import { linkIdentities, type IdentityInput } from "../lib/candidates/identity";
 import { compareCandidate, rankCandidates, voteChange, personalVoteShare } from "../lib/candidates/math";
 import { validateCatalog, validatePersonShard, validateRankings } from "../lib/candidates/validation";
 import { candidateSearchEntries } from "../lib/candidates/search";
+import { summarizeBallotPositions, validateBallotPositions } from "../lib/candidates/ballots";
 import { type RankingRow, personShard } from "../lib/candidates/types";
 import { localVoteChange, localSwing } from "../lib/data/geography/local-math";
 import { readLocalSelection } from "../lib/data/geography/local-selection";
@@ -15,6 +16,45 @@ import type { PersonalVoteData } from "../lib/data/geography/personal-votes";
 
 const data=getCandidateData();
 const lars=data.sourcePeople.get("2022:46783")!;
+test("Jonas Attenius has printed list positions 10, 4 and 1 alongside the official municipal vote counts",()=>{
+  const jonas=data.sourcePeople.get("2022:50618")!;
+  const results=jonas.results.filter(r=>r.electionType==="KF"&&r.level==="municipality"&&r.areaCode==="1480").sort((a,b)=>a.year-b.year);
+  assert.deepEqual(results.map(r=>[r.year,r.votes,r.ballotPositions]),[
+    [2014,183,[{listNumber:"0002-07735",position:10}]],
+    [2018,545,[{listNumber:"0002-13869",position:4}]],
+    [2022,3720,[{listNumber:"0002-04106",position:1}]],
+  ]);
+  assert.equal(results[0].lists,4,"Four constituency observations of one printed list must not become four different lists");
+  const ranking=data.rankings.get("2022-KF")!.rows.find(r=>r.id==="50618"&&r.areaCode==="1480")!;
+  assert.deepEqual(ranking.comparison.previous?.ballotPositions,results[1].ballotPositions);
+  assert.equal(ranking.comparison.delta,3175);
+  assert.equal(ranking.comparison.percent,3175/545*100);
+});
+test("multiple printed lists retain all positions instead of choosing the best or averaging",()=>{
+  const row=data.rankings.get("2014-KF")!.rows.find(r=>r.id==="541067"&&r.areaCode==="0114")!;
+  assert.deepEqual(row.ballotPositions,[{listNumber:"0110-09899",position:6},{listNumber:"0110-10574",position:6},{listNumber:"0110-10576",position:1}]);
+  assert.deepEqual(summarizeBallotPositions(row.ballotPositions),{positions:[1,6],lists:3});
+  assert.deepEqual(summarizeBallotPositions([]),{positions:[],lists:0});
+  for(const person of data.people) for(const result of person.results) {
+    if(result.level==="constituency")continue;
+    const children=person.results.filter(r=>r.year===result.year&&r.electionType===result.electionType&&r.level==="constituency"&&r.areaCode.startsWith(result.areaCode)&&r.partyCode===result.partyCode);
+    const pairs=(rows:typeof children)=>[...new Set(rows.flatMap(r=>r.ballotPositions.map(b=>`${b.listNumber}:${b.position}`)))].sort();
+    assert.deepEqual(pairs([result]),pairs(children),"Aggregate list positions must match their source constituencies");
+  }
+});
+test("ballot metadata rejects invalid, duplicated and cross-party positions, including previous elections",()=>{
+  for(const position of [0,-1,1.5,NaN,Infinity,"1",null]) assert.throws(()=>validateBallotPositions([{listNumber:"0002-13869",position}],"0002"));
+  assert.throws(()=>validateBallotPositions(undefined,"0002"));
+  assert.throws(()=>validateBallotPositions([{listNumber:"0001-13869",position:4}],"0002"));
+  assert.throws(()=>validateBallotPositions([{listNumber:"0002-13869",position:4},{listNumber:"0002-13869",position:4}],"0002"));
+  const ranking=data.rankings.get("2022-KF")!;
+  const sample={...ranking,rows:[structuredClone(ranking.rows.find(r=>r.id==="50618"&&r.areaCode==="1480")!)]};
+  sample.rows[0].comparison.previous!.ballotPositions[0].position=0;
+  assert.throws(()=>validateRankings(sample));
+  const rd=lars.results.find(r=>r.year===2022&&r.electionType==="RD"&&r.areaCode==="19")!;
+  assert.ok(compareCandidate(rd,lars.results).previous!.ballotPositions.every(b=>b.listNumber.startsWith("0003-")));
+  assert.ok(rd.ballotPositions.every(b=>b.listNumber.startsWith("0001-")));
+});
 test("all eight parties keep official source codes and identity across elections, including MP and KD",()=>{
   const expected:Record<string,string>={"0001":"M","0002":"S","0003":"L","0004":"C","0005":"V","0055":"MP","0068":"KD","0110":"SD"};
   for(const ranking of data.rankings.values()) {
