@@ -28,7 +28,7 @@ export function CandidateRankings() {
   const metric = (["percent","delta","votes","sharePoints"] as const).includes(p.get("metric") as RankingMetric) ? String(p.get("metric")) as RankingMetric : "percent";
   const county=String(p.get("county")??""), area=String(p.get("area")??""), party=String(p.get("party")??""), minimum=[0,1,10,50,100].includes(Number(p.get("minimum"))) && p.has("minimum") ? Number(p.get("minimum")) : 1;
   const [search,setSearch]=useState("");
-  const [filtersOpen,setFiltersOpen]=useState(false), [notesOpen,setNotesOpen]=useState(false);
+  const [notesOpen,setNotesOpen]=useState(false);
   const tableContext = JSON.stringify([year,election,metric,county,area,party,minimum,search]);
   const [pagination,setPagination]=useState({context:tableContext,page:0});
   if(pagination.context!==tableContext) setPagination({context:tableContext,page:0});
@@ -62,14 +62,11 @@ export function CandidateRankings() {
   if(metric==="sharePoints") columns.push({key:"sharePoints",label:sv?"Andelslyft":"Share gain",name:sv?"Andelslyft":"Share gain",value:({row})=>row.comparison.sharePoints});
   const table = useTableSort(ranking, columns, {key:"rank",direction:"ascending"}, tableContext);
   const currentPage=Math.min(page,Math.max(0,Math.ceil(ranking.length/50)-1));
-  const selectedParty=parties.find(r=>r.partyCode===party);
-  const selectionSummary=[year,election==="KF"?(sv?"Kommun":"Municipal"):election==="RD"?"Riksdag":(sv?"Region":"Regional"),selectedParty?partyLabel(selectedParty,sv):(sv?"Alla partier":"All parties"),...(metric!=="votes"&&minimum!==1?[`Min. ${minimum}`]:[])].join(" · ");
   return <div className="candidate-page candidate-page--rankings">
     <section className="candidate-hero"><span className="eyebrow">{sv?"PERSONRÖSTER · STATISTIKARKIV":"PERSONAL VOTES · STATS ARCHIVE"} / 2010–2022</span><h1>{sv?"Politikernas":"Politicians’"}<br/><em>{sv?"topplistor.":"leaderboards."}</em></h1><p>{sv?"Vem ökar mest? Vem får flest kryss? Följ personerna, partierna och utvecklingen från val till val.":"Who is gaining fastest? Who wins the most personal votes? Follow candidates, parties and performance from one election to the next."}</p></section>
     <div className="candidate-body">
       <div className="candidate-metric-tabs" role="group" aria-label={sv?"Välj topplista":"Choose leaderboard"}>{metrics.map(m=><button type="button" key={m.id} aria-label={`${m.name}: ${m.detail}`} aria-pressed={metric===m.id} onClick={()=>update({metric:m.id})}><strong className="candidate-metric-full">{m.name}</strong><strong className="candidate-metric-short">{m.shortName}</strong><small>{m.detail}</small></button>)}</div>
-      <button className="candidate-filter-toggle" type="button" aria-expanded={filtersOpen} aria-controls="ranking-filters" onClick={()=>setFiltersOpen(!filtersOpen)}><span><small>{sv?"Urval":"Selection"}</small><strong>{selectionSummary}</strong></span><span>{filtersOpen?(sv?"Stäng":"Close"):(sv?"Ändra":"Edit")}</span></button>
-      <div className="candidate-filters" id="ranking-filters" data-expanded={filtersOpen}>
+      <div className="candidate-filters" id="ranking-filters">
         <label>{sv?"Valår":"Election year"}<select value={year} onChange={e=>update({year:e.target.value})}>{[...CANDIDATE_YEARS].reverse().map(y=><option key={y}>{y}</option>)}</select></label>
         <label>{sv?"Val":"Election"}<select value={election} onChange={e=>update({election:e.target.value,area:"",party:""})}>{ELECTION_TYPES.map(t=><option key={t} value={t}>{electionLabel(t,sv)}</option>)}</select></label>
         <label>{sv?"Län":"County"}<select value={county} onChange={e=>update({county:e.target.value,area:"",party:""})}><option value="">{sv?"Hela Sverige":"All Sweden"}</option>{catalog?.counties.map(c=><option key={c.code} value={c.code}>{c.name}</option>)}</select></label>

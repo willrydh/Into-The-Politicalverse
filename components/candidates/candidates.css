@@ -22,7 +22,7 @@
 .candidate-ranking-title label { width:270px; flex-shrink:0; }
 .candidate-scope,.candidate-identity-note { background:var(--paper); border-left:3px solid var(--acid); padding:16px 18px; font-size:13px; line-height:1.65; }
 .candidate-result-count { font-size:12px; margin:24px 0 12px; color:var(--muted); }
-.candidate-filter-toggle, .candidate-notes-toggle, .candidate-metric-short,
+.candidate-notes-toggle, .candidate-metric-short,
 .candidate-ranking-movement, .candidate-ranking-party, .candidate-mobile-note { display:none; }
 .candidate-scoreboard table { width:100%; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; }
 .candidate-scoreboard thead { text-align:left; color:var(--muted); background:var(--paper); font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
@@ -164,13 +164,7 @@
   .candidate-page--rankings .candidate-metric-tabs button[aria-pressed=true] { background:var(--surface); color:var(--blue); box-shadow:0 0 0 1px var(--line); }
   .candidate-page--rankings .candidate-metric-full, .candidate-page--rankings .candidate-metric-tabs small { display:none; }
   .candidate-page--rankings .candidate-metric-short { display:block; font-size:13px; font-weight:600; }
-  .candidate-filter-toggle { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; padding:14px 0; border:0; border-bottom:1px solid var(--line); background:transparent; color:var(--ink); text-align:left; cursor:pointer; }
-  .candidate-filter-toggle > span:first-child { display:grid; gap:4px; min-width:0; }
-  .candidate-filter-toggle small { color:var(--muted); font-size:10px; }
-  .candidate-filter-toggle strong { font-size:12px; line-height:1.5; font-weight:500; }
-  .candidate-filter-toggle > span:last-child { font-size:12px; color:var(--blue); }
   .candidate-page--rankings .candidate-filters { padding:18px 0; }
-  .candidate-page--rankings .candidate-filters[data-expanded=false] { display:none; }
   .candidate-ranking-title { padding:22px 0 0; }
   .candidate-ranking-title .mini-label { font-size:9px; line-height:1.7; }
   .candidate-ranking-title h2 { font-size:25px; }
