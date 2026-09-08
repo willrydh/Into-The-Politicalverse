@@ -9,19 +9,15 @@ import { useLocale } from "../localize";
 import { useLocalQuery, navigateLocalQuery } from "../maps/local-url";
 import { usePublishSiteLocation } from "../site-location";
 import { localizedHref } from "@/lib/i18n/translate";
-import { ELECTION_TYPES, CANDIDATE_YEARS, personShard, type CandidateElection, type Person } from "@/lib/candidates/types";
+import { CANDIDATE_YEARS, personShard, type Person } from "@/lib/candidates/types";
+import { selectCandidateProfile } from "@/lib/candidates/profile-selection";
 import { validatePersonShard } from "@/lib/candidates/validation";
 import { compareCandidate, personalVoteShare } from "@/lib/candidates/math";
 import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta, VoteComparisonNote } from "./shared";
 
 function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
   const locale=useLocale(),sv=locale==="sv",query=useLocalQuery(),params=new URLSearchParams(query);
-  const available=ELECTION_TYPES.filter(t=>person.results.some(r=>r.electionType===t));
-  const election=available.includes(params.get("election") as CandidateElection)?params.get("election") as CandidateElection:available.includes("KF")?"KF":available[0];
-  const mainResults=person.results.filter(r=>r.electionType===election&&(election==="RD"||r.level!=="constituency"));
-  const areas=[...new Map(mainResults.map(r=>[r.areaCode,{code:r.areaCode,name:r.areaName}])).values()];
-  const area=areas.some(a=>a.code===params.get("area"))?params.get("area")!:mainResults[0]?.areaCode;
-  const results=mainResults.filter(r=>r.areaCode===area).sort((a,b)=>a.year-b.year||a.partyCode.localeCompare(b.partyCode));
+  const {available,election,areas,area,results,latest}=selectCandidateProfile(person,params);
   const table = useTableSort(results.map(r=>({...r,comparison:compareCandidate(r,person.results)})), [
     {key:"year",label:sv?"Valår":"Year",name:sv?"Valår":"Year",value:r=>r.year},
     {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
@@ -37,7 +33,7 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
     {key:"votes",label:sv?"Personröster":"Personal votes",name:sv?"Personröster":"Personal votes",value:r=>r.votes},
     {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
   ]);
-  const latest=results.at(-1)!;const comparison=compareCandidate(latest,person.results);
+  const comparison=compareCandidate(latest,person.results);
   const fmt=(n:number,d=0)=>n.toLocaleString(sv?"sv-SE":"en-GB",{maximumFractionDigits:d,minimumFractionDigits:d});
   const name=areas.find(a=>a.code===area)?.name;
   const max=Math.max(1,...results.map(r=>r.votes));

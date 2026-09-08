@@ -32,6 +32,8 @@ jobs:
       - run: npm test
       - run: npm run typecheck:insights
       - run: npm run test:insights
+      - run: npm run typecheck:sharing
+      - run: npm run test:sharing
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5

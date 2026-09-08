@@ -37,3 +37,7 @@ node scripts/build-brand-assets.mjs --serif-font '/System/Library/Fonts/Suppleme
 ```
 
 For future replacements, update the versioned asset directory, shared metadata, 404 icon links and both manifests together. Check exported HTML for every language/route, all image URLs under the Pages base path, mobile menus at 320/390px, light/dark mode, the footer, and both sharing PNGs. Social services and operating systems can retain an already-saved preview/icon until their own cache refreshes.
+
+## Candidate sharing cards
+
+Candidate-specific profile links use their own 1200 × 630 PNG with the supplied crown, official personal votes and derived election-to-election change. This explicit profile exception keeps generic share-sheet/app icons unchanged. The card is rebuilt from versioned public history, including accepted future election results. See [candidate sharing](../operations/candidate-sharing.md).
