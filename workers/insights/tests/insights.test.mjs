@@ -14,7 +14,8 @@ const build=resolve('.wrangler/insights-test-bundle');
 execFileSync(process.execPath,['node_modules/wrangler/bin/wrangler.js','deploy','--dry-run','--config','workers/insights/wrangler.jsonc','--outdir',build],{stdio:'pipe',env:{...process.env,WRANGLER_SEND_METRICS:'false'}});
 
 test('private dashboard and consented first-party measurement',async t=>{
- const mf=new Miniflare(convertV4MiniflareOptions({host:'127.0.0.1',port:4317,modulesRoot:build,modules:['index.js',...readdirSync(build).filter(file=>file!=='index.js')].filter(file=>file.endsWith('.js')||file.endsWith('.html')).map(file=>({type:file==='index.js'?'ESModule':'Text',path:resolve(build,file)})),compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],bindings:{SITE_ORIGIN:origin,GA_MEASUREMENT_ID:'',ADMIN_PASSWORD_HASH:hash,SESSION_SECRET:randomBytes(32).toString('hex')},d1Databases:{DB:'insights-test'}}));
+ const outbound=[];
+ const mf=new Miniflare(convertV4MiniflareOptions({host:'127.0.0.1',port:4317,modulesRoot:build,modules:['index.js',...readdirSync(build).filter(file=>file!=='index.js')].filter(file=>file.endsWith('.js')||file.endsWith('.html')).map(file=>({type:file==='index.js'?'ESModule':'Text',path:resolve(build,file)})),compatibilityDate:'2026-09-08',compatibilityFlags:['nodejs_compat'],bindings:{SITE_ORIGIN:origin,GA_MEASUREMENT_ID:'',ADMIN_PASSWORD_HASH:hash,SESSION_SECRET:randomBytes(32).toString('hex')},d1Databases:{DB:'insights-test'},outboundService:request=>{outbound.push({url:request.url,method:request.method});const path=new URL(request.url).pathname;return new Response(null,{status:path==='/api/candidates/index.json'?503:path==='/api/forecasts/2026-reference.json'?302:200,headers:{Location:'https://unexpected.example/'}});}}));
  t.after(()=>mf.dispose());
  const db=await mf.getD1Database('DB');
  for(const sql of readFileSync('workers/insights/migrations/0001_insights.sql','utf8').split(';').filter(s=>s.trim()))await db.prepare(sql).run();
@@ -35,6 +36,13 @@ test('private dashboard and consented first-party measurement',async t=>{
   const stored=await db.prepare('SELECT * FROM admin_sessions').all();assert.equal(stored.results.length,1);assert.ok(!cookie.includes(stored.results[0].token_hash));
   const authed=await request('/admin/',{headers:{Cookie:cookie}});assert.equal(authed.status,200);assert.ok((await authed.text()).includes("Besökarnas vägar"));
   assert.equal((await request('/admin/app.js',{headers:{Cookie:cookie}})).status,200);
+ });
+ await t.test('system checks request real HEAD responses and preserve failures',async()=>{
+  const report=await (await request('/admin/api/system',{headers:{Cookie:cookie}})).json();
+  assert.equal(report.checks.length,5);assert.equal(report.checks.filter(r=>r.ok).length,3,JSON.stringify(report.checks));
+  assert.equal(report.checks.find(r=>r.path==='/api/candidates/index.json').status,503);
+  assert.equal(report.checks.find(r=>r.path==='/api/forecasts/2026-reference.json').status,302);
+  assert.equal(outbound.length,5);assert.ok(outbound.every(r=>r.method==='HEAD'&&r.url.startsWith(origin+'/')));
  });
  await t.test('login guessing is bounded',async()=>{
   for(let i=0;i<10;i++)assert.equal((await login('incorrect','192.0.2.99')).status,401);
