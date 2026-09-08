@@ -53,7 +53,7 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
-- Keep the central mandate comparison facing inward: both blocs' logos, seat totals and captions align toward the middle majority marker on all screen sizes.
+- Keep the central mandate comparison facing inward: both blocs' logos, seat totals and captions align toward the middle majority marker on all screen sizes. On desktop, four larger logos sit on the same row as each bloc's seat total, with the total nearest the majority marker. Preserve the compact mobile layout.
 - Profile standings must use the same full-cohort leaderboard function before top-100 clipping. Preserve the method/source versions, geography, party filter, year, competition ties and exact drilldown URLs. Total RD votes sum distinct constituencies per person and actual party; shares/changes remain constituency-scoped. Down-ballot support is an explicitly labelled subset (>=100 votes, all reported list positions >=6), never a causal performance score.
 - Sort table rows using explicit source values before pagination or top-N limits. Keep unavailable values last in both directions, stable ties and original leaderboard ranks. Preserve chart chronology, accessible column buttons, localized sort labels and the mobile equivalents for card layouts.
 - Align sortable headings with their column contents. Reset leaderboard column sorting and pagination whenever its metric, filters or candidate search change; never retain an earlier manual sort when returning to a previous selection.
