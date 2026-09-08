@@ -5,5 +5,6 @@ import nextTypescript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
-  globalIgnores([".next/**", "dist/**", "data/normalized/**", "next-env.d.ts"]),
+  { files: ["workers/insights/src/dashboard.js"], rules: { "@next/next/no-location-assign-relative-destination": "off" } },
+  globalIgnores([".next/**", "**/.wrangler/**", "dist/**", "data/normalized/**", "next-env.d.ts", "workers/insights/worker-configuration.d.ts"]),
 ]);

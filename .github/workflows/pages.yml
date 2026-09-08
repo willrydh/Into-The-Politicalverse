@@ -30,6 +30,8 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      - run: npm run typecheck:insights
+      - run: npm run test:insights
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5
