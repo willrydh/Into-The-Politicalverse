@@ -59,7 +59,7 @@ export function SiteHeader() {
       if (event.target instanceof Node && !headerRef.current?.contains(event.target)) setOpenOnPath(null);
     };
     const escape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") { setOpenOnPath(null); menuButton.current?.focus(); }
+      if (event.key === "Escape") { setOpenOnPath(null); menuButton.current?.focus({ preventScroll: true }); }
     };
     const desktop = window.matchMedia("(min-width: 981px)");
     const resize = () => { if (desktop.matches) setOpenOnPath(null); };
@@ -83,8 +83,8 @@ export function SiteHeader() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  return <Localize>{(
-    <div className="site-header-slot">
+  return <Localize>{(<>
+    <div className="site-header-slot" aria-hidden="true" />
     <div className="site-header-positioner" ref={headerRef}>
     <div className="site-header" data-menu-open={menuOpen}>
       <header>
@@ -133,6 +133,5 @@ export function SiteHeader() {
       </header>
     </div>
     </div>
-    </div>
-  )}</Localize>;
+  </>)}</Localize>;
 }

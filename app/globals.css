@@ -141,7 +141,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height, 170px) + 12px); }
 /* The navigation itself is above the content's anchor exclusion area. */
 html:has(.site-header :focus) { scroll-padding-top: 0; }
-body { margin: 0; padding-inline: var(--safe-area-left) var(--safe-area-right); background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+body { display: flow-root; margin: 0; padding-inline: var(--safe-area-left) var(--safe-area-right); background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
 button { color: inherit; }
@@ -153,39 +153,27 @@ button { color: inherit; }
   box-shadow: inset 0 -2px 0 var(--focus);
 }
 
-.site-header-slot {
-  position: relative;
-  min-height: var(--site-header-height, 0px);
+.site-header-slot { height: var(--header-document-y, 0px); overflow-anchor: none; }
+.site-header-slot:has(+ [data-offscreen="true"]) { height: 0; }
+.site-header-positioner {
+  display: flow-root;
+  position: sticky;
+  z-index: 20;
+  top: calc(-1 * var(--site-header-height, 0px));
+  bottom: calc(var(--header-viewport-height, 100vh) - var(--site-header-height, 0px));
+  margin-bottom: calc(-1 * var(--header-document-y, 0px));
+  background: var(--surface);
   overflow-anchor: none;
 }
-.site-header-positioner { display: contents; }
 .site-header {
   position: relative;
-  z-index: 20;
   background: var(--surface);
   padding-top: var(--safe-area-top);
   border-bottom: 1px solid var(--line);
 }
-.site-header-positioner[data-position="floating"] {
-  /* A real viewport container lets iOS extend the visible navigation behind
-     its status area. On release, display:contents removes this renderer, so
-     WebKit cannot retain its former fixed-container color while we scroll. */
-  display: block;
-  position: fixed;
-  z-index: 20;
-  top: 0;
-  left: var(--safe-area-left);
-  right: var(--safe-area-right);
-  background: var(--surface);
-}
-/* One document position for both directions; no independent slide animation. */
-.site-header-positioner[data-position="tracking"] > .site-header {
-  position: absolute;
-  top: var(--header-document-y);
-  left: 0;
-  right: 0;
-}
+.site-header-positioner[data-offscreen="true"] { display: contents; }
 .site-header-positioner[data-offscreen="true"] > .site-header { visibility: hidden; pointer-events: none; }
+.site-header-positioner[data-pinned="true"] { top: 0; bottom: auto; }
 
 .site-header__utility { border-bottom: 1px solid var(--line); }
 .site-header__utility-inner, .site-header__navigation-inner { width: var(--page); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }

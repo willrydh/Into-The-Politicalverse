@@ -3,142 +3,92 @@ import test from "node:test";
 import { advanceScrollHeader, createScrollHeaderState, type ScrollHeaderState } from "../lib/ui/scroll-header";
 
 const bounds = { headerHeight: 110, maxScroll: 2000 };
-const top = (state: ScrollHeaderState, y: number) => state.phase === "floating" ? 0 : (state.documentY ?? 0) - y;
+const top = (state: ScrollHeaderState) => Math.max(-bounds.headerHeight, Math.min(0, state.documentY - state.y));
 
-test("the first downward scroll leaves the header in normal document flow", () => {
+test("the initial header scrolls away without changing its document anchor", () => {
   let state = createScrollHeaderState(0);
-  for (const y of [15, 50, 105, 110, 115, 120, 130, 500, 1700]) {
+  for (const y of [0.25, 2, 15, 50, 105, 110, 115, 500, 1700]) {
     state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "flow");
+    assert.equal(state.documentY, 0);
+    assert.equal(top(state), -Math.min(y, 110));
   }
 });
 
-test("jitter cannot start an upward reveal", () => {
-  let state = createScrollHeaderState(800);
-  for (const y of [799, 801, 797, 803, 800, 797, 801, 796]) {
-    state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "flow");
-  }
-  const revealing = advanceScrollHeader(state, 795, bounds);
-  assert.equal(revealing.phase, "tracking");
-  assert.equal(top(revealing, 795), -110);
+test("slow movement responds to the first fraction of a pixel at both edges", () => {
+  const hidden = advanceScrollHeader(createScrollHeaderState(500), 499.75, bounds);
+  assert.equal(top(hidden), -109.75);
+  const shown = advanceScrollHeader(createScrollHeaderState(500, true), 500.25, bounds);
+  assert.equal(top(shown), -0.25);
 });
 
-test("slow fractional upward movement accumulates from the last peak", () => {
-  let state = createScrollHeaderState(500);
-  for (let i = 1; i < 32; i++) {
-    state = advanceScrollHeader(state, 500 - i / 4, bounds);
-    assert.equal(state.phase, "flow");
-  }
-  assert.equal(advanceScrollHeader(state, 492, bounds).phase, "tracking");
-});
-
-test("reveal follows the gesture one-for-one and pins only at the top edge", () => {
-  let state = advanceScrollHeader(createScrollHeaderState(800), 792, bounds);
-  for (const y of [782, 770, 752, 700, 683]) {
-    state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "tracking");
-    assert.equal(top(state, y), -110 + 792 - y);
-  }
-  state = advanceScrollHeader(state, 682, bounds);
-  assert.equal(state.phase, "floating");
-  assert.equal(top(state, 682), 0);
-});
-
-test("stopping and reversing a partial reveal preserves its document position", () => {
-  let state = advanceScrollHeader(createScrollHeaderState(800), 792, bounds);
-  state = advanceScrollHeader(state, 742, bounds);
-  const documentY = state.documentY;
-  assert.equal(advanceScrollHeader(state, 742, bounds), state);
-  for (const y of [750, 760, 745, 730, 780]) {
-    state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.documentY, documentY);
-    assert.equal(top(state, y), 682 - y);
-  }
-  assert.equal(advanceScrollHeader(state, 792, bounds).phase, "flow");
-});
-
-test("downward release never jumps to catch up with batched scroll events", () => {
-  for (const y of [508, 524, 534, 1200]) {
-    const state = advanceScrollHeader(createScrollHeaderState(500, true), y, bounds);
-    assert.equal(state.phase, "tracking");
-    assert.equal(top(state, y), 0);
-    assert.equal(advanceScrollHeader(state, y, bounds), state);
-    const moved = advanceScrollHeader(state, y + 20, bounds);
-    assert.equal(top(moved, y + 20), -20);
-  }
-});
-
-test("a small correction keeps a fully revealed header pinned", () => {
-  let state = createScrollHeaderState(600, true);
-  for (const y of [605, 600, 607, 604, 595, 602]) {
-    state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "floating");
-  }
-  assert.equal(advanceScrollHeader(state, 603, bounds).phase, "tracking");
-});
-
-test("a paused gesture at either edge cannot repeatedly detach or pin", () => {
-  const revealing = advanceScrollHeader(createScrollHeaderState(800), 792, bounds);
-  const releasing = advanceScrollHeader(createScrollHeaderState(800, true), 808, bounds);
-  for (let i = 0; i < 10; i++) {
-    assert.equal(advanceScrollHeader(revealing, 792, bounds), revealing);
-    assert.equal(advanceScrollHeader(releasing, 808, bounds), releasing);
-  }
-});
-
-test("five complete down/up/down cycles preserve native movement", () => {
-  let state = createScrollHeaderState(300);
-  for (const peak of [500, 800, 1100, 1400, 1700]) {
-    state = advanceScrollHeader(state, peak, bounds);
-    state = advanceScrollHeader(state, peak - 8, bounds);
-    state = advanceScrollHeader(state, peak - 118, bounds);
-    assert.equal(state.phase, "floating");
-    state = advanceScrollHeader(state, peak - 110, bounds);
-    assert.equal(top(state, peak - 110), 0);
-    state = advanceScrollHeader(state, peak, bounds);
-    assert.equal(state.phase, "flow");
-  }
-});
-
-test("Safari rubber-band samples cannot create a false reveal", () => {
-  let state = createScrollHeaderState(1999);
-  for (const y of [2000, 2010, 2070, 2025, 2001, 2000, 1997]) {
-    state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "flow");
-  }
-  assert.equal(advanceScrollHeader(state, 1992, bounds).phase, "tracking");
-  for (const y of [-1, -45, Number.NaN, Number.POSITIVE_INFINITY]) {
-    assert.equal(advanceScrollHeader(state, y, bounds), state);
-  }
-});
-
-test("menu and keyboard access reveal immediately at every scroll position", () => {
-  const state = advanceScrollHeader(createScrollHeaderState(800), 792, bounds);
-  for (const y of [0, 750, 1200, 2030]) {
-    assert.equal(advanceScrollHeader(state, y, { ...bounds, pinned: true }).phase, "floating");
-  }
-});
-
-test("resize can retire a tracking surface that no longer reaches the viewport", () => {
-  const state = advanceScrollHeader(createScrollHeaderState(800), 792, bounds);
-  const resized = advanceScrollHeader(state, 760, { headerHeight: 60, maxScroll: 1800 });
-  assert.equal(resized.phase, "flow");
-});
-
-test("a pinned header stays in place until the actual page top", () => {
+test("pauses and tiny reversals preserve the same anchor through partial movement", () => {
   let state = createScrollHeaderState(500, true);
-  for (const y of [300, 150, 109, 50, 1]) {
+  for (const y of [502, 504, 506, 508, 510, 508, 506, 504, 502, 500]) {
     state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "floating");
+    assert.equal(state.documentY, 500);
+    assert.equal(top(state), 500 - y);
+    assert.equal(advanceScrollHeader(state, y, bounds), state);
   }
-  assert.equal(advanceScrollHeader(state, 0, bounds).phase, "flow");
 });
 
-test("the original header stays in normal flow while still visible", () => {
-  let state = createScrollHeaderState(80);
-  for (const y of [70, 50, 40, 20, 0]) {
+test("native bounds stop overshoot without changing anchor at full reveal", () => {
+  let state = advanceScrollHeader(createScrollHeaderState(800), 790, bounds);
+  assert.equal(state.documentY, 690);
+  for (const y of [750, 700, 690, 680, 500]) {
     state = advanceScrollHeader(state, y, bounds);
-    assert.equal(state.phase, "flow");
+    assert.equal(state.documentY, 690);
+    assert.equal(top(state), Math.min(0, 690 - y));
   }
+  state = advanceScrollHeader(state, 502, bounds);
+  assert.equal(top(state), -2);
+});
+
+test("repeated slow down/up cycles consume exactly the same distance", () => {
+  let state = createScrollHeaderState(500, true);
+  for (let cycle = 0; cycle < 5; cycle++) {
+    for (let i = 1; i <= 150; i++) {
+      state = advanceScrollHeader(state, 500 + i, bounds);
+      assert.equal(top(state), -Math.min(i, 110));
+    }
+    for (let i = 1; i <= 150; i++) {
+      state = advanceScrollHeader(state, 650 - i, bounds);
+      assert.equal(top(state), Math.min(0, -110 + i));
+    }
+  }
+});
+
+test("mixed movements match a bounded distance accumulator", () => {
+  let state = createScrollHeaderState(700, true), expected = 0, seed = 7;
+  for (let i = 0; i < 2000; i++) {
+    seed = (seed * 16807) % 2147483647;
+    const dy = ((seed % 81) - 40) / 4;
+    const y = Math.min(1800, Math.max(200, state.y + dy));
+    expected = Math.max(-110, Math.min(0, expected - (y - state.y)));
+    state = advanceScrollHeader(state, y, bounds);
+    assert.equal(top(state), expected);
+  }
+});
+
+test("Safari rubber-band samples do not reverse or accumulate movement", () => {
+  let state = createScrollHeaderState(1999);
+  state = advanceScrollHeader(state, 2000, bounds);
+  for (const y of [2010, 2070, 2025, 2001, -1, -45, NaN, Infinity]) {
+    assert.equal(advanceScrollHeader(state, y, bounds), state);
+  }
+  state = advanceScrollHeader(state, 1999, bounds);
+  assert.equal(top(state), -109);
+});
+
+test("menu and keyboard forcing reveals the header; top of document restores its anchor", () => {
+  let state = createScrollHeaderState(800);
+  state = advanceScrollHeader(state, 800, { ...bounds, pinned: true });
+  assert.equal(top(state), 0);
+  state = advanceScrollHeader(state, 0, bounds);
+  assert.deepEqual(state, createScrollHeaderState(0));
+});
+
+test("a smaller header can re-enter from its new hidden edge", () => {
+  let state = advanceScrollHeader(createScrollHeaderState(800), 790, bounds);
+  state = advanceScrollHeader(state, 789, { ...bounds, headerHeight: 60 });
+  assert.equal(state.documentY - state.y, -59);
 });
