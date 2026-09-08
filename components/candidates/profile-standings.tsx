@@ -5,19 +5,15 @@ import { useLocalQuery, navigateLocalQuery } from "../maps/local-url";
 import { localizedHref } from "@/lib/i18n/translate";
 import { personShard, type CandidateResult } from "@/lib/candidates/types";
 import { RANKING_METRICS, rankingLabel, standingLabel } from "@/lib/candidates/leaderboards";
-import { standingsHref, validateStandings, type StandingScope } from "@/lib/candidates/standings";
+import { standingsHref, selectStandingCandidacy, validateStandings, type StandingScope } from "@/lib/candidates/standings";
 import { validateCatalog } from "@/lib/candidates/validation";
 import { CandidateLoading, electionLabel, partyLabel, useCandidateResource } from "./shared";
 
 export function ProfileStandings({ person, results, sourceVersion, initialYear }: { person: string; results: CandidateResult[]; sourceVersion: string; initialYear: number }) {
   const locale = useLocale(), sv = locale === "sv";
   const query = useLocalQuery(), params = new URLSearchParams(query);
-  const years = [...new Set(results.map(r => r.year))].sort((a, b) => b - a);
-  const chosenYear = Number(params.get("year")) || initialYear, chosenParty = params.get("standingParty") ?? "", partyOnly = params.get("peers") === "party" ? 1 : 0;
+  const { years, year, candidacies, selected, partyOnly } = selectStandingCandidacy(results, params, initialYear);
   function update(values: Record<string, string>) { const next = new URLSearchParams(query); for (const [key, value] of Object.entries(values)) { if (value) next.set(key, value); else next.delete(key); } navigateLocalQuery(`?${next}`); }
-  const year = years.find(y => y === chosenYear) ?? years[0];
-  const candidacies = results.filter(r => r.year === year);
-  const selected = candidacies.find(r => r.partyCode === chosenParty) ?? candidacies[0];
   const state = useCandidateResource(`standings-v1/${personShard(person)}.json`, validateStandings);
   const catalogState = useCandidateResource("index.json", validateCatalog), catalog = catalogState.data;
   const valid = state.data?.sourceVersion === sourceVersion && Object.hasOwn(state.data.people, person) && catalog?.version === sourceVersion;

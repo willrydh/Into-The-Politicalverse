@@ -399,7 +399,6 @@ button { color: inherit; }
 /* Interior product pages */
 .interior-page { min-height: 80vh; }
 .interior-hero { background: var(--brand-surface); color: var(--white); min-height: 360px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 80px; padding: 72px max(32px, calc((100vw - min(1280px, calc(100vw - 64px))) / 2)) 58px; position: relative; overflow: hidden; }
-.interior-hero::after { content: ""; position: absolute; width: 360px; height: 360px; right: -150px; bottom: -220px; background: var(--brand-deep); transform: rotate(18deg); opacity: .7; }
 .interior-hero h1 { font-size: clamp(55px, 6vw, 86px); }
 .interior-hero__aside { display: grid; grid-template-columns: auto auto; gap: 4px 13px; min-width: 250px; border-left: 1px solid rgba(255,255,255,.22); padding-left: 30px; }
 .interior-hero__aside strong { font-size: 28px; letter-spacing: -.05em; color: var(--acid); }
@@ -600,7 +599,6 @@ button { color: inherit; }
 
 /* Riksdag scenario simulator */
 .interior-hero--simulator { min-height: 470px; background: var(--brand-deep); }
-.interior-hero--simulator::after { width: 520px; height: 520px; right: -210px; bottom: -315px; background: var(--brand-surface); border: 1px solid rgba(255,255,255,.12); }
 .simulator-hero-facts { width: 100%; margin-top: 4px; }
 .simulator-hero-facts strong { font-family: var(--mono); font-size: 25px; }
 .classification-badge--model { border-color: rgba(89,45,95,.32); color: var(--model-ink); background: var(--model-bg); }
@@ -894,18 +892,6 @@ button { color: inherit; }
   background: var(--brand-surface);
   color: var(--white);
   position: relative;
-}
-.forecast-hero::after {
-  content: "";
-  position: absolute;
-  width: min(620px, 44vw);
-  aspect-ratio: 1;
-  top: -40%;
-  right: -14%;
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 50%;
-  box-shadow: 0 0 0 110px rgba(117,178,221,.06), 0 0 0 220px rgba(117,178,221,.035);
-  pointer-events: none;
 }
 .forecast-hero__grid {
   width: var(--page);
@@ -1409,6 +1395,7 @@ button { color: inherit; }
 .live-method { border-top:1px solid var(--line); }
 .source-catalog h1 { font-size:clamp(36px,5vw,68px); letter-spacing:-.045em; line-height:1.1; margin:22px 0; }
 .source-catalog > p { max-width:920px; line-height:1.7; }
+.source-hero > p { max-width:920px; line-height:1.7; }
 .source-catalog__grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin:36px 0; }
 .source-catalog__grid article { border:1px solid var(--line); padding:28px; }
 .source-catalog__grid h2 { font-size:25px; line-height:1.2; margin:20px 0 14px; }
@@ -1613,3 +1600,39 @@ button { color: inherit; }
 .live-forecast-comparison h2 { margin: 10px 0 18px; }
 .live-forecast-comparison table { min-width: 690px; }
 .reference-checksum { overflow-wrap: anywhere; }
+
+/* One decorative surface shared by every public hero. The supplied transparent
+   crown stays behind content, is clipped locally, and never follows the scroll. */
+:is(.interior-hero, .candidate-hero, .forecast-hero, .forecast-page-hero, .live-hero, .search-hero, .source-hero) {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+:is(.interior-hero, .candidate-hero, .forecast-hero, .forecast-page-hero, .live-hero, .search-hero, .source-hero)::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  width: clamp(340px, 48vw, 760px);
+  aspect-ratio: 1;
+  top: -100px;
+  right: -30px;
+  background: url("../public/brand/crown-2026/politicalverse-mark.svg") center / contain no-repeat;
+  opacity: .075;
+  transform: translate3d(0, 0, 0) rotate(-12deg);
+  animation: hero-crown-drift 36s ease-in-out infinite alternate;
+}
+@keyframes hero-crown-drift {
+  to { transform: translate3d(-28px, 22px, 0) rotate(-4deg); }
+}
+@media (max-width: 600px) {
+  :is(.interior-hero, .candidate-hero, .forecast-hero, .forecast-page-hero, .live-hero, .search-hero, .source-hero)::before {
+    width: 380px;
+    top: -20px;
+    right: -125px;
+    opacity: .065;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.interior-hero, .candidate-hero, .forecast-hero, .forecast-page-hero, .live-hero, .search-hero, .source-hero)::before { animation: none; }
+}

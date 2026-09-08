@@ -1,7 +1,7 @@
 // Public transport contract, independent of the history importer's enabled years.
 // Only the verified history build may publish these files. No live/staged feed is read.
 export const SHARE_SCHEMA = 1;
-export const SHARE_DESIGN = "candidate-card-1";
+export const SHARE_DESIGN = "candidate-card-2";
 export type ShareLocale = "sv" | "en";
 export type ShareScope = {
   election: "RD" | "RF" | "KF"; area: string; areaName: string;
@@ -9,10 +9,11 @@ export type ShareScope = {
   previousParty: string | null;
   reason: "comparable" | "no-baseline" | "zero-baseline" | "changed-area" | "replaced-election" | "multiple-parties";
   status: "final";
+  candidacies: { year: number; partyCode: string; party: string; county: string }[];
   history: { year: number; votes: number | null; party: string; connect: boolean }[];
 };
 export type SharePerson = { id: string; name: string; revision: string; defaultElection: string; scopes: ShareScope[] };
-export type ShareShard = { schemaVersion: 1; sourceVersion: string; people: Record<string, SharePerson> };
+export type ShareShard = { schemaVersion: 1; sourceVersion: string; counties: { code: string; name: string }[]; people: Record<string, SharePerson> };
 
 export function selectShareScope(person: SharePerson, params: URLSearchParams) {
   const election = person.scopes.some(s => s.election === params.get("election")) ? params.get("election") : person.defaultElection;
@@ -38,6 +39,13 @@ export function validateSharePerson(value: unknown, id: string): asserts value i
     assert(s.previousParty === null || text(s.previousParty));
     assert(["comparable", "no-baseline", "zero-baseline", "changed-area", "replaced-election", "multiple-parties"].includes(s.reason));
     assert(s.reason === "comparable" ? Number.isFinite(s.percent) && s.percent! >= -100 : s.percent === null);
+    assert(Array.isArray(s.candidacies) && s.candidacies.length > 0 && s.candidacies.length <= 1000);
+    const candidacies = new Set<string>();
+    for (const c of s.candidacies) {
+      const key = `${c.year}:${c.partyCode}`;
+      assert(year(c.year) && c.year <= s.year && /^\d+$/.test(c.partyCode) && text(c.party) && /^\d{2}$/.test(c.county) && !candidacies.has(key));
+      candidacies.add(key);
+    }
     assert(Array.isArray(s.history) && s.history.length > 0 && s.history.length <= 100);
     for (const [i, point] of s.history.entries()) {
       assert(year(point.year) && point.year <= s.year && (point.votes === null || votes(point.votes)) && typeof point.party === "string" && point.party.length <= 300 && typeof point.connect === "boolean");

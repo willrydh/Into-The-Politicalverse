@@ -1,3 +1,6 @@
+import { shareStandingContext, shareStandingHighlights } from "../../../lib/candidates/sharing-standings";
+import { buildStandings } from "../../../lib/candidates/build-standings";
+import { LEADERBOARD_METHOD } from "../../../lib/candidates/leaderboards";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readdirSync, writeFileSync, rmSync } from "node:fs";
@@ -12,6 +15,7 @@ const origin = "https://politicalverse.se", build = resolve(".wrangler/sharing-t
 rmSync(build, { recursive: true, force: true });
 execFileSync(process.execPath, ["node_modules/wrangler/bin/wrangler.js", "deploy", "--dry-run", "--config", "workers/sharing/wrangler.jsonc", "--outdir", build], { stdio: "pipe", env: { ...process.env, WRANGLER_SEND_METRICS: "false" } });
 const source = getCandidateData();
+const standings = buildStandings(source.people, source.rankings.values());
 const jonas = source.people.find(p => p.id === "p2014-497303")!;
 const initial = buildSharePerson(jonas);
 const html = '<!doctype html><html><head><title>Generic</title><meta name="description" content="Generic"><meta property="og:image" content="generic.png"><meta name="twitter:image" content="generic.png"><link rel="canonical" href="https://politicalverse.se/people/"><link rel="alternate" hreflang="en" href="https://politicalverse.se/en/people/"><meta name="viewport" content="width=device-width"></head><body><main id="profile">Existing page</main><script src="/application.js"></script></body></html>';
@@ -19,6 +23,7 @@ const imageURL = (text: string) => text.match(/property="og:image" content="([^"
 
 test("public candidate metadata, real PNGs and election updates at the Worker boundary", async t => {
   let current = initial, sourceFailure = false, oversized = false;
+  let sourceVersion = source.catalog.version, mismatchedStandings = false;
   const outbound: string[] = [];
   const mf = new Miniflare(convertV4MiniflareOptions({ host: "127.0.0.1", port: 4317, modulesRoot: build,
     modules: ["index.js", ...readdirSync(build).filter(f => /\.(svg|woff|wasm)$/.test(f))].map(file => ({ type: file === "index.js" ? "ESModule" : file.endsWith(".wasm") ? "CompiledWasm" : file.endsWith(".woff") ? "Data" : "Text", path: resolve(build, file) })),
@@ -26,7 +31,8 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
     outboundService: request => {
       outbound.push(request.url);
       assert.equal(request.headers.get("Cookie"), null);
-      if (new URL(request.url).pathname.startsWith("/api/candidates/sharing-v1/")) return sourceFailure ? new Response("down", { status: 503 }) : new Response(oversized ? "x".repeat(4 * 1024 * 1024 + 1) : JSON.stringify({ schemaVersion: 1, sourceVersion: source.catalog.version, people: { [current.id]: current } }), { headers: { "Content-Type": "application/json" } });
+      if (new URL(request.url).pathname.startsWith("/api/candidates/sharing-v1/")) return sourceFailure ? new Response("down", { status: 503 }) : new Response(oversized ? "x".repeat(4 * 1024 * 1024 + 1) : JSON.stringify({ schemaVersion: 1, sourceVersion, counties: source.catalog.counties, people: { [current.id]: current } }), { headers: { "Content-Type": "application/json" } });
+      if (new URL(request.url).pathname.startsWith("/api/candidates/standings-v1/")) return new Response(JSON.stringify({ schemaVersion: 1, sourceVersion: mismatchedStandings ? "0".repeat(64) : sourceVersion, classification: "DERIVED", method: LEADERBOARD_METHOD, people: { [current.id]: standings.get(current.id) ?? [] } }), { headers: { "Content-Type": "application/json" } });
       return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8", ETag: "generic", "Last-Modified": "yesterday" } });
     },
   }));
@@ -108,6 +114,49 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
     p.results.at(-1)!.votes = 7441; current = buildSharePerson(p);
     assert.notEqual(imageURL(await (await request(profile)).text()), fresh);
     current = initial;
+  });
+  await t.test("another candidate's correction refreshes standings even when this person's votes are unchanged", async () => {
+    sourceVersion = "a".repeat(64);
+    const body = await (await request(profile)).text();
+    const fresh = imageURL(body); assert.notEqual(fresh, firstImage);
+    const old = await request(firstImage); assert.equal(old.status, 302); assert.equal(old.headers.get("Location"), fresh);
+    const r = await request(fresh); assert.equal(r.status, 200);
+    mismatchedStandings = true;
+    assert.equal((await request(fresh)).status, 503); // Do not serve a cached image from mismatched source generations.
+    mismatchedStandings = false; sourceVersion = source.catalog.version;
+  });
+  await t.test("historical, party-filtered and full five-row standings render and keep distinct links", async () => {
+    for (const [query, file] of [["&year=2018", "jonas-2018"], ["&peers=party", "jonas-party"]]) {
+      const body = await (await request(profile + query)).text();
+      const image = imageURL(body); assert.match(image, query.includes("year") ? /year=2018/ : /peers=party/);
+      const response = await request(image); assert.equal(response.status, 200);
+      writeFileSync(resolve(build, file + ".png"), Buffer.from(await response.arrayBuffer()));
+    }
+    const rich = source.people.find(p => standings.get(p.id)?.some(r => r.election === "KF" && r.year === 2022 && new Set(r.ranks.filter(x => x[2] === 0).map(x => x[0])).size === 5))!;
+    const record = standings.get(rich.id)!.find(r => r.election === "KF" && r.year === 2022 && new Set(r.ranks.filter(x => x[2] === 0).map(x => x[0])).size === 5)!;
+    current = buildSharePerson(rich);
+    for (const locale of ["", "/en"]) {
+      const body = await (await request(`${locale}/people/?person=${rich.id}&election=KF&area=${record.area}`)).text();
+      const response = await request(imageURL(body)); assert.equal(response.status, 200);
+      writeFileSync(resolve(build, `five-rankings${locale ? "-en" : ""}.png`), Buffer.from(await response.arrayBuffer()));
+    }
+    current = initial;
+  });
+  await t.test("all published profiles produce at most five valid, deduplicated highlights", () => {
+    for (const person of source.people) {
+      const share = buildSharePerson(person);
+      for (const scope of share.scopes) {
+        const context = shareStandingContext(scope, new URLSearchParams(), source.catalog.version);
+        const view = shareStandingHighlights(share, scope, context, standings.get(person.id) ?? [], source.catalog.counties, "sv");
+        assert.ok(view.items.length <= 5);
+        assert.equal(new Set(view.items.map(r => r.key)).size, view.items.length);
+      }
+    }
+    const jan = buildSharePerson(source.people.find(p => p.id === "p2022-29046")!);
+    const scope = jan.scopes.find(s => s.area === "19")!;
+    const view = shareStandingHighlights(jan, scope, shareStandingContext(scope, new URLSearchParams(), source.catalog.version), standings.get(jan.id)!, source.catalog.counties, "sv");
+    assert.deepEqual(view.items.map(i => i.placement), ["#32", "#4", "#26", "#1", "#7"]);
+    assert.equal(view.items[0].detail, "Riksdag · Svenska moderater");
   });
   await t.test("all text is escaped; request parameters cannot inject image content or upstream URLs", async () => {
     current = { ...initial, name: '<script>alert("name")</script> & Åsa' };

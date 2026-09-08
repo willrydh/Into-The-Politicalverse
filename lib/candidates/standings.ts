@@ -7,6 +7,16 @@ export type StandingRank = [metric: RankingMetric, scope: StandingScope, partyOn
 export type StandingRecord = { year: CandidateYear; election: CandidateElection; area: string; party: string; ranks: StandingRank[] };
 export type StandingsShard = { schemaVersion: 1; method: string; sourceVersion: string; classification: "DERIVED"; people: Record<string, StandingRecord[]> };
 
+// Used by the profile and sharing cards, including old years and party filters.
+export function selectStandingCandidacy<T extends { year: number; partyCode: string }>(results: T[], params: URLSearchParams, initialYear: number) {
+  const years = [...new Set(results.map(r => r.year))].sort((a, b) => b - a);
+  const chosenYear = Number(params.get("year")) || initialYear;
+  const year = years.find(y => y === chosenYear) ?? years[0];
+  const candidacies = results.filter(r => r.year === year);
+  const selected = candidacies.find(r => r.partyCode === params.get("standingParty")) ?? candidacies[0];
+  return { years, year, candidacies, selected, partyOnly: params.get("peers") === "party" ? 1 as const : 0 as const };
+}
+
 export function standingsHref(person: string, record: StandingRecord, standing: StandingRank, county: string) {
   const [metric, scope, partyOnly] = standing;
   return `/rankings/?${new URLSearchParams({ year: String(record.year), election: record.election, metric, minimum: "1", ...(scope === "area" ? { area: record.area } : scope === "county" ? { county } : {}), ...(partyOnly ? { party: record.party } : {}), candidate: person })}`;
