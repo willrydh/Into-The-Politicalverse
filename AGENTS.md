@@ -53,6 +53,7 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Candidate-profile result tables default to descending election year on mobile and desktop, and reset to that order when the person, election type or area changes. History charts retain chronological order.
 - All public hero surfaces use the original transparent crown as a subtle, slowly animated CSS background. Keep it locally clipped behind content, transform-only, and independent of sticky-header scrolling. Honor the existing operating-system reduced-motion preference; do not add a site control.
 
 - Keep the central mandate comparison facing inward: both blocs' logos, seat totals and captions align toward the middle majority marker on all screen sizes. On desktop, four larger logos sit on the same row as each bloc's seat total, with the total nearest the majority marker. Preserve the compact mobile layout.

@@ -26,14 +26,14 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
     {key:"change",label:sv?"Förändring":"Change",name:sv?"Förändring i procent":"Percentage change",value:r=>r.comparison.percent},
     {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
     {key:"share",label:sv?"Andel":"Share",name:sv?"Andel":"Share",value:personalVoteShare},
-  ], {key:"year",direction:"ascending"});
+  ], {key:"year",direction:"descending"}, `${person.id}:${election}:${area}`);
   const constituencies = useTableSort(person.results.filter(r=>r.electionType===election&&r.level==="constituency"&&r.areaCode.startsWith(area)), [
     {key:"year",label:sv?"Val":"Election",name:sv?"Valår":"Year",value:r=>r.year},
     {key:"area",label:sv?"Valkrets":"Constituency",name:sv?"Valkrets":"Constituency",direction:"ascending",value:r=>r.areaName},
     {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
     {key:"votes",label:sv?"Personröster":"Personal votes",name:sv?"Personröster":"Personal votes",value:r=>r.votes},
     {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
-  ]);
+  ], {key:"year",direction:"descending"}, `${person.id}:${election}:${area}`);
   const comparison=compareCandidate(latest,person.results);
   const fmt=(n:number,d=0)=>n.toLocaleString(sv?"sv-SE":"en-GB",{maximumFractionDigits:d,minimumFractionDigits:d});
   const name=areas.find(a=>a.code===area)?.name;

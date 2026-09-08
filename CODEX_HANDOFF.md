@@ -22,6 +22,8 @@ Public target: `https://politicalverse.se/`, GitHub Pages origin with a dedicate
 
 Candidate profile links now have a separate public sharing Worker for crawler metadata and 1200 × 630 PNGs. Every Pages candidate prebuild regenerates compact sharing shards and per-profile content revisions; accepted future election years and count corrections refresh images without hardcoded year changes in the Worker. Existing profile selection/layout is preserved, and staged/preliminary 2026 data remains excluded. Cards also include up to five distinct profile leaderboard placements for the selected standings year, prioritizing national results and then the strongest relevant placements. Two columns use regular-weight metric labels, with exact/high ranks leading and broader top-100 mentions on the right. Compact labels identify each election, geography and party cohort. Standings refresh when the full source cohort changes. See `docs/operations/candidate-sharing.md` for cache semantics, tests and explicit Worker deployment.
 
+Candidate-profile result tables default to descending election year on mobile and desktop, and reset to that order when the person, election type or area changes. History charts retain chronological order.
+
 Public hero backgrounds share the original transparent crown with slow CSS-only movement on desktop and mobile. The crown stays behind content and respects the system reduced-motion preference, with no additional site control. Header scrolling is unchanged.
 
 Candidate-resource requests include the normalization method in their URL and revalidate the HTTP cache. Preserve this when changing candidate schemas: an existing browser may otherwise combine a newly deployed UI with an older cached JSON file and fail validation.
