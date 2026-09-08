@@ -195,10 +195,14 @@ test("RD aggregate ties retain competition ranks and source observations stay un
   assert.deepEqual(rows,before);
 });
 
-test("down-ballot support requires 100 votes, every reported position >=6, and uses the actual party denominator",()=>{
+test("down-ballot support requires 100 votes, every reported position >=4, and uses the actual party denominator",()=>{
   const source=data.rankings.get("2022-KF")!.rows.find(r=>r.id==="50618"&&r.areaCode==="1480")!;
-  const base={...source,votes:100,partyVotes:1000,ballotPositions:[{listNumber:"0002-12345",position:6}]};
+  const base={...source,votes:100,partyVotes:1000,ballotPositions:[{listNumber:"0002-12345",position:4}]};
   assert.equal(rankCandidates([base],"support")[0].row.votes,100);
+  for(const position of [1,2,3]) assert.equal(rankCandidates([{...base,ballotPositions:[{listNumber:"0002-12345",position}]}],"support").length,0);
+  for(const position of [4,5,6]) assert.equal(rankCandidates([{...base,ballotPositions:[{listNumber:"0002-12345",position}]}],"support").length,1);
+  assert.equal(rankCandidates([{...base,ballotPositions:[{listNumber:"0002-12345",position:3},{listNumber:"0002-23456",position:20}]}],"support").length,0);
+  assert.equal(rankCandidates([{...base,ballotPositions:[{listNumber:"0002-12345",position:4},{listNumber:"0002-23456",position:20}]}],"support").length,1);
   assert.equal(rankCandidates([{...base,votes:99}],"support").length,0);
   assert.equal(rankCandidates([{...base,ballotPositions:[]}],"support").length,0);
   assert.equal(rankCandidates([{...base,ballotPositions:[...base.ballotPositions,{listNumber:"0002-23456",position:1}]}],"support").length,0);
@@ -208,6 +212,9 @@ test("down-ballot support requires 100 votes, every reported position >=6, and u
   const smaller={...base,person:"p2022-2",votes:120,partyVotes:2000};
   assert.equal(candidateLeaderboard([smaller,base],"support")[0].row.person,base.person,"10% precedes 6%, despite fewer votes");
   assert.equal(candidateLeaderboard([source],"support").length,0,"Attenius on printed position 1 is not a down-ballot candidate");
+  const jonas2018=data.rankings.get("2018-KF")!.rows.find(r=>r.person===source.person&&r.areaCode==="1480")!;
+  assert.deepEqual(jonas2018.ballotPositions.map(b=>b.position),[4]);
+  assert.equal(candidateLeaderboard([jonas2018],"support")[0].votes,545,"Printed position 4 now qualifies without changing the official votes");
 });
 
 test("profile tiers and compact changes have exact display boundaries, without changing the numeric data",()=>{
@@ -223,7 +230,9 @@ test("profile tiers and compact changes have exact display boundaries, without c
 
 test("profile standings match full real leaderboards before filtering to the profile, across years, parties and scopes",()=>{
   const standings=buildStandings(data.people,data.rankings.values());
-  for(const id of [lars.id,data.sourcePeople.get("2022:50618")!.id,data.rankings.get("2022-RD")!.rows.find(r=>r.name==="Jimmie Åkesson")!.person]) {
+  const newlyEligible=standings.get(data.sourcePeople.get("2022:56524")!.id)!.find(r=>r.year===2022&&r.election==="KF"&&r.area==="1492")!;
+  assert.ok(newlyEligible.ranks.some(r=>r[0]==="support"&&r[1]==="area"),"Position-4 candidates receive regenerated profile standings");
+  for(const id of [lars.id,data.sourcePeople.get("2022:56524")!.id,data.sourcePeople.get("2022:50618")!.id,data.rankings.get("2022-RD")!.rows.find(r=>r.name==="Jimmie Åkesson")!.person]) {
     const records=standings.get(id)!;
     const shard:StandingsShard={schemaVersion:1,method:LEADERBOARD_METHOD,sourceVersion:data.catalog.version,classification:"DERIVED",people:{[id]:records}};
     validateStandings(shard);

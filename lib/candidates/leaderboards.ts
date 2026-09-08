@@ -1,7 +1,7 @@
 import { rankCandidates } from "./math";
 import type { RankingMetric, RankingRow } from "./types";
 
-export const LEADERBOARD_METHOD = "candidate-leaderboards-1.0.0";
+export const LEADERBOARD_METHOD = "candidate-leaderboards-1.1.0";
 export const RANKING_METRICS = ["votes", "support", "delta", "percent", "sharePoints"] as const;
 export const DEFAULT_RANKING_METRIC: RankingMetric = "votes";
 export type LeaderboardEntry = { row: RankingRow; rank: number; votes: number; members: RankingRow[] };
