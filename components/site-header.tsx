@@ -84,7 +84,6 @@ export function SiteHeader() {
   }, [pathname]);
 
   return <Localize>{(<>
-    <div className="site-header-slot" aria-hidden="true" />
     <div className="site-header-positioner" ref={headerRef}>
     <div className="site-header" data-menu-open={menuOpen}>
       <header>
