@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -9,7 +10,7 @@ import { NationalTrendChart } from "@/components/charts/national-trend-chart";
 import { nationalHistory } from "@/lib/data/elections";
 import { PARTIES, PARTY_ORDER } from "@/lib/data/elections/parties";
 
-export const metadata: Metadata = { title: "Grafer" };
+export const metadata: Metadata = { ...pageMetadata("charts", "sv"), title: "Grafer" };
 
 export default function ChartsPage({ locale = "sv" }: { locale?: Locale } = {}) {
   const partyOrder = PARTY_ORDER.filter((partyId) => partyId !== "OTHER");

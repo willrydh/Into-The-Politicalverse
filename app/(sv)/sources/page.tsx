@@ -1,10 +1,11 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 import Link from "next/link";
 import preparation from "@/data/normalized/election-preparation-2026.json";
 
-export const metadata: Metadata = { title: "Datakällor", description: "Öppna valdatakällor, uppdateringstider och verifieringsstatus för Politicalverse." };
+export const metadata: Metadata = { ...pageMetadata("sources", "sv"), title: "Datakällor", description: "Öppna valdatakällor, uppdateringstider och verifieringsstatus för Politicalverse." };
 const rawPage = "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026";
 const sources = [
   { name: "Personröster och kandidathistorik 2010–2022", status: "Importerad och verifierad", format: "XML + XLSX + CSV · fyra ordinarie val", use: "Officiella personröster i riksdags-, region- och kommunval. Originalarkiv, samlade kandidatprofiler och topplistor. Kopplingar över val är beräknade och osäkra identiteter hålls separata.", url: "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-fran-val-2002-2022" },

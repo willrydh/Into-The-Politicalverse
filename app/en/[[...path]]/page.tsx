@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Home from "@/app/(sv)/page";
@@ -21,7 +22,7 @@ export const dynamicParams = false;
 export function generateStaticParams() { return Object.keys(pages).map(path => ({ path: path ? [path] : [] })); }
 export async function generateMetadata({ params }: { params: Promise<{ path?: string[] }> }): Promise<Metadata> {
   const path = (await params).path?.join("/") ?? "";
-  return { title: titles[path] ?? "Page not found", alternates: { languages: { sv: `https://willrydh.github.io/Into-The-Politicalverse/${path}${path ? "/" : ""}`, en: `https://willrydh.github.io/Into-The-Politicalverse/en/${path}${path ? "/" : ""}` } } };
+  return { ...pageMetadata(path, "en"), title: titles[path] ?? "Page not found" };
 }
 export default async function EnglishPage({ params }: { params: Promise<{ path?: string[] }> }) {
   const path = (await params).path?.join("/") ?? "";

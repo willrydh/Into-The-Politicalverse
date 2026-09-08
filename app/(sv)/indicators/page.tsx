@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -5,7 +6,7 @@ import { IndicatorGrid } from "@/components/indicator-grid";
 import { PartyText } from "@/components/party-label";
 import { calculateNationalIndicators, effectiveNumberOfParties, topTwoConcentration } from "@/lib/indicators/national";
 
-export const metadata: Metadata = { title: "Indikatorer" };
+export const metadata: Metadata = { ...pageMetadata("indicators", "sv"), title: "Indikatorer" };
 
 export default function IndicatorsPage({ locale = "sv" }: { locale?: Locale } = {}) {
   const indicators = calculateNationalIndicators();

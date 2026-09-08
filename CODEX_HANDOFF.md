@@ -16,7 +16,7 @@ Canonical/public branch: `main`
 
 Scoped development branches: `codex/*`
 
-Public release: `https://willrydh.github.io/Into-The-Politicalverse/`
+Public target: `https://politicalverse.se/`, GitHub Pages origin with a dedicated Cloudflare DNS zone. See `docs/operations/loopia-domain-launch.md` for cutover evidence.
 
 Candidate-resource requests include the normalization method in their URL and revalidate the HTTP cache. Preserve this when changing candidate schemas: an existing browser may otherwise combine a newly deployed UI with an older cached JSON file and fail validation.
 
@@ -47,7 +47,7 @@ The prediction layer adds:
 
 ## September maintenance
 
-Candidate profiles include a scoped PocketPolitics referral after their vote history. Its main link opens the verified public demo for Marks kommun; the secondary link opens the features/subscriptions welcome page. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English, accessible new-tab labels and fixed UTM attribution without person data. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
+Candidate profiles include a scoped PocketPolitics referral after their vote history. Its single primary link opens exactly `https://pocketpolitics.io/welcome`. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English, accessible new-tab labels. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
 
 Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
 

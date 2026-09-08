@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -5,7 +6,7 @@ import { DataSource } from "@/components/data-source";
 import { PartyExplorer } from "@/components/party-explorer";
 import { getPartyProfiles } from "@/lib/data/elections";
 
-export const metadata: Metadata = { title: "Partier" };
+export const metadata: Metadata = { ...pageMetadata("parties", "sv"), title: "Partier" };
 
 export default function PartiesPage({ locale = "sv" }: { locale?: Locale } = {}) {
   return localizeNode((

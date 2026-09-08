@@ -7,7 +7,7 @@
     "predev": "npm run safety:check && npm run data:build:candidates",
     "dev": "next dev --hostname 127.0.0.1 --port 4317",
     "build": "next build",
-    "build:pages": "PAGES_BASE_PATH=/Into-The-Politicalverse next build",
+    "build:pages": "next build",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",

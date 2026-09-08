@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import Link from "next/link";
@@ -14,6 +15,8 @@ import { PredictionGrid } from "@/components/forecast/prediction-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { nationalHistory } from "@/lib/data/elections";
 import { electionForecast } from "@/lib/forecast/data";
+
+export const metadata = pageMetadata("", "sv");
 
 export default function Home({ locale = "sv" }: { locale?: Locale } = {}) {
   const explore = [
