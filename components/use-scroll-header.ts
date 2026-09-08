@@ -10,15 +10,20 @@ export function useScrollHeader(pathname: string, pinned = false) {
 
   useEffect(() => {
     const positioner = ref.current;
+    const spacer = positioner?.previousElementSibling as HTMLElement | null;
     const surface = positioner?.querySelector<HTMLElement>(".site-header");
-    if (!positioner || !surface) return;
+    if (!positioner || !spacer || !surface) return;
     const root = document.documentElement;
     let state = createScrollHeaderState(window.scrollY);
     let headerHeight = 0, viewportHeight = 0, maxScroll = 0, frame = 0;
     let keyboardFocus = !!surface.querySelector(":focus-visible");
 
     function render(next: ScrollHeaderState, y: number) {
-      if (next.documentY !== state.documentY) root.style.setProperty("--header-document-y", `${next.documentY}px`);
+      if (next.documentY !== state.documentY) {
+        const anchor = `${next.documentY}px`;
+        spacer!.style.setProperty("--header-document-y", anchor);
+        positioner!.style.setProperty("--header-document-y", anchor);
+      }
       const forced = pinnedRef.current || keyboardFocus;
       if (positioner!.dataset.pinned !== String(forced)) positioner!.dataset.pinned = String(forced);
       const offscreen = !forced && y >= next.documentY + headerHeight;
@@ -38,7 +43,8 @@ export function useScrollHeader(pathname: string, pinned = false) {
       frame = 0;
       const y = window.scrollY;
       if (!Number.isFinite(y) || y < 0 || y > maxScroll) return;
-      render(advanceScrollHeader(state, y, { headerHeight, maxScroll, pinned: pinnedRef.current || keyboardFocus }), y);
+      // The pinned CSS constraint owns scrolling while a menu/control has focus.
+      render(pinnedRef.current || keyboardFocus ? { ...state, y } : advanceScrollHeader(state, y, { headerHeight, maxScroll }), y);
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
 
@@ -68,7 +74,11 @@ export function useScrollHeader(pathname: string, pinned = false) {
       if (keyboardFocus) showImmediately();
       else onScroll();
     }
-    function onBlur() { keyboardFocus = false; onScroll(); }
+    function onBlur() {
+      const wasKeyboardFocus = keyboardFocus;
+      keyboardFocus = false;
+      if (wasKeyboardFocus) showImmediately();
+    }
     function onKeyDown(event: KeyboardEvent) {
       // Restore controls before native Tab traversal can scroll a hidden link.
       if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) showImmediately();
@@ -91,7 +101,8 @@ export function useScrollHeader(pathname: string, pinned = false) {
       render(createScrollHeaderState(0), 0);
       root.style.removeProperty("--site-header-height");
       root.style.removeProperty("--header-viewport-height");
-      root.style.removeProperty("--header-document-y");
+      spacer.style.removeProperty("--header-document-y");
+      positioner.style.removeProperty("--header-document-y");
       revealRef.current = null;
     };
   }, [pathname]);
