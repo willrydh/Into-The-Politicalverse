@@ -140,7 +140,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height, 170px) + 12px); }
 /* The navigation itself is above the content's anchor exclusion area. */
-html:has(.site-header :focus) { scroll-padding-top: 0; }
+html:has(.site-header-positioner :focus) { scroll-padding-top: 0; }
 body { display: flow-root; margin: 0; padding-inline: var(--safe-area-left) var(--safe-area-right); background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 button, input, select { font: inherit; }
@@ -159,6 +159,9 @@ button { color: inherit; }
   top: calc(-1 * var(--site-header-utility-height, 77px));
   z-index: 20;
   transform: translate3d(0, 0, 0);
+  border-bottom: 1px solid var(--line);
+}
+.site-header-positioner, .site-header {
   transition: transform 0.3s ease;
 }
 .site-header-positioner[data-hidden="true"] {
@@ -170,10 +173,9 @@ button { color: inherit; }
   position: relative;
   background: var(--surface);
   padding-top: var(--safe-area-top);
-  border-bottom: 1px solid var(--line);
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-header-positioner { transition: none; }
+  .site-header-positioner, .site-header { transition: none; }
 }
 
 .site-header__utility { border-bottom: 1px solid var(--line); }
@@ -1522,9 +1524,16 @@ button { color: inherit; }
 @media (max-width:1100px) { .theme-toggle__label { display:none; } }
 /* Mobile navigation is a disclosure: the full navigation stays vertically
    readable, with its own scroll area on short screens. */
-.header-menu-button, .header-menu-button--compact, .primary-nav__icon, .primary-nav__mobile-only,
+.header-menu-button, .primary-nav__icon, .primary-nav__mobile-only,
 .language-switcher__short, .theme-toggle__options { display: none; }
 @media (max-width: 980px) {
+  /* Only the toolbar slides on phones. Breadcrumbs retain their own place in
+     the page, so they cannot return as part of the floating mobile menu. */
+  .site-header-positioner { display:contents; }
+  .site-header { position:sticky; top:0; z-index:20; transform:translate3d(0,0,0); }
+  .site-header-positioner[data-hidden="true"] .site-header { transform:translate3d(0,-100%,0); }
+  .site-header-positioner[data-compact="true"] .site-header__utility { visibility:visible; }
+  .site-location { border-bottom:1px solid var(--line); }
   .site-header__utility-inner { width:100%; min-height:76px; padding:10px 16px; gap:8px; flex-wrap:nowrap; }
   .site-header__utility-inner .wordmark { margin-right:auto; gap:8px; min-width:0; }
   .site-header .wordmark__mark { width:32px; height:32px; }
@@ -1544,8 +1553,6 @@ button { color: inherit; }
   [data-theme="dark"] [data-theme-option="dark"] { background:var(--ink); color:var(--surface); }
   .header-menu-button { order:3; display:block; flex-shrink:0; min-height:44px; min-width:59px; border:1px solid var(--line); border-radius:12px; padding:10px; background:var(--paper); color:var(--ink); font-size:13px; font-weight:650; cursor:pointer; }
   .header-menu-button[aria-expanded="true"] { background:var(--brand-surface); color:var(--white); }
-  .header-menu-button--compact { visibility:hidden; margin-left:auto; }
-  .site-header-positioner[data-compact="true"] .header-menu-button--compact { visibility:visible; }
   .site-header__navigation { display:none; position:absolute; top:calc(100% + 6px); left:12px; right:12px; border:1px solid var(--line); border-radius:18px; background:var(--surface); box-shadow:0 14px 40px rgba(0,0,0,.18); overflow:hidden; }
   .site-header[data-menu-open="true"] .site-header__navigation { display:block; }
   .site-header__navigation-inner { width:100%; min-height:0; padding:0; }
@@ -1557,7 +1564,7 @@ button { color: inherit; }
   .primary-nav__mobile-only { display:flex; }
   .primary-nav__mobile-only:first-child { border-bottom:1px solid var(--line); border-radius:0; margin-bottom:4px; font-size:14px; color:var(--muted); }
   .header-cycle { display:none; }
-  .site-location__inner { display:flex; align-items:center; gap:10px; width:100%; min-height:58px; padding:7px 16px; font-size:11px; }
+  .site-location__inner { display:flex; align-items:baseline; gap:10px; width:100%; min-height:32px; padding:7px 16px; font-size:11px; }
   .site-location__label { display:block; margin:0; font-size:8px; }
   .site-location ol { gap:3px 6px; }
   .site-location li { gap:6px; }

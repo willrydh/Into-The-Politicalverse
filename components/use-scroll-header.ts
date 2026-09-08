@@ -13,14 +13,17 @@ export function useScrollHeader(pathname: string, pinned = false) {
     if (!positioner) return;
     const surface = positioner.querySelector<HTMLElement>(".site-header");
     const utility = positioner.querySelector<HTMLElement>(".site-header__utility");
-    if (!surface || !utility) return;
+    const location = positioner.querySelector<HTMLElement>(".site-location");
+    if (!surface || !utility || !location) return;
     const root = document.documentElement;
+    const mobileViewport = window.matchMedia("(max-width: 980px)");
+    let mobile = mobileViewport.matches;
     let state = createScrollHeaderState(window.scrollY);
     let maxScroll = 0, utilityHeight = 0, surfaceHeight = 0, visibleHeight = -1, frame = 0;
-    let keyboardFocus = !!surface.querySelector(":focus-visible");
+    let keyboardFocus = !!positioner.querySelector(":focus-visible");
 
     function render(next: ScrollHeaderState) {
-      const compact = next.y >= utilityHeight && utilityHeight > 0;
+      const compact = !mobile && next.y >= utilityHeight && utilityHeight > 0;
       if (positioner!.dataset.compact !== String(compact)) {
         positioner!.dataset.compact = String(compact);
         utility!.inert = compact;
@@ -42,12 +45,15 @@ export function useScrollHeader(pathname: string, pinned = false) {
     revealRef.current = reveal;
     function update() {
       frame = 0;
-      render(advanceScrollHeader(state, window.scrollY, { maxScroll, revealUntil: utilityHeight, pinned: pinnedRef.current || keyboardFocus }));
+      render(advanceScrollHeader(state, window.scrollY, { maxScroll, revealUntil: mobile ? 0 : utilityHeight, pinned: pinnedRef.current || keyboardFocus }));
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
     function measure() {
+      mobile = mobileViewport.matches;
       utilityHeight = utility!.offsetHeight;
-      surfaceHeight = surface!.offsetHeight;
+      // Mobile sticks only the toolbar; the breadcrumb stays in normal flow.
+      // Desktop sticks the wrapper containing both navigation and breadcrumbs.
+      surfaceHeight = mobile ? surface!.offsetHeight : positioner!.offsetHeight;
       positioner!.style.setProperty("--site-header-utility-height", `${utilityHeight}px`);
       maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
       // Toolbar and content resizing must not trigger a direction change.
@@ -68,6 +74,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
     render(state);
     const observer = new ResizeObserver(measure);
     observer.observe(surface);
+    observer.observe(location);
     observer.observe(document.body);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", measure);
