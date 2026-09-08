@@ -11,7 +11,7 @@ import { validateCatalog, validateRankings } from "@/lib/candidates/validation";
 import { personalVoteShare } from "@/lib/candidates/math";
 import { candidateLeaderboard, DEFAULT_RANKING_METRIC, RANKING_METRICS } from "@/lib/candidates/leaderboards";
 import { RiksdagVoteResults } from "./riksdag-vote-results";
-import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, useCandidateResource, VoteDelta } from "./shared";
+import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, useCandidateResource, VoteDelta, VoteComparisonNote } from "./shared";
 import { normalizeSearch } from "@/lib/search/engine";
 import { CandidateBallotPositions } from "./ballot-positions";
 import { RankingMovement } from "./ranking-movement";
@@ -114,6 +114,7 @@ export function CandidateRankings() {
             </tr>)}</tbody>
           </table>
         </div>
+        {metric!=="support"&&table.rows.some(({row})=>row.comparison.delta===null)&&<VoteComparisonNote/>}
         {!ranking.length&&<p className="candidate-empty">{sv?"Inga resultat uppfyller urvalet. Prova ett annat val, lägre minimiantal eller listan med flest personröster.":"No results meet these filters. Try another election, a lower minimum or the total personal-votes leaderboard."}</p>}
         {ranking.length>50&&<nav className="candidate-pagination" aria-label={sv?"Topplistans sidor":"Leaderboard pages"}><button className="button" disabled={currentPage===0} onClick={()=>setPage(currentPage-1)}>{sv?"Föregående":"Previous"}</button><span>{currentPage+1} / {Math.ceil(ranking.length/50)}</span><button className="button" disabled={(currentPage+1)*50>=ranking.length} onClick={()=>setPage(currentPage+1)}>{sv?"Nästa":"Next"}</button></nav>}
         </>}
