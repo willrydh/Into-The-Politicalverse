@@ -12,6 +12,8 @@ Column headings sort comparable data tables across maps, personal votes, candida
 
 Sortable headings follow each column's alignment. Changing a leaderboard metric, filter or candidate search resets column sorting to the selected leaderboard's rank order and returns to its first page.
 
+Leaderboards show each candidate's printed ballot-list position directly below both years' vote counts. Candidate profiles retain the same detail per election. Expand a position to see every distinct ballot-list number; multiple positions remain explicit and missing data is never guessed. List positions are official observations, separate from calculated leaderboard ranks, and do not establish how much of a vote change was caused by ballot placement. See [candidate sources](docs/data-sources/candidate-history.md).
+
 Election-day preparation now preserves a checksum-verified forecast reference, frozen at the start of 13 September (Swedish time). The national live view loads that reference when real counting starts; aggregate accuracy is withheld until the final count has full coverage, 349 reported seats and a protocol. Signed 2026 personal votes can be staged separately for review without altering historical profiles or maps. See [2026 transition and forecast evaluation](docs/operations/election-transition-2026.md).
 
 > **Politics, quantified.**

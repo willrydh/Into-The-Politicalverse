@@ -8,6 +8,7 @@ import { linkIdentities, type IdentityInput } from "./identity";
 import { compareCandidate } from "./math";
 import type { LocalElectionIndex } from "../data/geography/local-types";
 import { candidatePartyId } from "./source-parties";
+import { validateBallotPositions } from "./ballots";
 const read = (p: string) => readFileSync(join(process.cwd(), p));
 let cached: ReturnType<typeof buildCandidateData> | undefined;
 export const getCandidateData = () => cached ??= buildCandidateData();
@@ -27,6 +28,8 @@ export function buildCandidateData() {
       areaKeys.add(areaKey);
       const seen = new Set<string>(), partyTotals: Record<string, number> = {};
       for (const c of area.candidates) {
+        validateBallotPositions(c.ballotPositions, c.partyCode);
+        if (c.ballotPositions.length > c.lists) throw new Error("Ballot positions exceed source list rows");
         if (c.partyId !== candidatePartyId(c.partyCode)) throw new Error(`Candidate party identity ${year}:${c.partyCode}`);
         if (seen.has(`${c.partyCode}:${c.id}`)) throw new Error("Duplicate candidate in an area");
         seen.add(`${c.partyCode}:${c.id}`);

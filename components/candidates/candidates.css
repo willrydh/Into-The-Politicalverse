@@ -31,6 +31,19 @@
 .candidate-scoreboard small { display:block; margin-top:5px; font-size:11px; font-weight:400; color:var(--muted); }
 .candidate-scoreboard .candidate-rank { font-size:25px; font-weight:600; color:var(--muted); }
 .candidate-scoreboard .candidate-total { font-size:21px; font-weight:700; }
+.candidate-vote-count { display:block; line-height:28px; }
+.candidate-ballot-positions,.candidate-ballot-missing { display:block; margin-top:4px; font-size:12px; font-weight:450; line-height:1.45; color:var(--ink); }
+.candidate-ballot-missing { color:var(--muted); }
+.candidate-ballot-positions summary { display:flex; align-items:center; gap:7px; min-height:44px; width:fit-content; max-width:100%; cursor:pointer; list-style:none; }
+.candidate-ballot-positions summary::-webkit-details-marker { display:none; }
+.candidate-ballot-positions summary::after { content:""; width:5px; height:5px; border-right:1px solid currentColor; border-bottom:1px solid currentColor; transform:rotate(45deg); flex-shrink:0; margin-top:-3px; }
+.candidate-ballot-positions[open] summary::after { transform:rotate(225deg); margin-top:3px; }
+.candidate-ballot-count { display:block; color:var(--muted); font-size:11px; }
+.candidate-ballot-detail { min-width:0; max-width:240px; padding:8px 0; border-top:1px solid var(--line); }
+.candidate-ballot-detail p { margin:0 0 8px; font-size:11px; color:var(--muted); }
+.candidate-ballot-detail p:last-child { margin:8px 0 0; }
+.candidate-ballot-detail ul { list-style:none; padding:0; margin:0; display:grid; gap:7px; }
+.candidate-ballot-detail li { display:flex; justify-content:space-between; flex-wrap:wrap; gap:3px 12px; font-variant-numeric:tabular-nums; }
 .candidate-party { display:inline-flex; align-items:center; gap:8px; vertical-align:middle; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
 .candidate-scoreboard .candidate-party-change { display:flex; flex-wrap:wrap; align-items:center; gap:5px; }
 .vote-delta { display:inline-flex; flex-direction:column; gap:3px; font-variant-numeric:tabular-nums; line-height:1.4; }
@@ -100,7 +113,7 @@
   .candidate-history-chart { gap:6px; }
   .candidate-scoreboard--ranking table, .candidate-scoreboard--ranking tbody { display:block; }
   .candidate-scoreboard--ranking thead { display:none; }
-  .candidate-scoreboard--ranking tr { display:grid; grid-template-columns:minmax(30px,max-content) minmax(0,1fr) auto; gap:10px 10px; padding:20px 2px; border-bottom:1px solid var(--line); }
+  .candidate-scoreboard--ranking tr { display:grid; grid-template-columns:minmax(30px,max-content) minmax(0,1fr) minmax(0,1fr); gap:10px 10px; padding:20px 2px; border-bottom:1px solid var(--line); }
   .candidate-scoreboard--ranking td, .candidate-scoreboard--ranking th { border:0; padding:0; }
   .candidate-scoreboard--ranking th a { font-size:17px; }
   .candidate-scoreboard--ranking td:nth-child(1) { grid-column:1; grid-row:1/4; font-size:20px; }
