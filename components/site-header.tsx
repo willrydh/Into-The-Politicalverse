@@ -52,6 +52,7 @@ export function SiteHeader() {
   const [openOnPath, setOpenOnPath] = useState<string | null>(null);
   const menuOpen = openOnPath === rawPathname;
   const menuButton = useRef<HTMLButtonElement>(null);
+  const compactMenuButton = useRef<HTMLButtonElement>(null);
   const headerRef = useScrollHeader(rawPathname, menuOpen);
   useEffect(() => {
     if (!menuOpen) return;
@@ -59,7 +60,11 @@ export function SiteHeader() {
       if (event.target instanceof Node && !headerRef.current?.contains(event.target)) setOpenOnPath(null);
     };
     const escape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") { setOpenOnPath(null); menuButton.current?.focus({ preventScroll: true }); }
+      if (event.key === "Escape") {
+        setOpenOnPath(null);
+        const button = headerRef.current?.dataset.compact === "true" ? compactMenuButton : menuButton;
+        button.current?.focus({ preventScroll: true });
+      }
     };
     const desktop = window.matchMedia("(min-width: 981px)");
     const resize = () => { if (desktop.matches) setOpenOnPath(null); };
@@ -127,6 +132,7 @@ export function SiteHeader() {
               }}>{crumb.label}</Link>}
             </li>)}</ol>
           </nav>
+          <button ref={compactMenuButton} className="header-menu-button header-menu-button--compact" type="button" aria-expanded={menuOpen} aria-controls="site-navigation" onClick={() => setOpenOnPath(menuOpen ? null : rawPathname)}>{menuOpen ? (locale === "sv" ? "Stäng" : "Close") : (locale === "sv" ? "Meny" : "Menu")}</button>
         </div>
       </div>
       </header>

@@ -35,3 +35,17 @@ test("menu/keyboard pinning and reaching page top always show the menu", () => {
 test("restored pages begin with accessible navigation", () => {
   for (const y of [0, 100, 1000, NaN, -1]) assert.equal(createScrollHeaderState(y).hidden, false);
 });
+
+test("the branding row scrolls naturally before navigation can hide", () => {
+  const options = { ...bounds, revealUntil: 77 };
+  let state = createScrollHeaderState(0);
+  for (const y of [1, 20, 76.5, 77]) {
+    state = advanceScrollHeader(state, y, options);
+    assert.equal(state.hidden, false);
+  }
+  state = advanceScrollHeader(state, 78, options);
+  assert.equal(state.hidden, true);
+  state = advanceScrollHeader(state, 500, options);
+  assert.equal(advanceScrollHeader(state, 499, options).hidden, false);
+  assert.equal(advanceScrollHeader(state, 76, options).hidden, false);
+});

@@ -46,7 +46,9 @@
 .candidate-ballot-detail li { display:flex; justify-content:space-between; flex-wrap:wrap; gap:3px 12px; font-variant-numeric:tabular-nums; }
 .candidate-scoreboard--ranking .candidate-vote-count { line-height:inherit; }
 .candidate-scoreboard--ranking .candidate-ballot-positions,.candidate-scoreboard--ranking .candidate-ballot-missing { margin-top:2px; font-size:11px; color:var(--muted); }
+.candidate-scoreboard--ranking .candidate-ballot-positions { max-width:130px; }
 .candidate-scoreboard--ranking .candidate-ballot-positions summary { min-height:24px; gap:5px; }
+.candidate-scoreboard--ranking .candidate-ballot-positions summary > span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .candidate-scoreboard--ranking .candidate-ballot-count { display:none; }
 .candidate-party { display:inline-flex; align-items:center; gap:8px; vertical-align:middle; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
 .candidate-scoreboard .candidate-party-change { display:flex; flex-wrap:wrap; align-items:center; gap:5px; }

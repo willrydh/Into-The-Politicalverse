@@ -12,13 +12,24 @@ export function useScrollHeader(pathname: string, pinned = false) {
     const positioner = ref.current;
     if (!positioner) return;
     const surface = positioner.querySelector<HTMLElement>(".site-header");
-    if (!surface) return;
+    const utility = positioner.querySelector<HTMLElement>(".site-header__utility");
+    if (!surface || !utility) return;
     const root = document.documentElement;
     let state = createScrollHeaderState(window.scrollY);
-    let maxScroll = 0, frame = 0;
+    let maxScroll = 0, utilityHeight = 0, surfaceHeight = 0, visibleHeight = -1, frame = 0;
     let keyboardFocus = !!surface.querySelector(":focus-visible");
 
     function render(next: ScrollHeaderState) {
+      const compact = next.y >= utilityHeight && utilityHeight > 0;
+      if (positioner!.dataset.compact !== String(compact)) {
+        positioner!.dataset.compact = String(compact);
+        utility!.inert = compact;
+      }
+      const height = surfaceHeight - (compact ? utilityHeight : 0);
+      if (height !== visibleHeight) {
+        root.style.setProperty("--site-header-height", `${height}px`);
+        visibleHeight = height;
+      }
       if (positioner!.dataset.hidden !== String(next.hidden)) {
         positioner!.dataset.hidden = String(next.hidden);
         positioner!.inert = next.hidden;
@@ -31,14 +42,17 @@ export function useScrollHeader(pathname: string, pinned = false) {
     revealRef.current = reveal;
     function update() {
       frame = 0;
-      render(advanceScrollHeader(state, window.scrollY, { maxScroll, pinned: pinnedRef.current || keyboardFocus }));
+      render(advanceScrollHeader(state, window.scrollY, { maxScroll, revealUntil: utilityHeight, pinned: pinnedRef.current || keyboardFocus }));
     }
     function onScroll() { if (!frame) frame = requestAnimationFrame(update); }
     function measure() {
-      root.style.setProperty("--site-header-height", `${surface!.offsetHeight}px`);
+      utilityHeight = utility!.offsetHeight;
+      surfaceHeight = surface!.offsetHeight;
+      positioner!.style.setProperty("--site-header-utility-height", `${utilityHeight}px`);
       maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
       // Toolbar and content resizing must not trigger a direction change.
       state = { ...state, y: Math.min(maxScroll, Math.max(0, window.scrollY)) };
+      render(state);
     }
     function onFocus(event: FocusEvent) {
       keyboardFocus = event.target instanceof Element && positioner!.contains(event.target) && event.target.matches(":focus-visible");
@@ -46,7 +60,7 @@ export function useScrollHeader(pathname: string, pinned = false) {
     }
     function onBlur() { keyboardFocus = false; }
     function onKeyDown(event: KeyboardEvent) {
-      // Make all controls available before native keyboard traversal.
+      // Reveal the available navigation before native keyboard traversal.
       if (event.key === "Tab" && !event.metaKey && !event.ctrlKey && !event.altKey) reveal();
     }
 
