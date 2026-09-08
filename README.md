@@ -12,6 +12,8 @@ Compact link previews use the square crown directly so it remains recognizable i
 
 Column headings sort comparable data tables across maps, personal votes, candidate histories, rankings, historical results, forecasts and live results. Sorting uses raw values, keeps unavailable observations last and preserves leaderboard ranks; mobile card layouts have the same controls in a compact selector. Profile JSON exports download only the selected person.
 
+Missing vote comparisons appear as a dash, with a short visible footnote below the table and the exact reason available to screen readers. Narrow columns retain their numeric density; missing data remains distinct from a zero change.
+
 Sortable headings follow each column's alignment. Changing a leaderboard metric, filter or candidate search resets column sorting to the selected leaderboard's rank order and returns to its first page.
 
 Desktop leaderboards keep their original columns, with compact printed ballot-list positions directly below both years' vote counts. Closed labels stay on one line, omit ballot-count text and use ellipsis for long position lists. A short footnote defines list position; full methodology remains below the table. Candidate profiles retain the same detail per election. Expand a position to see every distinct ballot-list number; multiple positions remain explicit and missing data is never guessed. List positions are official observations, separate from calculated leaderboard ranks, and do not establish how much of a vote change was caused by ballot placement. See [candidate sources](docs/data-sources/candidate-history.md).

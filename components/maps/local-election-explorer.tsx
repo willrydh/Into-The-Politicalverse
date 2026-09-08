@@ -15,7 +15,7 @@ import { navigateLocalQuery, useLocalQuery } from "./local-url";
 import { LocalPersonalVotes } from "./local-personal-votes";
 import { usePublishSiteLocation } from "@/components/site-location";
 
-import { VoteDelta } from "@/components/candidates/shared";
+import { VoteDelta, VoteComparisonNote } from "@/components/candidates/shared";
 
 function AreaVoteDelta({area,party,year,compact=false}: {area:LocalArea;party:PartyId;year:LocalYear;compact?:boolean}) {
   const change=localVoteChange(area,party,year);
@@ -89,6 +89,7 @@ function History({ area, party, t, f, color }: { area: LocalArea; party: PartyId
       {values.filter(v => v.share !== null).map(v => <g key={v.year}><circle cx={x(v.year)} cy={y(v.share!)} r="4.5" fill={color} /><text x={x(v.year)} y={y(v.share!) - 11} textAnchor="middle" className="local-history-value">{f(v.share, 2)}%</text></g>)}
     </svg>
     <div className="local-table-scroll"><table className="local-table"><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(v => <tr key={v.year}><th>{v.year}</th><td>{f(v.result.votes[party])}</td><td><AreaVoteDelta area={area} party={party} year={v.year}/></td><td>{f(v.share, 2)}%</td><td>{localTurnout(v.result) === null ? "—" : `${f(localTurnout(v.result), 2)}%`}</td></tr>)}</tbody></table></div>
+    {values.some(v=>localVoteChange(area,party,v.year).delta===null)&&<VoteComparisonNote/>}
     {area.comparison?.status === "not-comparable" && <p className="local-notice">{area.comparison.reason === "shared-baseline" ? t.sharedBaseline : t.comparisonMissing}</p>}
     {area.comparison?.status === "comparable" && <p className="local-note">{t.comparison}: {area.comparison.previousNames.map((name, i) => `${name} (${area.comparison!.previousCodes[i]})`).join(" + ")}.{area.comparison.previousCodes.length > 1 && ` ${t.combined}.`}</p>}
   </section>;

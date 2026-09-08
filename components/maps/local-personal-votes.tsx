@@ -9,7 +9,7 @@ import type { LocalSelection } from "@/lib/data/geography/local-selection";
 import { personHref } from "@/lib/candidates/types";
 import { personalVoteShare } from "@/lib/candidates/math";
 import { validatePersonalArea } from "@/lib/candidates/validation";
-import { CandidateLoading, CandidateParty, partyLabel, useCandidateResource, VoteDelta } from "@/components/candidates/shared";
+import { CandidateLoading, CandidateParty, partyLabel, useCandidateResource, VoteDelta, VoteComparisonNote } from "@/components/candidates/shared";
 
 export function LocalPersonalVotes({ area, county, municipality, selection, constituencies, onConstituency }: { area: LocalArea; county?: LocalArea; municipality?: LocalArea; selection: LocalSelection; constituencies: Array<{ code: string; name: string }>; onConstituency: (code: string) => void }) {
   const locale=useLocale(),sv=locale==="sv";
@@ -42,6 +42,7 @@ export function LocalPersonalVotes({ area, county, municipality, selection, cons
     <p className="local-note"><strong>{data?.name??options.find(c=>c.code===code)?.name} · <CandidateParty result={{partyId:selection.party,partyName:sv?"Övriga partier":"Other parties",year:selection.year}} withName/></strong></p>
     {!data?<CandidateLoading error={state.error} retry={state.retry}/>:<>
       <div className="local-table-scroll"><table className="local-table"><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{(all||search?table.rows:table.rows.slice(0,10)).map(c=><tr key={`${c.partyCode}:${c.id}`}><th><Link className="candidate-profile-link" href={localizedHref(personHref(c.person,"RD",code),locale)}>{c.name} ↗</Link>{selection.party==="OTHER"&&<small className="local-candidate-party">{partyLabel(c,sv)}</small>}{c.comparison.previous&&c.comparison.previous.partyCode!==c.partyCode&&<small className="local-candidate-party"><CandidateParty result={c.comparison.previous} variant="text"/> <span>→</span> <CandidateParty result={c} variant="text"/></small>}</th><td>{f(c.votes)}</td><td><VoteDelta comparison={c.comparison}/></td><td>{personalVoteShare(c)===null?"—":`${f(personalVoteShare(c)!,2)} %`}</td><td>{c.partyVotes>0&&c.votes*100>=threshold*c.partyVotes?(sv?"Uppnådd":"Reached"):"—"}</td></tr>)}</tbody></table></div>
+      {table.rows.some(c=>c.comparison.delta===null)&&<VoteComparisonNote/>}
       {!candidates.length&&<p>{sv?"Inga kandidater matchar urvalet.":"No candidates match the selection."}</p>}
       {candidates.length>10&&!search&&<button className="button local-show-all" type="button" onClick={()=>setAll(!all)}>{all?(sv?"Visa de första 10":"Show the first 10"):`${sv?"Visa alla":"Show all"} ${f(candidates.length)}`}</button>}
     </>}

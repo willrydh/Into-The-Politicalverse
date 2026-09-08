@@ -12,7 +12,7 @@ import { localizedHref } from "@/lib/i18n/translate";
 import { ELECTION_TYPES, CANDIDATE_YEARS, personShard, type CandidateElection, type Person } from "@/lib/candidates/types";
 import { validatePersonShard } from "@/lib/candidates/validation";
 import { compareCandidate, personalVoteShare } from "@/lib/candidates/math";
-import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta } from "./shared";
+import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta, VoteComparisonNote } from "./shared";
 
 function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
   const locale=useLocale(),sv=locale==="sv",query=useLocalQuery(),params=new URLSearchParams(query);
@@ -56,6 +56,7 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
       <ProfileStandings key={`${election}:${area}`} person={person.id} results={results} sourceVersion={sourceVersion} initialYear={Number(params.get("year")) || latest.year}/>
       <div className="candidate-history-chart" aria-label={sv?"Personröster per valår":"Personal votes by election year"}>{CANDIDATE_YEARS.map(year=>{const records=results.filter(r=>r.year===year);return <div className="candidate-history-year" key={year}>{records.length?records.map(r=><div key={r.partyCode} className="candidate-history-bar"><strong>{fmt(r.votes)}</strong><i style={{height:`${Math.max(2,r.votes/max*145)}px`}}/><small><CandidateParty result={r} variant="text"/></small></div>):<div className="candidate-history-gap">—<small>{sv?"Saknas":"Missing"}</small></div>}<b>{year}</b></div>;})}</div>
       <MobileTableSort control={table}/><div className="local-table-scroll candidate-scoreboard candidate-scoreboard--profile"><table><thead><tr><SortHeaders control={table}/></tr></thead><tbody>{table.rows.map(r=>{const change=r.comparison;return <tr key={`${r.year}:${r.partyCode}`}><th>{r.year}{r.supersededBy&&<small>{sv?"Omval":"Re-run"} {r.supersededBy}</small>}</th><td><CandidateParty result={r} withName/></td><td data-label={sv?"Personröster":"Personal votes"} className="candidate-total"><span className="candidate-vote-count">{fmt(r.votes)}</span><CandidateBallotPositions ballots={r.ballotPositions} year={r.year}/></td><td data-label={sv?"Förändring":"Change"}><VoteDelta comparison={change}/></td><td data-label={sv?"Partiets röster":"Party votes"}>{fmt(r.partyVotes)}</td><td data-label={sv?"Andel":"Share"}>{personalVoteShare(r)===null?"—":`${fmt(personalVoteShare(r)!,2)} %`}</td></tr>;})}</tbody></table></div>
+      {table.rows.some(r=>r.comparison.delta===null)&&<VoteComparisonNote/>}
       <p className="local-note">{sv?"Tomma valår är saknat eller okopplat underlag, inte noll röster. Andelen är av partiets samtliga giltiga röster i området. När en kandidat byter parti ändras därför också jämförelsens partibas.":"Empty years mean missing or unmatched records, not zero votes. The share uses all valid party votes in the area. When a candidate changes parties, the party denominator changes too."}</p>
       {comparison.reason!=="comparable"&&comparison.reason!=="zero-baseline"&&<p className="local-notice">{reasonLabel(comparison.reason,sv)}</p>}
       <PocketPoliticsReferral/>

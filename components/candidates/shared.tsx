@@ -42,8 +42,14 @@ export function VoteDelta({comparison,compact=false}: {comparison:CandidateCompa
   const sv = useLocale() === "sv", fmt = (n:number,d=0)=>n.toLocaleString(sv?"sv-SE":"en-GB",{maximumFractionDigits:d,minimumFractionDigits:d});
   const delta=comparison.delta;
   return <span className={`vote-delta ${delta === null ? "is-missing" : delta > 0 ? "is-up" : delta < 0 ? "is-down" : "is-flat"}`} data-classification="DERIVED">
-    {delta === null ? <span title={reasonLabel(comparison.reason,sv)}>—{!compact && <small>{reasonLabel(comparison.reason,sv)}</small>}</span> : <><strong title={comparison.percent===null?undefined:`${comparison.percent>0?"+":""}${fmt(comparison.percent,1)} %`} aria-label={comparison.percent===null?undefined:`${comparison.percent>0?"+":""}${fmt(comparison.percent,1)} %`}>{delta>0?"↑":delta<0?"↓":"→"} {comparison.percent===null? (sv?"Från 0":"From 0") : `${delta>0?"+":""}${compactCandidateNumber(comparison.percent,sv)} %`}</strong>{!compact && <small>{delta>0?"+":""}{fmt(delta)} {sv?"röster":"votes"}</small>}</>}
+    {delta === null ? <span role="img" aria-label={reasonLabel(comparison.reason,sv)} title={reasonLabel(comparison.reason,sv)}>—</span> : <><strong title={comparison.percent===null?undefined:`${comparison.percent>0?"+":""}${fmt(comparison.percent,1)} %`} aria-label={comparison.percent===null?undefined:`${comparison.percent>0?"+":""}${fmt(comparison.percent,1)} %`}>{delta>0?"↑":delta<0?"↓":"→"} {comparison.percent===null? (sv?"Från 0":"From 0") : `${delta>0?"+":""}${compactCandidateNumber(comparison.percent,sv)} %`}</strong>{!compact && <small>{delta>0?"+":""}{fmt(delta)} {sv?"röster":"votes"}</small>}</>}
   </span>;
+}
+export function VoteComparisonNote() {
+  const sv = useLocale() === "sv";
+  return <p className="local-note vote-comparison-note">{sv
+    ? "— i förändringskolumnen betyder att jämförbart underlag saknas, inte noll förändring."
+    : "— in the change column means comparable data is unavailable, not zero change."}</p>;
 }
 export function CandidateMethod() {
   const sv = useLocale() === "sv";
