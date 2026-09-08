@@ -18,6 +18,8 @@ Scoped development branches: `codex/*`
 
 Public release: `https://willrydh.github.io/Into-The-Politicalverse/`
 
+Candidate-resource requests include the normalization method in their URL and revalidate the HTTP cache. Preserve this when changing candidate schemas: an existing browser may otherwise combine a newly deployed UI with an older cached JSON file and fail validation.
+
 The original public foundation remains intact:
 
 - Next.js 16 + TypeScript application and responsive Riksdag-inspired visual system;

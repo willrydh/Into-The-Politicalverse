@@ -14,7 +14,9 @@ export function useCandidateResource<T>(path: string, validate: (data: unknown) 
     if (!path) return;
     const controller = new AbortController(); let active = true;
     const timeout = setTimeout(() => controller.abort(), 20000);
-    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/candidates/${path}`, { signal: controller.signal }).then(r => { if (!r.ok) throw new Error("Candidate response failed"); return r.json(); }).then(value => { validate(value); if (active) setState({path,data:value}); }).catch(() => {if(active) setState({path,error:true});}).finally(()=>clearTimeout(timeout));
+    // A new client must not validate an older cached payload against its schema.
+    // Revalidation retains HTTP caching while checking for a newer static file.
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/candidates/${path}?method=${CANDIDATE_METHOD}`, { signal: controller.signal, cache: "no-cache" }).then(r => { if (!r.ok) throw new Error("Candidate response failed"); return r.json(); }).then(value => { validate(value); if (active) setState({path,data:value}); }).catch(() => {if(active) setState({path,error:true});}).finally(()=>clearTimeout(timeout));
     return () => {active=false; clearTimeout(timeout);controller.abort();};
   }, [path,validate,attempt]);
   return { ...(state.path === path ? state : {path}), retry:()=>retry(n=>n+1) };
