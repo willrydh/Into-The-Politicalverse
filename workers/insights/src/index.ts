@@ -130,7 +130,7 @@ async function realtime(env: Env) {
 async function system(env: Env) {
   const endpoints=["/", "/api/forecasts/2026.json", "/api/forecasts/2026-reference.json", "/api/elections/2026/preparation.json", "/api/candidates/index.json"];
   const checks=await Promise.all(endpoints.map(async path=>{
-    const start=Date.now();try{const r=await fetch(env.SITE_ORIGIN+path,{method:"HEAD",signal:AbortSignal.timeout(8000),redirect:"error"});return{path,status:r.status,ok:r.ok,ms:Date.now()-start};}catch{return{path,status:null,ok:false,ms:Date.now()-start};}
+    const start=Date.now();try{const r=await fetch(env.SITE_ORIGIN+path,{method:"HEAD",signal:AbortSignal.timeout(8000),redirect:"manual"});return{path,status:r.status,ok:r.ok,ms:Date.now()-start};}catch{return{path,status:null,ok:false,ms:Date.now()-start};}
   }));
   return json({checkedAt:new Date().toISOString(),checks,analytics:{measurementId:env.GA_MEASUREMENT_ID||null,status:env.GA_MEASUREMENT_ID?"configured":"awaiting_google_login"},scope:"HTTP availability of published resources; not a fresh audit of every upstream source."});
 }
