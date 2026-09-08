@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -5,7 +6,7 @@ import { DataSource } from "@/components/data-source";
 import { LocalElectionExplorer } from "@/components/maps/local-election-explorer";
 import { getLocalIndexModel } from "@/lib/data/geography/local-server";
 
-export const metadata: Metadata = { title: "Valkarta" };
+export const metadata: Metadata = { ...pageMetadata("maps", "sv"), title: "Valkarta" };
 
 export default function MapsPage({ locale = "sv" }: { locale?: Locale } = {}) {
   const model = getLocalIndexModel();

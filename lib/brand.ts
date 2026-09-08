@@ -1,7 +1,7 @@
 import type { Locale } from "./i18n/messages";
 
 export const BRAND_NAME = "Into the Politicalverse";
-export const PUBLIC_SITE_URL = "https://willrydh.github.io/Into-The-Politicalverse/";
+export const PUBLIC_SITE_URL = "https://politicalverse.se/";
 export const BRAND_DIRECTORY = "brand/crown-2026";
 
 export function brandAsset(file: string, basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "") {

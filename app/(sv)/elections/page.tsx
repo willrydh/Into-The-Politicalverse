@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ import { PARTIES } from "@/lib/data/elections/parties";
 import type { PartyId } from "@/lib/data/elections/types";
 import { ARCHIVE_MAJORITY, ARCHIVE_TOTAL_SEATS, electionArchive, getElectionOutcome } from "@/lib/elections/outcomes";
 
-export const metadata: Metadata = { title: "Valarkiv" };
+export const metadata: Metadata = { ...pageMetadata("elections", "sv"), title: "Valarkiv" };
 
 export default function ElectionsPage({ locale = "sv" }: { locale?: Locale } = {}) {
   const sv = locale === "sv";

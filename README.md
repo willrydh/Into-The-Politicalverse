@@ -629,7 +629,9 @@ Polling refresh tests now validate moving historical windows against the actual 
 
 ### Public release
 
-The public static release is published from this repository by GitHub Actions to [willrydh.github.io/Into-The-Politicalverse](https://willrydh.github.io/Into-The-Politicalverse/). It requires no account or password. Normal source pushes to `main` use the Pages workflow, which validates data, lint, types and tests before building and deploying. An accepted scheduled polling refresh is committed with the repository `GITHUB_TOKEN`, whose push does not start another workflow; the refresh workflow therefore checks out that exact accepted commit, repeats the Pages gates, builds and deploys it itself. An unchanged or rejected refresh never deploys, and a final `main` check prevents an older snapshot from replacing a newer human-pushed release. Neither path uses another project, domain, personal token or hosting configuration.
+The public static release is published from this repository by GitHub Actions to [politicalverse.se](https://politicalverse.se/). It requires no account or password. Normal source pushes to `main` use the Pages workflow, which validates data, lint, types and tests before building and deploying. An accepted scheduled polling refresh is committed with the repository `GITHUB_TOKEN`, whose push does not start another workflow; the refresh workflow therefore checks out that exact accepted commit, repeats the Pages gates, builds and deploys it itself. An unchanged or rejected refresh never deploys, and a final `main` check prevents an older snapshot from replacing a newer human-pushed release. Neither path uses another project, domain, personal token or hosting configuration.
+
+The custom domain uses root-relative assets, bilingual canonical/hreflang links, a sitemap and crawl rules. The old GitHub Pages address redirects through GitHub's custom-domain support. DNS is managed in the dedicated Cloudflare zone; the registrar remains Loopia. See [domain launch](docs/operations/loopia-domain-launch.md).
 
 ### Run locally
 

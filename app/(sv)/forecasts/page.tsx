@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
@@ -13,7 +14,7 @@ import { PredictionGrid } from "@/components/forecast/prediction-grid";
 import { SectionHeading } from "@/components/section-heading";
 import { electionForecast } from "@/lib/forecast/data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = { ...pageMetadata("forecasts", "sv"),
   title: "Prognos 2026",
   description: "Databaserad valprognos för riksdagsvalet 2026 med mandatintervall, regeringsvägar, historiska test och öppna källor.",
 };

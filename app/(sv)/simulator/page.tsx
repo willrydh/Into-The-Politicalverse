@@ -1,10 +1,11 @@
+import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
 import type { Metadata } from "next";
 import { ElectionSimulator } from "@/components/simulator/election-simulator";
 import { getSimulatorBaseline } from "@/lib/simulator/data";
 
-export const metadata: Metadata = { title: "Mandatsimulator" };
+export const metadata: Metadata = { ...pageMetadata("simulator", "sv"), title: "Mandatsimulator" };
 
 export default function SimulatorPage({ locale = "sv" }: { locale?: Locale } = {}) {
   const baseline = getSimulatorBaseline();
