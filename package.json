@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
-    "check": "npm run lint && npm run typecheck && npm run typecheck:insights && npm test && npm run test:insights && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run typecheck:insights && npm run typecheck:sharing && npm test && npm run test:insights && npm run test:sharing && npm run build",
     "data:import": "node --import tsx scripts/import-valmyndigheten.ts",
     "data:import:municipality-history": "node --import tsx scripts/import-valmyndigheten-municipality-history.ts",
     "data:import:geography": "node --import tsx scripts/import-valmyndigheten-geography.ts",
@@ -33,7 +33,9 @@
     "data:forecast:reference": "node --import tsx scripts/preserve-forecast-reference.ts",
     "data:2026:stage": "node --import tsx scripts/stage-election-2026.ts",
     "test:insights": "node --test workers/insights/tests/*.test.mjs",
-    "typecheck:insights": "tsc --noEmit -p workers/insights/tsconfig.json"
+    "typecheck:insights": "tsc --noEmit -p workers/insights/tsconfig.json",
+    "typecheck:sharing": "tsc --noEmit -p workers/sharing/tsconfig.json",
+    "test:sharing": "node --import tsx --test workers/sharing/tests/*.test.ts"
   },
   "dependencies": {
     "next": "^16.0.0",
@@ -42,6 +44,8 @@
     "web-vitals": "^6.2.1"
   },
   "devDependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@resvg/resvg-wasm": "^2.6.2",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -49,6 +53,7 @@
     "eslint-config-next": "^16.0.0",
     "jszip": "^3.10.1",
     "miniflare": "^5.20260907.0-alpha",
+    "satori": "0.32.0",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0",
     "wrangler": "^4.129.1"

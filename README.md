@@ -8,7 +8,7 @@ Focus styling is neutral in both themes. Text-entry fields use a discreet inset 
 
 The owner-supplied crown identity appears in the shared header/footer, both language versions, sharing previews, favicons and home-screen icons. Asset provenance, responsive behavior and regeneration are documented in [project branding](docs/brand/README.md).
 
-Compact link previews use the square crown directly so it remains recognizable in Safari's share sheet. The wide localized artwork is used for Twitter's large-image cards.
+General link previews use the square crown directly so it remains recognizable in Safari's share sheet. Candidate profile links have their own 1200 × 630 sharing image with name, party, personal votes, comparable change and history. The same verified data build refreshes those images after accepted new elections or count corrections. See [candidate sharing and cache behavior](docs/operations/candidate-sharing.md). The wide localized brand artwork remains the default Twitter card on other pages.
 
 Column headings sort comparable data tables across maps, personal votes, candidate histories, rankings, historical results, forecasts and live results. Sorting uses raw values, keeps unavailable observations last and preserves leaderboard ranks; mobile card layouts have the same controls in a compact selector. Profile JSON exports download only the selected person.
 

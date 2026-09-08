@@ -19,7 +19,7 @@ export function buildCandidateData() {
     const filename = `data/normalized/candidate-elections-${year}.json.gz`, raw = read(filename);
     if (createHash("sha256").update(raw).digest("hex") !== manifest.outputs[filename]) throw new Error(`Candidate source checksum ${year}`);
     const data = JSON.parse(gunzipSync(raw).toString()) as CandidateSource;
-    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || data.methodVersion !== CANDIDATE_METHOD) throw new Error("Candidate source schema");
+    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || data.status !== "final" || data.methodVersion !== CANDIDATE_METHOD) throw new Error("Candidate source schema");
     for (const [id, identity] of Object.entries(data.identities)) identityInputs.push({ ...identity, key: `${year}:${id}`, year });
     const totals: Record<string, number> = {}, areaKeys = new Set<string>();
     for (const area of data.areas) {

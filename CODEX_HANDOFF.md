@@ -20,6 +20,8 @@ Scoped development branches: `codex/*`
 
 Public target: `https://politicalverse.se/`, GitHub Pages origin with a dedicated Cloudflare DNS zone. See `docs/operations/loopia-domain-launch.md` for the reusable launch procedure and `docs/launch/release-2026-09-08.md` for this cutover's evidence and remaining checks.
 
+Candidate profile links now have a separate public sharing Worker for crawler metadata and 1200 × 630 PNGs. Every Pages candidate prebuild regenerates compact sharing shards and per-profile content revisions; accepted future election years and count corrections refresh images without hardcoded year changes in the Worker. Existing profile selection/layout is preserved, and staged/preliminary 2026 data remains excluded. See `docs/operations/candidate-sharing.md` for cache semantics, tests and explicit Worker deployment.
+
 Candidate-resource requests include the normalization method in their URL and revalidate the HTTP cache. Preserve this when changing candidate schemas: an existing browser may otherwise combine a newly deployed UI with an older cached JSON file and fail validation.
 
 The original public foundation remains intact:
@@ -188,7 +190,7 @@ npm run dev
 
 The preflight permits only `main`, the legacy `agent/foundation` branch and scoped `codex/*` branches in this exact repository/remote. It also requires repository root, fixed `127.0.0.1:4317`, a free port and no local tunnel/service route to that port.
 
-Never modify other repositories, radio files/services, launchd jobs, tunnels or unrelated domains while working on Politicalverse. The owner explicitly authorized Loopia/Cloudflare migration for `politicalverse.se`; static delivery remains this repository's GitHub Pages workflow. The dedicated Worker serves only `/admin*` and `/insights/*`, with its own EU D1 database and encrypted secrets. Its integration tests use the same fixed loopback port with ephemeral data and no concurrent Next server. Browser QA uses a new temporary tab at the fixed loopback URL or a Politicalverse public URL. See `docs/operations/insights.md` for authentication, consent, metric definitions and deployment.
+Never modify other repositories, radio files/services, launchd jobs, tunnels or unrelated domains while working on Politicalverse. The owner explicitly authorized Loopia/Cloudflare migration for `politicalverse.se`; static delivery remains this repository's GitHub Pages workflow. The private insights Worker serves only `/admin*` and `/insights/*`, with its own EU D1 database and encrypted secrets. The independent public sharing Worker owns `/people*`, `/en/people*` and `/share/candidate/*` and has no private bindings. Its integration tests use the same fixed loopback port with ephemeral data and no concurrent Next server. Browser QA uses a new temporary tab at the fixed loopback URL or a Politicalverse public URL. See `docs/operations/insights.md` for authentication, consent, metric definitions and deployment.
 
 ## Verification
 
