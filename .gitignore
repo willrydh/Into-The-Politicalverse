@@ -28,3 +28,7 @@ data/rehearsal/
 
 # New-election intake must be reviewed before promotion to public history.
 /data/staging/
+
+# Worker local credentials and build output
+**/.dev.vars*
+**/.wrangler/

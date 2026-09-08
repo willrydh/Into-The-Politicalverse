@@ -1,0 +1,16 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "politicalverse-insights",
+  "main": "src/index.ts",
+  "account_id": "5812c395d29b11471568de01b4674bc7",
+  "compatibility_date": "2026-09-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": { "SITE_ORIGIN": "https://politicalverse.se", "GA_MEASUREMENT_ID": "" },
+  "d1_databases": [{ "binding": "DB", "database_name": "politicalverse-insights", "database_id": "6b60feea-baeb-4ef4-a25b-fa0803535231", "migrations_dir": "migrations" }],
+  "routes": [{"pattern":"politicalverse.se/admin*","zone_name":"politicalverse.se"},{"pattern":"politicalverse.se/insights/*","zone_name":"politicalverse.se"}],
+  "triggers": { "crons": ["23 3 * * *"] },
+  "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+  "rules": [{ "type": "Text", "globs": ["**/*.html", "**/dashboard.js"], "fallthrough": true }]
+}

@@ -633,9 +633,11 @@ The public static release is published from this repository by GitHub Actions to
 
 The custom domain uses root-relative assets, bilingual canonical/hreflang links, a sitemap and crawl rules. The old GitHub Pages address redirects through GitHub's custom-domain support. DNS is managed in the dedicated Cloudflare zone; the registrar remains Loopia. See [domain launch](docs/operations/loopia-domain-launch.md).
 
+The separate `/admin/` insight dashboard uses a Cloudflare Worker and EU D1. Its prepared measurement contract requires consent, excludes authenticated administrators and keeps visits separate from identifiable people. The public consent UI and collector are not yet released; Google account setup is also pending. The public site remains usable independently of measurement. See [insights operations](docs/operations/insights.md) for release status and activation checks.
+
 ### Run locally
 
-Node.js 20.9 or newer is required.
+Node.js 22 or newer is required.
 
 ```bash
 npm install

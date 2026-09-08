@@ -16,7 +16,7 @@ Canonical/public branch: `main`
 
 Scoped development branches: `codex/*`
 
-Public target: `https://politicalverse.se/`, GitHub Pages origin with a dedicated Cloudflare DNS zone. See `docs/operations/loopia-domain-launch.md` for cutover evidence.
+Public target: `https://politicalverse.se/`, GitHub Pages origin with a dedicated Cloudflare DNS zone. See `docs/operations/loopia-domain-launch.md` for the reusable launch procedure and `docs/launch/release-2026-09-08.md` for this cutover's evidence and remaining checks.
 
 Candidate-resource requests include the normalization method in their URL and revalidate the HTTP cache. Preserve this when changing candidate schemas: an existing browser may otherwise combine a newly deployed UI with an older cached JSON file and fail validation.
 
@@ -47,7 +47,7 @@ The prediction layer adds:
 
 ## September maintenance
 
-Candidate profiles include a scoped PocketPolitics referral after their vote history. Its single primary link opens exactly `https://pocketpolitics.io/welcome`. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English, accessible new-tab labels. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
+Candidate profiles include a scoped PocketPolitics referral after their vote history. Its single primary link opens exactly `https://pocketpolitics.io/welcome`. Preserve explicit demo coverage, subscription disclosure, Swedish destination-language context in English and accessible new-tab labels. Consented referral measurement is prepared separately and remains unpublished. Do not construct unverified individual profile links. See `docs/operations/pocketpolitics-referral.md`.
 
 Shared `useTableSort` / `SortHeaders` sort semantic source values before row limits and pagination. Null/zero distinctions and earned leaderboard ranks must remain intact. Hidden mobile table headers have equivalent native sort selectors. `ProfileDownload` exports only the current profile; it does not navigate to a multi-person JSON shard.
 
@@ -180,7 +180,7 @@ npm run dev
 
 The preflight permits only `main`, the legacy `agent/foundation` branch and scoped `codex/*` branches in this exact repository/remote. It also requires repository root, fixed `127.0.0.1:4317`, a free port and no local tunnel/service route to that port.
 
-Never modify other repositories, radio files/services, launchd jobs, tunnels, DNS, Cloudflare configuration or unrelated domains while working on Politicalverse. The only release target is this repository's GitHub Pages site. Browser QA must use a new temporary tab at the fixed loopback URL or Politicalverse Pages URL and close it afterward.
+Never modify other repositories, radio files/services, launchd jobs, tunnels or unrelated domains while working on Politicalverse. The owner explicitly authorized Loopia/Cloudflare migration for `politicalverse.se`; static delivery remains this repository's GitHub Pages workflow. The dedicated Worker serves only `/admin*` and `/insights/*`, with its own EU D1 database and encrypted secrets. Its integration tests use the same fixed loopback port with ephemeral data and no concurrent Next server. Browser QA uses a new temporary tab at the fixed loopback URL or a Politicalverse public URL. See `docs/operations/insights.md` for authentication, consent, metric definitions and deployment.
 
 ## Verification
 
