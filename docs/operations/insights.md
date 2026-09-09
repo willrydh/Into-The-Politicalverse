@@ -2,6 +2,8 @@
 
 Release state, 8 September 2026: the Worker and EU database are deployed on the HTTPS domain. Production login/logout, session revocation, protected APIs, administrator exclusion, crown asset and all five resource checks passed through the live Cloudflare endpoint. No production visitor events were inserted. The public consent UI and browser collector remain an unpublished draft pending the owner's public privacy-contact address. Google account authentication is also pending. The measurement contract below describes the prepared implementation, not proof of collected production visits or an active Google stream.
 
+Investigation, 9 September 2026: production D1 and authenticated report/realtime APIs both returned zero visits and zero events. The static release contains no browser collector, so this is missing collection, not evidence of no traffic. Historical visits cannot be reconstructed from these tables. The admin correction reports the most recent visit signal, labels unverified empty collection explicitly, clears stale realtime tables after a failed refresh, and prevents a late performance event from moving or reactivating a departed visit. The public collector is being completed separately; its privacy contact and production activation remain pending.
+
 The public analytical product stays static on GitHub Pages. A separate Cloudflare Worker serves only `politicalverse.se/admin*` and `politicalverse.se/insights/*`. It never reads or changes election source data. Authentication, reporting and collection must fail closed if the Worker or database is unavailable. The public site must remain usable.
 
 ## Measurement contract

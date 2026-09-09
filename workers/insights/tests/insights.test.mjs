@@ -69,9 +69,15 @@ test('private dashboard and consented first-party measurement',async t=>{
   await send({...event,id:randomUUID(),kind:'page',path:'/rankings/?county=14',previous:'/people/?id=private'});
   await send({visit,consent:true,kind:'heartbeat',path:'/rankings/',elapsed:30000});
   const live=await (await request('/admin/api/realtime',{headers:{Cookie:cookie}})).json();assert.deepEqual(live.pages,[{path:'/rankings/',visitors:1}]);
-  const report=await (await request('/admin/api/report?days=7',{headers:{Cookie:cookie}})).json();assert.equal(report.totals[0].pageviews,2);assert.equal(report.totals[0].visits,1);assert.equal(report.engagement[0].engaged_ms,30000);assert.ok(report.transitions.some(r=>r.previous_path==='/people/'&&r.path==='/rankings/'&&r.transitions===1));
+  const report=await (await request('/admin/api/report?days=7',{headers:{Cookie:cookie}})).json();assert.equal(report.totals[0].pageviews,2);assert.equal(report.totals[0].visits,1);assert.ok(report.collection[0].lastSignal>=report.collection[0].since);assert.equal(report.engagement[0].engaged_ms,30000);assert.ok(report.transitions.some(r=>r.previous_path==='/people/'&&r.path==='/rankings/'&&r.transitions===1));
   await send({visit,consent:true,kind:'leave',path:'/rankings/',elapsed:1000});
   const after=await (await request('/admin/api/realtime',{headers:{Cookie:cookie}})).json();assert.equal(after.pages.length,0);
+ });
+ await t.test('late performance samples cannot move or reactivate a departed visit',async()=>{
+  await send({...event,id:randomUUID(),kind:'LCP',path:'/people/',value:1500});
+  const row=await db.prepare('SELECT current_path,active_until FROM visits WHERE id=?').bind(visit).first();
+  assert.equal(row.current_path,'/rankings/');assert.ok(row.active_until<=Math.floor(Date.now()/1000));
+  const live=await (await request('/admin/api/realtime',{headers:{Cookie:cookie}})).json();assert.equal(live.pages.length,0);
  });
  await t.test('unknown dimensions, URLs and event text cannot enter the report',async()=>{
   await send({...event,id:randomUUID(),visit:randomUUID(),path:'/admin/password?secret=abc',viewport:'private',screen:'99999x99999',source:'private',kind:'scroll',label:'90'});

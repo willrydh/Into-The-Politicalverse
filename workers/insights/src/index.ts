@@ -86,7 +86,7 @@ async function collect(r: Request, env: Env) {
   const {device,browser,os}=insightDevice(r.headers.get("User-Agent")??"");
   const source=typeof b.source==="string" && ["direct","other","google.com","google.se","bing.com","duckduckgo.com","reddit.com","facebook.com","instagram.com","linkedin.com","t.co","pocketpolitics.io","reddit","facebook","instagram","linkedin","pocketpolitics","newsletter"].includes(b.source)?b.source:insightSource(typeof b.referrer==="string"?b.referrer:"");
   const campaign=typeof b.campaign==="string" && ["launch","lansering","election2026","val2026"].includes(b.campaign)?b.campaign:"";
-  const visit=env.DB.prepare("INSERT INTO visits(id,first_seen,last_seen,active_until,entry_path,current_path,source,campaign,device,browser,os,viewport,screen,locale,mode) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET last_seen=excluded.last_seen,active_until=excluded.active_until,current_path=excluded.current_path,viewport=excluded.viewport").bind(b.visit,now,now,now+90,path,path,source,campaign,device,browser,os,insightDimensions(b.viewport),insightDimensions(b.screen),path.startsWith("/en/")?"en":"sv",b.mode==="standalone"?"pwa":"browser");
+  const visit=env.DB.prepare("INSERT INTO visits(id,first_seen,last_seen,active_until,entry_path,current_path,source,campaign,device,browser,os,viewport,screen,locale,mode) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET last_seen=excluded.last_seen,active_until=CASE WHEN ?='page' THEN excluded.active_until ELSE visits.active_until END,current_path=CASE WHEN ?='page' THEN excluded.current_path ELSE visits.current_path END,viewport=excluded.viewport").bind(b.visit,now,now,now+90,path,path,source,campaign,device,browser,os,insightDimensions(b.viewport),insightDimensions(b.screen),path.startsWith("/en/")?"en":"sv",b.mode==="standalone"?"pwa":"browser",b.kind,b.kind);
   await env.DB.batch([event,visit]);
   return new Response(null,{status:204,headers:{"Cache-Control":"no-store"}});
 }
@@ -108,7 +108,7 @@ async function report(url: URL, env: Env) {
     env.DB.prepare("SELECT viewport,screen,COUNT(*) visits FROM visits WHERE first_seen>=? GROUP BY viewport,screen ORDER BY visits DESC LIMIT 50").bind(since),
     env.DB.prepare("SELECT kind,label,path,COUNT(*) events,COUNT(DISTINCT visit) visits FROM events WHERE occurred>=? AND kind NOT IN ('page','LCP','INP','CLS') GROUP BY kind,label,path ORDER BY events DESC LIMIT 60").bind(since),
     env.DB.prepare("SELECT kind,path,value FROM events WHERE occurred>=? AND kind IN ('LCP','INP','CLS') ORDER BY occurred DESC LIMIT 10000").bind(since),
-    env.DB.prepare("SELECT MIN(first_seen) since FROM visits"),
+    env.DB.prepare("SELECT MIN(first_seen) since, MAX(last_seen) lastSignal FROM visits"),
   ];
   const result=await env.DB.batch(statements);
   const names=["engagement","totals","previous","daily","pages","transitions","entries","exits","sources","devices","screens","events","performanceSamples","collection"];
