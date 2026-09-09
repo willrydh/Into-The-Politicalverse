@@ -1,5 +1,7 @@
 # Into The Politicalverse
 
+The homepage omits the redundant “Politicalverse prognos · 2026” eyebrow while retaining the large forecast headline and explanatory paragraph. Its freshness strip uses a short date and relative age for recent polls, retaining complete stale/archive warnings. Mobile/tablet top spacing is reduced and mobile grid rows are consecutive so the probability card moves up without leaving an empty row.
+
 Politicalverse is provided free to everyone, forever, by William Rydh. Reuse of site material, data, text, images or insights requires attribution to Politicalverse; a link to the relevant page is appreciated where possible. Preserve underlying source attribution and source-specific terms. This owner decision replaces the earlier paid-Pro/paywall roadmap. The public `/press/` and `/en/press/` pages explain the product, audience, sources, update cadence, attribution and logo downloads, and link to the separate PocketPolitics welcome page. See [press content and maintenance](docs/operations/press-page.md).
 
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
