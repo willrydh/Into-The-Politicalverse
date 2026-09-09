@@ -132,3 +132,9 @@ jobs:
       - name: Deploy accepted snapshot to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  verify_public:
+    needs: pages_deploy
+    permissions:
+      contents: read
+    uses: ./.github/workflows/domain-health.yml

@@ -24,6 +24,10 @@ Loopias support har, efter ägarens godkännande, fått de tekniska observatione
 
 ## Öppen verifiering
 
-Vanlig åtkomst genom det tidigare drabbade nätet och supportens tekniska svar återstår. Skriv in tidpunkt och faktiska resultat här när kontrollen slutförs. Påstå inte att borttagning av gamla A-poster omedelbart tömmer besökarnas redan fyllda resolvercacher.
+Ägaren bekräftade omkring 12:00 att sajten var uppe från hans nät. Den separata kontrollmiljön visade fortfarande parkering via vanlig HTTPS. Vid 12:11:58 gav dess vanliga `dig`-uppslag de nya Cloudflare-adresserna efter att den gamla A-postens TTL löpt ut, medan vanlig HTTPS ännu visade parkering. Detta visar varför ett lyckat separat DNS-uppslag inte ensamt avslutar en incident; även systemets/webbläsarens åtkomst behöver kontrolleras.
+
+Vanlig åtkomst genom den tidigare drabbade kontrollmiljön och supportens tekniska svar återstår. Skriv in tidpunkt och faktiska resultat här när kontrollen slutförs. Påstå inte att borttagning av gamla A-poster omedelbart tömmer besökarnas redan fyllda resolvercacher.
 
 Lanseringsguiden har förtydligats om gammal zon och wildcard, separata NS/DS-cachetider och skillnaden mellan direkt servertest och vanlig webbläsaråtkomst. En avvikelse i något av dessa led ska redovisas som öppen tills just det ledet är verifierat.
+
+Den nya [domänkontrollen](domain-health.md) gav vid 12:08 underkänt för system-DNS, vanlig HTTPS, manifest och HTTP-omdirigering, trots att båda publika resolverarna och `www` var godkända. Incidenten har därmed även fungerat som ett skarpt negativt test av bevakningen, utöver dess automatiserade regressionstester.

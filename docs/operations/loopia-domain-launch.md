@@ -101,6 +101,8 @@ Kontrollera de verkliga publika adresserna efter ompekningen:
 
 Registrera slutligt commit-id, lyckad publiceringskörning, domänkonfiguration, namnservrar, tidpunkt och verifierade HTTP/DNS-resultat i projektets överlämning. Lägg aldrig in lösenord, sessionskakor eller hemliga nycklar i guiden.
 
+Aktivera en återkommande kontroll utanför den egna webbhosten och kör den efter publicering. Den ska kontrollera DNS/DNSSEC, vanlig HTTPS-åtkomst, rätt innehåll och omdirigeringar med bevarad sökväg. En parkeringssida kan ge HTTP 200. Politicalverse använder [den dokumenterade domänkontrollen](domain-health.md); testa både fel och återhämtning och verifiera att schemat faktiskt körs.
+
 Skilj alltid en direkt kontroll av rätt server från vanlig åtkomst via nätets DNS. `curl --resolve` kan verifiera innehåll och TLS hos Cloudflare eller ursprunget, men bevisar inte att besökarnas vanliga uppslag når den servern. Kontrollera även HTTPS utan `--resolve` och i en ny webbläsarflik på den vanliga domänen. Om någon kontrollerad åtkomst fortfarande visar parkering eller DNS-fel ska det framgå som en öppen lanseringsavvikelse.
 
 Vid avvikelse: spara tidsstämplade svar för NS, DS, A och AAAA från överordnad zon, gamla och nya auktoritativa namnservrar, flera publika resolverare och det drabbade nätet. Kontrollera både apex, `www` och gamla wildcard-poster. Registrera status, TTL och SOA-serie; ett NODATA-svar är inte samma sak som timeout eller SERVFAIL. Dra inte slutsatsen att ett namnserverbyte är återställt enbart för att en gammal adress finns i cache. Lova heller inte att allt är klart när endast en uppsättning DNS-svar är rätt. En gammal delegering kan förnya adressposter, så återstående TTL för en enda A-post är inte alltid hela övergångstiden.
