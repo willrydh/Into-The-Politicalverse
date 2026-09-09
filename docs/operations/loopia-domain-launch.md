@@ -2,13 +2,17 @@
 
 Återanvändbar arbetsgång för en domän som är registrerad hos Loopia men ska använda Cloudflare som DNS-leverantör. Webbplatsen kan ligga kvar hos sin befintliga webbhost. Loopia fortsätter sköta registrering och förnyelse av domänen.
 
-Guiden är kontrollerad mot leverantörernas dokumentation den 8 september 2026. Aktuella namnservrar, DNS-värden och certifikatstatus ska alltid hämtas från det nya projektets egna konton. Kopiera inte ett annat projekts namnservrar eller hostingmål.
+Guiden är kontrollerad mot leverantörernas dokumentation den 9 september 2026. Aktuella namnservrar, DNS-värden och certifikatstatus ska alltid hämtas från det nya projektets egna konton. Kopiera inte ett annat projekts namnservrar eller hostingmål.
 
 ## Före ändringen
 
 Fastställ rätt domän, registrarkonto, Cloudflare-konto, webbprojekt och publiceringsflöde. Läs aktuella instruktioner i projektet och bevara pågående lokala ändringar. Arbeta i en separat gren eller worktree från den senast publicerade huvudgrenen.
 
 Dokumentera nuvarande namnservrar och alla DNS-poster: A, AAAA, CNAME, MX, TXT, CAA, SRV och eventuella delegeringar. Kontrollera särskilt e-postens MX, SPF, DKIM och DMARC samt externa verifieringsposter. En automatisk DNS-import är ett hjälpmedel, inte bevis för att allt kommit med. Spara en återställningsbar export utan lösenord eller API-nycklar.
+
+Kontrollera också den gamla zonens webbparkering, inklusive `www` och wildcard (`*`). Resolverare med cachad gammal delegering kan fortsätta fråga de gamla namnservrarna och därmed förnya felaktiga adressposter. Förbered helst samma fungerande webbpekning hos både gammal och ny DNS-leverantör under övergången. Namnserverbytet i sig tar inte bort en parkeringszon hos Loopia.
+
+Ett LoopiaDomän-konto räcker för externa Cloudflare-namnservrar; beställ inte LoopiaDNS för den aktiva Cloudflare-zonen. Vid denna kontroll är redigering av enskilda poster i Loopias gamla zon låst bakom deras betalda DNS-tjänst. Om gamla poster behöver rättas men redigering saknas, ordna en uttryckligt godkänd åtgärd med registraren före lanseringen. Att välja **Inga inställningar** tar bort Loopias webbkonfiguration men är inte bevis för att hela den gamla DNS-zonen, inklusive wildcard, har försvunnit. Kontrollera faktiska svar. Ett tomt svar från den gamla zonen ersätter heller inte behovet av en fungerande övergång för besökare med gammal delegering.
 
 Läs DNSSEC-status både i Loopia och i den överordnade zonen. Anteckna befintlig DS-post och dess TTL innan den tas bort. En knapp som visar avaktiverat i kundzonen bevisar inte att ändringen har nått registret.
 
@@ -75,7 +79,7 @@ För en egen GitHub Actions-publicering ska basvägen komma från `actions/confi
 
 ## Återaktivera DNSSEC
 
-När den nya delegeringen fungerar aktiveras DNSSEC i Cloudflare. Läs den nya signeringens **Key tag**, **Algorithm**, **Digest type** och **Digest** från just den zonen.
+Cloudflare rekommenderar återaktivering först när namnserverbytet har slagit igenom och DNS fungerar genom den nya leverantören. Avsätt minst den tidigare NS-delegeringens fulla TTL och kontrollera resultatet innan den nya DS-posten publiceras. Denna väntan är separat från den tidigare väntan på att den gamla DS-posten ska löpa ut. Ett grönt svar från en enskild resolver bevisar inte att gamla delegeringar har försvunnit överallt. Läs den nya signeringens **Key tag**, **Algorithm**, **Digest type** och **Digest** från just den zonen. Se [Cloudflares kontroll efter flytt](https://developers.cloudflare.com/learning-paths/dns-best-practices/concepts/phase-4/).
 
 För externa namnservrar och `.se`/`.nu` låter Loopia dig ange dessa värden under domänens DNSSEC-inställning. Lägg in Cloudflares nya värden, inte den gamla leverantörens. Spara och invänta att den nya DS-posten syns hos registret.
 
@@ -96,6 +100,12 @@ Kontrollera de verkliga publika adresserna efter ompekningen:
 - E-postposter är oförändrade och DNSSEC-kedjan är verifierad.
 
 Registrera slutligt commit-id, lyckad publiceringskörning, domänkonfiguration, namnservrar, tidpunkt och verifierade HTTP/DNS-resultat i projektets överlämning. Lägg aldrig in lösenord, sessionskakor eller hemliga nycklar i guiden.
+
+Aktivera en återkommande kontroll utanför den egna webbhosten och kör den efter publicering. Den ska kontrollera DNS/DNSSEC, vanlig HTTPS-åtkomst, rätt innehåll och omdirigeringar med bevarad sökväg. En parkeringssida kan ge HTTP 200. Politicalverse använder [den dokumenterade domänkontrollen](domain-health.md); testa både fel och återhämtning och verifiera att schemat faktiskt körs.
+
+Skilj alltid en direkt kontroll av rätt server från vanlig åtkomst via nätets DNS. `curl --resolve` kan verifiera innehåll och TLS hos Cloudflare eller ursprunget, men bevisar inte att besökarnas vanliga uppslag når den servern. Kontrollera även HTTPS utan `--resolve` och i en ny webbläsarflik på den vanliga domänen. Om någon kontrollerad åtkomst fortfarande visar parkering eller DNS-fel ska det framgå som en öppen lanseringsavvikelse.
+
+Vid avvikelse: spara tidsstämplade svar för NS, DS, A och AAAA från överordnad zon, gamla och nya auktoritativa namnservrar, flera publika resolverare och det drabbade nätet. Kontrollera både apex, `www` och gamla wildcard-poster. Registrera status, TTL och SOA-serie; ett NODATA-svar är inte samma sak som timeout eller SERVFAIL. Dra inte slutsatsen att ett namnserverbyte är återställt enbart för att en gammal adress finns i cache. Lova heller inte att allt är klart när endast en uppsättning DNS-svar är rätt. En gammal delegering kan förnya adressposter, så återstående TTL för en enda A-post är inte alltid hela övergångstiden.
 
 Om något behöver återställas, utgå från den sparade DNS-exporten och rätt tidigare publicering. Ett namnserverbyte tillbaka kräver att DNSSEC-kedjan samtidigt passar den återställda leverantören. Gamla och nya signerare kan inte bytas godtyckligt medan fel DS-post ligger kvar hos registret.
 

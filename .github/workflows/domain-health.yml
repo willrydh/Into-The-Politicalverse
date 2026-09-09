@@ -1,0 +1,40 @@
+name: Check public domain health
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+  workflow_call:
+
+# Independent of the site's host and dependencies. No DNS/registrar credentials.
+permissions:
+  contents: read
+
+concurrency:
+  group: politicalverse-domain-health
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.repository == 'willrydh/Into-The-Politicalverse'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Always the trusted production health policy.
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check DNS, DNSSEC, HTTPS, content and redirects
+        run: node scripts/check-domain-health.mjs
+      - name: Preserve diagnosis even when a check fails
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: domain-health
+          path: domain-health.json
+          if-no-files-found: warn
+          retention-days: 14

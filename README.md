@@ -645,6 +645,8 @@ The public static release is published from this repository by GitHub Actions to
 
 The custom domain uses root-relative assets, bilingual canonical/hreflang links, a sitemap and crawl rules. The old GitHub Pages address redirects through GitHub's custom-domain support. DNS is managed in the dedicated Cloudflare zone; the registrar remains Loopia. See [domain launch](docs/operations/loopia-domain-launch.md).
 
+An independent, read-only domain health workflow checks DNS/DNSSEC through two public resolvers, system DNS, ordinary HTTPS content and canonical redirects every fifteen minutes and after both public deployment paths. Persistent failures make Actions fail with a diagnostic artifact; a parking page returning HTTP 200 is not healthy. See [domain monitoring and incident response](docs/operations/domain-health.md).
+
 The separate `/admin/` insight dashboard uses a Cloudflare Worker and EU D1. Its prepared measurement contract requires consent, excludes authenticated administrators and keeps visits separate from identifiable people. The public consent UI and collector are not yet released; Google account setup is also pending. The public site remains usable independently of measurement. See [insights operations](docs/operations/insights.md) for release status and activation checks.
 
 ### Run locally
