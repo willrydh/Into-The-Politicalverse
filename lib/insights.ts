@@ -1,6 +1,6 @@
 // A closed vocabulary prevents queries, candidate selections and input text
 // from becoming browsing profiles or leaking into third-party analytics.
-export const INSIGHT_PATHS = ["", "overview", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "valnatt", "sources", "search", "rankings", "people", "privacy"] as const;
+export const INSIGHT_PATHS = ["", "overview", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "valnatt", "sources", "search", "rankings", "people", "privacy", "press"] as const;
 export const INSIGHT_EVENTS = ["page", "pocketpolitics", "source_open", "filter_change", "table_sort", "search", "scroll", "LCP", "INP", "CLS", "script_error", "resource_error"] as const;
 export type InsightKind = typeof INSIGHT_EVENTS[number];
 
