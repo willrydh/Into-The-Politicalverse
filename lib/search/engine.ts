@@ -5,7 +5,7 @@ export function normalizeSearch(value: string) {
 }
 
 export function safeSearchHref(href: unknown): href is string {
-  return typeof href === "string" && /^\/(?:maps|parties|elections|forecasts|charts|indicators|simulator|valnatt|sources|overview|search|rankings|people)?\/?(?:[?#][^\s<>]*)?$/.test(href) && !/[\\\u0000-\u001f]/.test(href);
+  return typeof href === "string" && /^\/(?:maps|parties|elections|forecasts|charts|indicators|simulator|valnatt|sources|overview|search|rankings|people|press)?\/?(?:[?#][^\s<>]*)?$/.test(href) && !/[\\\u0000-\u001f]/.test(href);
 }
 export function validateSearchIndex(value: unknown): asserts value is SearchIndex {
   const data = value as SearchIndex;

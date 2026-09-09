@@ -21,7 +21,7 @@ Build a production-quality quantitative election intelligence platform, initiall
 3. Improve forecast explanation and calibration only with versioned methodology and backtests.
 4. Add official 2026 Valmyndigheten adapters when the relevant live-cycle sources appear; preserve preliminary and final states separately.
 5. Expand parameterized charts, geography and SCB context without coupling them to polling or UI source formats.
-6. Only after the public analytical product is useful, consider auth/paywall.
+6. Preserve the owner's permanent free-access promise. Optional accounts may support saved work but must not gate public analysis.
 
 ## Hard rules
 - Never present invented/demo values as real election data.
@@ -33,8 +33,8 @@ Build a production-quality quantitative election intelligence platform, initiall
 - Derived metrics must be deterministic, versioned, documented and tested.
 - Forecasts/models must be separated from official facts and must expose uncertainty/method/version.
 - Do not publish person, minister, cabinet-post or party-leader odds without a separately sourced, backtested and documented model.
-- Do not require an account for initial public browsing.
-- Do not prioritize Stripe/auth/paywall before charts/data/party/maps/indicators/simulator.
+- Do not require an account for public browsing. Politicalverse is free for everyone, forever, provided by William Rydh; do not introduce a paid tier or paywall.
+- Reuse of site material, data, text, images or insights requires credit to Politicalverse, with a relevant-page link appreciated. Preserve original source attribution and terms. Keep the bilingual press page synchronized with actual sources and update behavior; do not imply that available but unconnected sources are in use. See `docs/operations/press-page.md`.
 - Use official local party logos on dedicated identity surfaces: party cards, leader headers, selectors and result rows. Preserve asset provenance.
 - Project branding uses the owner-supplied crown, separate from party identities. Keep header/footer, both languages, sharing metadata, favicons and home-screen manifests synchronized with the versioned originals in `docs/brand/README.md`.
 - Use names or abbreviations in prose, sentence headings, dense chart labels and inline candidate changes. Shared party groups default to text; opt into logos only for dedicated identity panels. Other/local parties remain text. Keep full accessible names and native select labels; never substitute party tokens inside personal names or machine values. See `docs/data-sources/party-assets.md`.
