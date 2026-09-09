@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PUBLIC_SITE_URL } from "./brand";
 import type { Locale } from "./i18n/messages";
 
-export const PUBLIC_PAGES = ["", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "valnatt", "sources", "rankings", "people", "press"] as const;
+export const PUBLIC_PAGES = ["", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "valnatt", "sources", "rankings", "people", "press", "privacy"] as const;
 
 export function publicPageUrl(path: string, locale: Locale = "sv") {
   const canonicalPath = path === "overview" ? "" : path;

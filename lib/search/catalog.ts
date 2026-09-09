@@ -1,6 +1,7 @@
 import { bilingual as b, type SearchEntry } from "./types";
 
 export const SEARCH_PAGES = [
+  { route: "privacy", title: b("Integritet och statistik", "Privacy and statistics"), description: b("Samtycke, statistikval, lagring och dina rättigheter.", "Consent, statistics preferences, storage and your rights.") },
   { route: "press", title: b("Press och information om Politicalverse", "Press and information about Politicalverse"), description: b("Om William Rydhs Politicalverse, syfte, målgrupper, datakällor och uppdateringar. Gratis för alla, för alltid. Material, logotyp, källhänvisning och PocketPolitics.", "About William Rydh’s Politicalverse, purpose, audiences, data sources and updates. Free for everyone, forever. Material, logo, attribution and PocketPolitics.") },
   { route: "rankings", title: b("Politikernas topplistor", "Candidate leaderboards"), description: b("Störst ökning i personröster, flest nya röster och totalt antal per parti, kommun och region.", "Biggest increase in personal votes, most votes gained and totals by party, municipality and region.") },
   { route: "people", title: b("Kandidatprofiler och personhistorik", "Candidate profiles and histories"), description: b("Personröster och partikandidaturer över valen 2010–2022.", "Personal votes and party candidacies across the 2010–2022 elections.") },

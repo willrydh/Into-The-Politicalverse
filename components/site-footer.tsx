@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { StatisticsSettings } from "./insights/statistics-consent";
 import { Localize } from "@/components/localize";
 import { SiteBrand } from "./site-brand";
 
@@ -14,6 +15,8 @@ export function SiteFooter() { return <Localize><footer className="site-footer">
             <Link href="/parties">Partier</Link>
             <Link href="/indicators">Metod</Link>
             <Link href="/sources">Datakällor</Link>
+            <Link href="/privacy">Integritet</Link>
+            <StatisticsSettings />
             <Link href="/press/">Press</Link>
             <a href="https://www.val.se/" target="_blank" rel="noreferrer">Valmyndigheten ↗</a>
           </div>
