@@ -1,3 +1,6 @@
+import { LEADERBOARD_METHOD } from "../../../lib/candidates/leaderboards";
+import { validateStandings } from "../../../lib/candidates/standings";
+import { shareStandingContext, shareStandingHighlights, type ShareStandingContext } from "../../../lib/candidates/sharing-standings";
 import { personShard } from "../../../lib/candidates/types";
 import { SHARE_DESIGN, SHARE_SCHEMA, selectShareScope, validateSharePerson, type ShareLocale, type SharePerson, type ShareScope } from "../../../lib/candidates/sharing";
 import { renderCard } from "./card";
@@ -28,19 +31,28 @@ async function boundedJSON(response: Response): Promise<unknown> {
 async function loadPerson(id: string, origin: string) {
   // A bounded minute bucket also avoids GitHub Pages' longer upstream asset TTL.
   // No browser cookies, authorization headers or arbitrary URLs reach the data source.
-  const url = `${origin}/api/candidates/sharing-v1/${personShard(id)}.json?fresh=${Math.floor(Date.now() / (TTL * 1000))}`;
+  const url = `${origin}/api/candidates/sharing-v1/${personShard(id)}.json?fresh=${Math.floor(Date.now() / (TTL * 1000))}&design=${SHARE_DESIGN}`;
   const payload = await boundedJSON(await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(8000), cf: { cacheEverything: true, cacheTtl: TTL } }));
   if (!payload || typeof payload !== "object") throw new Error("Invalid sharing envelope");
-  const data = payload as { schemaVersion?: number; sourceVersion?: string; people?: Record<string, unknown> };
+  const data = payload as { schemaVersion?: number; sourceVersion?: string; counties?: { code: string; name: string }[]; people?: Record<string, unknown> };
   if (data.schemaVersion !== SHARE_SCHEMA || !/^[a-f0-9]{64}$/.test(data.sourceVersion ?? "") || !data.people || typeof data.people !== "object") throw new Error("Invalid sharing envelope");
+  if (!Array.isArray(data.counties) || !data.counties.length || data.counties.length > 1000 || data.counties.some(c => !c || !/^\d{2}$/.test(c.code) || typeof c.name !== "string" || !c.name.length || c.name.length > 300)) throw new Error("Invalid sharing geography");
   const person = Object.hasOwn(data.people, id) ? data.people[id] : undefined;
   if (!person) return null;
   validateSharePerson(person, id);
-  return { person, sourceVersion: data.sourceVersion! };
+  return { person, sourceVersion: data.sourceVersion!, counties: data.counties };
 }
 
-function metadata(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale) {
-  const { title, tags } = candidateShareMetadata(origin, person, scope, locale);
+async function loadStandingView(id: string, origin: string, scope: ShareScope, context: ShareStandingContext, locale: ShareLocale, person: SharePerson, counties: { code: string; name: string }[]) {
+  const url = `${origin}/api/candidates/standings-v1/${personShard(id)}.json?fresh=${Math.floor(Date.now() / (TTL * 1000))}&design=${SHARE_DESIGN}`;
+  const data = await boundedJSON(await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(8000), cf: { cacheEverything: true, cacheTtl: TTL } }));
+  validateStandings(data);
+  if (data.sourceVersion !== context.sourceVersion) throw new Error("Standings source mismatch");
+  return shareStandingHighlights(person, scope, context, Object.hasOwn(data.people, id) ? data.people[id] : [], counties, locale);
+}
+
+function metadata(origin: string, person: SharePerson, scope: ShareScope, locale: ShareLocale, standings: ShareStandingContext) {
+  const { title, tags } = candidateShareMetadata(origin, person, scope, locale, standings);
   return `<title data-pv-sharing="">${escape(title)}</title>` + tags.map(({ tag, attributes }) => `<${tag} ${Object.entries(attributes).map(([key, value]) => `${key}="${escape(value)}"`).join(" ")} data-pv-sharing="">`).join("");
 }
 
@@ -76,18 +88,20 @@ async function imageResponse(request: Request, env: Env, ctx: ExecutionContext, 
   if (!loaded) return fail(404);
   const { person, sourceVersion } = loaded;
   const scope = selectShareScope(person, url.searchParams), locale = url.searchParams.get("lang") === "en" ? "en" : "sv";
-  const canonical = shareImageURL(env.SITE_ORIGIN, person, scope, locale);
+  const standings = shareStandingContext(scope, url.searchParams, sourceVersion);
+  const canonical = shareImageURL(env.SITE_ORIGIN, person, scope, locale, standings);
   if (url.href !== canonical) return new Response(null, { status: 302, headers: { Location: canonical, "Cache-Control": "no-store" } });
   // Resolve current data BEFORE looking in the image cache: even an old image link
   // redirects to the current revision after an accepted new election/correction.
+  const view = await loadStandingView(id, env.SITE_ORIGIN, scope, standings, locale, person, loaded.counties);
   const key = new Request(canonical);
   const cached = await caches.default.match(key);
   const headers = new Headers({ "Content-Type": "image/png", "Cache-Control": "public, max-age=300, must-revalidate", "X-Content-Type-Options": "nosniff", "X-PV-Source-Version": sourceVersion, "X-PV-Card-Revision": person.revision,
-    ETag: `"${person.revision}-${SHARE_DESIGN}-${scope.election}-${scope.area}-${locale}"` });
+    ETag: `"${person.revision}-${sourceVersion}-${LEADERBOARD_METHOD}-${SHARE_DESIGN}-${scope.election}-${scope.area}-${locale}-${standings.year}-${standings.partyCode}-${standings.partyOnly}"` });
   if (request.headers.get("If-None-Match") === headers.get("ETag")) return new Response(null, { status: 304, headers });
   if (request.method === "HEAD") return new Response(null, { headers });
   if (cached) return new Response(cached.body, { headers });
-  const png = await renderCard(person, scope, locale);
+  const png = await renderCard(person, scope, locale, view);
   const bytes = new Uint8Array(png).buffer;
   const response = new Response(bytes, { headers });
   const cachedHeaders = new Headers(headers); cachedHeaders.set("Cache-Control", "public, max-age=86400");
@@ -129,7 +143,7 @@ export default {
       headers.set("X-PV-Source-Version", sourceVersion);
       headers.set("X-PV-Card-Revision", person.revision);
       if (request.method === "HEAD") return new Response(null, { headers });
-      return profileRewriter(metadata(env.SITE_ORIGIN, person, scope, locale))
+      return profileRewriter(metadata(env.SITE_ORIGIN, person, scope, locale, shareStandingContext(scope, url.searchParams, sourceVersion)))
         .transform(new Response(upstream.body, { headers }));
     } catch {
       // A sharing dependency failure must not break the existing public profile.

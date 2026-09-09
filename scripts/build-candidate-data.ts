@@ -17,7 +17,7 @@ const shareShards: Record<string, ShareShard> = {};
 for (const person of people) {
   const shard = personShard(person.id);
   (shards[shard] ??= { schemaVersion: 1, version: catalog.version, people: {} }).people[person.id] = person;
-  (shareShards[shard] ??= { schemaVersion: 1, sourceVersion: catalog.version, people: {} }).people[person.id] = buildSharePerson(person);
+  (shareShards[shard] ??= { schemaVersion: 1, sourceVersion: catalog.version, counties: catalog.counties, people: {} }).people[person.id] = buildSharePerson(person);
 }
 for (const [shard, data] of Object.entries(shards)) write(`people/${shard}.json`, data);
 for (const [shard, data] of Object.entries(shareShards)) write(`sharing-v1/${shard}.json`, data);

@@ -22,7 +22,7 @@ const sources = [
 ];
 
 export default function SourcesPage({ locale = "sv" }: { locale?: Locale } = {}) {
-  return localizeNode(<div className="product-section source-catalog"><p className="eyebrow eyebrow--dark">Källregister · kontrollerat 6 september 2026</p><h1>Fler källor. Tydliga gränser.</h1><p>Här syns vad som är anslutet, vad som har provats och vad som finns tillgängligt för nästa steg. Varje datatyp har sin egen betydelse och uppdateringstakt.</p>
+  return localizeNode(<div className="product-section source-catalog"><header className="source-hero"><p className="eyebrow eyebrow--dark">Källregister · kontrollerat 6 september 2026</p><h1>Fler källor. Tydliga gränser.</h1><p>Här syns vad som är anslutet, vad som har provats och vad som finns tillgängligt för nästa steg. Varje datatyp har sin egen betydelse och uppdateringstakt.</p></header>
     <div className="source-catalog__grid">{sources.map((source, index) => <article key={source.name} id={`source-${index}`}><span className="source-catalog__status">{source.status}</span><h2>{source.name}</h2><small>{source.format}</small><p>{source.use}</p><a href={source.url} target="_blank" rel="noreferrer">Öppna källan ↗</a></article>)}</div>
     <p className="live-explanation">Nya källor ändrar inte automatiskt den frysta prognosmodellens parametrar. Valnattsresultat, opinionsmätningar och bakgrundsstatistik behandlas var för sig.</p>
     <Link className="text-link" href="/valnatt">Till valnattens presentation →</Link>

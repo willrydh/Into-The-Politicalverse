@@ -41,3 +41,10 @@ For future replacements, update the versioned asset directory, shared metadata, 
 ## Candidate sharing cards
 
 Candidate-specific profile links use their own 1200 × 630 PNG with the supplied crown, official personal votes and derived election-to-election change. This explicit profile exception keeps generic share-sheet/app icons unchanged. The card is rebuilt from versioned public history, including accepted future election results. See [candidate sharing](../operations/candidate-sharing.md).
+
+
+## Shared hero crown
+
+Public hero surfaces, including candidate profiles, use the unchanged transparent `politicalverse-mark.svg` as their shared CSS background. Next bundles the asset with the stylesheet, so the deployment base path is preserved. The existing abstract hero decorations are replaced by this one original crown, with no additional image generation or dependency.
+
+The decorative pseudo-element is isolated and clipped within each hero, below content and outside hit testing. Only its transform animates over 36 seconds; there is no scroll handler, fixed overlay, backdrop blur or header change. Mobile uses a smaller, quieter treatment. The operating system's `prefers-reduced-motion` preference disables the animation automatically; there is no new user-facing control.

@@ -1,4 +1,6 @@
 "use client";
+import { useLocalQuery } from "../maps/local-url";
+import { shareStandingContext } from "@/lib/candidates/sharing-standings";
 import { useEffect } from "react";
 import { PUBLIC_SITE_URL } from "@/lib/brand";
 import { candidateSharingData } from "@/lib/candidates/sharing-data";
@@ -8,7 +10,8 @@ import type { Person } from "@/lib/candidates/types";
 
 // Keep browser/PWA sharing in sync with the same payload and image revision
 // that crawlers receive at the edge. React retains ownership of its head nodes.
-export function ProfileSharing({ person, election, area, locale }: { person: Person; election: string; area: string; locale: ShareLocale }) {
+export function ProfileSharing({ person, election, area, locale, sourceVersion }: { person: Person; election: string; area: string; locale: ShareLocale; sourceVersion: string }) {
+  const query = useLocalQuery();
   useEffect(() => {
     let active = true;
     let restore = () => {};
@@ -18,7 +21,7 @@ export function ProfileSharing({ person, election, area, locale }: { person: Per
       if (!active) return;
       const share = { ...payload, revision: Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2, "0")).join("") };
       const scope = selectShareScope(share, new URLSearchParams({ election, area }));
-      const metadata = candidateShareMetadata(PUBLIC_SITE_URL.replace(/\/$/, ""), share, scope, locale);
+      const metadata = candidateShareMetadata(PUBLIC_SITE_URL.replace(/\/$/, ""), share, scope, locale, shareStandingContext(scope, new URLSearchParams(query), sourceVersion));
       const oldTitle = document.title;
       const undo: (() => void)[] = [];
       for (const { tag, selector, attributes } of metadata.tags) {
@@ -41,6 +44,6 @@ export function ProfileSharing({ person, election, area, locale }: { person: Per
     // Sharing never blocks the profile if Web Crypto is unavailable.
     void sync().catch(() => {});
     return () => { active = false; restore(); };
-  }, [person, election, area, locale]);
+  }, [person, election, area, locale, query, sourceVersion]);
   return null;
 }

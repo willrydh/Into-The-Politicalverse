@@ -22,7 +22,7 @@ export function candidateSharingData(person: Person): Omit<SharePerson, "revisio
       }
       scopes.push({ election, area, areaName: latest.areaName, year: latest.year, party: party(latest), votes: latest.votes, percent: comparison.percent,
         previousParty: comparison.previous ? (comparison.previous.partyId === "OTHER" ? comparison.previous.partyName : comparison.previous.partyId === "L" && comparison.previous.year <= 2014 ? "FP" : comparison.previous.partyId) : null,
-        reason: comparison.reason, status: "final", history });
+        reason: comparison.reason, status: "final", candidacies: results.map(r => ({ year: r.year, partyCode: r.partyCode, party: party(r), county: r.county })), history });
     }
   }
   return { id: person.id, name: person.name, defaultElection: defaults.election, scopes };

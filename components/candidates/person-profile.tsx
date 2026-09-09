@@ -26,14 +26,14 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
     {key:"change",label:sv?"Förändring":"Change",name:sv?"Förändring i procent":"Percentage change",value:r=>r.comparison.percent},
     {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
     {key:"share",label:sv?"Andel":"Share",name:sv?"Andel":"Share",value:personalVoteShare},
-  ], {key:"year",direction:"ascending"});
+  ], {key:"year",direction:"descending"}, `${person.id}:${election}:${area}`);
   const constituencies = useTableSort(person.results.filter(r=>r.electionType===election&&r.level==="constituency"&&r.areaCode.startsWith(area)), [
     {key:"year",label:sv?"Val":"Election",name:sv?"Valår":"Year",value:r=>r.year},
     {key:"area",label:sv?"Valkrets":"Constituency",name:sv?"Valkrets":"Constituency",direction:"ascending",value:r=>r.areaName},
     {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
     {key:"votes",label:sv?"Personröster":"Personal votes",name:sv?"Personröster":"Personal votes",value:r=>r.votes},
     {key:"partyVotes",label:sv?"Partiets röster":"Party votes",name:sv?"Partiets röster":"Party votes",value:r=>r.partyVotes},
-  ]);
+  ], {key:"year",direction:"descending"}, `${person.id}:${election}:${area}`);
   const comparison=compareCandidate(latest,person.results);
   const fmt=(n:number,d=0)=>n.toLocaleString(sv?"sv-SE":"en-GB",{maximumFractionDigits:d,minimumFractionDigits:d});
   const name=areas.find(a=>a.code===area)?.name;
@@ -43,7 +43,7 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
   function update(patch:Record<string,string>) { const next=new URLSearchParams(query);for(const[k,v]of Object.entries(patch)){if(v)next.set(k,v);else next.delete(k);}navigateLocalQuery(`?${next}`); }
   usePublishSiteLocation("/people",query,[{label:person.name,href:`/people/${query}`}]);
   return <>
-    <ProfileSharing person={person} election={election} area={area} locale={locale}/>
+    <ProfileSharing person={person} election={election} area={area} locale={locale} sourceVersion={sourceVersion}/>
     <section className="candidate-hero candidate-hero--person"><Link className="candidate-back" href={localizedHref(`/rankings/?election=${election}&area=${area}`,locale)}>← {sv?"Till topplistorna":"Leaderboards"}</Link><span className="eyebrow">{sv?"KANDIDATPROFIL · PERSONRÖSTER":"CANDIDATE PROFILE · PERSONAL VOTES"}</span><h1>{person.name}</h1><p>{sv?"Kandidaturer och valresultat, samlade över tid.":"Candidacies and election results, collected over time."}</p><div className="candidate-career" aria-label={sv?"Partier per valår":"Parties by election year"}>{byYear.map(({year,parties})=><div key={year}><small>{year}</small><strong><span className="party-group">{parties.map(r=><CandidateParty key={r.partyCode} result={r}/>)}</span></strong></div>)}</div></section>
     <div className="candidate-body">
       <p className="candidate-identity-note" data-classification="DERIVED">{person.linked?(sv?"Kopplad historik: namn, förenlig ålder och gemensam kommun i källorna. Partierna ovan visar kandidaturerna i varje val.":"Linked history: matching name, compatible age and a common municipality in the sources. Parties above show candidacies in each election."):(sv?"Den här profilen har ett valår. Det betyder inte att personen var ny i politiken; tidigare kandidaturer kan saknas eller ha ett annat namn eller kandidatnummer som ännu inte kunnat kopplas.":"This profile covers one election year. That does not mean the person was new to politics; earlier candidacies may be missing or have a different name or candidate number that could not be linked.")}</p>
