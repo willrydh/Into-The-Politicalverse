@@ -28,10 +28,9 @@ export function ForecastHero({ forecast }: { forecast: ElectionForecast }) {
 
   return <Localize>{(
     <section className="forecast-hero">
-      <ForecastFreshness dataCutoff={forecast.model.dataCutoff} electionDate={forecast.model.electionDate} />
+      <ForecastFreshness dataCutoff={forecast.model.dataCutoff} electionDate={forecast.model.electionDate} compact />
       <div className="forecast-hero__grid">
         <div className="forecast-hero__copy">
-          <p className="eyebrow eyebrow--light"><span /> Politicalverse forecast · 2026</p>
           <h1>Så tror modellen<br />att valet <em>slutar.</em></h1>
           <p className="forecast-hero__deck">
             Opinionsmätningar, fyra jämförbara historiska val och Sveriges riktiga mandatregler — sammanvägt till en prognos som visar både utfall och osäkerhet.

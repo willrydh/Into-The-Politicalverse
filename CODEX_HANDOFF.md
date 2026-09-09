@@ -1,5 +1,7 @@
 # Codex takeover brief — Into The Politicalverse
 
+The homepage omits the redundant “Politicalverse prognos · 2026” eyebrow while retaining the large forecast headline and explanatory paragraph. Its freshness strip uses a short date and relative age for recent polls, retaining complete stale/archive warnings. Mobile/tablet top spacing is reduced and mobile grid rows are consecutive so the probability card moves up without leaving an empty row.
+
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
 
 The central mandate comparison faces inward: align the left bloc to its right edge and the right bloc to its left edge, including party logos, seat totals and captions. The majority marker remains centered at every breakpoint.
