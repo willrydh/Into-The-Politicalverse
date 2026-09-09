@@ -24,8 +24,15 @@ export function StatisticsConsent() {
     if (!hydrated || (choice && !opened))
         return null;
     return <aside className={styles.banner} aria-labelledby="statistics-heading">
-    <div><h2 id="statistics-heading">{sv ? "Hjälp oss förstå vad som fungerar" : "Help us understand what works"}</h2><p>{sv ? "Med ditt tillstånd mäter vi besök, sidflöden och teknisk kvalitet med vår egen statistik. Ingen annonsspårning eller inspelning av skärmen." : "With your permission, we measure visits, navigation and technical quality using our own statistics. No advertising tracking or screen recordings."} <Link href={sv ? "/privacy/" : "/en/privacy/"}>{sv ? "Läs mer" : "Learn more"}</Link></p></div>
-    <div className={styles.actions}><button type="button" onClick={() => choose("denied")}>{sv ? "Avstå" : "Decline"}</button><button type="button" onClick={() => choose("granted")}>{sv ? "Tillåt statistik" : "Allow statistics"}</button>{choice && <button type="button" onClick={() => setOpened(false)}>{sv ? "Stäng" : "Close"}</button>}</div>
+    <div>
+      <h2 id="statistics-heading">{opened ? (sv ? "Statistikval" : "Statistics preferences") : (sv ? "Politicalverse är gratis för alla" : "Politicalverse is free for everyone")}</h2>
+      <p>{sv ? "Genom att godkänna tillåter du vår besöksstatistik, som hjälper oss att förstå hur sajten används och fortsätta utveckla den. Ingen annonsspårning eller inspelning av skärmen." : "By accepting, you allow our visitor statistics, helping us understand how the site is used and continue improving it. No advertising tracking or screen recordings."} <Link href={sv ? "/privacy/" : "/en/privacy/"}>{sv ? "Läs mer" : "Learn more"}</Link></p>
+    </div>
+    <div className={styles.actions}>
+      {opened && <button type="button" onClick={() => choose("denied")}>{sv ? "Avstå" : "Decline"}</button>}
+      <button type="button" onClick={() => choose("granted")}>{sv ? "Godkänn" : "Accept"}</button>
+      {opened && <button type="button" onClick={() => setOpened(false)}>{sv ? "Stäng" : "Close"}</button>}
+    </div>
   </aside>;
 }
 export function StatisticsSettings() { const sv = useLocale() === "sv"; return <button className={styles.settings} type="button" onClick={() => window.dispatchEvent(new Event("pv-open-consent"))}>{sv ? "Statistikval" : "Statistics preferences"}</button>; }
