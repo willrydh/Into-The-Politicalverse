@@ -1,3 +1,4 @@
+import { StatisticsConsent } from "@/components/insights/statistics-consent";
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -25,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <LocaleProvider locale="en"><SiteLocationProvider><SiteHeader />
         <main>{children}</main>
-        <SiteFooter /></SiteLocationProvider></LocaleProvider>
+        <SiteFooter /><StatisticsConsent /></SiteLocationProvider></LocaleProvider>
       </body>
     </html>
   );

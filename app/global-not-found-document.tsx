@@ -1,4 +1,5 @@
 "use client";
+import { StatisticsConsent } from "@/components/insights/statistics-consent";
 import { useSyncExternalStore } from "react";
 import { LocaleProvider } from "@/components/localize";
 import { SiteHeader } from "@/components/site-header";
@@ -21,5 +22,5 @@ function currentLanguage(): Locale {
 // from that path after hydration; normal pages have complete per-language HTML.
 export default function GlobalNotFound() {
   const locale = useSyncExternalStore(subscribe, currentLanguage, (): Locale => "sv");
-  return <html lang={locale} suppressHydrationWarning><head><title>404 — Politicalverse</title><meta name="robots" content="noindex" /><BrandIcons locale={locale} /><ThemeInit /></head><body><LocaleProvider locale={locale}><SiteHeader /><main><NotFound /></main><SiteFooter /></LocaleProvider></body></html>;
+  return <html lang={locale} suppressHydrationWarning><head><title>404 — Politicalverse</title><meta name="robots" content="noindex" /><BrandIcons locale={locale} /><ThemeInit /></head><body><LocaleProvider locale={locale}><SiteHeader /><main><NotFound /></main><SiteFooter /><StatisticsConsent /></LocaleProvider></body></html>;
 }
