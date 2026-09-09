@@ -72,7 +72,7 @@ export function translateText(text: string, locale: Locale, depth = 0): string {
   return text;
 }
 
-export const ROUTES = ["", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "overview", "valnatt", "sources", "search", "rankings", "people"] as const;
+export const ROUTES = ["", "forecasts", "charts", "parties", "maps", "elections", "indicators", "simulator", "overview", "valnatt", "sources", "search", "rankings", "people", "press"] as const;
 export function localizedHref(href: string, locale: Locale): string {
   if (!href.startsWith("/") || href.startsWith("//")) return href;
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";

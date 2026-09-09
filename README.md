@@ -1,5 +1,7 @@
 # Into The Politicalverse
 
+Politicalverse is provided free to everyone, forever, by William Rydh. Reuse of site material, data, text, images or insights requires attribution to Politicalverse; a link to the relevant page is appreciated where possible. Preserve underlying source attribution and source-specific terms. This owner decision replaces the earlier paid-Pro/paywall roadmap. The public `/press/` and `/en/press/` pages explain the product, audience, sources, update cadence, attribution and logo downloads, and link to the separate PocketPolitics welcome page. See [press content and maintenance](docs/operations/press-page.md).
+
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.
 
 The central mandate comparison groups both blocs' logos, seat totals and captions toward the majority marker in the middle, on mobile and desktop.
@@ -113,13 +115,13 @@ Phone, tablet, laptop and large desktop are first-class targets. Responsive beha
 
 Charts must remain readable and interactive on small screens. Large tables should transform, scroll or progressively disclose rather than overflow unusably. Maps and simulators require touch-friendly controls. Primary interactions should not depend on hover.
 
-### 1.5 Build the public product before the paywall
+### 1.5 Free for everyone, forever
 
-The first releases should maximize useful public exploration. Authentication and billing are separate platform capabilities and must not contaminate election ingestion, indicators or chart logic.
+William Rydh provides Politicalverse free of charge to all users, permanently. Public and professional users have the same access to its election data and analytical tools. Do not introduce a paid tier or paywall.
 
-No account should initially be required to browse core public election information.
+No account is required to browse public election information. Reusing material, data, text, images or insights from the site requires crediting Politicalverse. Link to the relevant page when the format allows it; retain underlying source references and their own terms.
 
-Future account functionality can include saved charts, watchlists, workspaces, custom indicators, exports and preferences. Future Pro functionality can include advanced models, Workbench capabilities, professional exports, deeper historical analytics and higher-value intelligence features.
+Future optional accounts may support saved charts, watchlists, workspaces and preferences when useful. They must remain separate from data ingestion and calculations, and must not gate public analysis. Administrative authentication and the separate PocketPolitics product are outside this public-access promise.
 
 ### 1.6 Official data before decoration
 
@@ -142,7 +144,7 @@ Potential professional users include:
 - organisations exposed to election outcomes;
 - data journalists and developers.
 
-The long-term business model is expected to be **open discovery + paid professional analytics**, rather than putting basic election facts behind a login wall.
+Professional use is welcome on the same free terms as public use. Attribution to Politicalverse is the owner's only requested condition for reusing its material or insights.
 
 ---
 
@@ -590,9 +592,9 @@ Accessibility requirements include semantic navigation, keyboard support, visibl
 
 ---
 
-## 12. Public/free/account/Pro structure
+## 12. Public access and optional accounts
 
-Do not build billing before product value exists, but preserve these boundaries.
+Politicalverse remains free for everyone, forever. Do not restore the superseded paid-Pro roadmap.
 
 ### Open — no account required
 
@@ -602,9 +604,9 @@ Public election results, provenance, historical charts, party profiles, geograph
 
 An account becomes useful when a visitor wants to save a chart, watchlist, comparison, workspace or simulation. Account state must remain separate from official data ingestion and calculations.
 
-### Pro — later
+### Professional use — included
 
-Professional access may eventually cover advanced indicators, Workbench capabilities, exports and validated models. Pricing and billing should not be implemented until those features create real value.
+Journalists, analysts, researchers and other professional users have the same free access. New analytical features remain part of the free product. Reuse requires attribution to Politicalverse as described on the press page.
 
 ---
 
@@ -768,7 +770,7 @@ The `.json` paths are intentionally static-export compatible and include source/
 3. Parameterize additional charts and maps by geography, metric and election without duplicating components.
 4. Add SCB aggregate context through a separate, provenance-preserving PxWeb adapter.
 5. Expand models only when every new assumption, source and resolution rule remains explicit and backtested.
-6. Consider saved workspaces/auth only after they provide a concrete analytical benefit; keep billing outside the data engine.
+6. Consider optional saved workspaces/accounts only after they provide a concrete analytical benefit; preserve free public access without a paywall.
 
 - Mobile navigation (≤980px) uses one compact header with language, segmented theme toggle and a Menu disclosure. The vertical menu keeps the active page visible, scrolls independently on short screens, closes on navigation/outside click/Escape, and pins the scroll-aware header while open. Desktop navigation and localized breadcrumbs remain available.
 

@@ -6,6 +6,8 @@ The central mandate comparison faces inward: align the left bloc to its right ed
 
 ## Mission
 
+Owner decision, 9 September 2026: Politicalverse is provided free to everyone, forever, by William Rydh. Reuse of material, data, text, images or insights requires attribution to Politicalverse, with a relevant-page link appreciated. This supersedes the earlier paid-Pro/paywall roadmap. `/press/` and `/en/press/` provide product/audience information, sources, actual update behavior, attribution examples and original logo downloads, plus the exact PocketPolitics welcome referral. The footer, breadcrumbs, search, metadata and sitemap include the new destination. See `docs/operations/press-page.md`.
+
 Continue **Into The Politicalverse** as a production-quality quantitative election intelligence platform. Sweden and the 2026 Riksdag election are the first live cycle. `README.md` remains the canonical product specification.
 
 The product is public, source-traceable and data-first: official results, geography, historical patterns, reproducible indicators, deterministic scenarios and a clearly separated probabilistic forecast. It is not a betting service, news site, party recommendation engine or official government service.
@@ -226,7 +228,7 @@ Report `implemented`, `tested`, `pushed`, `published` and `live-verified` separa
 4. Score forecast questions and vote/mandate distributions against the final official result.
 5. Expand parameterized charts, municipal intelligence and SCB context with explicit provenance.
 6. Add new prediction categories only when inputs, resolution, uncertainty and backtest are defensible.
-7. Keep auth, billing and paywall outside the data engine and secondary to public analytical value.
+7. Preserve free public and professional access permanently; optional saved workspaces must not introduce a paywall or gate public analysis.
 
 Do not rewrite the existing architecture without a demonstrated defect. This file is the operational brief; when behavior changes, update it and `README.md` deliberately.
 

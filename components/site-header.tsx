@@ -72,7 +72,7 @@ export function SiteHeader() {
     return () => { document.removeEventListener("pointerdown", dismiss); document.removeEventListener("keydown", escape); desktop.removeEventListener("change", resize); };
   }, [menuOpen, headerRef]);
   const navigationRef = useRef<HTMLElement>(null);
-  const page = [...NAVIGATION, { href: "/people", label: locale === "sv" ? "Kandidatprofiler" : "Candidate profiles" }, { href: "/search", label: locale === "sv" ? "Sök" : "Search" }, { href: "/overview", label: locale === "sv" ? "Översikt" : "Overview" }, { href: "/sources", label: "Datakällor" }].find(item => item.href === pathname);
+  const page = [...NAVIGATION, { href: "/people", label: locale === "sv" ? "Kandidatprofiler" : "Candidate profiles" }, { href: "/search", label: locale === "sv" ? "Sök" : "Search" }, { href: "/overview", label: locale === "sv" ? "Översikt" : "Overview" }, { href: "/sources", label: "Datakällor" }, { href: "/press", label: "Press" }].find(item => item.href === pathname);
   const detail = location?.route === pathname && location.query === query ? location.crumbs : [];
   const crumbs = [{ label: "Start", href: "/" }, ...(page && pathname !== "/" ? [page] : []), ...detail];
   useEffect(() => {
