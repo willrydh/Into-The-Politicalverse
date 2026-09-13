@@ -89,6 +89,7 @@ Scoped feature branches: `codex/*`
 - Keep local APIs static and `.json`-suffixed, validate detail payloads, preserve query state on language changes, and verify failure/retry behavior. These imports must not modify forecast parameters or the independent 2026 live feed.
 
 - Keep Swedish default pages and English `/en/` pages complete and separate. Localize server text before serialization, and preserve machine keys, URLs and numeric inputs. Verify hydration and interactive error states in both languages.
+- The live refresh uses bounded four-hour watches with five-minute pauses during 13–30 September and explicit workflow handoff. Preserve the hard date cutoff, one publisher at a time, single-run audits and source failure retention; never replace an unavailable result with rehearsal data.
 - The `live-data` branch publishes only the verified 2026 live JSON; never merge it into `main`. Preserve independent preliminary/final-count snapshots and the last verified data on source failure. Never publish rehearsal data as production results.
 - Keep the pinned Valmyndigheten certificate, preparation manifests, phase/identity checks and official arithmetic checks intact. A source or certificate change requires review and regression coverage. Follow `docs/operations/election-night-2026.md`.
 

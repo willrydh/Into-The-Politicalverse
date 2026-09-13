@@ -5,7 +5,7 @@
 - Svenska sidor använder ordinarie adresser. Engelska versioner finns under `/en/`. Språkväljaren behåller aktuell sida. Servertexter översätts före serialisering; interaktiva komponenter använder samma språkregister. HTML-språk, menyer, diagramförklaringar, formulär och källtexter följer språkvalet.
 - `/valnatt/` visar officiell rösträkning för riket och valkretsarna, med separata räkningstillfällen. Innan produktionen finns visas vänteläge och verifierade förvalsuppgifter.
 - `.github/workflows/election-live.yml` hämtar och validerar myndighetsdata. Det skriver bara `election-2026.json` på datagrenen `live-data`; det bygger inte om hela webbplatsen för varje siffra.
-- Webbläsaren kontrollerar den publicerade datafilen varje minut. Schemat hämtar förtidsröster efter källans två dagliga uppdateringar och valresultat ungefär var femte minut 13–30 september 2026. Under oktober–december fortsätter en daglig kontroll av slutliga protokoll och rättelser. GitHub Actions och källans publicering ger ingen garanterad maximal fördröjning. Köer kan förlänga intervallen.
+- Webbläsaren kontrollerar den publicerade datafilen varje minut. Under 13–30 september 2026 kör ett startat jobb upprepade, sekventiella källkontroller med fem minuters paus. Varje jobb är begränsat till fyra timmar och startar därefter ett nytt jobb med aktuell main-kod; gemensam concurrency hindrar samtidiga publicerare. Schemat är reservstart, inte enda utlösaren för varje kontroll. Utanför denna period används enstaka schemakontroller. Under oktober–december fortsätter en daglig kontroll av slutliga protokoll och rättelser. GitHub Actions och källans publicering ger ingen garanterad maximal fördröjning. Köer kan förlänga intervallen.
 - Valideringsfel syns i arbetsflödet och som fördröjning i produkten. Senast godkända data behålls. Felmail tystas inte genom att dölja verkliga fel.
 
 Senaste data: <https://raw.githubusercontent.com/willrydh/Into-The-Politicalverse/live-data/election-2026.json>.
@@ -30,3 +30,24 @@ Produktionsresultaten finns ännu inte den 6 september. Det första riktiga prod
 Källinventering: [2026 års datakällor](../data-sources/election-2026.md). Matematik: [Valnattsmetod v1](../methodology/election-night-v1.md).
 
 Prognosreferens, utvärdering och separat personröstmottagning: [övergång till 2026 års resultat](election-transition-2026.md).
+
+## Incident och återställning 13 september 2026
+
+Körning `34758090166` stoppade med `Malformed or unsafe official index entry`. Produktionsindexet returnerade HTTP 200 med exakt `d41d8cd98f00b204e9800998ecf8427e  -`, md5sum-markeringen för tom standardindata. Den sparade myndighetsfilen finns som regressionsfixture med SHA-256 i fixture-proveniensen. Endast den ensamma, exakta markeringen behandlas som tomt index. Andra bindestrecksposter, blandade listor och osäkra sökvägar avvisas fortsatt. Före kl. 20 är tomt index vänteläge; efter tidsgränsen eller om redan publicerade resultat försvinner markeras fel och tidigare resultat behålls.
+
+Den reparerade inhämtningen verifierades mot den verkliga källan kl. 15.26 UTC: inga produktionsresultat publicerade, 3 684 025 mottagna förtidsröster och inga valideringsfel. Källor för kvalifikationsdag, distrikt och jämförbarhet matchade bevarade kontrollsummor. Rapportpartifilen och deltagarregistret hade nya bytes; deras normaliserade riksdagsinnehåll var identiskt (8 rapportpartier och 168 deltagande partier). De granskade versionerna ersätter tidigare källhashar, vilka bevaras i manifestet.
+
+Körningar hade faktiska glapp på flera timmar trots femminuterscron. `scripts/watch-election-live.mjs` håller därför en befintlig Actions-runner aktiv under den intensiva perioden. Den hämtar, publicerar och väntar sekventiellt; publiceringsfel stoppar jobbet, medan källfel publicerar felstatus och bibehållna data inför nästa försök. Den sista kontrollens felstatus avgör jobbresultatet. Vid normal avslutning eller fel försöker arbetsflödet starta efterföljaren; explicit avbrutna jobb startar inte en ny körning. Alla bevakningar upphör vid 1 oktober 00.00 UTC. GitHub-jobbstart och källtillgänglighet kan fortfarande försenas.
+
+Manuella driftkommandon:
+
+```sh
+# Kontrollera en gång och avsluta.
+gh workflow run election-live.yml --ref main -f single_run=true
+# Verifiera överlämning efter en minut; nästa jobb använder normala fyra timmar.
+gh workflow run election-live.yml --ref main -f watch_minutes=1
+# Starta ordinarie sammanhängande bevakning.
+gh workflow run election-live.yml --ref main
+```
+
+För driftbevis: följ minst två publicerade kontrolltider, se att efterföljaren faktiskt startar och kontrollera den hämtade datafilen i båda språkversionerna. Ett pågående fyra-timmarsjobb är normalt; dess löpande logg och live-data-commit visar enskilda kontroller. Första signerade produktionspaketet återstår att verifiera när myndigheten publicerar det. Prognosreferensen får aldrig ändras för att passa utfallet.

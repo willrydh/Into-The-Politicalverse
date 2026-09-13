@@ -10,6 +10,11 @@ export const INDEX_URLS = { production: "https://resultat.val.se/resultatfiler/v
 export function digest(bytes: Uint8Array | string, algorithm = "sha256"): string { return createHash(algorithm).update(bytes).digest("hex"); }
 
 export function indexEntry(index: string, mode: FeedMode, stage: CountingStage): { url: string; md5: string } | null {
+  // Before publication the official production index contains md5sum's empty
+  // stdin marker, not an archive path (observed 13 September 2026). Accept only
+  // this exact standalone marker; phase timing and retained results are checked
+  // by the collector, so an empty index cannot erase results or hide an outage.
+  if (/^d41d8cd98f00b204e9800998ecf8427e[ \t]+-$/.test(index.trim())) return null;
   const phase = stage === "preliminary" ? "preliminar" : "slutlig";
   const prefix = mode === "production" ? "Val_(?:2026|20260913)" : "Genrep_2026";
   const expected = new RegExp(`^\\./${stage === "preliminary" ? "p" : "s"}/rd/${prefix}_${phase}_00_RD\\.zip$`);

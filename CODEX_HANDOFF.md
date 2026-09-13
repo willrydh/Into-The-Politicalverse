@@ -1,5 +1,7 @@
 # Codex takeover brief — Into The Politicalverse
 
+Election-day repair, 13 September: the live index accepts the authority’s exact standalone empty-file checksum marker as no published archives, while retaining all timing, signature and arithmetic checks. The live workflow runs sequential five-minute checks in bounded four-hour jobs during 13–30 September and explicitly dispatches a successor using fresh `main` code. This avoids relying on a delayed schedule event for each update. Single-run audits and a one-minute handoff audit are available. The static fallback and preparation sources were refreshed; the pre-election forecast reference remains frozen. See `docs/operations/election-night-2026.md`.
+
 The homepage omits the redundant “Politicalverse prognos · 2026” eyebrow while retaining the large forecast headline and explanatory paragraph. Its freshness strip uses a short date and relative age for recent polls, retaining complete stale/archive warnings. Mobile/tablet top spacing is reduced and mobile grid rows are consecutive so the probability card moves up without leaving an empty row.
 
 A shared light/dark palette is available from the header. The initial mode follows the system; an explicit choice persists across reloads and languages. Party colors and official logos retain their original identity.

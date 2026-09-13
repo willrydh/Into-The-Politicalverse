@@ -1,7 +1,7 @@
 {
   "publisher": "Valmyndigheten",
   "classification": "OFFICIAL",
-  "retrievedAt": "2026-09-06",
+  "retrievedAt": "2026-09-13",
   "sourcePage": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026",
   "sources": [
     {
@@ -25,14 +25,16 @@
     {
       "fileName": "report-parties.xlsx",
       "url": "https://www.val.se/download/18.1a2972da19f159e73fd531f/1788440324464/rapportpartier-valen-2026.xlsx",
-      "sha256": "20597652432b5cb1a7e4aaf13b835dac2a36b2877e80a9767e2e2b2ff136eb80",
-      "bytes": 72692
+      "sha256": "a831c3e0c5847bebe0348f756907177ece343995d6be5cf4a38c8a15dadf3d50",
+      "bytes": 72897,
+      "previousSha256": "20597652432b5cb1a7e4aaf13b835dac2a36b2877e80a9767e2e2b2ff136eb80"
     },
     {
       "fileName": "deltagande-partier.csv",
       "url": "https://data.val.se/filer/val2026/parti/deltagande-partier.csv",
-      "sha256": "94f8c577c0314d079878cd08cccf143163c2a57b3249d949d9706b83439a30ea",
-      "bytes": 6457671
+      "sha256": "f74f5ba680a811d2b694e2c4abe15d2f70aec7620e7a7ec0c760dc0eeb6df495",
+      "bytes": 6457673,
+      "previousSha256": "94f8c577c0314d079878cd08cccf143163c2a57b3249d949d9706b83439a30ea"
     }
   ]
 }
