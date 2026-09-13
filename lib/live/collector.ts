@@ -8,6 +8,7 @@ import {
   INDEX_URLS,
   indexEntry,
   readSignedArchive,
+  downloadIndexedArchive,
 } from "./official-files";
 import { insist } from "./validation";
 import { LIVE_ADAPTER_VERSION } from "./constants";
@@ -86,17 +87,20 @@ export async function collectLiveData(
     } else {
       for (const stage of ["preliminary", "final-count"] as CountingStage[]) {
         try {
-          const entry = indexEntry(bytes.toString("utf8"), options.mode, stage);
+          let entry = indexEntry(bytes.toString("utf8"), options.mode, stage);
           const previousResult = feed.results[stage];
           if (!entry) {
             // A readable official index can legitimately contain no results
             // after polls close. Its first publication is event-driven, not a
             // promise at 20:00. Previously published results may never vanish.
-            insist(!previousResult, `Missing previously published ${stage} archive`);
+            insist(
+              !previousResult,
+              `Missing previously published ${stage} archive`,
+            );
             feed.stageStatus[stage] = "awaiting-results";
             continue;
           }
-          const officialChanged =
+          let officialChanged =
             previousResult?.source.archiveMd5 !== entry.md5 ||
             previousResult?.source.adapterVersion !== LIVE_ADAPTER_VERSION;
           const modelNeedsUpdate =
@@ -120,8 +124,16 @@ export async function collectLiveData(
           };
           if (officialChanged || modelNeedsUpdate) {
             try {
-              const archive = await fetchFile(entry.url, 64 * 1024 * 1024);
-              insist(archive, "Missing result archive");
+              const consistent = await downloadIndexedArchive(entry, {
+                mode: options.mode,
+                stage,
+                fetchFile,
+              });
+              entry = consistent.entry;
+              const archive = consistent.archive;
+              officialChanged =
+                previousResult?.source.archiveMd5 !== entry.md5 ||
+                previousResult?.source.adapterVersion !== LIVE_ADAPTER_VERSION;
               const contents = await readSignedArchive(archive, entry, {
                 ...options,
                 stage,

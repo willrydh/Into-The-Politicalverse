@@ -1,5 +1,8 @@
 # Codex takeover brief — Into The Politicalverse
 
+The live collector revalidates caches and performs bounded index/archive consistency reads during source publication. A matching official checksum is still mandatory, followed by signature and arithmetic verification. See `docs/operations/election-night-2026.md`.
+
+
 The first signed production archive exposed explicit null vote distributions in unreported constituencies and districts. Both adapters now accept them only alongside zero reported districts/votes (and no seat allocation), preserve null turnout and reported=false, and reconcile all totals. Regression fixtures preserve the signed 20:49:49 source with eight counted districts. Signature, checksum, election-identity and model-support gates remain intact.
 
 

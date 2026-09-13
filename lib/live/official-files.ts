@@ -28,7 +28,7 @@ export function indexEntry(index: string, mode: FeedMode, stage: CountingStage):
 }
 
 export async function download(url: string, maxBytes: number, allow404 = false): Promise<Buffer | null> {
-  const response = await fetch(url, { signal: AbortSignal.timeout(30_000), headers: { "User-Agent": "Politicalverse-official-election-reader" } });
+  const response = await fetch(url, { signal: AbortSignal.timeout(30_000), cache: "no-store", headers: { "User-Agent": "Politicalverse-official-election-reader", "Cache-Control": "no-cache" } });
   if (response.status === 404 && allow404) return null;
   insist(response.ok, `Official data request failed: HTTP ${response.status} (${url})`);
   insist(!response.headers.get("content-length") || Number(response.headers.get("content-length")) <= maxBytes, "Official response exceeds size limit");
@@ -41,6 +41,31 @@ export async function download(url: string, maxBytes: number, allow404 = false):
     }
   } catch (error) { await reader.cancel(); throw error; }
   return Buffer.concat(chunks);
+}
+
+/** Index and ZIP can briefly expose different publication generations. */
+export async function downloadIndexedArchive(
+  initial: { url: string; md5: string },
+  options: { mode: FeedMode; stage: CountingStage; fetchFile?: typeof download; pause?: () => Promise<void> },
+): Promise<{ archive: Buffer; entry: { url: string; md5: string } }> {
+  const fetchFile = options.fetchFile ?? download;
+  const pause = options.pause ?? (() => new Promise<void>(resolve => setTimeout(resolve, 15_000)));
+  let entry = initial;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const archive = await fetchFile(entry.url, 64 * 1024 * 1024);
+    insist(archive, "Missing result archive");
+    const md5 = digest(archive, "md5");
+    if (md5 === entry.md5) return { archive, entry };
+    const index = await fetchFile(INDEX_URLS[options.mode], 256 * 1024);
+    insist(index, "Missing result index during publication retry");
+    const next = indexEntry(index.toString("utf8"), options.mode, options.stage);
+    insist(next && next.url === entry.url, "Result archive disappeared during publication retry");
+    // The downloaded archive may already be the generation now in the index.
+    if (md5 === next.md5) return { archive, entry: next };
+    entry = next;
+    if (attempt < 2) await pause();
+  }
+  throw new Error("Archive does not match official index checksum after bounded publication retries");
 }
 
 export function verifySignedJson(raw: Buffer, signature: Buffer, certificate: Buffer, now: string): void {
