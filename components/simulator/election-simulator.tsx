@@ -1,11 +1,11 @@
 "use client";
-import { Localize } from "@/components/localize";
-
-
+import { Localize, useLocale } from "@/components/localize";
+import { useCurrentProjection } from "@/components/live/use-live-feed";
+import { publicScenarioInput } from "@/lib/nowcast/scenario";
 import { useMemo, useState, type CSSProperties } from "react";
 import { PartyMark } from "@/components/party-mark";
 import { PARTIES } from "@/lib/parties";
-import { coalitionSeats } from "@/lib/simulator/riksdag-rules";
+import { calculateRiksdagSeats, coalitionSeats } from "@/lib/simulator/riksdag-rules";
 import { simulateRiksdagScenario } from "@/lib/simulator/scenario";
 import { SIMULATOR_PARTY_IDS, type SimulatorPartyId, type SimulatorPartyVotes } from "@/lib/simulator/types";
 import type { SimulatorBaseline } from "@/lib/simulator/data";
@@ -21,17 +21,37 @@ function shareTotal(shares: SimulatorPartyVotes): number {
 }
 
 export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline }) {
-  const [shares, setShares] = useState<SimulatorPartyVotes>(() => ({ ...baseline.shares }));
+  const { estimate, feed, source } = useCurrentProjection();
+  const language = useLocale() === "sv" ? "sv-SE" : "en-GB";
+  const input = useMemo(() => publicScenarioInput(estimate, feed), [estimate, feed]);
+  const currentBaseline = useMemo(() => input && estimate ? {
+    ...baseline,
+    nationalValidVotes: input.nationalValidVotes,
+    constituencies: input.constituencies,
+    shares: Object.fromEntries(SIMULATOR_PARTY_IDS.map(p => [p, estimate.rows.find(r => r.partyId === p)!.projectedShare])) as SimulatorPartyVotes,
+  } : null, [baseline, input, estimate]);
+  const [draft, setDraft] = useState<{ baseline: SimulatorBaseline; shares: SimulatorPartyVotes; updatedAt: string } | null>(null);
+  const shares = draft?.shares ?? currentBaseline?.shares ?? Object.fromEntries(SIMULATOR_PARTY_IDS.map(p => [p, 0])) as SimulatorPartyVotes;
+  const activeBaseline = draft?.baseline ?? currentBaseline;
+  const sourceTime = draft?.updatedAt ?? source?.updatedAt;
+  const time = sourceTime ? new Date(sourceTime).toLocaleString(language, { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
   const [coalition, setCoalition] = useState<SimulatorPartyId[]>([]);
   const modeledTotal = shareTotal(shares);
   const remainingShare = 100 - modeledTotal;
   const simulation = useMemo(() => {
     try {
-      return { output: simulateRiksdagScenario(baseline, shares), error: null };
+      if (!activeBaseline) return { output: null, error: "Inväntar verifierade valkretsdata från valnattsprognosen." };
+      // The untouched view uses exactly the same integer input as the live model.
+      if (!draft && input) return { output: { result: calculateRiksdagSeats(input) }, error: null };
+      const output = simulateRiksdagScenario(activeBaseline, shares);
+      if (output.otherShare >= 4 || output.input.constituencies.some(c => (c.validVotes - SIMULATOR_PARTY_IDS.reduce((s, p) => s + c.partyVotes[p], 0)) / c.validVotes >= .12)) {
+        return { output: null, error: "Övriga partier kan nå en spärr som åttapartimodellen inte kan hantera." };
+      }
+      return { output, error: null };
     } catch (error) {
       return { output: null, error: error instanceof Error ? error.message : "The scenario could not be calculated" };
     }
-  }, [baseline, shares]);
+  }, [activeBaseline, shares, draft, input]);
 
   const result = simulation.output?.result ?? null;
   const rankedParties = result ? [...result.parties].sort((left, right) => right.totalSeats - left.totalSeats || SIMULATOR_PARTY_IDS.indexOf(left.partyId) - SIMULATOR_PARTY_IDS.indexOf(right.partyId)) : [];
@@ -40,7 +60,8 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
 
   function updateShare(partyId: SimulatorPartyId, value: number): void {
     const next = Number.isFinite(value) ? Math.min(100, Math.max(0, Math.round(value * 100) / 100)) : 0;
-    setShares((current) => ({ ...current, [partyId]: next }));
+    if (!activeBaseline || !sourceTime) return;
+    setDraft({ baseline: activeBaseline, shares: { ...shares, [partyId]: next }, updatedAt: sourceTime });
   }
 
   function toggleCoalition(partyId: SimulatorPartyId): void {
@@ -48,16 +69,17 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
   }
 
   return <Localize>{(
-    <div className="simulator-shell">
+    <div className="simulator-shell" data-model-revision={!draft ? source?.revision : undefined}>
       <section className="simulator-inputs" aria-labelledby="scenario-input-title">
         <div className="simulator-panel-heading">
           <div>
             <p className="eyebrow">Scenario input</p>
             <h2 id="scenario-input-title">Set national vote share</h2>
           </div>
-          <button className="simulator-reset" type="button" onClick={() => setShares({ ...baseline.shares })}>Reset to 2022</button>
+          <button className="simulator-reset" type="button" onClick={() => setDraft(null)}>Återställ till valnattsprognosen</button>
         </div>
 
+        <p className="local-note">{draft ? "Eget scenario från valnattsprognosen" : "Följer valnattens prognos"} · {time}</p>
         <div className="scenario-total" data-invalid={remainingShare < 0 ? "true" : "false"}>
           <div><span>Modeled parties</span><strong>{modeledTotal.toFixed(2)}%</strong></div>
           <div><span>Other parties · residual</span><strong>{Math.max(0, remainingShare).toFixed(2)}%</strong></div>
@@ -76,11 +98,12 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
                 </label>
                 <input
                   aria-label={`${party.name} vote share slider`}
+                  disabled={!activeBaseline}
                   type="range"
                   min="0"
                   max="100"
                   step="0.01"
-                  value={shares[partyId]}
+                  value={Number(shares[partyId].toFixed(2))}
                   onChange={(event) => updateShare(partyId, Number(event.target.value))}
                   style={{ "--share-position": `${shares[partyId]}%` } as CSSProperties}
                 />
@@ -89,11 +112,12 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
                     id={inputId}
                     aria-label={`${party.name} vote share`}
                     inputMode="decimal"
+                    disabled={!activeBaseline}
                     type="number"
                     min="0"
                     max="100"
                     step="0.01"
-                    value={shares[partyId]}
+                    value={Number(shares[partyId].toFixed(2))}
                     onChange={(event) => updateShare(partyId, Number(event.target.value))}
                   />
                   <span>%</span>
@@ -104,15 +128,15 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
         </div>
 
         <div className="scenario-assumption">
-          <span className="classification-badge classification-badge--model">MODEL · v1.0.0</span>
-          <p>Initial shares reproduce the official 2022 national percentages. National shares are distributed using each party&apos;s official 2022 constituency pattern, then calculated with the official 2026 fixed-seat allocation.</p>
+          <span className="classification-badge classification-badge--model">MODEL · v1.1.0</span>
+          <p>Utgångsläget är valnattens prognos, inklusive samma valkretsfördelning och mandat. Egna ändringar utgår från den version du började med; återställ för att följa den senaste prognosen igen.</p>
         </div>
       </section>
 
       <section className="simulator-output" aria-labelledby="scenario-output-title" aria-live="polite">
         <div className="simulator-panel-heading simulator-panel-heading--output">
           <div>
-            <p className="eyebrow">Deterministic result</p>
+            <p className="eyebrow">{draft ? "Eget scenario" : "Valnattens prognos"}</p>
             <h2 id="scenario-output-title">Riksdag scenario</h2>
           </div>
           <span className="classification-badge classification-badge--model">MODEL</span>

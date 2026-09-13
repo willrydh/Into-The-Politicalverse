@@ -1,3 +1,4 @@
+import { coalitionDefinitions } from "./coalitions";
 import { getPartyResult } from "@/lib/data/elections";
 import type { HistoricalElection } from "@/lib/data/elections/types";
 import { getSimulatorBaseline, type SimulatorBaseline } from "@/lib/simulator/data";
@@ -269,50 +270,7 @@ export function generateElectionForecast(options: GenerateForecastOptions): Elec
   const seatDraws = Object.fromEntries(FORECAST_PARTY_IDS.map((partyId) => [partyId, [] as number[]])) as Record<SimulatorPartyId, number[]>;
   const thresholdCounts = Object.fromEntries(FORECAST_PARTY_IDS.map((partyId) => [partyId, 0])) as Record<SimulatorPartyId, number>;
   const largestCounts = Object.fromEntries(FORECAST_PARTY_IDS.map((partyId) => [partyId, 0])) as Record<SimulatorPartyId, number>;
-  const coalitionDefinitions: Array<Omit<ElectionForecast["coalitions"][number], "centralSeats" | "majorityProbability">> = [
-    {
-      id: "opposition-four",
-      name: "S + V + MP + C",
-      partyIds: OPPOSITION,
-      status: "politically-contested",
-      explanation: "Mandaten kan räcka, men C säger nej till V i regering. Majoritet är därför inte samma sak som en färdig koalition.",
-    },
-    {
-      id: "red-green-three",
-      name: "S + V + MP",
-      partyIds: ["S", "V", "MP"],
-      status: "arithmetical",
-      explanation: "Mandat för tre rödgröna partier. Modellen antar inte att andra partier tolererar regeringen.",
-    },
-    {
-      id: "andersson-center",
-      name: "S + C + MP",
-      partyIds: ["S", "C", "MP"],
-      status: "politically-contested",
-      explanation: "Ett Andersson-underlag utan V i regeringen; det behöver normalt stöd eller tolerans utifrån.",
-    },
-    {
-      id: "center-crossbloc",
-      name: "S + C + KD",
-      partyIds: ["S", "C", "KD"],
-      status: "politically-contested",
-      explanation: "C har pekat på en sådan mittlösning, men partierna har inte en gemensam regeringsöverenskommelse.",
-    },
-    {
-      id: "tido-four",
-      name: "M + SD + KD + L",
-      partyIds: TIDO,
-      status: "declared",
-      explanation: "De fyra Tidöpartiernas mandatbas. Det här är en mandatprognos, inte ett färdigt regeringsbeslut.",
-    },
-    {
-      id: "tido-without-l",
-      name: "M + SD + KD",
-      partyIds: ["M", "SD", "KD"],
-      status: "arithmetical",
-      explanation: "Visar mandatläget utan L; det är inte ett separat deklarerat regeringsalternativ.",
-    },
-  ];
+
   const coalitionMajorities = Object.fromEntries(coalitionDefinitions.map((coalition) => [coalition.id, 0])) as Record<string, number>;
   let sdBeatsMCount = 0;
   let sevenPartiesCount = 0;

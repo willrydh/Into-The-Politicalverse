@@ -63,6 +63,8 @@ export type NowcastEstimate = {
   imputedRemainingVoteShare: number;
   diagnostics?: import("./adaptive-swing").SwingDiagnostics;
   probability?: MajorityProbability;
+  /** The exact rounded constituency inputs used for the central seat estimate. */
+  scenarioInput?: import("../simulator/types").RiksdagElectionInput;
   rows: {
     partyId: PartyId;
     countedVotes: number;

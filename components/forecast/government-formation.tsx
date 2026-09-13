@@ -1,4 +1,5 @@
 "use client";
+import { majorityLabel } from "@/lib/nowcast/current";
 import { PartyMark } from "@/components/party-mark";
 import { PartyText } from "@/components/party-label";
 import { PARTIES } from "@/lib/parties";
@@ -11,7 +12,11 @@ import {
 } from "@/lib/forecast/government";
 import type { ElectionForecast, ForecastCoalition } from "@/lib/forecast/types";
 
-function pct(value: number): string {
+export type CoalitionView = Omit<ForecastCoalition, "centralSeats" | "majorityProbability"> & { centralSeats: number | null; majorityProbability: number | null };
+
+function pct(value: number | null, live = false): string {
+  if (value === null) return "—";
+  if (live) return majorityLabel(value, 1, "sv-SE");
   return `${(value * 100).toLocaleString("sv-SE", { maximumFractionDigits: 1 })} %`;
 }
 
@@ -27,8 +32,8 @@ function sourceDate(source: GovernmentContextSource): { label: string; value: st
   return { label: "kontrollerad", value: source.checkedAt };
 }
 
-function requiredCoalition(forecast: ElectionForecast, id: string): ForecastCoalition {
-  const coalition = forecast.coalitions.find((candidate) => candidate.id === id);
+function requiredCoalition(coalitions: CoalitionView[], id: string): CoalitionView {
+  const coalition = coalitions.find((candidate) => candidate.id === id);
   if (!coalition) throw new Error(`Forecast is missing coalition ${id}.`);
   return coalition;
 }
@@ -39,10 +44,11 @@ function statusLabel(status: ForecastCoalition["status"]): string {
   return "MANDATSCENARIO";
 }
 
-export function GovernmentFormation({ forecast, compact = false }: { forecast: ElectionForecast; compact?: boolean }) {
-  const opposition = requiredCoalition(forecast, "opposition-four");
-  const tido = requiredCoalition(forecast, "tido-four");
-  const coalitions = compact ? forecast.coalitions.slice(0, 5) : forecast.coalitions;
+export function GovernmentFormation({ forecast, current, compact = false, idPrefix = "" }: { forecast?: ElectionForecast; current?: CoalitionView[]; compact?: boolean; idPrefix?: string }) {
+  const all = current ?? forecast!.coalitions;
+  const opposition = requiredCoalition(all, "opposition-four");
+  const tido = requiredCoalition(all, "tido-four");
+  const coalitions = compact ? all.slice(0, 5) : all;
   const andersson = getGovernmentPartyContext("S").leaders[0];
   const kristersson = getGovernmentPartyContext("M").leaders[0];
   const parliamentarism = getConstitutionalClaim("negative-parliamentarism");
@@ -54,14 +60,14 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
         <article className="pm-path pm-path--lead">
           <header><span>MANDATBAS · {andersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
           <p><PartyText>{opposition.name}</PartyText> når gränsen för egen majoritet i</p>
-          <strong>{pct(opposition.majorityProbability)}</strong>
-          <small>av modellkörningarna · inte statsministerodds</small>
+          <strong>{pct(opposition.majorityProbability, !!current)}</strong>
+          <small>{current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
         </article>
         <article className="pm-path">
           <header><span>MANDATBAS · {kristersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
           <p><PartyText>{tido.name}</PartyText> når gränsen för egen majoritet i</p>
-          <strong>{pct(tido.majorityProbability)}</strong>
-          <small>av modellkörningarna · inte statsministerodds</small>
+          <strong>{pct(tido.majorityProbability, !!current)}</strong>
+          <small>{current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
         </article>
         <aside className="government-knot">
           <span>{parliamentarism.classification} · KONTROLLERAT {formatDate(governmentFormationContext.checkedAt).toLocaleUpperCase("sv-SE")}</span>
@@ -79,9 +85,9 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
           <article key={coalition.id}>
             <header><strong><PartyText>{coalition.name}</PartyText></strong><span>{statusLabel(coalition.status)}</span></header>
             <div>
-              <strong>{coalition.centralSeats}</strong>
+              <strong>{coalition.centralSeats ?? "—"}</strong>
               <span>/ 349 mandat i mittscenariot</span>
-              <b>{pct(coalition.majorityProbability)} modellfrekvens för minst 175</b>
+              {coalition.majorityProbability !== null && <b>{pct(coalition.majorityProbability, !!current)} modellfrekvens för minst 175</b>}
             </div>
             <p><PartyText>{coalition.explanation}</PartyText></p>
             <small>Egen majoritet beskriver mandatmatematik. Regeringsduglighet kräver även att partiernas villkor går att förena eller tolereras.</small>
@@ -99,7 +105,7 @@ export function GovernmentFormation({ forecast, compact = false }: { forecast: E
             {governmentFormationContext.partyContexts.map((party) => {
               const leaderDate = sourceDate(party.leaderSource);
               return (
-                <article className="minister-radar__party" key={party.partyId} id={`leader-${party.partyId}`}>
+                <article className="minister-radar__party" key={party.partyId} id={`${idPrefix}leader-${party.partyId}`}>
                   <header>
                     <PartyMark party={PARTIES[party.partyId]}/>
                     <div>

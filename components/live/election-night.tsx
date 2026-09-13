@@ -5,11 +5,12 @@ import { ElectionBroadcastHero } from "./broadcast-hero";
 import { SvtValuPanel } from "./svt-valu";
 import type { SvtValu } from "@/lib/data/svt-valu";
 import { ForecastResultComparison } from "./forecast-comparison";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { useLiveFeed } from "./use-live-feed";
 import Link from "next/link";
 import { Localize, useLocale } from "@/components/localize";
-import { acceptPublicFeed, feedIsDelayed, LIVE_FEED_URL, LIVE_POLL_INTERVAL_MS, preferredStage } from "@/lib/live/public-feed";
-import type { CountingStage, LiveArea, LiveFeed } from "@/lib/live/types";
+import { LIVE_FEED_URL, preferredStage } from "@/lib/live/public-feed";
+import type { CountingStage, LiveArea } from "@/lib/live/types";
 import { PARTY_CODE_TO_ID } from "@/lib/live/constants";
 import { PARTIES } from "@/lib/parties";
 import { SortHeaders, useTableSort } from "@/components/table-sort";
@@ -35,30 +36,12 @@ function ResultTable({ area }: { area: LiveArea }) {
   </div></Localize>;
 }
 
-export function ElectionNight({ initialFeed, preparation, valu }: { initialFeed: LiveFeed; valu: SvtValu; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
+export function ElectionNight({ preparation, valu }: { valu: SvtValu; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
-  const [feed, setFeed] = useState(initialFeed); const accepted = useRef(initialFeed);
-  const [connectionError, setConnectionError] = useState(false);
-  const [clock, setClock] = useState<number | null>(null);
+  const { feed, connectionError, delayed } = useLiveFeed();
   const [selection, setSelection] = useState<CountingStage | null>(null); const [areaCode, setAreaCode] = useState("00");
-  useEffect(() => {
-    let stopped = false; let timer: ReturnType<typeof setTimeout>; let controller: AbortController;
-    const update = async () => {
-      controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 12_000);
-      try {
-        const response = await fetch(`${LIVE_FEED_URL}?minute=${Math.floor(Date.now() / LIVE_POLL_INTERVAL_MS)}`, { signal: controller.signal, cache: "no-store" });
-        if (!response.ok) throw new Error("Live feed unavailable");
-        const next = acceptPublicFeed(accepted.current, await response.json());
-        if (!stopped) { accepted.current = next; setFeed(next); setConnectionError(false); }
-      } catch { if (!stopped) setConnectionError(true); }
-      finally { clearTimeout(timeout); if (!stopped) { setClock(Date.now()); timer = setTimeout(update, LIVE_POLL_INTERVAL_MS); } }
-    };
-    void update();
-    return () => { stopped = true; clearTimeout(timer); controller?.abort(); };
-  }, []);
   const stage = selection ?? preferredStage(feed); const result = feed.results[stage];
   const area = result ? areaCode === "00" ? result.national : result.constituencies.find(c => c.code === areaCode) ?? result.national : null;
-  const delayed = clock !== null && feedIsDelayed(feed.checkedAt, clock);
   const time = (value: string) => new Date(value).toLocaleString(language, { timeZone: "Europe/Stockholm", dateStyle: "medium", timeStyle: "short" });
   const number = (value: number) => value.toLocaleString(language);
   const early = feed.earlyVoting;
@@ -69,7 +52,7 @@ export function ElectionNight({ initialFeed, preparation, valu }: { initialFeed:
       <div className="live-toolbar"><div className="live-tabs" aria-label="Räkningstillfälle">
         <button aria-pressed={stage === "preliminary"} onClick={() => setSelection("preliminary")}>Preliminär räkning</button>
         <button aria-pressed={stage === "final-count"} onClick={() => setSelection("final-count")}>Slutlig räkning</button>
-      </div><Link href="/forecasts" className="text-link">Visa förvalsprognosen →</Link></div>
+      </div><Link href="/forecasts#fore-valet" className="text-link">Visa förvalsprognosen →</Link></div>
       <p className="live-explanation">Räkningstillfällena är separata. Slutlig räkning betyder att kontrollräkningen pågår; det är inte automatiskt ett fastställt valresultat.</p>
       {result && area ? <>
         <label className="live-area-label">Välj område<select value={areaCode} onChange={event => setAreaCode(event.target.value)}><option value="00">Hela riket</option>{result.constituencies.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></label>

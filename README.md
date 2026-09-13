@@ -1,5 +1,8 @@
 # Into The Politicalverse
 
+The homepage, forecast terminal, election-night view and default simulator now share one validated live-feed store and the same `nowcast.estimate` generation. Seat totals and coalition sums use the published V2 rows; majority probabilities use its exact simulations and denominator. No pre-election probabilities fill gaps. The forecast terminal retains the frozen pre-election UI in an explicitly collapsed archive; its JSON endpoint declares the archive role and live replacement. The collector additionally exports its exact rounded constituency seat inputs, checked against the central projection before the simulator accepts them. A user-edited scenario pins that source generation until reset; the untouched simulator follows live updates. See `docs/operations/current-projection.md`.
+
+
 The live collector revalidates caches and performs bounded index/archive consistency reads during source publication. A matching official checksum is still mandatory, followed by signature and arithmetic verification. See `docs/operations/election-night-2026.md`.
 
 
@@ -20,7 +23,7 @@ Election-night projection v2, 13 September: regularized district regression, par
 
 Election-day repair, 13 September: the live index accepts the authority’s exact standalone empty-file checksum marker as no published archives, while retaining all timing, signature and arithmetic checks. The live workflow runs sequential five-minute checks in bounded four-hour jobs during 13–30 September and explicitly dispatches a successor using fresh `main` code. This avoids relying on a delayed schedule event for each update. Single-run audits and a one-minute handoff audit are available. The static fallback and preparation sources were refreshed; the pre-election forecast reference remains frozen. See `docs/operations/election-night-2026.md`.
 
-The homepage omits the redundant “Politicalverse prognos · 2026” eyebrow while retaining the large forecast headline and explanatory paragraph. Its freshness strip uses a short date and relative age for recent polls, retaining complete stale/archive warnings. Mobile/tablet top spacing is reduced and mobile grid rows are consecutive so the probability card moves up without leaving an empty row.
+The homepage omits the redundant “Politicalverse prognos · 2026” eyebrow while retaining the large forecast headline and explanatory paragraph. Its freshness strip now identifies the live model, counted districts and source update time. Mobile/tablet top spacing is reduced and mobile grid rows are consecutive so the probability card moves up without leaving an empty row.
 
 Politicalverse is provided free to everyone, forever, by William Rydh. Reuse of site material, data, text, images or insights requires attribution to Politicalverse; a link to the relevant page is appreciated where possible. Preserve underlying source attribution and source-specific terms. This owner decision replaces the earlier paid-Pro/paywall roadmap. The public `/press/` and `/en/press/` pages explain the product, audience, sources, update cadence, attribution and logo downloads, and link to the separate PocketPolitics welcome page. See [press content and maintenance](docs/operations/press-page.md).
 

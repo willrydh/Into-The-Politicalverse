@@ -53,6 +53,8 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- The current national model is the election-night V2 projection. Home, forecasts, live results and the simulator must share the same validated live-feed generation and pause on unavailable data. Never backfill current odds/seats with the frozen pre-election model. Keep that model as an explicit archive/reference for honest retrospective comparison. The default simulator must reproduce the exported V2 constituency inputs exactly, not redistribute its national shares using 2022 geography. User scenarios pin their starting generation until reset. See `docs/operations/current-projection.md`.
+
 - Candidate-profile result tables default to descending election year on mobile and desktop, and reset to that order when the person, election type or area changes. History charts retain chronological order.
 - All public hero surfaces use the original transparent crown as a subtle, slowly animated CSS background. Keep it locally clipped behind content, transform-only, and independent of sticky-header scrolling. Honor the existing operating-system reduced-motion preference; do not add a site control.
 

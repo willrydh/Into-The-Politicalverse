@@ -82,6 +82,7 @@ export async function deriveNowcast(
       (c) => c.validVotes > 0 && c.other / c.validVotes < 0.12,
     )
   ) {
+    projected.estimate.scenarioInput = { nationalValidVotes, constituencies };
     const seats = calculateRiksdagSeats({ nationalValidVotes, constituencies });
     for (const row of projected.estimate.rows)
       row.seats =
