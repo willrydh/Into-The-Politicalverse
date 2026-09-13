@@ -1,6 +1,7 @@
 "use client";
 
 import { NowcastPanel } from "./nowcast";
+import { ElectionBroadcastHero } from "./broadcast-hero";
 import { ForecastResultComparison } from "./forecast-comparison";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -60,15 +61,7 @@ export function ElectionNight({ initialFeed, preparation }: { initialFeed: LiveF
   const number = (value: number) => value.toLocaleString(language);
   const early = feed.earlyVoting;
   return <Localize><div className="live-page">
-    <section className="live-hero">
-      <p className="eyebrow eyebrow--light">Sverige · Riksdagsvalet 13 september</p><h1>Valnatten 2026</h1>
-      <p>Följ rösträkningen direkt från Valmyndigheten. Röster, rapportering och officiella mandat hålls isär från förvalsprognosen.</p>
-      <div className="live-status" role="status" data-state={connectionError || delayed || feed.resultStatus === "degraded" ? "delayed" : result ? "receiving" : "waiting"}>
-        <strong>{connectionError || delayed ? "Uppdateringen är fördröjd" : feed.resultStatus === "degraded" ? "En källa behöver kontrolleras" : result ? "Officiell rösträkning" : "Väntar på valresultat"}</strong>
-        <span>{connectionError || delayed || feed.resultStatus === "degraded" ? "Senast verifierade uppgifter ligger kvar. Kontrollera tidsstämplarna nedan." : "Resultat visas när Valmyndigheten publicerar dem. Inga genrep visas som valresultat."}</span>
-        <small>Senast kontrollerat: {time(feed.checkedAt)} · svensk tid</small>
-      </div>
-    </section>
+    <ElectionBroadcastHero state={connectionError || delayed || feed.resultStatus === "degraded" ? "delayed" : (result?.national.countedDistricts ?? 0) > 0 ? "receiving" : "waiting"} checkedAt={feed.checkedAt} countedDistricts={result?.national.countedDistricts ?? 0} totalDistricts={result?.national.totalDistricts ?? preparation.districts}/>
     <section className="product-section live-results">
       <div className="live-toolbar"><div className="live-tabs" aria-label="Räkningstillfälle">
         <button aria-pressed={stage === "preliminary"} onClick={() => setSelection("preliminary")}>Preliminär räkning</button>

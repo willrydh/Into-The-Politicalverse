@@ -55,3 +55,7 @@ För driftbevis: följ minst två publicerade kontrolltider, se att efterföljar
 ## Experimental district nowcast
 
 The collector also attempts an isolated, signed preliminary district projection. Review `nowcast` and `nowcastWarnings` in each collection log. A model warning does not make official results unavailable. The national archive, every constituency party total and all district counts must reconcile before a model is available. Follow `docs/methodology/election-nowcast-v1.md` for minimum coverage, sensitivity, collection ballots and the first-production-file gate. After deploying collector changes, cancel only the existing election-watch run and immediately dispatch a replacement from current `main`; cancellation intentionally disables its automatic handoff. Never stop the independent public site or change the forecast reference.
+
+## Visuell sändningsvinjett
+
+Valnattsvyn har en responsiv vinjett med originalkronan och långsam lokal CSS-rörelse. Nedräkningen gäller vallokalernas stängning 13 september 2026 kl. 20.00 svensk tid, inte en utlovad resultattid. Efter stängning står tiden kvar med dåtidsform; verifierade räknade distrikt ersätter klockan när de finns. Inaktuell eller felande källa behåller en uttrycklig varning och senast kontrollerade tid. Grafiken är dekorativ och är inte en uppmätt signal. Text/uppgifter blinkar inte. Rörelsen pausas utanför skärmen och vid operativsystemets minskade rörelse, utan något extra reglage. Kontrollera båda språk, mobil/desktop samt väntande, mottagande och fördröjda tillstånd.
