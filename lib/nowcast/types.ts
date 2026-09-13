@@ -1,5 +1,17 @@
 import type { PartyId } from "../data/elections/types";
-export const NOWCAST_VERSION = "pv-nowcast-1.0.0";
+export const NOWCAST_VERSION = "pv-nowcast-1.1.0";
+export const PROBABILITY_VERSION = "pv-nowcast-majority-1.0.0";
+export type MajorityProbability = {
+  methodVersion: string;
+  calibration: "unvalidated";
+  definition: "175-of-349";
+  simulations: number;
+  seed: number;
+  noiseFloorPp: number;
+  leftWins: number;
+  rightWins: number;
+  unresolved: number;
+};
 export const NOWCAST_PARTIES = [
   "M",
   "C",
@@ -45,6 +57,7 @@ export type NowcastEstimate = {
   estimatedRemainingVotes: number;
   estimatedCollectionVotes: number;
   imputedRemainingVoteShare: number;
+  probability?: MajorityProbability;
   rows: {
     partyId: PartyId;
     countedVotes: number;
@@ -78,5 +91,6 @@ export type StressReport = {
     rawMae: number;
     modelMae: number;
     maxPartyError: Votes;
+    remainingShareErrors: Votes[];
   }[];
 };

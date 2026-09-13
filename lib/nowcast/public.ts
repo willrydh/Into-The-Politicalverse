@@ -3,7 +3,9 @@ import type { LiveFeed } from "../live/types";
 import {
   NOWCAST_PARTIES,
   NOWCAST_VERSION,
+  PROBABILITY_VERSION,
   type NowcastEstimate,
+  type MajorityProbability,
 } from "./types";
 import { insist } from "../live/validation";
 /** Invalid optional model data must never hide verified official results. */
@@ -153,4 +155,30 @@ export function publicNowcast(feed: LiveFeed): NowcastEstimate | null {
   } catch {
     return null;
   }
+}
+
+/** The optional probability cannot invalidate an otherwise verified projection. */
+export function publicProbability(
+  e: NowcastEstimate,
+): MajorityProbability | null {
+  const p = e.probability;
+  if (
+    e.status !== "experimental" ||
+    !p ||
+    p.methodVersion !== PROBABILITY_VERSION ||
+    p.calibration !== "unvalidated" ||
+    p.definition !== "175-of-349" ||
+    p.simulations !== 1000 ||
+    p.noiseFloorPp !== 1
+  )
+    return null;
+  if (
+    ![p.leftWins, p.rightWins, p.unresolved, p.seed].every(
+      (n) => Number.isSafeInteger(n) && n >= 0,
+    ) ||
+    p.seed > 4294967295 ||
+    p.leftWins + p.rightWins + p.unresolved !== p.simulations
+  )
+    return null;
+  return p;
 }
