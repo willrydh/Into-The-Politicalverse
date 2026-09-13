@@ -50,13 +50,14 @@ export function verifySignedJson(raw: Buffer, signature: Buffer, certificate: Bu
   insist(verify("sha256", raw, key.publicKey, signature), "Invalid official result signature");
 }
 
-export async function readSignedArchive(bytes: Buffer, entry: { url: string; md5: string }, options: { mode: FeedMode; stage: CountingStage; certificate: Buffer; now: string }): Promise<{ raw: unknown; source: LiveResult["source"] }> {
+export async function readSignedArchive(bytes: Buffer, entry: { url: string; md5: string }, options: { mode: FeedMode; stage: CountingStage; certificate: Buffer; now: string; kind?: "mandatfordelning" | "rostfordelning" }): Promise<{ raw: unknown; source: LiveResult["source"] }> {
   insist(digest(bytes, "md5") === entry.md5, "Archive does not match official index checksum");
   const zip = await JSZip.loadAsync(bytes);
   const phase = options.stage === "preliminary" ? "preliminar" : "slutlig";
   const prefix = options.mode === "production" ? "Val_(?:2026|20260913)" : "Genrep_2026";
-  const names = Object.keys(zip.files).filter(name => new RegExp(`^${prefix}_${phase}_mandatfordelning_00_RD\\.json$`).test(name));
-  insist(names.length === 1, "Expected one national mandate file in archive");
+  const kind = options.kind ?? "mandatfordelning";
+  const names = Object.keys(zip.files).filter(name => new RegExp(`^${prefix}_${phase}_${kind}_00_RD\\.json$`).test(name));
+  insist(names.length === 1, "Expected one selected national file in archive");
   const file = zip.file(names[0]); const signature = zip.file(names[0].replace(/\.json$/, "_sign.sha256"));
   insist(file && signature, "Missing result or detached signature");
   const stream = file.nodeStream() as Readable;
@@ -64,7 +65,7 @@ export async function readSignedArchive(bytes: Buffer, entry: { url: string; md5
   await new Promise<void>((resolve, reject) => {
     stream.on("data", (chunk: Buffer) => {
       length += chunk.length;
-      if (length > 32 * 1024 * 1024) { stream.pause(); stream.destroy(); reject(new Error("National mandate JSON exceeds 32 MiB")); return; }
+      if (length > (kind === "rostfordelning" ? 128 : 32) * 1024 * 1024) { stream.pause(); stream.destroy(); reject(new Error("Official JSON exceeds decompressed size limit")); return; }
       chunks.push(chunk);
     });
     stream.on("end", resolve); stream.on("error", reject);
