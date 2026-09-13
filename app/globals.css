@@ -1638,3 +1638,16 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   :is(.interior-hero, .candidate-hero, .forecast-hero, .forecast-page-hero, .live-hero, .search-hero, .source-hero)::before { animation: none; }
 }
+
+/* Separate election-night model surface; counted results keep their own table. */
+.nowcast-panel { border-top:1px solid var(--line); }
+.nowcast-panel h2 { margin:10px 0 18px; }
+.nowcast-waiting { margin:22px 0; padding:20px; background:var(--surface); border:1px solid var(--line); border-radius:12px; }
+.nowcast-waiting p { margin:8px 0; }
+.nowcast-summary { display:flex; flex-wrap:wrap; gap:12px 32px; margin:24px 0 10px; font-size:14px; }
+.nowcast-table > div { display:grid; grid-template-columns:minmax(48px,1fr) minmax(92px,1.2fr) minmax(66px,1fr) minmax(62px,1fr); gap:12px; align-items:center; padding:15px 0; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; }
+.nowcast-table [role="cell"], .nowcast-table [role="columnheader"]:not(:first-child) { text-align:right; }
+.nowcast-table strong { display:block; font-size:22px; font-weight:600; }
+.nowcast-table small { display:block; color:var(--muted); font-size:12px; margin-top:3px; }
+.nowcast-table__head { font-size:12px; color:var(--muted); }
+@media(max-width:600px) { .nowcast-table > div { gap:8px; grid-template-columns:42px minmax(78px,1.3fr) minmax(58px,1fr) minmax(56px,1fr); } .nowcast-table__head { font-size:10px; } .nowcast-summary { font-size:12px; gap:8px; flex-direction:column; } }

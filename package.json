@@ -22,7 +22,7 @@
     "data:live:update": "node --import tsx scripts/update-election-live.ts",
     "data:live:rehearse": "node --import tsx scripts/update-election-live.ts --rehearsal",
     "data:import:preparation": "node --import tsx scripts/import-election-preparation.ts",
-    "data:verify": "node --import tsx scripts/verify-election-data.ts",
+    "data:verify": "node --import tsx scripts/verify-election-data.ts && npm run data:nowcast:verify",
     "safety:check": "node scripts/safety-preflight.mjs",
     "data:import:local": "node --import tsx scripts/import-local-geography.ts",
     "data:import:localities": "node --import tsx scripts/import-scb-localities.ts",
@@ -36,7 +36,8 @@
     "test:insights": "node --test workers/insights/tests/*.test.mjs",
     "typecheck:insights": "tsc --noEmit -p workers/insights/tsconfig.json",
     "typecheck:sharing": "tsc --noEmit -p workers/sharing/tsconfig.json",
-    "test:sharing": "node --import tsx --test workers/sharing/tests/*.test.ts"
+    "test:sharing": "node --import tsx --test workers/sharing/tests/*.test.ts",
+    "data:nowcast:verify": "node --import tsx scripts/backtest-election-nowcast.ts --check"
   },
   "dependencies": {
     "next": "^16.0.0",

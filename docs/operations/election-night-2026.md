@@ -51,3 +51,7 @@ gh workflow run election-live.yml --ref main
 ```
 
 För driftbevis: följ minst två publicerade kontrolltider, se att efterföljaren faktiskt startar och kontrollera den hämtade datafilen i båda språkversionerna. Ett pågående fyra-timmarsjobb är normalt; dess löpande logg och live-data-commit visar enskilda kontroller. Första signerade produktionspaketet återstår att verifiera när myndigheten publicerar det. Prognosreferensen får aldrig ändras för att passa utfallet.
+
+## Experimental district nowcast
+
+The collector also attempts an isolated, signed preliminary district projection. Review `nowcast` and `nowcastWarnings` in each collection log. A model warning does not make official results unavailable. The national archive, every constituency party total and all district counts must reconcile before a model is available. Follow `docs/methodology/election-nowcast-v1.md` for minimum coverage, sensitivity, collection ballots and the first-production-file gate. After deploying collector changes, cancel only the existing election-watch run and immediately dispatch a replacement from current `main`; cancellation intentionally disables its automatic handoff. Never stop the independent public site or change the forecast reference.

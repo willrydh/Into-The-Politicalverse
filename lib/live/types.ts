@@ -1,3 +1,4 @@
+import type { NowcastEnvelope } from "../nowcast/types";
 export type CountingStage = "preliminary" | "final-count";
 export type FeedMode = "production" | "rehearsal";
 
@@ -63,4 +64,5 @@ export type LiveFeed = {
   earlyVotingStatus: "ok" | "error";
   results: Record<CountingStage, LiveResult | null>;
   earlyVoting: EarlyVoting | null;
+  nowcast?: NowcastEnvelope;
 };

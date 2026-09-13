@@ -1,5 +1,6 @@
 "use client";
 
+import { NowcastPanel } from "./nowcast";
 import { ForecastResultComparison } from "./forecast-comparison";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -89,6 +90,7 @@ export function ElectionNight({ initialFeed, preparation }: { initialFeed: LiveF
         {area.code === "00" && <ForecastResultComparison result={result}/>}
       </> : <div className="live-empty"><h2>Rösträkningen har inte publicerats.</h2><p>Vallokalerna stänger klockan 20 den 13 september. Här kommer räknade distrikt, röster, röstandelar och officiella mandat att visas.</p></div>}
     </section>
+    {stage === "preliminary" && <NowcastPanel feed={feed} delayed={connectionError || delayed}/> }
     <section className="product-section live-preparation"><p className="eyebrow eyebrow--dark">OFFICIAL · Inför valet</p><h2>Mer data redan före valnatten</h2>
       <div className="live-metrics">
         <article><span>Mottagna förtidsröster i Sverige</span><strong>{early ? number(early.receivedVotes) : "—"}</strong><small>{early ? <>Hämtat: {time(early.retrievedAt)}</> : "Källan saknas"}</small></article>
