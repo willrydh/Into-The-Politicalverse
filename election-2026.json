@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-13T07:30:33.440Z",
+  "checkedAt": "2026-09-13T12:48:52.819Z",
   "resultStatus": "degraded",
   "stageStatus": {
     "preliminary": "error",
@@ -15,11 +15,11 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-13T07:30:33.440Z",
-    "rawSha256": "6d0a6ad1f269c4a323c64297c0b1bf975708ef6a5d0defadd74ca864f26f710f",
+    "retrievedAt": "2026-09-13T12:48:52.819Z",
+    "rawSha256": "8cf7ca0a2c27659209f3d63fcfd589531a10751904b098aa365aa68cf5943e87",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
-    "lastNonzeroDate": "2026-09-12",
-    "receivedVotes": 3642832,
+    "lastNonzeroDate": "2026-09-13",
+    "receivedVotes": 3684025,
     "locations": 3001,
     "daily": [
       {
@@ -28,7 +28,7 @@
       },
       {
         "date": "2026-08-27",
-        "votes": 161336
+        "votes": 161337
       },
       {
         "date": "2026-08-28",
@@ -44,7 +44,7 @@
       },
       {
         "date": "2026-08-31",
-        "votes": 184077
+        "votes": 184083
       },
       {
         "date": "2026-09-01",
@@ -52,7 +52,7 @@
       },
       {
         "date": "2026-09-02",
-        "votes": 192917
+        "votes": 192921
       },
       {
         "date": "2026-09-03",
@@ -68,1097 +68,1097 @@
       },
       {
         "date": "2026-09-06",
-        "votes": 134328
+        "votes": 134329
       },
       {
         "date": "2026-09-07",
-        "votes": 258606
+        "votes": 258614
       },
       {
         "date": "2026-09-08",
-        "votes": 285655
+        "votes": 285658
       },
       {
         "date": "2026-09-09",
-        "votes": 304815
+        "votes": 304869
       },
       {
         "date": "2026-09-10",
-        "votes": 330567
+        "votes": 330618
       },
       {
         "date": "2026-09-11",
-        "votes": 358622
+        "votes": 358893
       },
       {
         "date": "2026-09-12",
-        "votes": 265538
+        "votes": 266191
       },
       {
         "date": "2026-09-13",
-        "votes": 0
+        "votes": 40141
       }
     ],
     "municipalities": [
       {
         "code": "0114",
         "name": "Upplands Väsby",
-        "votes": 17067
+        "votes": 17531
       },
       {
         "code": "0115",
         "name": "Vallentuna",
-        "votes": 11028
+        "votes": 11197
       },
       {
         "code": "0117",
         "name": "Österåker",
-        "votes": 18989
+        "votes": 19134
       },
       {
         "code": "0120",
         "name": "Värmdö",
-        "votes": 18884
+        "votes": 19277
       },
       {
         "code": "0123",
         "name": "Järfälla",
-        "votes": 25968
+        "votes": 26347
       },
       {
         "code": "0125",
         "name": "Ekerö",
-        "votes": 8427
+        "votes": 8502
       },
       {
         "code": "0126",
         "name": "Huddinge",
-        "votes": 35449
+        "votes": 35830
       },
       {
         "code": "0127",
         "name": "Botkyrka",
-        "votes": 31612
+        "votes": 32012
       },
       {
         "code": "0128",
         "name": "Salem",
-        "votes": 5160
+        "votes": 5256
       },
       {
         "code": "0136",
         "name": "Haninge",
-        "votes": 29144
+        "votes": 29431
       },
       {
         "code": "0138",
         "name": "Tyresö",
-        "votes": 16808
+        "votes": 16941
       },
       {
         "code": "0139",
         "name": "Upplands-Bro",
-        "votes": 9572
+        "votes": 9900
       },
       {
         "code": "0140",
         "name": "Nykvarn",
-        "votes": 3921
+        "votes": 4017
       },
       {
         "code": "0160",
         "name": "Täby",
-        "votes": 27276
+        "votes": 27522
       },
       {
         "code": "0162",
         "name": "Danderyd",
-        "votes": 11998
+        "votes": 12152
       },
       {
         "code": "0163",
         "name": "Sollentuna",
-        "votes": 23837
+        "votes": 24174
       },
       {
         "code": "0180",
         "name": "Stockholm",
-        "votes": 353095
+        "votes": 355626
       },
       {
         "code": "0181",
         "name": "Södertälje",
-        "votes": 32297
+        "votes": 32542
       },
       {
         "code": "0182",
         "name": "Nacka",
-        "votes": 40210
+        "votes": 40506
       },
       {
         "code": "0183",
         "name": "Sundbyberg",
-        "votes": 18029
+        "votes": 18363
       },
       {
         "code": "0184",
         "name": "Solna",
-        "votes": 25748
+        "votes": 26040
       },
       {
         "code": "0186",
         "name": "Lidingö",
-        "votes": 16722
+        "votes": 16941
       },
       {
         "code": "0187",
         "name": "Vaxholm",
-        "votes": 4009
+        "votes": 4043
       },
       {
         "code": "0188",
         "name": "Norrtälje",
-        "votes": 26858
+        "votes": 27029
       },
       {
         "code": "0191",
         "name": "Sigtuna",
-        "votes": 17070
+        "votes": 17206
       },
       {
         "code": "0192",
         "name": "Nynäshamn",
-        "votes": 10350
+        "votes": 10459
       },
       {
         "code": "0305",
         "name": "Håbo",
-        "votes": 6049
+        "votes": 6221
       },
       {
         "code": "0319",
         "name": "Älvkarleby",
-        "votes": 3934
+        "votes": 3954
       },
       {
         "code": "0330",
         "name": "Knivsta",
-        "votes": 6567
+        "votes": 6711
       },
       {
         "code": "0331",
         "name": "Heby",
-        "votes": 4743
+        "votes": 4967
       },
       {
         "code": "0360",
         "name": "Tierp",
-        "votes": 7034
+        "votes": 7074
       },
       {
         "code": "0380",
         "name": "Uppsala",
-        "votes": 88595
+        "votes": 89878
       },
       {
         "code": "0381",
         "name": "Enköping",
-        "votes": 16229
+        "votes": 16486
       },
       {
         "code": "0382",
         "name": "Östhammar",
-        "votes": 8998
+        "votes": 9059
       },
       {
         "code": "0428",
         "name": "Vingåker",
-        "votes": 3514
+        "votes": 3545
       },
       {
         "code": "0461",
         "name": "Gnesta",
-        "votes": 4058
+        "votes": 4141
       },
       {
         "code": "0480",
         "name": "Nyköping",
-        "votes": 21511
+        "votes": 21618
       },
       {
         "code": "0481",
         "name": "Oxelösund",
-        "votes": 4593
+        "votes": 4646
       },
       {
         "code": "0482",
         "name": "Flen",
-        "votes": 4261
+        "votes": 4329
       },
       {
         "code": "0483",
         "name": "Katrineholm",
-        "votes": 10879
+        "votes": 11065
       },
       {
         "code": "0484",
         "name": "Eskilstuna",
-        "votes": 35447
+        "votes": 35687
       },
       {
         "code": "0486",
         "name": "Strängnäs",
-        "votes": 13721
+        "votes": 13810
       },
       {
         "code": "0488",
         "name": "Trosa",
-        "votes": 6378
+        "votes": 6476
       },
       {
         "code": "0509",
         "name": "Ödeshög",
-        "votes": 1804
+        "votes": 1846
       },
       {
         "code": "0512",
         "name": "Ydre",
-        "votes": 1067
+        "votes": 1153
       },
       {
         "code": "0513",
         "name": "Kinda",
-        "votes": 3837
+        "votes": 3852
       },
       {
         "code": "0560",
         "name": "Boxholm",
-        "votes": 1904
+        "votes": 1924
       },
       {
         "code": "0561",
         "name": "Åtvidaberg",
-        "votes": 4364
+        "votes": 4707
       },
       {
         "code": "0562",
         "name": "Finspång",
-        "votes": 7020
+        "votes": 7067
       },
       {
         "code": "0563",
         "name": "Valdemarsvik",
-        "votes": 3190
+        "votes": 3217
       },
       {
         "code": "0580",
         "name": "Linköping",
-        "votes": 60630
+        "votes": 61020
       },
       {
         "code": "0581",
         "name": "Norrköping",
-        "votes": 48026
+        "votes": 48367
       },
       {
         "code": "0582",
         "name": "Söderköping",
-        "votes": 5610
+        "votes": 5639
       },
       {
         "code": "0583",
         "name": "Motala",
-        "votes": 12779
+        "votes": 12855
       },
       {
         "code": "0584",
         "name": "Vadstena",
-        "votes": 3111
+        "votes": 3157
       },
       {
         "code": "0586",
         "name": "Mjölby",
-        "votes": 9327
+        "votes": 9347
       },
       {
         "code": "0604",
         "name": "Aneby",
-        "votes": 2134
+        "votes": 2182
       },
       {
         "code": "0617",
         "name": "Gnosjö",
-        "votes": 2694
+        "votes": 2698
       },
       {
         "code": "0642",
         "name": "Mullsjö",
-        "votes": 2273
+        "votes": 2289
       },
       {
         "code": "0643",
         "name": "Habo",
-        "votes": 4198
+        "votes": 4277
       },
       {
         "code": "0662",
         "name": "Gislaved",
-        "votes": 9249
+        "votes": 9414
       },
       {
         "code": "0665",
         "name": "Vaggeryd",
-        "votes": 4300
+        "votes": 4677
       },
       {
         "code": "0680",
         "name": "Jönköping",
-        "votes": 53824
+        "votes": 54079
       },
       {
         "code": "0682",
         "name": "Nässjö",
-        "votes": 10499
+        "votes": 10634
       },
       {
         "code": "0683",
         "name": "Värnamo",
-        "votes": 9310
+        "votes": 9474
       },
       {
         "code": "0684",
         "name": "Sävsjö",
-        "votes": 3319
+        "votes": 3330
       },
       {
         "code": "0685",
         "name": "Vetlanda",
-        "votes": 8180
+        "votes": 8273
       },
       {
         "code": "0686",
         "name": "Eksjö",
-        "votes": 5512
+        "votes": 5610
       },
       {
         "code": "0687",
         "name": "Tranås",
-        "votes": 6632
+        "votes": 6895
       },
       {
         "code": "0760",
         "name": "Uppvidinge",
-        "votes": 2429
+        "votes": 2555
       },
       {
         "code": "0761",
         "name": "Lessebo",
-        "votes": 2496
+        "votes": 2516
       },
       {
         "code": "0763",
         "name": "Tingsryd",
-        "votes": 3806
+        "votes": 3922
       },
       {
         "code": "0764",
         "name": "Alvesta",
-        "votes": 5838
+        "votes": 5888
       },
       {
         "code": "0765",
         "name": "Älmhult",
-        "votes": 5310
+        "votes": 5401
       },
       {
         "code": "0767",
         "name": "Markaryd",
-        "votes": 2919
+        "votes": 3008
       },
       {
         "code": "0780",
         "name": "Växjö",
-        "votes": 30283
+        "votes": 31199
       },
       {
         "code": "0781",
         "name": "Ljungby",
-        "votes": 6976
+        "votes": 7496
       },
       {
         "code": "0821",
         "name": "Högsby",
-        "votes": 1384
+        "votes": 1423
       },
       {
         "code": "0834",
         "name": "Torsås",
-        "votes": 2618
+        "votes": 2650
       },
       {
         "code": "0840",
         "name": "Mörbylånga",
-        "votes": 6271
+        "votes": 6293
       },
       {
         "code": "0860",
         "name": "Hultsfred",
-        "votes": 4204
+        "votes": 4214
       },
       {
         "code": "0861",
         "name": "Mönsterås",
-        "votes": 5308
+        "votes": 5329
       },
       {
         "code": "0862",
         "name": "Emmaboda",
-        "votes": 2890
+        "votes": 2940
       },
       {
         "code": "0880",
         "name": "Kalmar",
-        "votes": 20469
+        "votes": 20608
       },
       {
         "code": "0881",
         "name": "Nybro",
-        "votes": 6578
+        "votes": 6626
       },
       {
         "code": "0882",
         "name": "Oskarshamn",
-        "votes": 9438
+        "votes": 9539
       },
       {
         "code": "0883",
         "name": "Västervik",
-        "votes": 12837
+        "votes": 12930
       },
       {
         "code": "0884",
         "name": "Vimmerby",
-        "votes": 5343
+        "votes": 5375
       },
       {
         "code": "0885",
         "name": "Borgholm",
-        "votes": 5278
+        "votes": 5315
       },
       {
         "code": "0980",
         "name": "Gotland",
-        "votes": 22144
+        "votes": 22263
       },
       {
         "code": "1060",
         "name": "Olofström",
-        "votes": 4357
+        "votes": 4579
       },
       {
         "code": "1080",
         "name": "Karlskrona",
-        "votes": 23473
+        "votes": 23693
       },
       {
         "code": "1081",
         "name": "Ronneby",
-        "votes": 8991
+        "votes": 9304
       },
       {
         "code": "1082",
         "name": "Karlshamn",
-        "votes": 11583
+        "votes": 11690
       },
       {
         "code": "1083",
         "name": "Sölvesborg",
-        "votes": 5864
+        "votes": 5931
       },
       {
         "code": "1214",
         "name": "Svalöv",
-        "votes": 4135
+        "votes": 4214
       },
       {
         "code": "1230",
         "name": "Staffanstorp",
-        "votes": 7003
+        "votes": 7074
       },
       {
         "code": "1231",
         "name": "Burlöv",
-        "votes": 6352
+        "votes": 6416
       },
       {
         "code": "1233",
         "name": "Vellinge",
-        "votes": 13946
+        "votes": 14047
       },
       {
         "code": "1256",
         "name": "Östra Göinge",
-        "votes": 3533
+        "votes": 3553
       },
       {
         "code": "1257",
         "name": "Örkelljunga",
-        "votes": 3262
+        "votes": 3284
       },
       {
         "code": "1260",
         "name": "Bjuv",
-        "votes": 3388
+        "votes": 3437
       },
       {
         "code": "1261",
         "name": "Kävlinge",
-        "votes": 11360
+        "votes": 11527
       },
       {
         "code": "1262",
         "name": "Lomma",
-        "votes": 8057
+        "votes": 8324
       },
       {
         "code": "1263",
         "name": "Svedala",
-        "votes": 6787
+        "votes": 6829
       },
       {
         "code": "1264",
         "name": "Skurup",
-        "votes": 5133
+        "votes": 5218
       },
       {
         "code": "1265",
         "name": "Sjöbo",
-        "votes": 5106
+        "votes": 5175
       },
       {
         "code": "1266",
         "name": "Hörby",
-        "votes": 4586
+        "votes": 4659
       },
       {
         "code": "1267",
         "name": "Höör",
-        "votes": 5372
+        "votes": 5450
       },
       {
         "code": "1270",
         "name": "Tomelilla",
-        "votes": 5019
+        "votes": 5058
       },
       {
         "code": "1272",
         "name": "Bromölla",
-        "votes": 5329
+        "votes": 5392
       },
       {
         "code": "1273",
         "name": "Osby",
-        "votes": 3896
+        "votes": 3909
       },
       {
         "code": "1275",
         "name": "Perstorp",
-        "votes": 2494
+        "votes": 2514
       },
       {
         "code": "1276",
         "name": "Klippan",
-        "votes": 5210
+        "votes": 5263
       },
       {
         "code": "1277",
         "name": "Åstorp",
-        "votes": 3287
+        "votes": 3389
       },
       {
         "code": "1278",
         "name": "Båstad",
-        "votes": 6379
+        "votes": 6437
       },
       {
         "code": "1280",
         "name": "Malmö",
-        "votes": 139957
+        "votes": 140962
       },
       {
         "code": "1281",
         "name": "Lund",
-        "votes": 46026
+        "votes": 46420
       },
       {
         "code": "1282",
         "name": "Landskrona",
-        "votes": 12072
+        "votes": 12236
       },
       {
         "code": "1283",
         "name": "Helsingborg",
-        "votes": 54652
+        "votes": 55023
       },
       {
         "code": "1284",
         "name": "Höganäs",
-        "votes": 11213
+        "votes": 11245
       },
       {
         "code": "1285",
         "name": "Eslöv",
-        "votes": 10181
+        "votes": 10321
       },
       {
         "code": "1286",
         "name": "Ystad",
-        "votes": 12463
+        "votes": 12522
       },
       {
         "code": "1287",
         "name": "Trelleborg",
-        "votes": 17575
+        "votes": 17719
       },
       {
         "code": "1290",
         "name": "Kristianstad",
-        "votes": 29882
+        "votes": 30090
       },
       {
         "code": "1291",
         "name": "Simrishamn",
-        "votes": 7539
+        "votes": 7649
       },
       {
         "code": "1292",
         "name": "Ängelholm",
-        "votes": 14347
+        "votes": 14470
       },
       {
         "code": "1293",
         "name": "Hässleholm",
-        "votes": 14620
+        "votes": 14729
       },
       {
         "code": "1315",
         "name": "Hylte",
-        "votes": 2825
+        "votes": 2854
       },
       {
         "code": "1380",
         "name": "Halmstad",
-        "votes": 36408
+        "votes": 36594
       },
       {
         "code": "1381",
         "name": "Laholm",
-        "votes": 8774
+        "votes": 8844
       },
       {
         "code": "1382",
         "name": "Falkenberg",
-        "votes": 14267
+        "votes": 14380
       },
       {
         "code": "1383",
         "name": "Varberg",
-        "votes": 23939
+        "votes": 24045
       },
       {
         "code": "1384",
         "name": "Kungsbacka",
-        "votes": 31050
+        "votes": 31360
       },
       {
         "code": "1401",
         "name": "Härryda",
-        "votes": 12432
+        "votes": 12524
       },
       {
         "code": "1402",
         "name": "Partille",
-        "votes": 16509
+        "votes": 16608
       },
       {
         "code": "1407",
         "name": "Öckerö",
-        "votes": 4359
+        "votes": 4896
       },
       {
         "code": "1415",
         "name": "Stenungsund",
-        "votes": 10338
+        "votes": 10430
       },
       {
         "code": "1419",
         "name": "Tjörn",
-        "votes": 5552
+        "votes": 5587
       },
       {
         "code": "1421",
         "name": "Orust",
-        "votes": 5984
+        "votes": 6025
       },
       {
         "code": "1427",
         "name": "Sotenäs",
-        "votes": 5104
+        "votes": 5248
       },
       {
         "code": "1430",
         "name": "Munkedal",
-        "votes": 3607
+        "votes": 3681
       },
       {
         "code": "1435",
         "name": "Tanum",
-        "votes": 4488
+        "votes": 4519
       },
       {
         "code": "1438",
         "name": "Dals-Ed",
-        "votes": 1541
+        "votes": 1649
       },
       {
         "code": "1439",
         "name": "Färgelanda",
-        "votes": 2298
+        "votes": 2334
       },
       {
         "code": "1440",
         "name": "Ale",
-        "votes": 10359
+        "votes": 10483
       },
       {
         "code": "1441",
         "name": "Lerum",
-        "votes": 11805
+        "votes": 11928
       },
       {
         "code": "1442",
         "name": "Vårgårda",
-        "votes": 3310
+        "votes": 3354
       },
       {
         "code": "1443",
         "name": "Bollebygd",
-        "votes": 3212
+        "votes": 3219
       },
       {
         "code": "1444",
         "name": "Grästorp",
-        "votes": 2559
+        "votes": 2569
       },
       {
         "code": "1445",
         "name": "Essunga",
-        "votes": 1726
+        "votes": 1732
       },
       {
         "code": "1446",
         "name": "Karlsborg",
-        "votes": 2644
+        "votes": 2782
       },
       {
         "code": "1447",
         "name": "Gullspång",
-        "votes": 1594
+        "votes": 1601
       },
       {
         "code": "1452",
         "name": "Tranemo",
-        "votes": 3984
+        "votes": 4077
       },
       {
         "code": "1460",
         "name": "Bengtsfors",
-        "votes": 3573
+        "votes": 3591
       },
       {
         "code": "1461",
         "name": "Mellerud",
-        "votes": 2841
+        "votes": 2935
       },
       {
         "code": "1462",
         "name": "Lilla Edet",
-        "votes": 3909
+        "votes": 3928
       },
       {
         "code": "1463",
         "name": "Mark",
-        "votes": 11011
+        "votes": 11097
       },
       {
         "code": "1465",
         "name": "Svenljunga",
-        "votes": 3096
+        "votes": 3443
       },
       {
         "code": "1466",
         "name": "Herrljunga",
-        "votes": 3531
+        "votes": 3566
       },
       {
         "code": "1470",
         "name": "Vara",
-        "votes": 4987
+        "votes": 5001
       },
       {
         "code": "1471",
         "name": "Götene",
-        "votes": 4407
+        "votes": 4477
       },
       {
         "code": "1472",
         "name": "Tibro",
-        "votes": 3971
+        "votes": 4005
       },
       {
         "code": "1473",
         "name": "Töreboda",
-        "votes": 3225
+        "votes": 3252
       },
       {
         "code": "1480",
         "name": "Göteborg",
-        "votes": 194168
+        "votes": 196290
       },
       {
         "code": "1481",
         "name": "Mölndal",
-        "votes": 23355
+        "votes": 23640
       },
       {
         "code": "1482",
         "name": "Kungälv",
-        "votes": 18303
+        "votes": 18488
       },
       {
         "code": "1484",
         "name": "Lysekil",
-        "votes": 5962
+        "votes": 6012
       },
       {
         "code": "1485",
         "name": "Uddevalla",
-        "votes": 22508
+        "votes": 22632
       },
       {
         "code": "1486",
         "name": "Strömstad",
-        "votes": 5411
+        "votes": 5618
       },
       {
         "code": "1487",
         "name": "Vänersborg",
-        "votes": 13845
+        "votes": 13957
       },
       {
         "code": "1488",
         "name": "Trollhättan",
-        "votes": 21733
+        "votes": 21939
       },
       {
         "code": "1489",
         "name": "Alingsås",
-        "votes": 13674
+        "votes": 13798
       },
       {
         "code": "1490",
         "name": "Borås",
-        "votes": 41609
+        "votes": 41716
       },
       {
         "code": "1491",
         "name": "Ulricehamn",
-        "votes": 8242
+        "votes": 8322
       },
       {
         "code": "1492",
         "name": "Åmål",
-        "votes": 4836
+        "votes": 4857
       },
       {
         "code": "1493",
         "name": "Mariestad",
-        "votes": 8365
+        "votes": 8411
       },
       {
         "code": "1494",
         "name": "Lidköping",
-        "votes": 13360
+        "votes": 13478
       },
       {
         "code": "1495",
         "name": "Skara",
-        "votes": 6085
+        "votes": 6153
       },
       {
         "code": "1496",
         "name": "Skövde",
-        "votes": 19447
+        "votes": 19557
       },
       {
         "code": "1497",
         "name": "Hjo",
-        "votes": 3413
+        "votes": 3434
       },
       {
         "code": "1498",
         "name": "Tidaholm",
-        "votes": 5221
+        "votes": 5253
       },
       {
         "code": "1499",
         "name": "Falköping",
-        "votes": 10245
+        "votes": 10317
       },
       {
         "code": "1715",
         "name": "Kil",
-        "votes": 3968
+        "votes": 4039
       },
       {
         "code": "1730",
         "name": "Eda",
-        "votes": 3130
+        "votes": 3143
       },
       {
         "code": "1737",
         "name": "Torsby",
-        "votes": 4220
+        "votes": 4286
       },
       {
         "code": "1760",
         "name": "Storfors",
-        "votes": 1090
+        "votes": 1100
       },
       {
         "code": "1761",
         "name": "Hammarö",
-        "votes": 6030
+        "votes": 6051
       },
       {
         "code": "1762",
         "name": "Munkfors",
-        "votes": 1313
+        "votes": 1314
       },
       {
         "code": "1763",
         "name": "Forshaga",
-        "votes": 4340
+        "votes": 4459
       },
       {
         "code": "1764",
         "name": "Grums",
-        "votes": 3270
+        "votes": 3305
       },
       {
         "code": "1765",
         "name": "Årjäng",
-        "votes": 3410
+        "votes": 3504
       },
       {
         "code": "1766",
         "name": "Sunne",
-        "votes": 4014
+        "votes": 4070
       },
       {
         "code": "1780",
         "name": "Karlstad",
-        "votes": 32771
+        "votes": 32980
       },
       {
         "code": "1781",
         "name": "Kristinehamn",
-        "votes": 8921
+        "votes": 8977
       },
       {
         "code": "1782",
         "name": "Filipstad",
-        "votes": 4062
+        "votes": 4066
       },
       {
         "code": "1783",
         "name": "Hagfors",
-        "votes": 3961
+        "votes": 3992
       },
       {
         "code": "1784",
         "name": "Arvika",
-        "votes": 9370
+        "votes": 9408
       },
       {
         "code": "1785",
         "name": "Säffle",
-        "votes": 5066
+        "votes": 5130
       },
       {
         "code": "1814",
         "name": "Lekeberg",
-        "votes": 2222
+        "votes": 2280
       },
       {
         "code": "1860",
         "name": "Laxå",
-        "votes": 1879
+        "votes": 1898
       },
       {
         "code": "1861",
         "name": "Hallsberg",
-        "votes": 4902
+        "votes": 4979
       },
       {
         "code": "1862",
         "name": "Degerfors",
-        "votes": 2772
+        "votes": 2817
       },
       {
         "code": "1863",
         "name": "Hällefors",
-        "votes": 2364
+        "votes": 2371
       },
       {
         "code": "1864",
         "name": "Ljusnarsberg",
-        "votes": 1826
+        "votes": 1857
       },
       {
         "code": "1880",
         "name": "Örebro",
-        "votes": 59477
+        "votes": 59703
       },
       {
         "code": "1881",
         "name": "Kumla",
-        "votes": 7517
+        "votes": 7622
       },
       {
         "code": "1882",
         "name": "Askersund",
-        "votes": 3202
+        "votes": 3269
       },
       {
         "code": "1883",
         "name": "Karlskoga",
-        "votes": 11590
+        "votes": 11642
       },
       {
         "code": "1884",
         "name": "Nora",
-        "votes": 3750
+        "votes": 3782
       },
       {
         "code": "1885",
         "name": "Lindesberg",
-        "votes": 7606
+        "votes": 7706
       },
       {
         "code": "1904",
         "name": "Skinnskatteberg",
-        "votes": 1489
+        "votes": 1712
       },
       {
         "code": "1907",
@@ -1168,267 +1168,267 @@
       {
         "code": "1960",
         "name": "Kungsör",
-        "votes": 2874
+        "votes": 2929
       },
       {
         "code": "1961",
         "name": "Hallstahammar",
-        "votes": 5403
+        "votes": 5485
       },
       {
         "code": "1962",
         "name": "Norberg",
-        "votes": 1500
+        "votes": 1551
       },
       {
         "code": "1980",
         "name": "Västerås",
-        "votes": 52773
+        "votes": 52977
       },
       {
         "code": "1981",
         "name": "Sala",
-        "votes": 8992
+        "votes": 9227
       },
       {
         "code": "1982",
         "name": "Fagersta",
-        "votes": 4814
+        "votes": 5003
       },
       {
         "code": "1983",
         "name": "Köping",
-        "votes": 8984
+        "votes": 9064
       },
       {
         "code": "1984",
         "name": "Arboga",
-        "votes": 5358
+        "votes": 5399
       },
       {
         "code": "2021",
         "name": "Vansbro",
-        "votes": 2160
+        "votes": 2166
       },
       {
         "code": "2023",
         "name": "Malung-Sälen",
-        "votes": 4731
+        "votes": 4881
       },
       {
         "code": "2026",
         "name": "Gagnef",
-        "votes": 3566
+        "votes": 3607
       },
       {
         "code": "2029",
         "name": "Leksand",
-        "votes": 5404
+        "votes": 5689
       },
       {
         "code": "2031",
         "name": "Rättvik",
-        "votes": 4656
+        "votes": 4754
       },
       {
         "code": "2034",
         "name": "Orsa",
-        "votes": 2550
+        "votes": 2597
       },
       {
         "code": "2039",
         "name": "Älvdalen",
-        "votes": 2625
+        "votes": 2664
       },
       {
         "code": "2061",
         "name": "Smedjebacken",
-        "votes": 3704
+        "votes": 3771
       },
       {
         "code": "2062",
         "name": "Mora",
-        "votes": 7425
+        "votes": 7476
       },
       {
         "code": "2080",
         "name": "Falun",
-        "votes": 21062
+        "votes": 21170
       },
       {
         "code": "2081",
         "name": "Borlänge",
-        "votes": 20103
+        "votes": 20225
       },
       {
         "code": "2082",
         "name": "Säter",
-        "votes": 4213
+        "votes": 4299
       },
       {
         "code": "2083",
         "name": "Hedemora",
-        "votes": 5836
+        "votes": 5913
       },
       {
         "code": "2084",
         "name": "Avesta",
-        "votes": 8455
+        "votes": 8551
       },
       {
         "code": "2085",
         "name": "Ludvika",
-        "votes": 9777
+        "votes": 9889
       },
       {
         "code": "2101",
         "name": "Ockelbo",
-        "votes": 2994
+        "votes": 3060
       },
       {
         "code": "2104",
         "name": "Hofors",
-        "votes": 3818
+        "votes": 3830
       },
       {
         "code": "2121",
         "name": "Ovanåker",
-        "votes": 4372
+        "votes": 4379
       },
       {
         "code": "2132",
         "name": "Nordanstig",
-        "votes": 2512
+        "votes": 2883
       },
       {
         "code": "2161",
         "name": "Ljusdal",
-        "votes": 7112
+        "votes": 7282
       },
       {
         "code": "2180",
         "name": "Gävle",
-        "votes": 37247
+        "votes": 37722
       },
       {
         "code": "2181",
         "name": "Sandviken",
-        "votes": 12025
+        "votes": 12152
       },
       {
         "code": "2182",
         "name": "Söderhamn",
-        "votes": 9176
+        "votes": 9294
       },
       {
         "code": "2183",
         "name": "Bollnäs",
-        "votes": 9435
+        "votes": 9564
       },
       {
         "code": "2184",
         "name": "Hudiksvall",
-        "votes": 13128
+        "votes": 13241
       },
       {
         "code": "2260",
         "name": "Ånge",
-        "votes": 3353
+        "votes": 3526
       },
       {
         "code": "2262",
         "name": "Timrå",
-        "votes": 6626
+        "votes": 6655
       },
       {
         "code": "2280",
         "name": "Härnösand",
-        "votes": 9783
+        "votes": 9874
       },
       {
         "code": "2281",
         "name": "Sundsvall",
-        "votes": 33600
+        "votes": 33812
       },
       {
         "code": "2282",
         "name": "Kramfors",
-        "votes": 6900
+        "votes": 6925
       },
       {
         "code": "2283",
         "name": "Sollefteå",
-        "votes": 7026
+        "votes": 7146
       },
       {
         "code": "2284",
         "name": "Örnsköldsvik",
-        "votes": 19124
+        "votes": 19215
       },
       {
         "code": "2303",
         "name": "Ragunda",
-        "votes": 2045
+        "votes": 2092
       },
       {
         "code": "2305",
         "name": "Bräcke",
-        "votes": 2004
+        "votes": 2512
       },
       {
         "code": "2309",
         "name": "Krokom",
-        "votes": 4174
+        "votes": 4319
       },
       {
         "code": "2313",
         "name": "Strömsund",
-        "votes": 5422
+        "votes": 5440
       },
       {
         "code": "2321",
         "name": "Åre",
-        "votes": 4655
+        "votes": 4844
       },
       {
         "code": "2326",
         "name": "Berg",
-        "votes": 2537
+        "votes": 2734
       },
       {
         "code": "2361",
         "name": "Härjedalen",
-        "votes": 4966
+        "votes": 5018
       },
       {
         "code": "2380",
         "name": "Östersund",
-        "votes": 27582
+        "votes": 27645
       },
       {
         "code": "2401",
         "name": "Nordmaling",
-        "votes": 2231
+        "votes": 2282
       },
       {
         "code": "2403",
         "name": "Bjurholm",
-        "votes": 1064
+        "votes": 1074
       },
       {
         "code": "2404",
         "name": "Vindeln",
-        "votes": 2023
+        "votes": 2092
       },
       {
         "code": "2409",
         "name": "Robertsfors",
-        "votes": 1915
+        "votes": 1984
       },
       {
         "code": "2417",
         "name": "Norsjö",
-        "votes": 1694
+        "votes": 1730
       },
       {
         "code": "2418",
@@ -1438,117 +1438,117 @@
       {
         "code": "2421",
         "name": "Storuman",
-        "votes": 2444
+        "votes": 2587
       },
       {
         "code": "2422",
         "name": "Sorsele",
-        "votes": 1092
+        "votes": 1228
       },
       {
         "code": "2425",
         "name": "Dorotea",
-        "votes": 929
+        "votes": 1015
       },
       {
         "code": "2460",
         "name": "Vännäs",
-        "votes": 3227
+        "votes": 3245
       },
       {
         "code": "2462",
         "name": "Vilhelmina",
-        "votes": 2653
+        "votes": 2663
       },
       {
         "code": "2463",
         "name": "Åsele",
-        "votes": 1263
+        "votes": 1297
       },
       {
         "code": "2480",
         "name": "Umeå",
-        "votes": 48471
+        "votes": 48970
       },
       {
         "code": "2481",
         "name": "Lycksele",
-        "votes": 4991
+        "votes": 5113
       },
       {
         "code": "2482",
         "name": "Skellefteå",
-        "votes": 27042
+        "votes": 27806
       },
       {
         "code": "2505",
         "name": "Arvidsjaur",
-        "votes": 3045
+        "votes": 3061
       },
       {
         "code": "2506",
         "name": "Arjeplog",
-        "votes": 1084
+        "votes": 1116
       },
       {
         "code": "2510",
         "name": "Jokkmokk",
-        "votes": 2006
+        "votes": 2020
       },
       {
         "code": "2513",
         "name": "Överkalix",
-        "votes": 1539
+        "votes": 1556
       },
       {
         "code": "2514",
         "name": "Kalix",
-        "votes": 6178
+        "votes": 6203
       },
       {
         "code": "2518",
         "name": "Övertorneå",
-        "votes": 1206
+        "votes": 1415
       },
       {
         "code": "2521",
         "name": "Pajala",
-        "votes": 2773
+        "votes": 2814
       },
       {
         "code": "2523",
         "name": "Gällivare",
-        "votes": 7162
+        "votes": 7274
       },
       {
         "code": "2560",
         "name": "Älvsbyn",
-        "votes": 3438
+        "votes": 3490
       },
       {
         "code": "2580",
         "name": "Luleå",
-        "votes": 27706
+        "votes": 27849
       },
       {
         "code": "2581",
         "name": "Piteå",
-        "votes": 17009
+        "votes": 17063
       },
       {
         "code": "2582",
         "name": "Boden",
-        "votes": 10245
+        "votes": 10288
       },
       {
         "code": "2583",
         "name": "Haparanda",
-        "votes": 2426
+        "votes": 2454
       },
       {
         "code": "2584",
         "name": "Kiruna",
-        "votes": 8517
+        "votes": 8798
       }
     ]
   }
