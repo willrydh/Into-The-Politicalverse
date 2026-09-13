@@ -33,7 +33,7 @@ Prognosreferens, utvärdering och separat personröstmottagning: [övergång til
 
 ## Incident och återställning 13 september 2026
 
-Körning `34758090166` stoppade med `Malformed or unsafe official index entry`. Produktionsindexet returnerade HTTP 200 med exakt `d41d8cd98f00b204e9800998ecf8427e  -`, md5sum-markeringen för tom standardindata. Den sparade myndighetsfilen finns som regressionsfixture med SHA-256 i fixture-proveniensen. Endast den ensamma, exakta markeringen behandlas som tomt index. Andra bindestrecksposter, blandade listor och osäkra sökvägar avvisas fortsatt. Före kl. 20 är tomt index vänteläge; efter tidsgränsen eller om redan publicerade resultat försvinner markeras fel och tidigare resultat behålls.
+Körning `34758090166` stoppade med `Malformed or unsafe official index entry`. Produktionsindexet returnerade HTTP 200 med exakt `d41d8cd98f00b204e9800998ecf8427e  -`, md5sum-markeringen för tom standardindata. Den sparade myndighetsfilen finns som regressionsfixture med SHA-256 i fixture-proveniensen. Endast den ensamma, exakta markeringen behandlas som tomt index. Andra bindestrecksposter, blandade listor och osäkra sökvägar avvisas fortsatt. Ett läsbart tomt index är vänteläge även efter kl. 20, tills första resultatet publicerats. Om redan publicerade resultat försvinner markeras fel och tidigare resultat behålls.
 
 Den reparerade inhämtningen verifierades mot den verkliga källan kl. 15.26 UTC: inga produktionsresultat publicerade, 3 684 025 mottagna förtidsröster och inga valideringsfel. Källor för kvalifikationsdag, distrikt och jämförbarhet matchade bevarade kontrollsummor. Rapportpartifilen och deltagarregistret hade nya bytes; deras normaliserade riksdagsinnehåll var identiskt (8 rapportpartier och 168 deltagande partier). De granskade versionerna ersätter tidigare källhashar, vilka bevaras i manifestet.
 
@@ -65,3 +65,7 @@ Valnattsvyn har en responsiv vinjett med originalkronan och långsam lokal CSS-r
 `npm run data:nowcast:verify` reproduces the two-election, twelve-order development report and stress vectors. Do not skip a stale input/code hash. After deploying v2, restart the bounded watch from fresh main and verify both the waiting envelope version and its advancing check time. When results exist, reconcile v2 observed totals with the signed official file and inspect effective districts, geographic spread, extrapolation, selected estimator and unresolved majority draws. Keep the first-production-district-file gate explicit until that file has actually been processed.
 
 `npm run data:nowcast:audit -- --fetch` reads existing live-data commit history and writes a report under `/tmp`. It grades only archived predictions preceding a complete later final-count source. Before that, it reports waiting status. It never rewrites history, the live feed or the frozen polling forecast.
+
+## First-result waiting state
+
+A well-formed, reachable official index may remain empty after 20:00. Until a phase has ever published a result, keep that phase waiting. Do not infer a failed source from the closing clock. HTTP failures or previously published result archives disappearing remain errors; retain verified snapshots. This distinction was verified against the official empty index after 20:00 on 13 September.
