@@ -1393,6 +1393,29 @@ button { color: inherit; }
 .live-area-label { display:flex; gap:14px; align-items:center; flex-wrap:wrap; margin:24px 0; }
 .live-area-label select { font:inherit; padding:12px; border:1px solid #647e89; background: var(--surface); max-width:100%; }
 .live-method { border-top:1px solid var(--line); }
+.svt-valu { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:clamp(28px,5vw,80px); border-bottom:1px solid var(--line); scroll-margin-top:100px; }
+.svt-valu h2 { font-size:clamp(30px,4vw,46px); letter-spacing:-.035em; margin:14px 0 20px; }
+.svt-valu__intro > p { line-height:1.65; max-width:470px; }
+.svt-valu__sample { font-size:14px; }
+.svt-valu__sample strong { font-variant-numeric:tabular-nums; }
+.svt-valu .svt-valu__note { font-size:12px; color:var(--muted); line-height:1.65; }
+.svt-valu__intro .text-link { display:inline-block; margin-top:12px; }
+.svt-valu__results { min-width:0; }
+.svt-valu table { width:100%; border-collapse:collapse; table-layout:fixed; }
+.svt-valu thead th { color:var(--muted); font-size:12px; font-weight:500; padding:0 0 10px; text-align:left; border-bottom:1px solid var(--line); }
+.svt-valu thead th:last-child { width:90px; text-align:right; }
+.svt-valu tbody th { padding:10px 16px 10px 0; font-size:14px; font-weight:500; text-align:left; }
+.svt-valu tbody td { text-align:right; font-size:20px; font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.svt-valu tbody tr { border-bottom:1px solid var(--line); }
+.svt-valu__party { display:flex; align-items:center; gap:10px; min-height:26px; }
+.svt-valu__track { display:block; height:3px; margin-top:7px; background:var(--paper-deep); }
+.svt-valu__track > span { display:block; height:100%; }
+@media(max-width:700px) {
+  .svt-valu { grid-template-columns:1fr; gap:24px; }
+  .svt-valu h2 { margin-bottom:12px; }
+  .svt-valu__intro .text-link { margin-top:0; }
+  .svt-valu tbody th { font-size:13px; }
+}
 .source-catalog h1 { font-size:clamp(36px,5vw,68px); letter-spacing:-.045em; line-height:1.1; margin:22px 0; }
 .source-catalog > p { max-width:920px; line-height:1.7; }
 .source-hero > p { max-width:920px; line-height:1.7; }

@@ -1,0 +1,25 @@
+{
+  "publisher": "Valmyndigheten",
+  "retrievedOn": "2026-09-13",
+  "purpose": "First signed production regression snapshot; eight reported districts alongside unreported areas. Never a replacement for the latest live feed.",
+  "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/p/rd/Val_2026_preliminar_00_RD.zip",
+  "archiveMd5": "5ca57faa56f34180b99281d68b80512f",
+  "sourceUpdatedAt": "2026-09-13T20:49:49",
+  "revision": 8,
+  "files": [
+    {
+      "file": "production-early.json.gz",
+      "gzipSha256": "e492bf7a055991d0ce047a9eea78313bc9043373202f6348ea9ef3fa5764a854",
+      "jsonSha256": "4bd7898a09b01a7346384186dae97f5314b8dc1c73bcb3ed12762da4b01ece49",
+      "signatureFile": "production-early.sig",
+      "signatureSha256": "51d359b35f23e73da30e1c631ee9cbc3abba1bd88008bc808df5f4e2eaaff5b2"
+    },
+    {
+      "file": "production-districts-early.json.gz",
+      "gzipSha256": "441f6ff94b0ee67fb5504a82639626eb0ae43b160fd1e72b6faed106e74d77e8",
+      "jsonSha256": "7ad9625617066a27391d5611db76681c05e67da4e61682fdc373361268542732",
+      "signatureFile": "production-districts-early.sig",
+      "signatureSha256": "85d349bb233b2d0b1e639a750b9fcb40cac508b9f1031a312af6597c0ef06ad0"
+    }
+  ]
+}
