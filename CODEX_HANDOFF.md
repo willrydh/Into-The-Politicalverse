@@ -1,5 +1,7 @@
 # Codex takeover brief — Into The Politicalverse
 
+The election-night header uses a responsive broadcast ident with the original crown, slow CSS motion and a countdown to the actual 20:00 Swedish polling-station closing time. Verified counted districts replace the countdown when available; delayed data keeps an explicit warning. Animation is local, pauses offscreen and honors the operating-system motion preference without a site control. Data collection and model calculations are unchanged.
+
 The election-night model also includes owner-requested experimental bloc-majority simulation frequencies, explicitly labelled as unvalidated. Victory means at least 175 seats, not government formation. See [method and probability assumptions](docs/methodology/election-nowcast-v1.md).
 
 Election-night projection, 13 September: an independent experimental matched-district nowcast combines verified preliminary district votes with 2022 history, reviewed 2026 boundary links and separate collection-ballot estimates. Minimum-support gates withhold numbers until broad enough coverage; sensitivity ranges are not calibrated confidence intervals. Six synthetic reporting-order stress tests cover 4,162 matched 2018–2022 districts. Model failures cannot block official results. See [method and first-production-file gate](docs/methodology/election-nowcast-v1.md).
