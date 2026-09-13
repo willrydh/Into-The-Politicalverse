@@ -2,6 +2,18 @@ name: Refresh official election-night data
 
 on:
   workflow_dispatch:
+    inputs:
+      single_run:
+        description: Run one audit instead of the bounded election watch
+        type: boolean
+        default: false
+      watch_minutes:
+        description: Watch duration (one minute verifies automatic handoff)
+        type: choice
+        default: '240'
+        options:
+          - '240'
+          - '1'
   schedule:
     # Early-voting source publishes at 06:00 and 14:00 Swedish summer time.
     - cron: "17 4,12 * 8,9 *"
@@ -12,6 +24,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: politicalverse-official-live-data
@@ -21,7 +34,7 @@ jobs:
   refresh:
     if: github.repository == 'willrydh/Into-The-Politicalverse'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 270
     steps:
       - name: Limit scheduled collection to the 2026 election
         id: period
@@ -53,17 +66,21 @@ jobs:
         if: steps.period.outputs.active == 'true'
         continue-on-error: true
         working-directory: code
-        run: npm run data:live:update -- --output ../published/election-2026.json
-      - name: Publish checked status and retained verified data
-        if: steps.period.outputs.active == 'true'
-        working-directory: published
+        env:
+          SINGLE_RUN: ${{ inputs.single_run || false }}
+          WATCH_MINUTES: ${{ inputs.watch_minutes || '240' }}
         run: |
-          git add -- election-2026.json
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "data: verify official election feed"
-            git push origin HEAD:live-data
+          args=()
+          if [ "$SINGLE_RUN" = "true" ]; then args+=(--once); fi
+          node scripts/watch-election-live.mjs ../published/election-2026.json "${args[@]}"
+      - name: Continue the election watch with fresh main code
+        if: always() && !cancelled() && steps.period.outputs.active == 'true' && !inputs.single_run
+        working-directory: code
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if node --input-type=module -e 'import {withinCountingWindow} from "./scripts/watch-election-live.mjs"; process.exit(withinCountingWindow(Date.now()) ? 0 : 1)'; then
+            gh workflow run election-live.yml --ref main
           fi
       - name: Keep genuine source failures visible
         if: steps.collect.outcome == 'failure'
