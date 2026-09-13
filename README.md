@@ -1,5 +1,8 @@
 # Into The Politicalverse
 
+A readable official index with no first result remains in waiting state after polls close. The closing time is not a promised publication time. Missing/unreachable indexes after closing and disappearance of previously published archives still fail and retain verified data.
+
+
 The election-night header uses a responsive broadcast ident with the original crown, slow CSS motion and a countdown to the actual 20:00 Swedish polling-station closing time. Verified counted districts replace the countdown when available; delayed data keeps an explicit warning. Animation is local, pauses offscreen and honors the operating-system motion preference without a site control. Data collection and model calculations are unchanged.
 
 The election-night model also includes owner-requested experimental bloc-majority simulation frequencies, explicitly labelled as unvalidated. Victory means at least 175 seats, not government formation. See [method and probability assumptions](docs/methodology/election-nowcast-v1.md).

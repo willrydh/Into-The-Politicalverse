@@ -94,7 +94,7 @@ test("Swedish source clocks use the correct offset in summer and winter", () => 
 });
 
 const earlyCsv = 'LÄNSKOD;LÄN;KOMMUNKOD;KOMMUN;LOKALID;LOKAL;2026-08-26;2026-08-27;TOTAL\n01;Stockholm;14;Upplands Väsby;0114005;Bibliotek;10;20;30\n14;Västra Götaland;90;Borås;1490001;Stadshuset;5;15;20\n;;;;;SUMMA;15;35;50\n';
-test("official election-day empty index means waiting before polls close, never fabricated results", async () => {
+test("official empty index remains waiting after polls close until first publication; disappearing results still fail", async () => {
   const index = readFileSync("tests/fixtures/valmyndigheten-2026/production-empty-index.md5");
   for (const stage of ["preliminary", "final-count"] as const) assert.equal(indexEntry(index.toString(), "production", stage), null);
   assert.throws(() => indexEntry("a".repeat(32) + "  -", "production", "preliminary"), /Malformed/);
@@ -107,8 +107,8 @@ test("official election-day empty index means waiting before polls close, never 
   assert.deepEqual(before.feed.results, {preliminary:null, "final-count":null});
   validatePublicFeed(before.feed);
   const after = await collectLiveData(before.feed, {mode:"production", now:"2026-09-13T18:00:00Z", certificate, fetchFile});
-  assert.equal(after.feed.resultStatus, "degraded");
-  assert.match(after.errors.join(" "), /Missing preliminary archive/);
+  assert.equal(after.feed.resultStatus, "awaiting-results");
+  assert.deepEqual(after.errors, []);
   assert.equal(after.feed.stageStatus["final-count"], "awaiting-results");
   const previous = emptyFeed("rehearsal", now);
   previous.results.preliminary = parse(JSON.parse(fixture().toString()));

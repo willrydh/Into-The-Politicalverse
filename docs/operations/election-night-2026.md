@@ -59,3 +59,7 @@ The collector also attempts an isolated, signed preliminary district projection.
 ## Visuell sändningsvinjett
 
 Valnattsvyn har en responsiv vinjett med originalkronan och långsam lokal CSS-rörelse. Nedräkningen gäller vallokalernas stängning 13 september 2026 kl. 20.00 svensk tid, inte en utlovad resultattid. Efter stängning står tiden kvar med dåtidsform; verifierade räknade distrikt ersätter klockan när de finns. Inaktuell eller felande källa behåller en uttrycklig varning och senast kontrollerade tid. Grafiken är dekorativ och är inte en uppmätt signal. Text/uppgifter blinkar inte. Rörelsen pausas utanför skärmen och vid operativsystemets minskade rörelse, utan något extra reglage. Kontrollera båda språk, mobil/desktop samt väntande, mottagande och fördröjda tillstånd.
+
+## First-result waiting state
+
+A well-formed, reachable official index may remain empty after 20:00. Until a phase has ever published a result, keep that phase waiting. Do not infer a failed source from the closing clock. HTTP failures or previously published result archives disappearing remain errors; retain verified snapshots. This distinction was verified against the official empty index at 20:04 on 13 September.
