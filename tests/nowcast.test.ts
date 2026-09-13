@@ -34,6 +34,17 @@ const votes = (s: number, m: number): Votes =>
     S: s,
     M: m,
   }) as Votes;
+
+test("an empty result source refreshes a previously published waiting model version and check time", async () => {
+  const previous = emptyFeed("production", "2026-09-13T16:00:00.000Z");
+  previous.nowcast = {methodVersion:"pv-nowcast-1.0.0",status:"waiting",checkedAt:previous.checkedAt};
+  const now = "2026-09-13T16:50:00.000Z";
+  const result = await collectLiveData(previous, {mode:"production",now,certificate:Buffer.alloc(0), nowcast:async()=>{throw new Error("No result archive should be modeled yet");}, fetchFile:async(url)=>url===INDEX_URLS.production ? readFileSync("tests/fixtures/valmyndigheten-2026/production-empty-index.md5") : null});
+  assert.deepEqual(result.feed.nowcast,{methodVersion:NOWCAST_VERSION,status:"waiting",checkedAt:now});
+  assert.equal(result.feed.stageStatus.preliminary,"awaiting-results");
+  assert.deepEqual(result.nowcastWarnings,[]);
+  assert.equal(previous.nowcast.methodVersion,"pv-nowcast-1.0.0");
+});
 const unit = (
   code: string,
   s: number,

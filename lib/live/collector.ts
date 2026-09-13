@@ -57,7 +57,7 @@ export async function collectLiveData(
   feed.checkedAt = options.now;
   const errors: string[] = [],
     nowcastWarnings: string[] = [];
-  if (options.nowcast && !feed.nowcast)
+  if (options.nowcast && (!feed.nowcast || !feed.results.preliminary))
     feed.nowcast = {
       methodVersion: NOWCAST_VERSION,
       status: "waiting",
