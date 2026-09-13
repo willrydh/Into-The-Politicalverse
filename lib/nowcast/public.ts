@@ -8,6 +8,7 @@ import {
   type MajorityProbability,
 } from "./types";
 import { insist } from "../live/validation";
+import { nowcastReady } from "./readiness";
 /** Invalid optional model data must never hide verified official results. */
 export function publicNowcast(feed: LiveFeed): NowcastEstimate | null {
   try {
@@ -59,6 +60,7 @@ export function publicNowcast(feed: LiveFeed): NowcastEstimate | null {
       e.matchedDistricts,
       e.representedConstituencies,
       e.matchedCoverage,
+      e.comparableReportedShare,
       e.imputedRemainingVoteShare,
     ])
       insist(Number.isFinite(x) && x >= 0, "Invalid model coverage");
@@ -66,19 +68,54 @@ export function publicNowcast(feed: LiveFeed): NowcastEstimate | null {
       e.estimatedCollectionVotes <= e.estimatedRemainingVotes &&
         e.matchedCoverage <= 1.000001 &&
         e.imputedRemainingVoteShare <= 1 &&
+        e.comparableReportedShare <= 1 &&
         e.matchedDistricts <= e.countedDistricts &&
         e.representedConstituencies <= 29,
       "Impossible model coverage",
+    );
+    const d = e.diagnostics;
+    insist(
+      d &&
+        ["national", "regularized-geographic"].includes(d.estimator) &&
+        [null, 5, 25, 100, 400].includes(d.penalty) &&
+        (d.estimator === "national") === (d.penalty === null),
+      "Invalid adaptive estimator",
+    );
+    insist(
+      Number.isFinite(d.effectiveDistricts) &&
+        d.effectiveDistricts >= 0 &&
+        d.effectiveDistricts <= e.matchedDistricts + 1e-6 &&
+        Number.isSafeInteger(d.municipalities) &&
+        d.municipalities >= 0 &&
+        d.municipalities <= Math.min(290, e.matchedDistricts) &&
+        Number.isFinite(d.extrapolatedVoteShare) &&
+        d.extrapolatedVoteShare >= 0 &&
+        d.extrapolatedVoteShare <= 1 &&
+        Number.isFinite(d.turnoutResidualRms) &&
+        d.turnoutResidualRms >= 0 &&
+        d.turnoutResidualRms <= 2,
+      "Invalid adaptive support",
+    );
+    for (const v of [d.crossValidationMaePp, d.nationalCrossValidationMaePp])
+      insist(
+        v === null || (Number.isFinite(v) && v >= 0 && v <= 100),
+        "Invalid validation score",
+      );
+    insist(
+      d.clusterResidualsPp.length <= d.municipalities &&
+        [d.modelDisagreementPp, ...d.clusterResidualsPp].every((v) =>
+          NOWCAST_PARTIES.every(
+            (p) => Number.isFinite(v[p]) && Math.abs(v[p]) <= 100,
+          ),
+        ),
+      "Invalid model uncertainty",
     );
     if (e.status === "insufficient") {
       insist(e.rows.length === 0, "Premature model numbers");
       return e;
     }
     insist(
-      e.status !== "experimental" ||
-        (e.matchedDistricts >= 100 &&
-          e.matchedCoverage >= 0.05 &&
-          e.representedConstituencies >= 8),
+      e.status !== "experimental" || nowcastReady(e),
       "Insufficient model support",
     );
     insist(
@@ -169,7 +206,14 @@ export function publicProbability(
     p.calibration !== "unvalidated" ||
     p.definition !== "175-of-349" ||
     p.simulations !== 1000 ||
-    p.noiseFloorPp !== 1
+    p.noiseFloorPp !== 1 ||
+    p.stressScenarios !== 24 ||
+    !Number.isSafeInteger(p.localResidualGroups) ||
+    p.localResidualGroups < 0 ||
+    p.localResidualGroups > 290 ||
+    !Number.isFinite(p.turnoutLogSd) ||
+    p.turnoutLogSd < 0.03 ||
+    p.turnoutLogSd > 0.15
   )
     return null;
   if (

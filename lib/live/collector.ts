@@ -64,7 +64,7 @@ export async function collectLiveData(
       checkedAt: options.now,
     };
   // After final counting begins, the preliminary Wednesday count continues independently.
-  const beforeFirstResults =
+  const beforePollsClose =
     Date.parse(options.now) < Date.parse("2026-09-13T18:00:00Z");
   try {
     const bytes = await fetchFile(
@@ -74,7 +74,7 @@ export async function collectLiveData(
     );
     if (!bytes) {
       insist(
-        beforeFirstResults &&
+        beforePollsClose &&
           !feed.results.preliminary &&
           !feed.results["final-count"],
         "Production result index unavailable after counting should have begun",
@@ -89,13 +89,10 @@ export async function collectLiveData(
           const entry = indexEntry(bytes.toString("utf8"), options.mode, stage);
           const previousResult = feed.results[stage];
           if (!entry) {
-            const expectedLater =
-              stage === "final-count" &&
-              options.now < "2026-09-14T10:00:00.000Z";
-            insist(
-              !previousResult && (beforeFirstResults || expectedLater),
-              `Missing ${stage} archive`,
-            );
+            // A readable official index can legitimately contain no results
+            // after polls close. Its first publication is event-driven, not a
+            // promise at 20:00. Previously published results may never vanish.
+            insist(!previousResult, `Missing previously published ${stage} archive`);
             feed.stageStatus[stage] = "awaiting-results";
             continue;
           }

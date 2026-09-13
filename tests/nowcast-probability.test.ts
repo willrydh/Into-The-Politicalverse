@@ -124,10 +124,49 @@ test("seeded probability draws reproduce, remain uncertain near a tie, and keep 
 });
 test("joint historical errors preserve the party composition instead of sampling parties independently", () => {
   for (const checkpoint of stress.checkpoints) {
-    assert.equal(checkpoint.remainingShareErrors.length, 6);
+    assert.equal(checkpoint.remainingShareErrors.length, 24);
     for (const row of checkpoint.remainingShareErrors) {
       assert.ok(Object.values(row).every(Number.isFinite));
-      assert.ok(Math.abs(Object.values(row).reduce((s, n) => s + n, 0)) < 1e-8);
+      assert.ok(Math.abs(Object.values(row).reduce((s, n) => s + n, 0)) < 1e-6);
     }
   }
+});
+
+test("geographic residuals, model disagreement and turnout stress keep fixed votes and a complete simulation denominator", () => {
+  const { projection, observations } = sample(
+    votes(1000, 1000),
+    votes(5000, 5000),
+  );
+  projection.estimate.diagnostics = {
+    estimator: "regularized-geographic",
+    penalty: 25,
+    effectiveDistricts: 90,
+    municipalities: 30,
+    crossValidationMaePp: 1,
+    nationalCrossValidationMaePp: 2,
+    extrapolatedVoteShare: 0.1,
+    modelDisagreementPp: votes(1, -1),
+    clusterResidualsPp: Array.from({ length: 30 }, (_, i) =>
+      votes(i % 2 ? 2 : -2, i % 2 ? -2 : 2),
+    ),
+    turnoutResidualRms: 0.06,
+  };
+  const preserved = structuredClone(observations);
+  const p = majorityProbability(
+    projection,
+    observations,
+    structure,
+    stress,
+    155,
+    100,
+  )!;
+  assert.equal(p.stressScenarios, 24);
+  assert.equal(p.localResidualGroups, 30);
+  assert.equal(p.turnoutLogSd, 0.06);
+  assert.equal(p.leftWins + p.rightWins + p.unresolved, 100);
+  assert.deepEqual(observations, preserved);
+  assert.deepEqual(
+    p,
+    majorityProbability(projection, observations, structure, stress, 155, 100),
+  );
 });

@@ -1,6 +1,6 @@
 import type { PartyId } from "../data/elections/types";
-export const NOWCAST_VERSION = "pv-nowcast-1.1.0";
-export const PROBABILITY_VERSION = "pv-nowcast-majority-1.0.0";
+export const NOWCAST_VERSION = "pv-nowcast-2.0.0";
+export const PROBABILITY_VERSION = "pv-nowcast-majority-2.0.0";
 export type MajorityProbability = {
   methodVersion: string;
   calibration: "unvalidated";
@@ -8,6 +8,9 @@ export type MajorityProbability = {
   simulations: number;
   seed: number;
   noiseFloorPp: number;
+  stressScenarios: number;
+  localResidualGroups: number;
+  turnoutLogSd: number;
   leftWins: number;
   rightWins: number;
   unresolved: number;
@@ -51,12 +54,14 @@ export type NowcastEstimate = {
   matchedDistricts: number;
   representedConstituencies: number;
   matchedCoverage: number;
+  comparableReportedShare: number;
   countedDistricts: number;
   totalDistricts: number;
   countedVotes: number;
   estimatedRemainingVotes: number;
   estimatedCollectionVotes: number;
   imputedRemainingVoteShare: number;
+  diagnostics?: import("./adaptive-swing").SwingDiagnostics;
   probability?: MajorityProbability;
   rows: {
     partyId: PartyId;

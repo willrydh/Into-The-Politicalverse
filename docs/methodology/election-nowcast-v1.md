@@ -1,5 +1,7 @@
 # Election-night projection v1
 
+Archived method. Superseded by [Politicalverse Nowcast 2](election-nowcast-v2.md). Reproduce this version’s six-order evidence with `node --import tsx scripts/backtest-election-nowcast-v1.ts --check`; the canonical `data:nowcast:verify` command now verifies v2.
+
 Politicalverse's independent `pv-nowcast-1.1.0` is an experimental **MODEL**, separate from official results and the frozen pre-election polling forecast. It estimates national valid-vote shares and a central seat allocation from the count in progress. It does not call a winner. An optional, explicitly unvalidated majority-probability model was requested by the owner on 13 September; its assumptions and limits are below.
 
 ## Sources and scope

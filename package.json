@@ -37,7 +37,10 @@
     "typecheck:insights": "tsc --noEmit -p workers/insights/tsconfig.json",
     "typecheck:sharing": "tsc --noEmit -p workers/sharing/tsconfig.json",
     "test:sharing": "node --import tsx --test workers/sharing/tests/*.test.ts",
-    "data:nowcast:verify": "node --import tsx scripts/backtest-election-nowcast.ts --check"
+    "data:nowcast:verify": "node --import tsx scripts/evaluate-nowcast.ts --check",
+    "data:nowcast:import": "node --import tsx scripts/import-nowcast-evaluation.ts",
+    "data:nowcast:evaluate": "node --import tsx scripts/evaluate-nowcast.ts",
+    "data:nowcast:audit": "node --import tsx scripts/audit-nowcast-history.ts"
   },
   "dependencies": {
     "next": "^16.0.0",

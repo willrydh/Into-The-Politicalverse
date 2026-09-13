@@ -39,7 +39,8 @@ export function majorityProbability(
       .at(-1) ?? stress.checkpoints[0];
   const errors = checkpoint.remainingShareErrors;
   insist(
-    errors.length === 6 &&
+    errors.length === stress.orders.length &&
+      errors.length >= 12 &&
       errors.every((v) => NOWCAST_PARTIES.every((p) => Number.isFinite(v[p]))),
     "Missing joint historical stress errors",
   );
@@ -67,6 +68,13 @@ export function majorityProbability(
     simulations,
     seed: seed >>> 0,
     noiseFloorPp: 1,
+    stressScenarios: errors.length,
+    localResidualGroups:
+      projection.estimate.diagnostics?.clusterResidualsPp.length ?? 0,
+    turnoutLogSd: Math.min(
+      0.15,
+      Math.max(0.03, projection.estimate.diagnostics?.turnoutResidualRms ?? 0),
+    ),
     leftWins: 0,
     rightWins: 0,
     unresolved: 0,
@@ -81,31 +89,63 @@ export function majorityProbability(
   };
   const normal = () =>
     Math.sqrt(-2 * Math.log(random())) * Math.cos(2 * Math.PI * random());
+  const diagnostics = projection.estimate.diagnostics;
+  const localErrors = diagnostics?.clusterResidualsPp ?? [];
   for (let draw = 0; draw < simulations; draw++) {
     // Uncentred second moment retains historical bias as uncertainty. Gaussian
     // transport and the 1 pp remaining-vote noise floor are explicit assumptions.
     const coefficients = errors.map(() => normal() / Math.sqrt(errors.length));
+    const modelCoefficient = normal();
+    const nationalTurnout = normal() * result.turnoutLogSd * 0.5;
     const shock = zero();
     for (const p of NOWCAST_PARTIES)
       shock[p] =
         (errors.reduce((s, e, i) => s + e[p] * coefficients[i], 0) +
+          modelCoefficient * (diagnostics?.modelDisagreementPp[p] ?? 0) +
           normal() * result.noiseFloorPp) /
         100;
     const mean = total(shock) / NOWCAST_PARTIES.length;
     for (const p of NOWCAST_PARTIES) shock[p] -= mean;
     const constituencies = areas.map((c) => {
+      // Four resampled held-out municipal residual vectors create a correlated
+      // local shock (effective four-group averaging is an explicit assumption).
+      // Sharing each draw's coefficient across parties preserves their covariance.
+      const local = zero();
+      if (localErrors.length)
+        for (let i = 0; i < 4; i++) {
+          const error = localErrors[Math.floor(random() * localErrors.length)],
+            sign = random() < 0.5 ? -1 : 1;
+          for (const p of NOWCAST_PARTIES) local[p] += (sign * error[p]) / 400;
+        }
+      const localMean = total(local) / NOWCAST_PARTIES.length;
+      // A bounded lognormal volume stress covers joint and local turnout error.
+      // It applies exclusively to estimated remaining ballots.
+      const volume =
+        c.volume *
+        Math.max(
+          0.7,
+          Math.min(
+            1.3,
+            Math.exp(
+              nationalTurnout +
+                normal() * result.turnoutLogSd * Math.sqrt(0.75),
+            ),
+          ),
+        );
       const shifted = zero();
       for (const p of NOWCAST_PARTIES)
         shifted[p] = Math.max(
           0,
-          (c.volume ? c.remaining[p] / c.volume : 0) + shock[p],
+          (c.volume ? c.remaining[p] / c.volume : 0) +
+            shock[p] +
+            local[p] -
+            localMean,
         );
       const denominator = total(shifted);
       const votes = zero();
       for (const p of NOWCAST_PARTIES)
         votes[p] =
-          c.observed[p] +
-          (c.volume ? (shifted[p] / denominator) * c.volume : 0);
+          c.observed[p] + (volume ? (shifted[p] / denominator) * volume : 0);
       const rounded = roundedVotes(votes);
       return {
         code: c.code,

@@ -8,6 +8,8 @@ import {
   type StressReport,
 } from "./types";
 import { insist } from "../live/validation";
+import { adaptiveSwing } from "./adaptive-swing";
+import { nowcastReady } from "./readiness";
 const zero = (): Votes =>
   Object.fromEntries(NOWCAST_PARTIES.map((p) => [p, 0])) as Votes;
 const total = (v: Votes) => NOWCAST_PARTIES.reduce((s, p) => s + v[p], 0);
@@ -29,9 +31,30 @@ export function projectVotes(
   units: BaselineUnit[],
   observations: Observation[],
   stress?: StressReport,
+  options: { estimator?: "national" | "adaptive" } = {},
 ): Projection {
   const physical = new Map(
     units.filter((d) => !d.collection).map((d) => [d.code, d]),
+  );
+  insist(
+    new Set(units.map((u) => u.code)).size === units.length,
+    "Duplicate baseline",
+  );
+  insist(
+    units.every(
+      (u) =>
+        NOWCAST_PARTIES.every(
+          (p) => Number.isFinite(u.votes[p]) && u.votes[p] >= 0,
+        ) &&
+        total(u.votes) > 0 &&
+        (u.collection || (u.baselineEligible > 0 && u.eligible > 0)),
+    ),
+    "Invalid baseline",
+  );
+  insist(
+    new Set(units.filter((u) => u.collection).map((u) => u.municipality))
+      .size === units.filter((u) => u.collection).length,
+    "Duplicate collection baseline",
   );
   const obs = new Map(observations.map((d) => [d.code, d]));
   insist(obs.size === observations.length, "Duplicate observation");
@@ -73,6 +96,10 @@ export function projectVotes(
     cluster.set(o.municipality, c);
   }
   if (weight) for (const p of NOWCAST_PARTIES) delta[p] /= weight;
+  const adaptive =
+    options.estimator === "national"
+      ? null
+      : adaptiveSwing(units, observations, delta);
   const turnoutRatio = expectedMatchedVotes
     ? clip(weight / expectedMatchedVotes, 0.5, 1.5)
     : 1;
@@ -104,8 +131,10 @@ export function projectVotes(
   };
   const estimate = (b: BaselineUnit, volume: number) => {
     const prior = shares(b.votes);
+    const local = adaptive?.predict(b);
+    const swing = local?.delta ?? delta;
     const shifted = Object.fromEntries(
-      NOWCAST_PARTIES.map((p) => [p, Math.max(0, prior[p] + delta[p])]),
+      NOWCAST_PARTIES.map((p) => [p, Math.max(0, prior[p] + swing[p])]),
     ) as Votes;
     const s = shares(shifted);
     const votes = Object.fromEntries(
@@ -125,7 +154,8 @@ export function projectVotes(
         b,
         Math.min(
           eligible,
-          ((total(b.votes) * eligible) / b.baselineEligible) * turnoutRatio,
+          ((total(b.votes) * eligible) / b.baselineEligible) *
+            (adaptive?.predict(b).turnoutRatio ?? turnoutRatio),
         ),
       );
     }
@@ -183,6 +213,8 @@ export function projectVotes(
             historyError,
             2 * se * 100 * remainder,
             1 * remainder + imputed / n + (collectionRemaining / n) * 2,
+            Math.abs(adaptive?.diagnostics.modelDisagreementPp[p] ?? 0) *
+              remainder,
           )
         : 0;
     return {
@@ -198,16 +230,16 @@ export function projectVotes(
       seats: null,
     };
   });
-  const ready =
-    matched.length >= 100 &&
-    represented >= 8 &&
-    coverage >= 0.05 &&
+  const comparableReportedShare =
     matched.length /
-      Math.max(
-        1,
-        observations.filter((d) => d.reported && !d.collection).length,
-      ) >=
-      0.7;
+    Math.max(1, observations.filter((d) => d.reported && !d.collection).length);
+  const ready = nowcastReady({
+    matchedDistricts: matched.length,
+    representedConstituencies: represented,
+    matchedCoverage: coverage,
+    comparableReportedShare,
+    diagnostics: adaptive?.diagnostics,
+  });
   return {
     constituencyVotes,
     estimate: {
@@ -219,12 +251,14 @@ export function projectVotes(
       matchedDistricts: matched.length,
       representedConstituencies: represented,
       matchedCoverage: coverage,
+      comparableReportedShare,
       countedDistricts: observations.filter((o) => o.reported).length,
       totalDistricts: observations.length,
       countedVotes: countedTotal,
       estimatedRemainingVotes: remaining,
       estimatedCollectionVotes: collectionRemaining,
       imputedRemainingVoteShare: imputed / n,
+      ...(adaptive ? { diagnostics: adaptive.diagnostics } : {}),
       rows,
     },
   };
