@@ -12,11 +12,18 @@ import { verifyLocalData } from "../lib/data/geography/verify-local";
 import { electionArchive, validateElectionArchive } from "../lib/elections/outcomes";
 import { forecastReferenceFrozen, validateForecastReference, type ForecastReference } from "../lib/forecast/reference";
 import { buildSearchIndex } from "../lib/search/build";
+import { getSvtValu } from "../lib/data/svt-valu";
+import valuManifest from "../data/raw/svt-valu-2026/source-manifest.json";
 
 import { getCandidateData } from "../lib/candidates/build";
 
 getCandidateData();
 const ROOT = resolve(import.meta.dirname, "..");
+getSvtValu();
+for (const entry of [valuManifest.data, valuManifest.index]) {
+  const contents = await readFile(resolve(ROOT, "data/raw/svt-valu-2026", entry.file));
+  if (createHash("sha256").update(contents).digest("hex") !== entry.sha256) throw new Error("SVT Valu source checksum mismatch");
+}
 await verifyLocalData(ROOT);
 validateElectionArchive(electionArchive);
 buildSearchIndex();

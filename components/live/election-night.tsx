@@ -2,6 +2,8 @@
 
 import { NowcastPanel } from "./nowcast";
 import { ElectionBroadcastHero } from "./broadcast-hero";
+import { SvtValuPanel } from "./svt-valu";
+import type { SvtValu } from "@/lib/data/svt-valu";
 import { ForecastResultComparison } from "./forecast-comparison";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
@@ -33,7 +35,7 @@ function ResultTable({ area }: { area: LiveArea }) {
   </div></Localize>;
 }
 
-export function ElectionNight({ initialFeed, preparation }: { initialFeed: LiveFeed; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
+export function ElectionNight({ initialFeed, preparation, valu }: { initialFeed: LiveFeed; valu: SvtValu; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
   const [feed, setFeed] = useState(initialFeed); const accepted = useRef(initialFeed);
   const [connectionError, setConnectionError] = useState(false);
@@ -62,6 +64,7 @@ export function ElectionNight({ initialFeed, preparation }: { initialFeed: LiveF
   const early = feed.earlyVoting;
   return <Localize><div className="live-page">
     <ElectionBroadcastHero state={connectionError || delayed || feed.resultStatus === "degraded" ? "delayed" : (result?.national.countedDistricts ?? 0) > 0 ? "receiving" : "waiting"} checkedAt={feed.checkedAt} countedDistricts={result?.national.countedDistricts ?? 0} totalDistricts={result?.national.totalDistricts ?? preparation.districts}/>
+    <SvtValuPanel survey={valu}/>
     <section className="product-section live-results">
       <div className="live-toolbar"><div className="live-tabs" aria-label="Räkningstillfälle">
         <button aria-pressed={stage === "preliminary"} onClick={() => setSelection("preliminary")}>Preliminär räkning</button>

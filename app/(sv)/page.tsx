@@ -29,7 +29,7 @@ export default function Home({ locale = "sv" }: { locale?: Locale } = {}) {
   return localizeNode((
     <>
       <ForecastHero forecast={electionForecast} />
-      <div className="live-home-link"><Link href="/valnatt">Till valnattens presentation →</Link><span>Mer data redan före valnatten</span></div>
+      <div className="live-home-link"><Link href="/valnatt">Till valnattens presentation →</Link><Link href="/valnatt#svt-valu">SVT:s Valu 2026 →</Link></div>
       <ForecastEvidenceStrip forecast={electionForecast} />
 
       <section className="product-section forecast-section" id="prognosfragor">

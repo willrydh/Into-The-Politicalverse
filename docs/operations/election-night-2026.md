@@ -69,3 +69,9 @@ Valnattsvyn har en responsiv vinjett med originalkronan och långsam lokal CSS-r
 ## First-result waiting state
 
 A well-formed, reachable official index may remain empty after 20:00. Until a phase has ever published a result, keep that phase waiting. Do not infer a failed source from the closing clock. HTTP failures or previously published result archives disappearing remain errors; retain verified snapshots. This distinction was verified against the official empty index after 20:00 on 13 September.
+
+## First production files, 13 September
+
+The signed 20:49:49 production snapshot (revision 8) contains 8 reported districts and 23 unreported constituencies. Unreported areas use an explicit null vote distribution, zero counted districts, zero votes and zero counted electorate. Their turnout remains null and no party result or mandate is invented. The district adapter retains unreported rows and geography with `reported=false`, so they remain part of the model’s remaining population. A null distribution paired with reported votes, district reporting time, turnout or a seat allocation is rejected.
+
+Regression fixtures and checksums: `tests/fixtures/valmyndigheten-2026/production-provenance.json`. National and district signatures are checked independently against the pinned authority certificate, and all cross-file totals reconcile. An index/archive mismatch was also observed during publication. A subsequent read matched; mismatched archives remain rejected.

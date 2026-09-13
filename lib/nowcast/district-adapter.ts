@@ -111,7 +111,19 @@ export function normalizeDistricts(
       !collection || d.antalRostberattigade === null,
       "Collection rows must not add an electorate",
     );
-    const distribution = object(d.rostfordelning, "district distribution");
+    const unreportedEmpty = d.rostfordelning === null;
+    insist(
+      !unreportedEmpty || (!reported && d.totaltAntalRoster === 0),
+      "Missing distribution for a reported district",
+    );
+    // Empty production rows contribute zero counted votes, with reported=false.
+    // Keep their geography/electorate so remaining districts stay in the model.
+    const distribution = unreportedEmpty
+      ? {
+          rosterPaverkaMandat: { antalRoster: 0, partiRoster: [] },
+          rosterEjPaverkaMandat: { antalRoster: 0 },
+        }
+      : object(d.rostfordelning, "district distribution");
     const valid = object(
       distribution.rosterPaverkaMandat,
       "valid district votes",

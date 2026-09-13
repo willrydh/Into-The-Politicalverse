@@ -9,6 +9,21 @@ const fixedSeats = seats.scenario.fixedSeatsByConstituency as Record<string, num
 
 function normalizeArea(raw: unknown, national: boolean): LiveArea {
   const a = object(raw, "area");
+  // The first production files use explicit null until this area reports.
+  // This may coexist with counted votes elsewhere in the same national file.
+  if (a.rostfordelning === null) {
+    insist(a.antalValdistriktRaknade === 0 && a.totaltAntalRoster === 0 && a.antalRostberattigadeIRaknadeValdistrikt === 0, "Missing vote distribution in an area with reported votes");
+    insist(a.mandatfordelning == null, "Unreported area has a seat allocation");
+    checkRoundedPercent(a.valdeltagande, null, "unreported turnout");
+    return {
+      code: string(a.kod, "area code"), name: string(national ? a.namn : a.namnValkrets, "area name"),
+      countedDistricts: 0, totalDistricts: integer(a.antalValdistriktSomSkaRaknas, "all districts"),
+      validVotes: 0, invalidVotes: 0, totalVotes: 0,
+      eligibleVoters: integer(a.antalRostberattigade, "eligible voters"), eligibleInCountedDistricts: 0,
+      turnoutInCountedDistricts: null, parties: [], otherVotes: 0,
+      fixedSeats: integer(a.totaltAntalFastaMandat, "fixed seat structure"),
+    };
+  }
   const distribution = object(a.rostfordelning, "vote distribution");
   const valid = object(distribution.rosterPaverkaMandat, "valid votes");
   const invalid = object(distribution.rosterEjPaverkaMandat, "invalid votes");

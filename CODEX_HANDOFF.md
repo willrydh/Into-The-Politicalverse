@@ -1,5 +1,11 @@
 # Codex takeover brief — Into The Politicalverse
 
+The first signed production archive exposed explicit null vote distributions in unreported constituencies and districts. Both adapters now accept them only alongside zero reported districts/votes (and no seat allocation), preserve null turnout and reported=false, and reconcile all totals. Regression fixtures preserve the signed 20:49:49 source with eight counted districts. Signature, checksum, election-identity and model-support gates remain intact.
+
+
+SVT Valu 2026 is displayed as a separate, reviewed national POLL snapshot on the election-night page, with source percentages, sample context and actual retrieval time. Its structured source resolves conflicting MP values in the live report. Source votes/seats and the future-dated widget timestamp are not imported as election results or freshness. It does not change the live collector, frozen forecast or nowcast. See [source review and update procedure](docs/data-sources/svt-valu-2026.md).
+
+
 A readable official index with no first result remains in waiting state after polls close. The closing time is not a promised publication time. Missing/unreachable indexes after closing and disappearance of previously published archives still fail and retain verified data.
 
 

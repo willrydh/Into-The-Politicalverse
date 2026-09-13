@@ -22,7 +22,7 @@ These are available sources, not claims of existing product integration:
 - [2026 district GIS](https://www.val.se/download/18.332cf48819bd61ac1513889/1785491689960/valdistrikt-riket-2026.zip): GeoJSON in SWEREF99 TM. Historical maps still use verified 2022 geometry; no automatic boundary substitution.
 - [SCB PxWeb API v2](https://statistikdatabasen.scb.se/api/v2/index.html): specification and `GET /tables?query=valdeltagande&lang=sv&pageSize=5` verified. Metadata exposes election participation and demographic tables. Query region/time dimensions explicitly before joining observations. This contextual/historical data is not a new poll or a live vote count.
 - [Parliament's open data](https://www.riksdagen.se/sv/dokument-och-lagar/riksdagens-oppna-data/): members, documents and votes for parliamentary context.
-- [Swedish National Election Studies](https://www.gu.se/valforskningsprogrammet/undersokningar/valundersokningar) and [historical SVT Valu](https://www.svt.se/datajournalistik/valu2022/valjargrupper/): survey and research context. No verified open live feed for Valu 2026 was found. An exit poll would be a survey layer, not counted votes.
+- [Swedish National Election Studies](https://www.gu.se/valforskningsprogrammet/undersokningar/valundersokningar) and [historical SVT Valu](https://www.svt.se/datajournalistik/valu2022/valjargrupper/): survey and research context. A reviewed Valu 2026 snapshot was added on 13 September using SVT’s structured survey source. It is a separate POLL layer, not counted votes or a model input. See [source review and update procedure](svt-valu-2026.md).
 
 ## Authenticity and availability
 
