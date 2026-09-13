@@ -1,0 +1,365 @@
+{
+  "methodVersion": "pv-nowcast-2.0.0",
+  "districts": 8793,
+  "elections": [
+    {
+      "year": 2018,
+      "districts": 4631,
+      "summaries": [
+        {
+          "coverage": 0.01,
+          "nationalMaePp": 0.8256064,
+          "adaptiveMaePp": 0.73731489,
+          "rawMaePp": 2.80957284,
+          "nationalBlocErrorPp": 1.97239057,
+          "adaptiveBlocErrorPp": 1.70060252,
+          "worstAdaptivePartyErrorPp": 5.36888018,
+          "worseOrders": [
+            "prior-left-share-descending",
+            "interleaved-size-seed-503"
+          ],
+          "publishedCases": 4,
+          "publishedNationalMaePp": 0.29737823,
+          "publishedAdaptiveMaePp": 0.24864581,
+          "publishedWorstPartyErrorPp": 0.73308629,
+          "againstFinalMaePp": 0.73731489
+        },
+        {
+          "coverage": 0.02,
+          "nationalMaePp": 0.67766358,
+          "adaptiveMaePp": 0.58374629,
+          "rawMaePp": 2.43725169,
+          "nationalBlocErrorPp": 1.70094175,
+          "adaptiveBlocErrorPp": 1.26228441,
+          "worstAdaptivePartyErrorPp": 5.55534947,
+          "worseOrders": [
+            "prior-left-share-descending",
+            "interleaved-size-seed-503"
+          ],
+          "publishedCases": 7,
+          "publishedNationalMaePp": 0.27285815,
+          "publishedAdaptiveMaePp": 0.17642587,
+          "publishedWorstPartyErrorPp": 1.06248222,
+          "againstFinalMaePp": 0.58374629
+        },
+        {
+          "coverage": 0.05,
+          "nationalMaePp": 0.56315905,
+          "adaptiveMaePp": 0.43142409,
+          "rawMaePp": 1.9917052,
+          "nationalBlocErrorPp": 1.41408914,
+          "adaptiveBlocErrorPp": 0.87208427,
+          "worstAdaptivePartyErrorPp": 5.09657525,
+          "worseOrders": [
+            "interleaved-size-seed-503",
+            "interleaved-size-seed-1009"
+          ],
+          "publishedCases": 10,
+          "publishedNationalMaePp": 0.47922526,
+          "publishedAdaptiveMaePp": 0.36718136,
+          "publishedWorstPartyErrorPp": 5.09657525,
+          "againstFinalMaePp": 0.43142409
+        },
+        {
+          "coverage": 0.1,
+          "nationalMaePp": 0.50278685,
+          "adaptiveMaePp": 0.3298023,
+          "rawMaePp": 1.71486543,
+          "nationalBlocErrorPp": 1.39885869,
+          "adaptiveBlocErrorPp": 0.74187077,
+          "worstAdaptivePartyErrorPp": 4.07697423,
+          "worseOrders": [
+            "interleaved-size-seed-41",
+            "interleaved-size-seed-109",
+            "interleaved-size-seed-503",
+            "interleaved-size-seed-1009"
+          ],
+          "publishedCases": 10,
+          "publishedNationalMaePp": 0.39482947,
+          "publishedAdaptiveMaePp": 0.28346879,
+          "publishedWorstPartyErrorPp": 4.07697423,
+          "againstFinalMaePp": 0.3298023
+        },
+        {
+          "coverage": 0.2,
+          "nationalMaePp": 0.40595604,
+          "adaptiveMaePp": 0.21992786,
+          "rawMaePp": 1.28957627,
+          "nationalBlocErrorPp": 1.16563105,
+          "adaptiveBlocErrorPp": 0.39001947,
+          "worstAdaptivePartyErrorPp": 1.91844795,
+          "worseOrders": [
+            "interleaved-size-seed-109"
+          ],
+          "publishedCases": 11,
+          "publishedNationalMaePp": 0.33281129,
+          "publishedAdaptiveMaePp": 0.18663892,
+          "publishedWorstPartyErrorPp": 1.91844795,
+          "againstFinalMaePp": 0.21992786
+        },
+        {
+          "coverage": 0.5,
+          "nationalMaePp": 0.18545745,
+          "adaptiveMaePp": 0.06825129,
+          "rawMaePp": 0.63210334,
+          "nationalBlocErrorPp": 0.49733946,
+          "adaptiveBlocErrorPp": 0.12237864,
+          "worstAdaptivePartyErrorPp": 0.41604375,
+          "worseOrders": [
+            "prior-electorate-ascending",
+            "interleaved-size-seed-41",
+            "interleaved-size-seed-251"
+          ],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0.18545745,
+          "publishedAdaptiveMaePp": 0.06825129,
+          "publishedWorstPartyErrorPp": 0.41604375,
+          "againstFinalMaePp": 0.06825129
+        },
+        {
+          "coverage": 0.8,
+          "nationalMaePp": 0.10180067,
+          "adaptiveMaePp": 0.02950636,
+          "rawMaePp": 0.32288323,
+          "nationalBlocErrorPp": 0.29424747,
+          "adaptiveBlocErrorPp": 0.04464323,
+          "worstAdaptivePartyErrorPp": 0.25976815,
+          "worseOrders": [
+            "interleaved-size-seed-41"
+          ],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0.10180067,
+          "publishedAdaptiveMaePp": 0.02950636,
+          "publishedWorstPartyErrorPp": 0.25976815,
+          "againstFinalMaePp": 0.02950636
+        },
+        {
+          "coverage": 1,
+          "nationalMaePp": 0,
+          "adaptiveMaePp": 0,
+          "rawMaePp": 0,
+          "nationalBlocErrorPp": 0,
+          "adaptiveBlocErrorPp": 0,
+          "worstAdaptivePartyErrorPp": 0,
+          "worseOrders": [],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0,
+          "publishedAdaptiveMaePp": 0,
+          "publishedWorstPartyErrorPp": 0,
+          "againstFinalMaePp": 0
+        }
+      ]
+    },
+    {
+      "year": 2022,
+      "districts": 4162,
+      "summaries": [
+        {
+          "coverage": 0.01,
+          "nationalMaePp": 0.91453258,
+          "adaptiveMaePp": 0.69859016,
+          "rawMaePp": 2.45857273,
+          "nationalBlocErrorPp": 2.27587098,
+          "adaptiveBlocErrorPp": 1.36055396,
+          "worstAdaptivePartyErrorPp": 6.74998584,
+          "worseOrders": [
+            "interleaved-size-seed-109"
+          ],
+          "publishedCases": 1,
+          "publishedNationalMaePp": 1.33932414,
+          "publishedAdaptiveMaePp": 0.73709263,
+          "publishedWorstPartyErrorPp": 1.18127963,
+          "againstFinalMaePp": 0.69674679
+        },
+        {
+          "coverage": 0.02,
+          "nationalMaePp": 0.79300839,
+          "adaptiveMaePp": 0.51831835,
+          "rawMaePp": 2.09221408,
+          "nationalBlocErrorPp": 2.07966764,
+          "adaptiveBlocErrorPp": 1.50822042,
+          "worstAdaptivePartyErrorPp": 2.80169557,
+          "worseOrders": [],
+          "publishedCases": 8,
+          "publishedNationalMaePp": 0.37394295,
+          "publishedAdaptiveMaePp": 0.22319681,
+          "publishedWorstPartyErrorPp": 1.11408174,
+          "againstFinalMaePp": 0.51752336
+        },
+        {
+          "coverage": 0.05,
+          "nationalMaePp": 0.59810052,
+          "adaptiveMaePp": 0.48711181,
+          "rawMaePp": 1.68350987,
+          "nationalBlocErrorPp": 1.64288001,
+          "adaptiveBlocErrorPp": 1.28738656,
+          "worstAdaptivePartyErrorPp": 5.05047848,
+          "worseOrders": [
+            "interleaved-size-seed-503",
+            "interleaved-size-seed-2017"
+          ],
+          "publishedCases": 10,
+          "publishedNationalMaePp": 0.51449989,
+          "publishedAdaptiveMaePp": 0.39474566,
+          "publishedWorstPartyErrorPp": 5.05047848,
+          "againstFinalMaePp": 0.48776529
+        },
+        {
+          "coverage": 0.1,
+          "nationalMaePp": 0.48245789,
+          "adaptiveMaePp": 0.37319797,
+          "rawMaePp": 1.43913079,
+          "nationalBlocErrorPp": 1.39248368,
+          "adaptiveBlocErrorPp": 0.87989044,
+          "worstAdaptivePartyErrorPp": 3.6473655,
+          "worseOrders": [
+            "prior-left-share-ascending",
+            "interleaved-size-seed-109",
+            "interleaved-size-seed-1009",
+            "interleaved-size-seed-2017"
+          ],
+          "publishedCases": 10,
+          "publishedNationalMaePp": 0.36337549,
+          "publishedAdaptiveMaePp": 0.30578358,
+          "publishedWorstPartyErrorPp": 3.6473655,
+          "againstFinalMaePp": 0.37555064
+        },
+        {
+          "coverage": 0.2,
+          "nationalMaePp": 0.36171919,
+          "adaptiveMaePp": 0.25986837,
+          "rawMaePp": 1.16668953,
+          "nationalBlocErrorPp": 1.10617911,
+          "adaptiveBlocErrorPp": 0.63789482,
+          "worstAdaptivePartyErrorPp": 2.86858225,
+          "worseOrders": [
+            "interleaved-size-seed-109",
+            "interleaved-size-seed-503"
+          ],
+          "publishedCases": 11,
+          "publishedNationalMaePp": 0.29135515,
+          "publishedAdaptiveMaePp": 0.21146214,
+          "publishedWorstPartyErrorPp": 2.86858225,
+          "againstFinalMaePp": 0.26135473
+        },
+        {
+          "coverage": 0.5,
+          "nationalMaePp": 0.1665337,
+          "adaptiveMaePp": 0.10451418,
+          "rawMaePp": 0.59844918,
+          "nationalBlocErrorPp": 0.44406445,
+          "adaptiveBlocErrorPp": 0.19776065,
+          "worstAdaptivePartyErrorPp": 0.7654349,
+          "worseOrders": [
+            "prior-electorate-ascending",
+            "interleaved-size-seed-41",
+            "interleaved-size-seed-109"
+          ],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0.1665337,
+          "publishedAdaptiveMaePp": 0.10451418,
+          "publishedWorstPartyErrorPp": 0.7654349,
+          "againstFinalMaePp": 0.10586711
+        },
+        {
+          "coverage": 0.8,
+          "nationalMaePp": 0.09468803,
+          "adaptiveMaePp": 0.0453433,
+          "rawMaePp": 0.30046983,
+          "nationalBlocErrorPp": 0.29715902,
+          "adaptiveBlocErrorPp": 0.0773055,
+          "worstAdaptivePartyErrorPp": 0.44862445,
+          "worseOrders": [
+            "interleaved-size-seed-503"
+          ],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0.09468803,
+          "publishedAdaptiveMaePp": 0.0453433,
+          "publishedWorstPartyErrorPp": 0.44862445,
+          "againstFinalMaePp": 0.0468954
+        },
+        {
+          "coverage": 1,
+          "nationalMaePp": 0,
+          "adaptiveMaePp": 0,
+          "rawMaePp": 0,
+          "nationalBlocErrorPp": 0,
+          "adaptiveBlocErrorPp": 0,
+          "worstAdaptivePartyErrorPp": 0,
+          "worseOrders": [],
+          "publishedCases": 12,
+          "publishedNationalMaePp": 0,
+          "publishedAdaptiveMaePp": 0,
+          "publishedWorstPartyErrorPp": 0,
+          "againstFinalMaePp": 0.0091979
+        }
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "coverage": 0.01,
+      "nationalMaePp": 0.87006949,
+      "adaptiveMaePp": 0.71795253,
+      "worseOrders": 3,
+      "cases": 24,
+      "publishedCases": 5
+    },
+    {
+      "coverage": 0.02,
+      "nationalMaePp": 0.73533598,
+      "adaptiveMaePp": 0.55103232,
+      "worseOrders": 2,
+      "cases": 24,
+      "publishedCases": 15
+    },
+    {
+      "coverage": 0.05,
+      "nationalMaePp": 0.58062979,
+      "adaptiveMaePp": 0.45926795,
+      "worseOrders": 4,
+      "cases": 24,
+      "publishedCases": 20
+    },
+    {
+      "coverage": 0.1,
+      "nationalMaePp": 0.49262237,
+      "adaptiveMaePp": 0.35150014,
+      "worseOrders": 8,
+      "cases": 24,
+      "publishedCases": 20
+    },
+    {
+      "coverage": 0.2,
+      "nationalMaePp": 0.38383761,
+      "adaptiveMaePp": 0.23989811,
+      "worseOrders": 3,
+      "cases": 24,
+      "publishedCases": 22
+    },
+    {
+      "coverage": 0.5,
+      "nationalMaePp": 0.17599557,
+      "adaptiveMaePp": 0.08638273,
+      "worseOrders": 6,
+      "cases": 24,
+      "publishedCases": 24
+    },
+    {
+      "coverage": 0.8,
+      "nationalMaePp": 0.09824435,
+      "adaptiveMaePp": 0.03742483,
+      "worseOrders": 2,
+      "cases": 24,
+      "publishedCases": 24
+    },
+    {
+      "coverage": 1,
+      "nationalMaePp": 0,
+      "adaptiveMaePp": 0,
+      "worseOrders": 0,
+      "cases": 24,
+      "publishedCases": 24
+    }
+  ]
+}

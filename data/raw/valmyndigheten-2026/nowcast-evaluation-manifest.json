@@ -1,0 +1,50 @@
+{
+  "retrievedAt": "2026-09-13",
+  "publisher": "Valmyndigheten",
+  "sources": [
+    {
+      "file": "rd2014-districts.skv",
+      "url": "https://historik.val.se/val/val2014/statistik/2014_riksdagsval_per_valdistrikt.skv",
+      "sha256": "81ccc73c581a6c9cc4b2233822da835c63b796db6bbfbaf6bafbf306516c44a6"
+    },
+    {
+      "file": "mapping-2014-2018.zip",
+      "url": "https://historik.val.se/val/val2018/statistik/mappning_2014_2018.zip",
+      "sha256": "a4dbda55390005d1cba3aec71a9f1d64ce8daf458c98ce2adf182c780637a16b"
+    },
+    {
+      "file": "preliminary-2022.xlsx",
+      "url": "https://www.val.se/download/18.162047b519a91d05331197bf/1663915218435/preliminart-roster-per-distrikt-riksdagsvalet-2022.xlsx",
+      "sha256": "21951949ae6c122dd8c1fe7f8a3292dd982a04eb5abba0334ba984a309bd42e7"
+    },
+    {
+      "file": "rd2018-districts.xlsx",
+      "url": "https://historik.val.se/val/val2018/statistik/2018_R_per_valdistrikt.xlsx",
+      "sha256": "dc344784743cb546b4d8b3a80048985512f32d14319ffb01ef1dde84afe5c29b"
+    }
+  ],
+  "dependencies": [
+    {
+      "path": "data/normalized/local-election-index.json",
+      "sha256": "87b992233a9743fc332184d7105c4f1d9202437ab22a5364df37b5ef5b4d8dd4"
+    },
+    {
+      "path": "data/normalized/local-election-districts.json",
+      "sha256": "47c54290429b49e633c03d78d78995481e0c96225afb9644cb17cd5667d24128"
+    }
+  ],
+  "output": {
+    "path": "data/normalized/nowcast-evaluation-history.json",
+    "sha256": "078f8a91c7c961cebd49f35a4a628e380b5e936512b76c7984347e59866b2806"
+  },
+  "counts": [
+    {
+      "year": 2018,
+      "districts": 4631
+    },
+    {
+      "year": 2022,
+      "districts": 4162
+    }
+  ]
+}

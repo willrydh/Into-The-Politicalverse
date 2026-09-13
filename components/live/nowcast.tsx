@@ -4,6 +4,7 @@ import { useLocale } from "../localize";
 import { PartyMark } from "../party-mark";
 import { PARTIES } from "@/lib/parties";
 import { publicNowcast, publicProbability } from "@/lib/nowcast/public";
+import evaluation from "@/data/normalized/election-nowcast-evaluation-summary.json";
 import type { LiveFeed } from "@/lib/live/types";
 
 export function NowcastPanel({
@@ -30,15 +31,15 @@ export function NowcastPanel({
       aria-labelledby="nowcast-title"
     >
       <p className="eyebrow eyebrow--dark">
-        {sv ? "MODELL · EXPERIMENTELL" : "MODEL · EXPERIMENTAL"}
+        {sv ? "MODELL · EXPERIMENTELL V2" : "MODEL · EXPERIMENTAL V2"}
       </p>
       <h2 id="nowcast-title">
         {sv ? "Valnattens prognos" : "Election-night projection"}
       </h2>
       <p>
         {sv
-          ? "Räknade röster plus en uppskattning av det som återstår, utifrån förändringen i jämförbara distrikt sedan 2022."
-          : "Counted votes plus an estimate of the remaining ballots, based on changes in comparable districts since 2022."}
+          ? "Modellen lär sig hur röstmönstren förändras i olika delar av landet. Räknade röster ligger fast; resten uppskattas."
+          : "The model learns how voting patterns are changing across the country. Counted votes stay fixed; the remainder is estimated."}
       </p>
       <NowcastProbabilityPanel
         probability={probability}
@@ -65,8 +66,8 @@ export function NowcastPanel({
                 ? "Underlaget kan inte verifieras just nu. Officiella resultat redovisas separat ovan."
                 : "The model inputs cannot currently be verified. Official results remain separate above."
               : sv
-                ? "Prognosen visas när minst 100 jämförbara distrikt från 8 valkretsar täcker minst 5 % av jämförelseunderlaget."
-                : "The projection appears once at least 100 comparable districts across 8 constituencies cover at least 5% of the comparison baseline."}
+                ? "Prognosen inväntar tillräckligt många jämförbara distrikt, geografisk spridning och stöd för de typer av distrikt som återstår."
+                : "The projection waits for enough comparable districts, geographic spread and evidence covering the types of districts still uncounted."}
           </p>
           {e && (
             <small>
@@ -80,6 +81,13 @@ export function NowcastPanel({
         </div>
       ) : (
         <>
+          {e.matchedCoverage < 0.05 && (
+            <p className="local-note">
+              {sv
+                ? "Tidigt underlag · mindre än 5 % av jämförelseunderlaget. Prognosen är särskilt känslig för vilka områden som räknas härnäst."
+                : "Early evidence · less than 5% of the comparison baseline. The projection is particularly sensitive to which areas report next."}
+            </p>
+          )}
           <div className="nowcast-summary">
             <span>
               <strong>{f(e.matchedDistricts)}</strong>{" "}
@@ -166,13 +174,13 @@ export function NowcastPanel({
         </summary>
         <p>
           {sv
-            ? "Vi jämför samma distrikts röstandelar med 2022 och viktar förändringen efter antalet räknade giltiga röster. För oräknade distrikt används förändringen tillsammans med distriktets tidigare resultat och en uppskattning av röstvolymen. Räknade röster ersätter uppskattningarna."
-            : "We compare each matched district with 2022 and weight the change by its counted valid votes. For unreported districts, that change is combined with their historical results and an estimated vote volume. Counted votes replace estimates."}
+            ? "Vi använder distriktens tidigare partifördelning, storlek och valdeltagande för att lära oss olika förändringar. Regionala och kommunala avvikelser vägs in försiktigt. Modellen prövar sina alternativ genom att hålla hela kommuner utanför träningen och förutsäga deras redan räknade resultat. En enklare gemensam förändring används om den fungerar bättre. Oräknade utfall används aldrig i träningen."
+            : "Historical party composition, district size and turnout help the model learn different swings. Regional and municipal deviations are partially pooled. The model compares alternatives by withholding entire municipalities from training and predicting their already counted results. It falls back to a common national swing when that performs better. Unreported outcomes never enter training."}
         </p>
         <p>
           {sv
-            ? "Ändrade distriktsgränser utan säker jämförelse får kommunens historiska fördelning och används inte för att skatta förändringen. Minst 70 % av de räknade ordinarie distrikten måste vara jämförbara."
-            : "Changed boundaries without a verified match use the historical municipal distribution and do not teach the swing. At least 70% of counted ordinary districts must be comparable."}
+            ? "Minst 50 jämförbara distrikt, 20 kommuner, 8 valkretsar och 1 % av jämförelseunderlaget krävs. Vi kontrollerar också effektiv stickprovsstorlek och hur väl återstående distrikt liknar underlaget. Minst 70 % av räknade ordinarie distrikt måste vara jämförbara. Gränsändringar utan säker jämförelse får kommunens historik och lär inte modellen någon förändring."
+            : "At least 50 comparable districts, 20 municipalities, 8 constituencies and 1% of the comparison baseline are required. We also check effective sample size and covariate support for remaining districts. At least 70% of counted ordinary districts must be comparable. Unmatched boundaries use municipal history and do not teach the swing."}
         </p>
         <p>
           {sv
@@ -193,9 +201,55 @@ export function NowcastPanel({
         )}
         <p>
           {sv
-            ? "Metoden stresstestas mot 4 162 jämförbara distrikt 2018–2022 i sex konstruerade räkningsordningar. Det är inte en återspelning av den verkliga valnatten och omfattar inte nya gränser eller uppsamlingsröster. Spannen är försiktighetsmått, inte 80- eller 95-procentiga sannolikheter."
-            : "The method is stress-tested on 4,162 comparable districts from 2018–2022 using six synthetic reporting orders. This is not an actual election-night replay and excludes changed boundaries and collection ballots. The ranges are sensitivity measures, not 80% or 95% probabilities."}
+            ? "Metoden prövas på 4 631 jämförbara distrikt för valet 2018 och 4 162 för 2022, med tolv konstruerade räkningsordningar per val. Tabellen visar genomsnittligt absolut fel i partiernas röstandelar, i procentenheter. Lägre är bättre. Även fall där publiceringskraven inte uppfylls ingår."
+            : "The method is tested on 4,631 comparable districts for 2018 and 4,162 for 2022, with twelve synthetic reporting orders per election. The table shows mean absolute party-share error in percentage points. Lower is better. Cases that do not meet publication requirements are included."}
         </p>
+        <table
+          className="nowcast-evaluation"
+          aria-label={
+            sv
+              ? "Historiska stresstest, genomsnittligt prognosfel"
+              : "Historical stress tests, mean forecast error"
+          }
+        >
+          <thead>
+            <tr>
+              <th>{sv ? "Underlag" : "Coverage"}</th>
+              <th>{sv ? "Tidigare modell" : "Previous model"}</th>
+              <th>V2</th>
+            </tr>
+          </thead>
+          <tbody>
+            {evaluation.checkpoints
+              .filter((c) => c.coverage <= 0.1)
+              .map((c) => (
+                <tr key={c.coverage}>
+                  <td>{f(c.coverage * 100)} %</td>
+                  <td>{f(c.nationalMaePp, 2)}</td>
+                  <td>{f(c.adaptiveMaePp, 2)}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+        <p className="local-note">
+          {sv
+            ? "Detta är utvecklingstester på jämförbara fysiska distrikt, inte återspelningar av verklig rapporteringstid. Gränsändringar och uppsamlingsröster ingår inte. Den nya modellen är inte bättre i varje enskild räkningsordning. Testerna visar inte att den slår SVT eller att sannolikheterna är kalibrerade."
+            : "These are development tests on comparable physical districts, not actual reporting-time replays. Changed boundaries and collection ballots are excluded. The new model is not better in every individual reporting order. These tests do not establish superiority to SVT or calibrated probabilities."}
+        </p>
+        {e?.diagnostics && (
+          <p className="local-note">
+            {sv ? "Aktivt underlag" : "Current evidence"}:{" "}
+            {f(e.diagnostics.municipalities)}{" "}
+            {sv ? "kommuner" : "municipalities"} ·{" "}
+            {f(e.diagnostics.effectiveDistricts)}{" "}
+            {sv ? "effektiva distrikt" : "effective districts"} ·{" "}
+            {f(e.diagnostics.extrapolatedVoteShare * 100, 1)} %{" "}
+            {sv
+              ? "av återstående underlag kräver extrapolering"
+              : "of remaining exposure requires extrapolation"}
+            .
+          </p>
+        )}
         <p>
           {sv
             ? "Mandaten är modellberäknade med 2026 års valkretsmandat och Sveriges mandatregler. De visas inte om övriga partier kan nå en spärr som den åttapartimodellen inte kan hantera. Förvalsprognosen förblir oförändrad."
@@ -203,19 +257,31 @@ export function NowcastPanel({
         </p>
         <p>
           {sv
-            ? "Vinstsannolikheten är andelen av 1 000 simuleringar som ger minst 175 mandat. Vi antar gemensamma normalfördelade förändringar i de återstående rösterna, med samvariation från sex historiska stresstestordningar och ett antaget brusgolv på en procentenhet. Räknade röster ligger fast. Valdeltagande och lokala avvikelser simuleras inte separat. Sannolikheternas träffsäkerhet har inte belagts eller kalibrerats mot flera verkliga valnätter."
-            : "Win probability is the fraction of 1,000 simulations yielding at least 175 seats. We assume joint normally distributed changes in the remaining votes, with dependence from six historical stress orders and an assumed one-percentage-point noise floor. Counted votes stay fixed. Turnout and local deviations are not simulated separately. Probability accuracy has not been established or calibrated across multiple actual election nights."}
+            ? "Vinstsannolikheten är andelen av 1 000 simuleringar som ger minst 175 mandat. Vi varierar återstående partifördelning och röstvolym med historiska felmönster, kommunala testfel och skillnader mellan modellerna. Räknade röster ligger fast. Fördelningsantaganden och ett brusgolv ingår. Sannolikheternas träffsäkerhet har inte belagts eller kalibrerats mot verkliga valnätter."
+            : "Win probability is the fraction of 1,000 simulations yielding at least 175 seats. Remaining party composition and vote volume vary using historical error patterns, held-out municipal residuals and differences between models. Counted votes stay fixed. Distributional assumptions and a noise floor remain. Probability accuracy has not been established or calibrated against actual election nights."}
         </p>
         <p>
           {sv
-            ? "Egen implementation, inspirerad av den publicerade principen bakom Vera Policys valnattsprognos. Inte SVT:s modell eller resultat."
-            : "An independent implementation inspired by the published principle behind Vera Policy’s election-night projection. Not SVT’s model or results."}{" "}
+            ? "Politicalverse Nowcast 2 är vår egen statistiska modell. Den bygger vidare på principen att jämföra samma distrikt mellan val, som beskrivs i Vera Policys metodartikel."
+            : "Politicalverse Nowcast 2 is our statistical model. It extends the matched-district principle described in Vera Policy’s method article."}{" "}
           <a
             href="https://www.nationalekonomi.se/artikel/nowcasting-pa-valnatten-metod-och-utvardering-fran-valprognos-se/"
             target="_blank"
             rel="noreferrer"
           >
             {sv ? "Läs metodartikeln" : "Read the method article"} ↗
+          </a>
+        </p>
+        <p>
+          <a
+            href="https://github.com/willrydh/Into-The-Politicalverse/blob/main/docs/methodology/election-nowcast-v2.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {sv
+              ? "Metod, testresultat och efterkontroll"
+              : "Method, test results and outcome audit"}{" "}
+            ↗
           </a>
         </p>
       </details>

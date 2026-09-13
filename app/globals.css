@@ -1737,3 +1737,8 @@ button { color: inherit; }
 @media(prefers-reduced-motion:reduce) {
   .broadcast-hero::before, .broadcast-atmosphere, .broadcast-orbit, .broadcast-crown, .broadcast-status i, .broadcast-signal i { animation:none !important; }
 }
+
+.nowcast-evaluation { width:100%; max-width:600px; border-collapse:collapse; font-size:14px; font-variant-numeric:tabular-nums; margin:16px 0; }
+.nowcast-evaluation th, .nowcast-evaluation td { padding:10px 8px; text-align:right; border-bottom:1px solid var(--line); }
+.nowcast-evaluation th { font-size:12px; font-weight:500; color:var(--muted); }
+.nowcast-evaluation th:first-child, .nowcast-evaluation td:first-child { text-align:left; padding-left:0; }

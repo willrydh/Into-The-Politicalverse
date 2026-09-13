@@ -213,7 +213,7 @@ test("reviewed baseline covers every 2026 physical district, with collection vot
     ),
   );
   assert.match(baselineSha256, /^[a-f0-9]{64}$/);
-  assert.equal(stress.districts, 4162);
+  assert.equal(stress.districts, 8793);
   assert.equal(stress.methodVersion, NOWCAST_VERSION);
   assert.ok(stress.checkpoints.every((c) => c.modelMae <= c.rawMae));
   assert.equal(stress.checkpoints.at(-1)!.modelMae, 0);
