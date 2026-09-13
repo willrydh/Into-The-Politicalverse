@@ -1,5 +1,7 @@
 # Codex takeover brief — Into The Politicalverse
 
+The election-night model also includes owner-requested experimental bloc-majority simulation frequencies, explicitly labelled as unvalidated. Victory means at least 175 seats, not government formation. See [method and probability assumptions](docs/methodology/election-nowcast-v1.md).
+
 Election-night projection, 13 September: an independent experimental matched-district nowcast combines verified preliminary district votes with 2022 history, reviewed 2026 boundary links and separate collection-ballot estimates. Minimum-support gates withhold numbers until broad enough coverage; sensitivity ranges are not calibrated confidence intervals. Six synthetic reporting-order stress tests cover 4,162 matched 2018–2022 districts. Model failures cannot block official results. See [method and first-production-file gate](docs/methodology/election-nowcast-v1.md).
 
 Election-day repair, 13 September: the live index accepts the authority’s exact standalone empty-file checksum marker as no published archives, while retaining all timing, signature and arithmetic checks. The live workflow runs sequential five-minute checks in bounded four-hour jobs during 13–30 September and explicitly dispatches a successor using fresh `main` code. This avoids relying on a delayed schedule event for each update. Single-run audits and a one-minute handoff audit are available. The static fallback and preparation sources were refreshed; the pre-election forecast reference remains frozen. See `docs/operations/election-night-2026.md`.

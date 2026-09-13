@@ -1,15 +1,13 @@
+import { roundedVotes } from "./votes";
+export { roundedVotes } from "./votes";
+import { majorityProbability } from "./probability";
 import { readSignedArchive } from "../live/official-files";
 import type { LiveResult, FeedMode } from "../live/types";
 import { insist } from "../live/validation";
 import { baseline, baselineSha256 } from "./baseline";
 import { normalizeDistricts } from "./district-adapter";
 import { projectVotes } from "./model";
-import {
-  NOWCAST_PARTIES,
-  NOWCAST_VERSION,
-  type Votes,
-  type NowcastEnvelope,
-} from "./types";
+import { NOWCAST_VERSION, type NowcastEnvelope } from "./types";
 import stress from "../../data/normalized/election-nowcast-stress.json";
 import { calculateRiksdagSeats } from "../simulator/riksdag-rules";
 import {
@@ -17,19 +15,6 @@ import {
   type SimulatorPartyVotes,
 } from "../simulator/types";
 
-export function roundedVotes(votes: Votes): Votes {
-  const out = Object.fromEntries(
-    NOWCAST_PARTIES.map((p) => [p, Math.floor(votes[p])]),
-  ) as Votes;
-  const remainder =
-    Math.round(Object.values(votes).reduce((a, b) => a + b, 0)) -
-    Object.values(out).reduce((a, b) => a + b, 0);
-  const sorted = [...NOWCAST_PARTIES].sort(
-    (a, b) => votes[b] - out[b] - (votes[a] - out[a]) || a.localeCompare(b),
-  );
-  for (const p of sorted.slice(0, remainder)) out[p]++;
-  return out;
-}
 export async function deriveNowcast(
   archive: Buffer,
   entry: { url: string; md5: string },
@@ -105,6 +90,14 @@ export async function deriveNowcast(
   }
   if (projected.estimate.status === "insufficient")
     projected.estimate.rows = [];
+  if (projected.estimate.status === "experimental")
+    projected.estimate.probability = majorityProbability(
+      projected,
+      districts.observations,
+      result.constituencies,
+      stress,
+      Number.parseInt(contents.source.jsonSha256.slice(0, 8), 16),
+    );
   return {
     methodVersion: NOWCAST_VERSION,
     status: "ready",

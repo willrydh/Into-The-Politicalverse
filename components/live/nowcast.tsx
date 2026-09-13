@@ -1,8 +1,9 @@
 "use client";
+import { NowcastProbabilityPanel } from "./nowcast-probability";
 import { useLocale } from "../localize";
 import { PartyMark } from "../party-mark";
 import { PARTIES } from "@/lib/parties";
-import { publicNowcast } from "@/lib/nowcast/public";
+import { publicNowcast, publicProbability } from "@/lib/nowcast/public";
 import type { LiveFeed } from "@/lib/live/types";
 
 export function NowcastPanel({
@@ -21,6 +22,7 @@ export function NowcastPanel({
     delayed ||
     feed.nowcast?.status === "error" ||
     (feed.nowcast?.status === "ready" && !e);
+  const probability = e && available ? publicProbability(e) : null;
   return (
     <section
       className="product-section nowcast-panel"
@@ -38,6 +40,10 @@ export function NowcastPanel({
           ? "Räknade röster plus en uppskattning av det som återstår, utifrån förändringen i jämförbara distrikt sedan 2022."
           : "Counted votes plus an estimate of the remaining ballots, based on changes in comparable districts since 2022."}
       </p>
+      <NowcastProbabilityPanel
+        probability={probability}
+        complete={e?.status === "counted"}
+      />
       {!available ? (
         <div className="nowcast-waiting" role="status">
           <strong>
@@ -194,6 +200,11 @@ export function NowcastPanel({
           {sv
             ? "Mandaten är modellberäknade med 2026 års valkretsmandat och Sveriges mandatregler. De visas inte om övriga partier kan nå en spärr som den åttapartimodellen inte kan hantera. Förvalsprognosen förblir oförändrad."
             : "Seats use the 2026 constituency allocations and Swedish electoral rules. They are withheld when other parties could cross a threshold outside the eight-party model. The pre-election forecast remains unchanged."}
+        </p>
+        <p>
+          {sv
+            ? "Vinstsannolikheten är andelen av 1 000 simuleringar som ger minst 175 mandat. Vi antar gemensamma normalfördelade förändringar i de återstående rösterna, med samvariation från sex historiska stresstestordningar och ett antaget brusgolv på en procentenhet. Räknade röster ligger fast. Valdeltagande och lokala avvikelser simuleras inte separat. Sannolikheternas träffsäkerhet har inte belagts eller kalibrerats mot flera verkliga valnätter."
+            : "Win probability is the fraction of 1,000 simulations yielding at least 175 seats. We assume joint normally distributed changes in the remaining votes, with dependence from six historical stress orders and an assumed one-percentage-point noise floor. Counted votes stay fixed. Turnout and local deviations are not simulated separately. Probability accuracy has not been established or calibrated across multiple actual election nights."}
         </p>
         <p>
           {sv

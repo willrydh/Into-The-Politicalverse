@@ -72,6 +72,7 @@ for (const coverage of [0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 1]) {
   let rawMae = 0,
     modelMae = 0;
   const maxPartyError = zero();
+  const remainingShareErrors: Votes[] = [];
   for (const order of orders) {
     const sorted = [...units].sort(order.compare);
     // Stop by baseline-weighted vote exposure, not future party shares or votes.
@@ -96,8 +97,16 @@ for (const coverage of [0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 1]) {
       collection: false,
     }));
     const result = projectVotes(units, observations).estimate;
+    const errors = zero();
+    const remainingFraction =
+      result.estimatedRemainingVotes /
+      (result.countedVotes + result.estimatedRemainingVotes);
     for (const row of result.rows) {
       const truth = (totals[row.partyId] / n) * 100;
+      errors[row.partyId] =
+        remainingFraction > 0
+          ? (truth - row.projectedShare) / remainingFraction
+          : 0;
       maxPartyError[row.partyId] = Math.max(
         maxPartyError[row.partyId],
         Math.abs(row.projectedShare - truth),
@@ -107,8 +116,15 @@ for (const coverage of [0.01, 0.05, 0.1, 0.2, 0.5, 0.8, 1]) {
         modelMae += Math.abs(row.projectedShare - truth) / 8 / orders.length;
       }
     }
+    remainingShareErrors.push(errors);
   }
-  checkpoints.push({ coverage, rawMae, modelMae, maxPartyError });
+  checkpoints.push({
+    coverage,
+    rawMae,
+    modelMae,
+    maxPartyError,
+    remainingShareErrors,
+  });
 }
 const report = {
   methodVersion: NOWCAST_VERSION,

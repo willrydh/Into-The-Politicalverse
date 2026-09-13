@@ -1,6 +1,6 @@
 # Election-night projection v1
 
-Politicalverse's independent `pv-nowcast-1.0.0` is an experimental **MODEL**, separate from official results and the frozen pre-election polling forecast. It estimates national valid-vote shares and a central seat allocation from the count in progress. It does not call a winner or report victory probabilities.
+Politicalverse's independent `pv-nowcast-1.1.0` is an experimental **MODEL**, separate from official results and the frozen pre-election polling forecast. It estimates national valid-vote shares and a central seat allocation from the count in progress. It does not call a winner. An optional, explicitly unvalidated majority-probability model was requested by the owner on 13 September; its assumptions and limits are below.
 
 ## Sources and scope
 
@@ -31,10 +31,20 @@ Constituency predicted votes are rounded with a largest-remainder rule preservin
 
 The displayed symmetric sensitivity half-width (percentage points) is the maximum of: the largest party-specific error across the six stress orders at the lower coverage checkpoint; twice the municipality-cluster swing standard error times projected remaining vote fraction; and a model-risk floor of one percentage point times remaining fraction plus one point times municipal-imputed share plus two points times estimated collection share. The cluster calculation uses municipality sums of vote-weighted residuals and a finite-cluster correction. Ranges are clipped to 0–100. At no remaining votes their width is zero.
 
-These ranges are neither 80% nor 95% confidence intervals. They are marginal sensitivity ranges and their endpoints do not sum to 100. A geographically atypical sample can still fall outside them. No winner probabilities or mandate-probability intervals are inferred from these ranges.
+These ranges are neither 80% nor 95% confidence intervals. They are marginal sensitivity ranges and their endpoints do not sum to 100. A geographically atypical sample can still fall outside them. The separate majority simulation below does not derive probabilities from these sensitivity ranges.
 
 ## Delivery and failure isolation
 
 The five-minute collector computes an optional compact `nowcast` envelope. It shares the national archive fetch but verifies the second JSON separately. Model failure publishes an unavailable state and warning while preserving validated official results and their independent status. A model envelope records its method, baseline/source SHA-256, archive MD5, source time/revision and calculation time. Browser validation checks it against the displayed official archive; incompatible/stale model envelopes cannot replace official counts. Numeric rows are withheld before minimum support.
 
 A model/version or baseline change forces recomputation even when the archive is unchanged. Restart the running bounded watch after deployment so the new collector code is loaded. The pre-election reference, historical profiles, maps and leaderboards are unchanged.
+
+## Experimental majority probabilities
+
+`pv-nowcast-majority-1.0.0` displays the frequency of at least 175 out of 349 seats for the disjoint groups S–V–MP–C and M–KD–SD–L across 1,000 seeded simulations. This is not government-formation or prime-minister probability. The public label explicitly says that predictive accuracy is not established. No numerical probabilities are displayed before the existing support gates, during source errors, or after the preliminary result has no estimated votes left.
+
+For each of the six 2018–2022 synthetic reporting orders, the stress report stores the signed true-minus-projected share error, divided by the projected remaining-vote fraction, in percentage points. Select the lower current coverage checkpoint. Multiply these six joint error vectors by independent standard-normal draws divided by sqrt(6). This uses their uncentred second moment, treating historical bias as uncertainty rather than assuming it disappears. Add independent normal noise with an assumed standard deviation of one percentage point per party in the remaining vote; subtract the party-vector mean to keep the shock zero-sum. This floor is a modelling choice, not a measured or calibrated parameter. Gaussian shape and transportability to 2026 are assumptions. The six orders from one election are neither six independent elections nor probability validation.
+
+Apply the same national shock to each constituency's estimated remaining composition, clip negatives and renormalize while keeping its estimated remaining volume fixed. Add the untouched observed votes and round using the existing vote-conserving rule. Run the existing 2026 349-seat allocation engine for every draw, with reproducible tie seeds. The source JSON SHA-256 determines the seed, avoiding refresh-driven randomness. Turnout uncertainty, independently varying local shocks, and model misspecification are not fully represented. More simulations do not repair these limitations.
+
+Draws in which aggregate OTHER reaches 4% nationally or 12% in a constituency are unresolved, remain in the denominator and are disclosed visibly. Do not silently drop and renormalize them. Extreme frequencies display <1% or >99%, not an assertion of certainty. At complete counts the probability panel stops estimating and the observed result takes precedence. The original historical stress analysis remains a model-development exercise, not a calibration claim for these new probabilities.
