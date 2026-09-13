@@ -3,7 +3,8 @@ import { NowcastProbabilityPanel } from "./nowcast-probability";
 import { useLocale } from "../localize";
 import { PartyMark } from "../party-mark";
 import { PARTIES } from "@/lib/parties";
-import { publicNowcast, publicProbability } from "@/lib/nowcast/public";
+import { publicNowcast } from "@/lib/nowcast/public";
+import { currentProjection } from "@/lib/nowcast/current";
 import evaluation from "@/data/normalized/election-nowcast-evaluation-summary.json";
 import type { LiveFeed } from "@/lib/live/types";
 
@@ -23,11 +24,13 @@ export function NowcastPanel({
     delayed ||
     feed.nowcast?.status === "error" ||
     (feed.nowcast?.status === "ready" && !e);
-  const probability = e && available ? publicProbability(e) : null;
+  const { probability } = currentProjection(feed, delayed);
   return (
     <section
+      id="valnattsprognos"
       className="product-section nowcast-panel"
       data-classification="MODEL"
+      data-model-revision={available ? feed.nowcast?.source?.revision : undefined}
       aria-labelledby="nowcast-title"
     >
       <p className="eyebrow eyebrow--dark">
@@ -63,8 +66,8 @@ export function NowcastPanel({
           <p>
             {failed
               ? sv
-                ? "Underlaget kan inte verifieras just nu. Officiella resultat redovisas separat ovan."
-                : "The model inputs cannot currently be verified. Official results remain separate above."
+                ? "Underlaget kan inte verifieras just nu. Officiella resultat finns på valnattsidan."
+                : "The model inputs cannot currently be verified. Official results are available on the election-night page."
               : sv
                 ? "Prognosen inväntar tillräckligt många jämförbara distrikt, geografisk spridning och stöd för de typer av distrikt som återstår."
                 : "The projection waits for enough comparable districts, geographic spread and evidence covering the types of districts still uncounted."}
@@ -166,7 +169,7 @@ export function NowcastPanel({
           </p>
         </>
       )}
-      <details className="local-details">
+      <details className="local-details" id="metod">
         <summary>
           {sv
             ? "Så fungerar valnattsprognosen"

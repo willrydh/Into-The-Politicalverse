@@ -1765,3 +1765,10 @@ button { color: inherit; }
 .nowcast-evaluation th, .nowcast-evaluation td { padding:10px 8px; text-align:right; border-bottom:1px solid var(--line); }
 .nowcast-evaluation th { font-size:12px; font-weight:500; color:var(--muted); }
 .nowcast-evaluation th:first-child, .nowcast-evaluation td:first-child { text-align:left; padding-left:0; }
+
+/* Current election model: retain the established hero and mandate layout. */
+.forecast-call__caveat { display: block; margin-top: 18px; color: rgba(255,255,255,.78); font-size: 12px; line-height: 1.6; }
+.pre-election-archive { margin: 40px auto; width: var(--page); border-top: 1px solid var(--line); }
+.pre-election-archive > summary { padding: 24px 0; font-weight: 600; cursor: pointer; }
+.pre-election-archive__note { padding: 18px; background: var(--paper); border: 1px solid var(--line); font-size: 14px; line-height: 1.6; }
+.pre-election-archive .forecast-page-hero__copy > h2 { font-family: var(--serif); font-size: clamp(28px, 4vw, 52px); }

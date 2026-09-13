@@ -1,18 +1,18 @@
-# Riksdag scenario simulator v1
+# Riksdag scenario simulator v1.1
 
-Classification: **MODEL**. The simulator is a deterministic scenario calculator. It is not a poll, forecast, probability or prediction of the 2026 election.
+Classification: **MODEL**. The untouched simulator displays the current election-night projection. User edits are deterministic scenarios derived from that model generation, with no new probability calculation.
 
 Engine version: `riksdag-2026-v1.0.0`
 
-Scenario model: `pv-riksdag-scenario@1.0.0`
+Scenario model: `pv-riksdag-scenario@1.1.0`
 
-Data cutoff: 2026-08-21
+Input source: the verified live V2 projection, with source update time and revision. Historical backtests retain their original inputs.
 
 ## Plain-language interpretation
 
-The user enters a national vote share for each of the eight parties represented after the 2022 election. The initial values reproduce the official 2022 national percentages and the controls accept 0.01 percentage-point increments. Politicalverse projects those shares across the 29 Riksdag constituencies using each party's official 2022 geographic vote pattern. It then applies the Swedish seat-allocation rules and the official number of fixed constituency seats for the 2026 election.
+The initial state follows the published election-night model, using exactly the same rounded constituency inputs and seat engine as `nowcast.estimate`. The public validator verifies geography, integer totals, national party reconciliation within the per-constituency rounding bound, and exact reproduction of all eight seat totals. Missing or invalid live inputs pause the simulator; 2022 is never substituted.
 
-The result answers one narrow question: **what seat allocation does this rules engine produce if these national shares occur and the 2022 geographic pattern is retained?** It does not estimate how likely that scenario is.
+The first user edit pins the source generation and its geographic party distributions. Subsequent source updates do not overwrite an in-progress scenario. Reset discards the draft and resumes following the latest verified model. Controls accept 0.01 percentage-point changes; displayed rounding never changes the untouched source inputs.
 
 ## Official inputs
 
@@ -36,7 +36,7 @@ Exact equal comparison figures are resolved by drawing lots in an official alloc
 
 ## Scenario projection
 
-The entered percentages are mapped to a synthetic electorate of 10,000,000 valid votes so hundredths of a percentage point remain exact. For each party, those votes are distributed between constituencies in proportion to that party's final 2022 constituency votes. The residual “Other parties” share is distributed using the corresponding 2022 residual pattern and is not treated as one seat-eligible party.
+The entered percentages are mapped to a synthetic electorate of 10,000,000 valid votes so hundredths of a percentage point remain exact. For each party, those votes are distributed between constituencies in proportion to that party's constituency votes in the pinned live model. The residual “Other parties” share is distributed using the corresponding pinned-model residual pattern and is not treated as one seat-eligible party.
 
 Integer votes are assigned with the largest-remainder method. Ties in remainder allocation use stable constituency-code order. These steps are deterministic: identical inputs produce identical outputs.
 
@@ -53,14 +53,15 @@ The tests compare each party's fixed, adjustment and total seat counts—not onl
 
 ## Limitations
 
-- The geographic projection assumes each party's relative constituency pattern remains as in 2022. Real 2026 geography can change.
+- A user-edited scenario holds each party's constituency pattern at its selected live-model generation. It does not re-fit the district model for the user's hypothetical shares.
 - “Other parties” is a residual containing multiple parties. The model assumes none of those unmodeled parties independently qualifies for seats.
 - The model does not include polls, turnout change, tactical voting, uncertainty, candidate selection or person votes.
-- The 12% constituency exception is implemented, but the default 2022 geographic scaling does not imply that a below-threshold party will necessarily reach it.
+- The 12% constituency exception is implemented, but the pinned live geographic scaling does not imply that a below-threshold party will necessarily reach it.
 - Seat allocation is not equivalent to government formation. The coalition tool performs arithmetic only.
 
 ## Version history
 
+- `1.1.0` — live V2 constituency inputs, exact untouched seat reproduction, pinned custom scenarios and live reset.
 - `1.0.0` — current Swedish Riksdag thresholds; modified odd-numbers method; fixed-seat return; adjustment-seat placement; official 2026 constituency seat counts; exact 2018 and 2022 backtests; deterministic national-share projection.
 
 ## Primary references

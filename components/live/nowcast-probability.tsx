@@ -1,4 +1,5 @@
 "use client";
+import { majorityLabel } from "@/lib/nowcast/current";
 import { useLocale } from "../localize";
 import type { MajorityProbability } from "@/lib/nowcast/types";
 export function NowcastProbabilityPanel({
@@ -11,10 +12,7 @@ export function NowcastProbabilityPanel({
   const sv = useLocale() === "sv";
   const f = (n: number) =>
     n.toLocaleString(sv ? "sv-SE" : "en-GB", { maximumFractionDigits: 0 });
-  const rate = (wins: number) => {
-    const n = (wins / probability!.simulations) * 100;
-    return n < 1 ? "<1 %" : n > 99 ? ">99 %" : `${f(n)} %`;
-  };
+  const rate = (wins: number) => majorityLabel(wins, probability!.simulations, sv ? "sv-SE" : "en-GB");
   if (complete) return null;
   return (
     <div

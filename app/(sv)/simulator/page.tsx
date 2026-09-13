@@ -33,15 +33,15 @@ export default function SimulatorPage({ locale = "sv" }: { locale?: Locale } = {
 
       <section className="simulator-methodology" aria-labelledby="simulator-method-title">
         <div>
-          <p className="eyebrow">Method · pv-riksdag-scenario v1.0.0</p>
+          <p className="eyebrow">Method · pv-riksdag-scenario v1.1.0</p>
           <h2 id="simulator-method-title">Rules first. Assumptions visible.</h2>
           <p>The seat engine implements 310 fixed constituency seats, 39 adjustment seats, the modified odd-numbers method with first divisor 1.2, the national 4% threshold and the constituency-only 12% rule.</p>
         </div>
         <div className="simulator-method-grid">
           <article><span>01</span><h3>Official structure</h3><p>The 2026 number of fixed seats in each of Sweden&apos;s 29 constituencies comes from Valmyndigheten.</p></article>
-          <article><span>02</span><h3>Geographic projection</h3><p>Each entered national share retains that party&apos;s 2022 distribution between constituencies. This is the model assumption—not an official fact.</p></article>
+          <article><span>02</span><h3>Geographic projection</h3><p>Scenarier börjar i valnattsprognosens aktuella fördelning mellan valkretsarna. När du ändrar en andel behålls partiets geografiska mönster från den prognosversionen.</p></article>
           <article><span>03</span><h3>Backtested engine</h3><p>The same independent rule engine exactly reproduces the official 2018 and 2022 fixed, adjustment and total seat outcomes.</p></article>
-          <article><span>04</span><h3>Not a forecast</h3><p>No polling, probability or uncertainty model is present. The page answers “what if these shares occurred?” only.</p></article>
+          <article><span>04</span><h3>Not a forecast</h3><p>Utgångsläget följer den publicerade valnattsprognosen. Ett ändrat scenario är din egen beräkning och påverkar inte sajtens prognos.</p></article>
         </div>
         <div className="simulator-source-links">
           <a href={baseline.rules.methodUrl} target="_blank" rel="noreferrer">Valmyndigheten: seat allocation method <span>↗</span></a>

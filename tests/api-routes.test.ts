@@ -38,11 +38,13 @@ test("static comparison API identifies its derived method and official inputs", 
   assert.equal(payload.sources.every((source: { classification: string }) => source.classification === "OFFICIAL"), true);
 });
 
-test("forecast API exposes the versioned reproducible model snapshot", async () => {
+test("forecast archive API identifies its frozen role and the live replacement", async () => {
   const response = getForecast();
   const payload = await response.json();
   assert.equal(response.status, 200);
   assert.equal(payload.classification, "MODEL");
+  assert.equal(payload.publication.role, "frozen-pre-election-archive");
+  assert.equal(payload.publication.currentForecastField, "nowcast.estimate");
   assert.equal(payload.model.version, "1.0.0-beta.1");
   assert.equal(payload.model.simulations, 10_000);
   assert.equal(Object.values(payload.centralScenario.seats).reduce((sum: number, seats) => sum + Number(seats), 0), 349);
