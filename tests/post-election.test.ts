@@ -14,6 +14,7 @@ import { nationalCountIndicators } from "../lib/live/count-indicators";
 import type { LiveResult } from "../lib/live/types";
 import { matchesPercent } from "../lib/live/validation";
 import { acceptPublicFeed, validatePublicFeed } from "../lib/live/public-feed";
+import { createAreaStore } from "../lib/live/area-store";
 
 const now = "2026-09-14T12:00:00.000Z";
 type Fixture = { signed: { raw: Record<string, unknown>; source: LiveResult["source"] }; summary: { raw: unknown; source: LiveResult["source"] } | null };
@@ -120,6 +121,31 @@ test("an older publisher cannot remove the newly verified national comparison", 
   const legacy = structuredClone(feed);
   delete legacy.results.preliminary!.national.previous;
   assert.throws(() => acceptPublicFeed(feed, legacy), /comparison schema regressed/);
+});
+
+test("a new minute reaches the latest area generation even when the CDN caches each URL", async () => {
+  const feed = validateAreaFeed(JSON.parse(readFileSync(new URL("../data/live/area-results-2026.json", import.meta.url), "utf8")));
+  let clock = Date.parse(feed.checkedAt), published = JSON.stringify(feed);
+  const cache = new Map<string, string>();
+  const request: typeof fetch = async input => {
+    const key = String(input);
+    if (!cache.has(key)) cache.set(key, published);
+    return new Response(cache.get(key), { status: 200 });
+  };
+  const store = createAreaStore(request, () => clock);
+  let ready!: () => void;
+  const first = new Promise<void>(resolve => { ready = resolve; });
+  const unsubscribe = store.subscribe(() => ready());
+  try {
+    await first;
+    assert.equal(store.getSnapshot().feed?.checkedAt, feed.checkedAt);
+    clock += 60_000;
+    const next = { ...feed, checkedAt: new Date(clock).toISOString() };
+    published = JSON.stringify(next);
+    await store.refresh();
+    assert.equal(store.getSnapshot().feed?.checkedAt, next.checkedAt);
+    assert.equal(store.getSnapshot().connectionError, false);
+  } finally { unsubscribe(); }
 });
 
 test("partial final count does not replace the overall picture; establishment requires protocol and complete seats", () => {

@@ -17,7 +17,7 @@ SVT:s Valu-fil kontrollerades igen: exakt samma SHA-256 och partisiffror som den
 
 ## Publiceringskedja
 
-`scripts/update-election-live.ts` skriver först `election-2026.json` och därefter `area-results-2026.json`. Det större områdesflödet laddas enbart av vyer som behöver det, inte av det gemensamma sidhuvudet. Båda publiceras av samma befintliga utgivare på `live-data`, med en uttrycklig tvåfilslista i `watch-election-live.mjs`. Grenen får aldrig slås ihop med `main`.
+`scripts/update-election-live.ts` skriver först `election-2026.json` och därefter `area-results-2026.json`. Det större områdesflödet laddas enbart av vyer som behöver det, inte av det gemensamma sidhuvudet. Båda klienterna använder en gemensam minutnyckel i dataadressen så att GitHubs femminuterscache för grenadresser inte döljer en ny publicering. Ett test återger cachebeteendet över ett minutbyte. Båda filer publiceras av samma befintliga utgivare på `live-data`, med en uttrycklig tvåfilslista i `watch-election-live.mjs`. Grenen får aldrig slås ihop med `main`.
 
 Områdesadaptern läser hela MD5-indexet och hämtar bara förändrade arkiv, med högst fyra samtidiga hämtningar. Varje ZIP måste matcha indexets checksumma. Index/ZIP kan tillfälligt tillhöra olika publiceringsgenerationer; återförsöken är begränsade och kräver en ny verifierad matchning. Varje JSON verifieras separat med det befintliga låsta signeringscertifikatet. Testdata, fel datum/valtyp/område/fas, dubletter, fel nämnare, mandat- eller röstsummor stoppas.
 
