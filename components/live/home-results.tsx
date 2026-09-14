@@ -83,7 +83,7 @@ export function HomeResults() {
         <a href="https://www.val.se/servicelankar/servicelankar/pressrum/nyheter--pressmeddelanden/nyheter-nya/2026-09-10-sa-har-raknas-rosterna-i-valen" target="_blank" rel="noreferrer">{sv ? "Valmyndigheten: så räknas rösterna" : "Swedish Election Authority: how votes are counted"} ↗</a>
       </details>
       {result?.protocolUrl && <p><a href={result.protocolUrl} target="_blank" rel="noreferrer">{sv ? "Valmyndighetens protokoll" : "Official result protocol"} ↗</a></p>}
-      <div className="result-home__links"><Link href={href("/forecasts/")}>{sv ? "Valnattens modellprognos →" : "Election-night model projection →"}</Link><Link href={href("/valnatt/#forecast-comparison")}>{sv ? "Jämför utfallet med förvalsprognosen →" : "Compare the result with the pre-election forecast →"}</Link></div>
+      <div className="result-home__links"><Link href={href("/maps/?year=2026")}>{sv ? "Kommun- och regionvalet 2026 →" : "Municipal and regional elections 2026 →"}</Link><Link href={href("/forecasts/")}>{sv ? "Valnattens modellprognos →" : "Election-night model projection →"}</Link><Link href={href("/valnatt/#forecast-comparison")}>{sv ? "Jämför utfallet med förvalsprognosen →" : "Compare the result with the pre-election forecast →"}</Link></div>
     </section>
   </>;
 }

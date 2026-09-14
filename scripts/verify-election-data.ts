@@ -14,11 +14,15 @@ import { forecastReferenceFrozen, validateForecastReference, type ForecastRefere
 import { buildSearchIndex } from "../lib/search/build";
 import { getSvtValu } from "../lib/data/svt-valu";
 import valuManifest from "../data/raw/svt-valu-2026/source-manifest.json";
+import { validateAreaFeed } from "../lib/live/public-area-feed";
+import { validatePublicFeed } from "../lib/live/public-feed";
 
 import { getCandidateData } from "../lib/candidates/build";
 
 getCandidateData();
 const ROOT = resolve(import.meta.dirname, "..");
+validateAreaFeed(JSON.parse(await readFile(resolve(ROOT, "data/live/area-results-2026.json"), "utf8")));
+validatePublicFeed(JSON.parse(await readFile(resolve(ROOT, "data/live/election-2026.json"), "utf8")));
 getSvtValu();
 for (const entry of [valuManifest.data, valuManifest.index]) {
   const contents = await readFile(resolve(ROOT, "data/raw/svt-valu-2026", entry.file));

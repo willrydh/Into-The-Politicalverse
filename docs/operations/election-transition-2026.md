@@ -1,6 +1,6 @@
 # Övergång till 2026 års resultat
 
-Förberett 7 september 2026. Nuvarande historik, kartor och kandidatlänkning behåller sina verifierade år. Nya resultat publiceras först i valnattsflödet; införandet i historiken är en separat, granskad åtgärd.
+Förberett 7 september 2026. Nuvarande historik, kartor och kandidatlänkning behåller sina verifierade år. Räknade 2026-resultat finns nu på startsidan, valnatten och relevanta statistikvyer, med riksdags-, region- och kommunresultat. Införandet i kandidathistoriken är fortfarande en separat, granskad åtgärd. Se `post-election-2026.md`.
 
 ## Sparad prognos
 
@@ -31,7 +31,7 @@ När verifierade nationella röster har kommit visas jämförelsen automatiskt u
 2. Personröster läses per **parti och riksdagsvalkrets**. Summerade personröster jämförs med de separata valsedelslistorna när dessa finns. Dubbla listor/kandidater, fel nämnare eller motstridiga summeringar stoppar mottagningen.
 3. `null` för personröster bevaras som saknat underlag. En kandidatur i förvalsregistret är inte ett valresultat. Kandidatnumret gäller det aktuella valet.
 4. Utdata hamnar endast i `data/staging/2026/riksdag.json` med `publication: staging-only`. Testdata är märkt `TEST` och hamnar under `data/rehearsal/`. Båda katalogerna är uteslutna från Git och webbbyggets datakällor.
-5. Publicering i profiler, topplistor, sökning och historiska kartor kräver granskad 2026-geografi, full källtäckning, dokumenterade jämförelselänkar till 2022 och identitetskontroll. Slå inte bara på 2026 i `CANDIDATE_YEARS` eller `LOCAL_YEARS`. Region- och kommunval behöver egna signerade områdesadaptrar; Riksdagsresultat får inte ersätta dem. Dessa två adaptrar är ännu inte anslutna till 2026-intaget.
+5. Publicering i profiler, topplistor, sökning och historiska kartor kräver granskad 2026-geografi, full källtäckning, dokumenterade jämförelselänkar till 2022 och identitetskontroll. Slå inte bara på 2026 i `CANDIDATE_YEARS` eller `LOCAL_YEARS`. Region- och kommunval behöver egna signerade områdesadaptrar; Riksdagsresultat får inte ersätta dem. Region- och kommunvalens partier, röster och mandat är nu anslutna till det separata områdesflödet. Deras personröstintag och historiska publicering återstår tills verkliga personröstfiler kan granskas.
 
 Detta förbereder Riksdagens faktiska personröstschema utan att införa halvfärdiga 2026-profiler eller ersätta 2022 års gränser. Den första produktionsfilen och nästa steg till historiken måste fortfarande granskas när källan är publicerad.
 

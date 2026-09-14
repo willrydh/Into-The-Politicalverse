@@ -27,6 +27,18 @@ export type LiveArea = {
   parties: LiveParty[];
   otherVotes: number;
   fixedSeats: number;
+  previous?: ElectionComparison | null;
+};
+
+/** Previous-election counts in the same signed source and reviewed area scope. */
+export type ElectionComparison = {
+  year: 2022;
+  validVotes: number;
+  totalVotes: number;
+  eligibleVoters: number;
+  turnout: number | null;
+  otherVotes: number | null;
+  parties: { code: string; votes: number | null; share: number | null; seats: number | null }[];
 };
 
 export type LiveResult = {

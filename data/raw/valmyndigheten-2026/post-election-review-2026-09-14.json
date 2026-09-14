@@ -1,0 +1,56 @@
+{
+  "reviewedAt": "2026-09-14T10:29:32.094553+00:00",
+  "classification": "CONTEXT",
+  "electionDate": "2026-09-13",
+  "published": {
+    "preliminary": {
+      "RD": 1,
+      "RF": 20,
+      "KF": 290
+    },
+    "final-count": {
+      "RD": 0,
+      "RF": 0,
+      "KF": 0
+    }
+  },
+  "verifiedAreas": 311,
+  "failedAreas": [],
+  "indexSha256": "cfc0c2d8fcacd1f121c9c29ec124f64fdf50221c8ce6bec0cb07b68bc083f8bf",
+  "areaFeedSha256": "5a1ed23b24cf441decd8f0d95814ebd0c925323b9659d235f039f67c496d726a",
+  "national": {
+    "sourceRevision": 661,
+    "sourceUpdatedAt": "2026-09-14T10:26:15.000Z",
+    "countedDistricts": 6279,
+    "totalDistricts": 6626,
+    "validVotes": 6352755,
+    "source": {
+      "adapterVersion": "pv-valmyndigheten-live-1.0.0",
+      "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/p/rd/Val_2026_preliminar_00_RD.zip",
+      "archiveMd5": "3008262b7232a222c6b636dd71c64bc9",
+      "jsonSha256": "ebb86f3e7a72e1f17f45f6e1f53bbb5b9612e285d1712d0d45b9577217e75f92",
+      "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
+      "signatureVerified": true
+    }
+  },
+  "secondarySources": {
+    "valu-index": {
+      "url": "https://www.svt.se/special/articledata/5362/pussla_sources.json",
+      "sha256": "c4c3d2ae7c3c227d9d0f54d3fd8560e2ae6ba0a46b8f9d68a96ac99c1e1cd821",
+      "bytes": 283
+    },
+    "valu": {
+      "url": "https://www.svt.se/special/articledata/5362/mandat.json",
+      "sha256": "ad3e13ecb43bea3a5e73f79df7aaf639542f66471e4fa542f9538f3d2cdd4cf5",
+      "bytes": 902
+    },
+    "raw-catalog": {
+      "url": "https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026",
+      "sha256": "aeb49fcaffceeb336cc8af2ca6a386718831c15fbfa302c8e90aa608124681f5",
+      "bytes": 255432
+    }
+  },
+  "valuReview": "Survey bytes unchanged. Source index now additionally links separate projection and counted-result files. These are not Valu.",
+  "candidateHistory": "2010–2022 remains enabled; 2026 personal vote promotion awaits signed source coverage and reviewed identities.",
+  "geography": "2026 RD/RF/KF administrative codes validated against reviewed 21 counties/290 municipalities. No 2026 district polygons substituted into the historical 2022 map."
+}

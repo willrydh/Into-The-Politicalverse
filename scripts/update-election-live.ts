@@ -3,6 +3,8 @@ import { basename, dirname, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
 import { collectLiveData, emptyFeed } from "../lib/live/collector";
 import type { FeedMode, LiveFeed } from "../lib/live/types";
+import { collectAreaResults, emptyAreaFeed } from "../lib/live/area-collector";
+import type { AreaFeed } from "../lib/live/area-types";
 
 const root = resolve(import.meta.dirname, "..");
 const mode: FeedMode = process.argv.includes("--rehearsal")
@@ -64,6 +66,24 @@ await mkdir(dirname(output), { recursive: true });
 const temporary = `${output}.incoming-${randomUUID()}`;
 await writeFile(temporary, `${JSON.stringify(feed, null, 2)}\n`);
 await rename(temporary, output);
+// A separate, larger feed is requested only by local-result views. Its failures
+// cannot discard the already-written national count or model generation.
+let areaErrors: string[] = [];
+if (mode === "production") {
+  const areaOutput = resolve(dirname(output), "area-results-2026.json");
+  let previousAreas: AreaFeed;
+  try { previousAreas = JSON.parse(await readFile(areaOutput, "utf8")); }
+  catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    previousAreas = emptyAreaFeed(now);
+  }
+  const collected = await collectAreaResults(previousAreas, { now, certificate });
+  areaErrors = collected.errors;
+  const areaTemporary = `${areaOutput}.incoming-${randomUUID()}`;
+  await writeFile(areaTemporary, `${JSON.stringify(collected.feed)}\n`);
+  await rename(areaTemporary, areaOutput);
+  console.log(JSON.stringify({ areaOutput, published: collected.feed.published, verifiedAreas: Object.keys(collected.feed.results).length, areaErrors }));
+}
 console.log(
   JSON.stringify({
     mode,
@@ -80,4 +100,4 @@ console.log(
 if (nowcastWarnings.length)
   console.warn(`::warning::Nowcast unavailable: ${nowcastWarnings.join("; ")}`);
 // The status and retained good snapshots are still published before the job reports a failure.
-if (errors.length) process.exitCode = 1;
+if (errors.length || areaErrors.length) process.exitCode = 1;

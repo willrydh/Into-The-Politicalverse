@@ -1,3 +1,4 @@
+import { CurrentElection } from "@/components/live/current-election";
 import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
@@ -25,10 +26,11 @@ export default function ElectionsPage({ locale = "sv" }: { locale?: Locale } = {
     <div className="interior-page">
       <header className="interior-hero interior-hero--elections">
         <div><p className="eyebrow eyebrow--light">{sv ? "Valarkiv · Sverige" : "Election archive · Sweden"}</p><h1>{sv ? "Valen. Blocken." : "The vote."}<br /><em>{sv ? "Makten." : "The balance of power."}</em></h1></div>
-        <div className="interior-hero__context"><p className="interior-hero__deck">{sv ? "Följ blockens mandat och regeringen som tog form efter varje riksdagsval sedan 2002." : "Explore the blocs’ seats and the government that emerged after each Riksdag election since 2002."}</p><DataSource compact /></div>
+        <div className="interior-hero__context"><p className="interior-hero__deck">{sv ? "Följ blockens mandat och regeringen som tog form efter varje riksdagsval sedan 2002." : "Explore the blocs’ seats and the government that emerged after each Riksdag election since 2002."}</p><DataSource compact year={2026} /></div>
       </header>
+      <CurrentElection view="table" />
       <section className="election-archive" aria-label={sv ? "Valresultat och regeringsbildning" : "Election results and government formation"}>
-        <div className="archive-intro"><p>{sv ? "Egen majoritet kräver 175 av 349 mandat. Största parti och största block redovisas var för sig, tillsammans med regeringen efter valet." : "A majority requires 175 of 349 seats. The largest party and largest bloc are shown separately, alongside the government following the election."}</p><nav aria-label={sv ? "Välj valår" : "Choose an election year"}>{elections.map(e => <a key={e.year} href={`#election-${e.year}`}>{e.year}</a>)}</nav></div>
+        <div className="archive-intro"><p>{sv ? "Egen majoritet kräver 175 av 349 mandat. Största parti och största block redovisas var för sig, tillsammans med regeringen efter valet." : "A majority requires 175 of 349 seats. The largest party and largest bloc are shown separately, alongside the government following the election."}</p><nav aria-label={sv ? "Välj valår" : "Choose an election year"}><a href="#election-2026">2026</a>{elections.map(e => <a key={e.year} href={`#election-${e.year}`}>{e.year}</a>)}</nav></div>
         {elections.map(election => {
           const result = getElectionOutcome(election.year);
           const leader = result.leaders.length === 1 ? result.leaders[0] : undefined;
