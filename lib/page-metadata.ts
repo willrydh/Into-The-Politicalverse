@@ -11,6 +11,12 @@ export function publicPageUrl(path: string, locale: Locale = "sv") {
 
 export function pageMetadata(path: string, locale: Locale): Metadata {
   return {
+    ...(!path || path === "overview" ? {
+      title: { absolute: locale === "sv" ? "Valresultat 2026 — Politicalverse" : "Swedish election results 2026 — Politicalverse" },
+      description: locale === "sv"
+        ? "Följ Sveriges räknade röster, röstandelar och rapporterade mandat i riksdagsvalet 2026. Löpande uppdateringar från Valmyndigheten med tydlig resultatstatus."
+        : "Follow Sweden’s counted votes, vote shares and reported seats in the 2026 Riksdag election. Updates from the Swedish Election Authority with clear counting status.",
+    } : {}),
     alternates: {
       canonical: publicPageUrl(path, locale),
       languages: { sv: publicPageUrl(path), en: publicPageUrl(path, "en"), "x-default": publicPageUrl(path) },
