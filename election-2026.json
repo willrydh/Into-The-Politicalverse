@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-14T03:00:31.972Z",
+  "checkedAt": "2026-09-14T03:05:41.997Z",
   "resultStatus": "ok",
   "stageStatus": {
     "preliminary": "ok",
@@ -14,8 +14,8 @@
       "electionDate": "2026-09-13",
       "classification": "OFFICIAL",
       "stage": "preliminary",
-      "sourceUpdatedAt": "2026-09-14T02:57:13.000Z",
-      "sourceRevision": 651,
+      "sourceUpdatedAt": "2026-09-14T03:01:09.000Z",
+      "sourceRevision": 652,
       "national": {
         "code": "00",
         "name": "Riket",
@@ -2907,8 +2907,8 @@
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/p/rd/Val_2026_preliminar_00_RD.zip",
-        "archiveMd5": "f2c8cd961a6e06974cb9e2f0ea7845f2",
-        "jsonSha256": "d715801855f87b850c58517ff68de1b85866c80f69539b23283de14922c0b4e9",
+        "archiveMd5": "db6d34701bcf33126c817bab4bf97387",
+        "jsonSha256": "cfabe06f10f9c39d50a7dd18c77f7c8089d8695872ce45b88d7d295a28a89602",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       }
@@ -2917,7 +2917,7 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-14T03:00:31.972Z",
+    "retrievedAt": "2026-09-14T03:05:41.997Z",
     "rawSha256": "8cf7ca0a2c27659209f3d63fcfd589531a10751904b098aa365aa68cf5943e87",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
@@ -4457,12 +4457,12 @@
   "nowcast": {
     "methodVersion": "pv-nowcast-2.0.0",
     "status": "ready",
-    "checkedAt": "2026-09-14T03:00:31.972Z",
+    "checkedAt": "2026-09-14T03:05:41.997Z",
     "source": {
-      "archiveMd5": "f2c8cd961a6e06974cb9e2f0ea7845f2",
-      "jsonSha256": "e5a7ce7adf4d08de933b6cfac707bd82b4a43b38e1ade0ec54f1faf6540e7255",
-      "revision": 651,
-      "updatedAt": "2026-09-14T02:57:11.000Z",
+      "archiveMd5": "db6d34701bcf33126c817bab4bf97387",
+      "jsonSha256": "d34a157c3eabbdc072bf60f526138a52f7389a47659d17c39f5cae3c6d0dd6b8",
+      "revision": 652,
+      "updatedAt": "2026-09-14T03:01:08.000Z",
       "baselineSha256": "050f6a9130ce24f3cefec18681c1c4617749d69a18f1e173054e4fc516c2f9fb"
     },
     "estimate": {
@@ -8185,7 +8185,7 @@
         "calibration": "unvalidated",
         "definition": "175-of-349",
         "simulations": 1000,
-        "seed": 3852979834,
+        "seed": 3544847740,
         "noiseFloorPp": 1,
         "stressScenarios": 24,
         "localResidualGroups": 279,
