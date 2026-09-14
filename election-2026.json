@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-14T02:24:42.091Z",
+  "checkedAt": "2026-09-14T02:29:48.740Z",
   "resultStatus": "ok",
   "stageStatus": {
     "preliminary": "ok",
@@ -14,19 +14,19 @@
       "electionDate": "2026-09-13",
       "classification": "OFFICIAL",
       "stage": "preliminary",
-      "sourceUpdatedAt": "2026-09-14T02:23:24.000Z",
-      "sourceRevision": 639,
+      "sourceUpdatedAt": "2026-09-14T02:27:54.000Z",
+      "sourceRevision": 640,
       "national": {
         "code": "00",
         "name": "Riket",
         "countedDistricts": 6265,
         "totalDistricts": 6626,
         "validVotes": 6338503,
-        "invalidVotes": 84781,
-        "totalVotes": 6423284,
+        "invalidVotes": 84780,
+        "totalVotes": 6423283,
         "eligibleVoters": 8051259,
         "eligibleInCountedDistricts": 7994111,
-        "turnoutInCountedDistricts": 80.35019778934769,
+        "turnoutInCountedDistricts": 80.35018528013934,
         "parties": [
           {
             "code": "0001",
@@ -1751,11 +1751,11 @@
           "countedDistricts": 159,
           "totalDistricts": 174,
           "validVotes": 163122,
-          "invalidVotes": 2434,
-          "totalVotes": 165556,
+          "invalidVotes": 2433,
+          "totalVotes": 165555,
           "eligibleVoters": 210271,
           "eligibleInCountedDistricts": 210271,
-          "turnoutInCountedDistricts": 78.73458536840553,
+          "turnoutInCountedDistricts": 78.73410979164981,
           "parties": [
             {
               "code": "0001",
@@ -2907,8 +2907,8 @@
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/p/rd/Val_2026_preliminar_00_RD.zip",
-        "archiveMd5": "a16dd10b985a8dbe2fb3522a4eddba6b",
-        "jsonSha256": "fce9c5d1b7e1033d994e4782b0bb03306dac77c898e86664650449b1ea6980aa",
+        "archiveMd5": "36cf3f7697753e442cdb08299fea0fe9",
+        "jsonSha256": "03aba26d7405c6987fc4c6fdacde4a080fe0bd97488a6df07d5ff85fbf46298c",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       }
@@ -2917,7 +2917,7 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-14T02:24:42.091Z",
+    "retrievedAt": "2026-09-14T02:29:48.740Z",
     "rawSha256": "8cf7ca0a2c27659209f3d63fcfd589531a10751904b098aa365aa68cf5943e87",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
@@ -4457,12 +4457,12 @@
   "nowcast": {
     "methodVersion": "pv-nowcast-2.0.0",
     "status": "ready",
-    "checkedAt": "2026-09-14T02:24:42.091Z",
+    "checkedAt": "2026-09-14T02:29:48.740Z",
     "source": {
-      "archiveMd5": "a16dd10b985a8dbe2fb3522a4eddba6b",
-      "jsonSha256": "453d92ec740d7d908fbd51ebd71cbb5713497217c06e74350f864f88a1a3135a",
-      "revision": 639,
-      "updatedAt": "2026-09-14T02:23:22.000Z",
+      "archiveMd5": "36cf3f7697753e442cdb08299fea0fe9",
+      "jsonSha256": "3847c3a9d5a296cf949ade26f766730aa7b0757aae8883a0719e2fc8bf8878d0",
+      "revision": 640,
+      "updatedAt": "2026-09-14T02:27:52.000Z",
       "baselineSha256": "050f6a9130ce24f3cefec18681c1c4617749d69a18f1e173054e4fc516c2f9fb"
     },
     "estimate": {
@@ -8185,7 +8185,7 @@
         "calibration": "unvalidated",
         "definition": "175-of-349",
         "simulations": 1000,
-        "seed": 1161663212,
+        "seed": 944227241,
         "noiseFloorPp": 1,
         "stressScenarios": 24,
         "localResidualGroups": 279,
