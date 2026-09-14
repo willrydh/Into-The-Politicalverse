@@ -45,14 +45,14 @@ async function main() {
     refresh: async () => {
       git('pull', '--ff-only', 'origin', 'live-data');
       const before = readFileSync(output, 'utf8');
-      const run = spawnSync(process.execPath, ['--import', 'tsx', 'scripts/update-election-live.ts', '--output', output], {stdio:'inherit', timeout:180_000});
+      const run = spawnSync(process.execPath, ['--import', 'tsx', 'scripts/update-election-live.ts', '--output', output], {stdio:'inherit', timeout:480_000});
       if (run.error || run.signal || ![0,1].includes(run.status)) throw new Error('Collector did not complete');
       const after = readFileSync(output, 'utf8');
       if (after === before) throw new Error('Collector did not write a checked snapshot');
       return run.status;
     },
     publish: async () => {
-      git('add', '--', 'election-2026.json');
+      git('add', '--', 'election-2026.json', 'area-results-2026.json');
       if (!git('diff', '--cached', '--name-only').trim()) return;
       git('commit', '-m', 'data: verify official election feed');
       git('push', 'origin', 'HEAD:live-data');

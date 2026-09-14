@@ -9,7 +9,7 @@ export function stageRiksdag2026(raw: unknown, options: Parameters<typeof normal
   const personalVotes = sourceAreas.map(value => {
     const area = object(value, "constituency"), code = string(area.kod, "constituency code");
     const normalized = result.constituencies.find(c => c.code === code)!;
-    const parties = list(object(object(area.rostfordelning, "votes").rosterPaverkaMandat, "valid votes").partiRoster, "parties").map(value => {
+    const parties = (area.rostfordelning == null ? [] : list(object(object(area.rostfordelning, "votes").rosterPaverkaMandat, "valid votes").partiRoster, "parties")).map(value => {
       const party = object(value, "party"), partyCode = string(party.partikod, "party code");
       const partyVotes = integer(party.antalRoster, "party votes");
       const sourceParty = normalized.parties.find(p => p.code === partyCode);

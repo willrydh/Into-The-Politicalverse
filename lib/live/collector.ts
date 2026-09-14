@@ -101,6 +101,7 @@ export async function collectLiveData(
             continue;
           }
           let officialChanged =
+            previousResult?.national.previous === undefined ||
             previousResult?.source.archiveMd5 !== entry.md5 ||
             previousResult?.source.adapterVersion !== LIVE_ADAPTER_VERSION;
           const modelNeedsUpdate =
@@ -132,6 +133,7 @@ export async function collectLiveData(
               entry = consistent.entry;
               const archive = consistent.archive;
               officialChanged =
+                previousResult?.national.previous === undefined ||
                 previousResult?.source.archiveMd5 !== entry.md5 ||
                 previousResult?.source.adapterVersion !== LIVE_ADAPTER_VERSION;
               const contents = await readSignedArchive(archive, entry, {

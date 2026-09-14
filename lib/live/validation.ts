@@ -22,6 +22,10 @@ export function string(value: unknown, label: string): string {
 export function percent(numerator: number, denominator: number): number | null {
   return denominator === 0 ? null : numerator / denominator * 100;
 }
+/** Allow only floating-point serialization noise, never source rounding. */
+export function matchesPercent(value: unknown, actual: number | null): boolean {
+  return actual === null ? value === null : typeof value === "number" && Number.isFinite(value) && Math.abs(value - actual) < 1e-9;
+}
 export function checkRoundedPercent(value: unknown, actual: number | null, label: string): void {
   if (actual === null) { insist(value === null || value === 0, `${label}: nonzero percentage without denominator`); return; }
   insist(typeof value === "number" && Number.isFinite(value) && Math.abs(value - actual) <= 0.051, `${label}: percentage denominator mismatch`);

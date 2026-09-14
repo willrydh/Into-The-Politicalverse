@@ -1,6 +1,7 @@
 import { calculateRiksdagSeats } from "../simulator/riksdag-rules";
 import { SIMULATOR_PARTY_IDS, type SimulatorPartyVotes } from "../simulator/types";
 import { PARTY_CODE_TO_ID } from "./constants";
+import { normalizeComparison } from "./comparison";
 import seats from "../../data/normalized/riksdag-seat-model-inputs.json";
 import type { CountingStage, FeedMode, LiveArea, LiveParty, LiveResult } from "./types";
 import { checkRoundedPercent, insist, integer, list, object, percent, sourceTimestamp, string } from "./validation";
@@ -103,7 +104,8 @@ export function normalizeResult(raw: unknown, options: { mode: FeedMode; stage: 
   const a = object(d.valomrade, "national area");
   insist(a.kod === "00" && a.totaltAntalMandat === 349 && a.totaltAntalFastaMandat === 310 && a.totaltAntalUtjamningsMandat === 39 && a.valomradessparrProcent === 4 && a.valkretssparrProcent === 12, "Swedish election rules or national identity changed");
   const national = normalizeArea(a, true);
-  const constituencies = list(a.valkretsLista, "constituencies").map(c => normalizeArea(c, false));
+  national.previous = normalizeComparison(a, d.tidigareValdatum);
+  const constituencies = list(a.valkretsLista, "constituencies").map(c => ({ ...normalizeArea(c, false), previous: normalizeComparison(c, d.tidigareValdatum) }));
   insist(constituencies.length === 29 && new Set(constituencies.map(c => c.code)).size === 29, "Expected 29 unique constituencies");
   for (const c of constituencies) insist(fixedSeats[c.code] === c.fixedSeats, `2026 fixed-seat structure mismatch in ${c.code}`);
   for (const key of ["validVotes", "invalidVotes", "totalVotes", "eligibleVoters", "eligibleInCountedDistricts", "countedDistricts", "totalDistricts", "otherVotes"] as const) {

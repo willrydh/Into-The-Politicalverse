@@ -1,10 +1,12 @@
 # Drift och valnattsberedskap 2026
 
+Se även [resultat efter valdagen](post-election-2026.md) för den anslutna kommun-/regiondatan och jämförelserna med 2022.
+
 ## Det som finns
 
 - Svenska sidor använder ordinarie adresser. Engelska versioner finns under `/en/`. Språkväljaren behåller aktuell sida. Servertexter översätts före serialisering; interaktiva komponenter använder samma språkregister. HTML-språk, menyer, diagramförklaringar, formulär och källtexter följer språkvalet.
 - `/valnatt/` visar officiell rösträkning för riket och valkretsarna, med separata räkningstillfällen. Innan produktionen finns visas vänteläge och verifierade förvalsuppgifter.
-- `.github/workflows/election-live.yml` hämtar och validerar myndighetsdata. Det skriver bara `election-2026.json` på datagrenen `live-data`; det bygger inte om hela webbplatsen för varje siffra.
+- `.github/workflows/election-live.yml` hämtar och validerar myndighetsdata. Det skriver `election-2026.json` och `area-results-2026.json` på datagrenen `live-data`; det bygger inte om hela webbplatsen för varje siffra.
 - Webbläsaren kontrollerar den publicerade datafilen varje minut. Under 13–30 september 2026 kör ett startat jobb upprepade, sekventiella källkontroller med fem minuters paus. Varje jobb är begränsat till fyra timmar och startar därefter ett nytt jobb med aktuell main-kod; gemensam concurrency hindrar samtidiga publicerare. Schemat är reservstart, inte enda utlösaren för varje kontroll. Utanför denna period används enstaka schemakontroller. Under oktober–december fortsätter en daglig kontroll av slutliga protokoll och rättelser. GitHub Actions och källans publicering ger ingen garanterad maximal fördröjning. Köer kan förlänga intervallen.
 - Valideringsfel syns i arbetsflödet och som fördröjning i produkten. Senast godkända data behålls. Felmail tystas inte genom att dölja verkliga fel.
 
@@ -19,7 +21,7 @@ Senaste data: <https://raw.githubusercontent.com/willrydh/Into-The-Politicalvers
 3. Kontrollera arbetsflödets resultat och datafilens `checkedAt`, `stageStatus`, `earlyVotingStatus` och källornas egna tidsstämplar. Ett nytt kontrollögonblick betyder inte automatiskt att nya röster publicerats.
 4. Öppna båda språkversionerna av valnattsvyn. Kontrollera att aktuell datafil hämtas, att vänteläge övergår till riktiga resultat och att räkningstillfällena hålls åtskilda. Kontrollera riket och minst två valkretsar mot Valmyndigheten.
 5. Om en källa ändrar schema eller certifikat: behåll senaste godkända data, granska ändringen, uppdatera adapter och tester, publicera och kör om. Ändra aldrig bort signatur- eller summeringskontroller för att få en grön körning.
-6. Om Actions-kön blir för lång kan den redan validerade CLI-hämtningen köras manuellt mot en färsk utcheckning av `live-data`: `npm run data:live:update -- --output /sökväg/till/live-data/election-2026.json`. Granska statusen och publicera bara denna fil på `live-data`. Använd samma validering och gren; forcera inte en push.
+6. Om Actions-kön blir för lång kan den redan validerade CLI-hämtningen köras manuellt mot en färsk utcheckning av `live-data`: `npm run data:live:update -- --output /sökväg/till/live-data/election-2026.json`. Granska statusen och publicera bara dessa två filer på `live-data`. Använd samma validering och gren; forcera inte en push.
 
 ## Bevis och kvarstående gräns
 

@@ -1,3 +1,4 @@
+import { CurrentElection } from "@/components/live/current-election";
 import { pageMetadata } from "@/lib/page-metadata";
 import { localizeNode } from "@/lib/i18n/react";
 import type { Locale } from "@/lib/i18n/messages";
@@ -15,10 +16,11 @@ export default function IndicatorsPage({ locale = "sv" }: { locale?: Locale } = 
     <div className="interior-page">
       <header className="interior-hero interior-hero--indicators">
         <div><p className="eyebrow eyebrow--light">Politicalverse indicators</p><h1>Methods before<br /><em>mystique.</em></h1></div>
-        <p className="interior-hero__deck">Every indicator has a plain-language definition. These measures describe final election results; none is a forecast.</p>
+        <p className="interior-hero__deck">{locale === "sv" ? "Följ förändringen i räknade röster 2026 och jämför med tidigare val. Varje indikator har en tydlig definition och visar vilket underlag den bygger på." : "Track changes in counted 2026 votes and compare with earlier elections. Every indicator explains its definition and the data it uses."}</p>
       </header>
+      <CurrentElection view="indicators" />
       <section className="interior-panel indicators-page-panel">
-        <IndicatorGrid indicators={indicators} />
+        <h2>{locale === "sv" ? "Historiska indikatorer · 2022 mot 2018" : "Historical indicators · 2022 versus 2018"}</h2><IndicatorGrid indicators={indicators} />
         <div className="method-list">
           {indicators.map((indicator, index) => (
             <article key={indicator.id} id={indicator.id}>

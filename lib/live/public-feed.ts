@@ -2,6 +2,7 @@ import type { LiveFeed, LiveResult } from "./types";
 import { insist, integer, list, object, string } from "./validation";
 import { CERTIFICATE_SHA256, LIVE_ADAPTER_VERSION } from "./constants";
 import { EARLY_VOTING_URL } from "./early-voting";
+import { validateComparison } from "./comparison";
 
 export const LIVE_FEED_URL = "https://raw.githubusercontent.com/willrydh/Into-The-Politicalverse/live-data/election-2026.json";
 export const LIVE_POLL_INTERVAL_MS = 60_000;
@@ -30,6 +31,7 @@ export function validatePublicFeed(value: unknown): LiveFeed {
     insist(new Set(constituencies.map(c => object(c, "constituency").code)).size === 29, "Duplicate displayed constituency");
     for (const raw of [result.national, ...constituencies]) {
       const area = object(raw, "area");
+      validateComparison(area.previous);
       string(area.name, "area name"); string(area.code, "area code");
       const valid = integer(area.validVotes, "valid votes"), invalid = integer(area.invalidVotes, "invalid votes"), total = integer(area.totalVotes, "all votes");
       insist(valid + invalid === total, "Invalid displayed vote totals");
@@ -67,6 +69,7 @@ export function acceptPublicFeed(previous: LiveFeed, incoming: unknown): LiveFee
     const oldResult = previous.results[stage], newResult = next.results[stage];
     if (oldResult) insist(newResult && newResult.sourceRevision >= oldResult.sourceRevision && newResult.sourceUpdatedAt >= oldResult.sourceUpdatedAt, "Public result disappeared or regressed");
     if (oldResult && newResult && oldResult.sourceRevision === newResult.sourceRevision) insist(oldResult.source.jsonSha256 === newResult.source.jsonSha256, "Public source changed without a new revision");
+    if (oldResult?.national.previous !== undefined && newResult) insist(newResult.national.previous !== undefined, "Public comparison schema regressed");
   }
   return next;
 }
