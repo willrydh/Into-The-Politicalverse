@@ -5,9 +5,8 @@ import Link from "next/link";
 import { DataSource } from "@/components/data-source";
 import { NationalBaseline } from "@/components/charts/national-baseline";
 import { NationalTrendChart } from "@/components/charts/national-trend-chart";
-import { ForecastHero } from "@/components/forecast/forecast-hero";
+import { HomeResults } from "@/components/live/home-results";
 import { nationalHistory } from "@/lib/data/elections";
-import { CurrentForecast } from "@/components/forecast/current-forecast";
 
 export const metadata = pageMetadata("", "sv");
 
@@ -21,14 +20,11 @@ export default function Home({ locale = "sv" }: { locale?: Locale } = {}) {
 
   return localizeNode((
     <>
-      <ForecastHero />
-      <div className="live-home-link"><Link href="/valnatt">Till valnattens presentation →</Link><Link href="/valnatt#svt-valu">SVT:s Valu 2026 →</Link></div>
-      <CurrentForecast compact />
-      <div className="live-home-link"><Link href="/forecasts#fore-valet">Prognosen före valet · arkiv →</Link></div>
+      <HomeResults />
 
       <section className="official-bridge">
         <div className="official-bridge__heading">
-          <div><p className="eyebrow eyebrow--dark">OFFICIAL · Valmyndigheten</p><h2>Prognosen börjar i facit.</h2></div>
+          <div><p className="eyebrow eyebrow--dark">OFFICIAL · Valmyndigheten · 2002–2022</p><h2>Historiska valresultat</h2></div>
           <p>Modellen hålls åtskild från officiella fakta. Den historiska grafen nedan visar fastställda röstandelar — inte modellvärden — och fungerar som öppet jämförelsematerial.</p>
         </div>
         <div className="chart-product-grid">

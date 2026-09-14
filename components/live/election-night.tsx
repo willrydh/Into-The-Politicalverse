@@ -10,31 +10,8 @@ import { useLiveFeed } from "./use-live-feed";
 import Link from "next/link";
 import { Localize, useLocale } from "@/components/localize";
 import { LIVE_FEED_URL, preferredStage } from "@/lib/live/public-feed";
-import type { CountingStage, LiveArea } from "@/lib/live/types";
-import { PARTY_CODE_TO_ID } from "@/lib/live/constants";
-import { PARTIES } from "@/lib/parties";
-import { SortHeaders, useTableSort } from "@/components/table-sort";
-import { translateText } from "@/lib/i18n/translate";
-import { PartyMark } from "@/components/party-mark";
-
-function ResultTable({ area }: { area: LiveArea }) {
-  const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
-  const sv = locale === "sv";
-  const table = useTableSort(area.parties, [
-    {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:p=>translateText(PARTIES[PARTY_CODE_TO_ID[p.code]]?.name??p.name,locale)},
-    {key:"votes",label:sv?"Röster":"Votes",name:sv?"Röster":"Votes",value:p=>p.votes},
-    {key:"share",label:sv?"Andel":"Share",name:sv?"Andel":"Share",value:p=>p.share},
-    {key:"seats",label:sv?"Mandat":"Seats",name:sv?"Mandat":"Seats",value:p=>p.seats},
-  ], {key:"votes",direction:"descending"});
-  return <Localize><div className="live-table" role="table" aria-label="Räknade röster och officiella mandat">
-    <div role="row" className="live-table__head"><SortHeaders control={table} as="span"/></div>
-    {table.rows.map(p => <div role="row" key={p.code}>
-      <span role="cell" className="live-party">{PARTIES[PARTY_CODE_TO_ID[p.code]] && <PartyMark party={PARTIES[PARTY_CODE_TO_ID[p.code]]} size="sm"/>}{PARTIES[PARTY_CODE_TO_ID[p.code]]?.name ?? p.name}</span>
-      <span role="cell">{p.votes.toLocaleString(language)}</span><span role="cell">{p.share === null ? "—" : `${p.share.toLocaleString(language, { maximumFractionDigits: 2 })} %`}</span><strong role="cell">{p.seats ?? "—"}</strong>
-    </div>)}
-    <div role="row"><span role="cell">Övriga rapporterade partier</span><span role="cell">{area.otherVotes.toLocaleString(language)}</span><span role="cell">{area.validVotes > 0 ? `${(area.otherVotes / area.validVotes * 100).toLocaleString(language, { maximumFractionDigits: 2 })} %` : "—"}</span><span role="cell">—</span></div>
-  </div></Localize>;
-}
+import type { CountingStage } from "@/lib/live/types";
+import { LiveResultTable } from "./result-table";
 
 export function ElectionNight({ preparation, valu }: { valu: SvtValu; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
@@ -63,7 +40,7 @@ export function ElectionNight({ preparation, valu }: { valu: SvtValu; preparatio
           <article><span>Giltiga röster</span><strong>{number(area.validVotes)}</strong><small>Ogiltiga röster: {number(area.invalidVotes)}</small></article>
           <article><span>Deltagande i räknade distrikt</span><strong>{area.turnoutInCountedDistricts === null ? "—" : `${area.turnoutInCountedDistricts.toLocaleString(language, { maximumFractionDigits: 2 })} %`}</strong><small>Bygger på röstberättigade i de räknade distrikten</small></article>
         </div>
-        {area.countedDistricts > 0 ? <ResultTable area={area} /> : <p className="live-empty">Inga distrikt har rapporterat i detta område ännu.</p>}
+        {area.countedDistricts > 0 ? <LiveResultTable area={area} /> : <p className="live-empty">Inga distrikt har rapporterat i detta område ännu.</p>}
         <p className="live-explanation">Röstandelar beräknas från giltiga röster. Tidiga distrikt är inte ett representativt urval. Mandaten är Valmyndighetens publicerade beräkning och kan ändras under räkningen.</p>
         {result.protocolUrl && <a href={result.protocolUrl} target="_blank" rel="noreferrer">Öppna Valmyndighetens protokoll ↗</a>}
         {area.code === "00" && <ForecastResultComparison result={result}/>}
