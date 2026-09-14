@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-14T14:56:13.416Z",
+  "checkedAt": "2026-09-14T15:01:16.893Z",
   "resultStatus": "ok",
   "stageStatus": {
     "preliminary": "ok",
-    "final-count": "awaiting-results"
+    "final-count": "ok"
   },
   "earlyVotingStatus": "ok",
   "results": {
@@ -4653,11 +4653,981 @@
         "signatureVerified": true
       }
     },
-    "final-count": null
+    "final-count": {
+      "electionDate": "2026-09-13",
+      "classification": "OFFICIAL",
+      "stage": "final-count",
+      "sourceUpdatedAt": "2026-09-14T14:58:20.000Z",
+      "sourceRevision": 1,
+      "national": {
+        "code": "00",
+        "name": "Riket",
+        "countedDistricts": 1,
+        "totalDistricts": 6626,
+        "validVotes": 604,
+        "invalidVotes": 6,
+        "totalVotes": 610,
+        "eligibleVoters": 8051259,
+        "eligibleInCountedDistricts": 816,
+        "turnoutInCountedDistricts": 74.75490196078431,
+        "parties": [
+          {
+            "code": "0001",
+            "name": "Moderaterna",
+            "abbreviation": "M",
+            "votes": 84,
+            "share": 13.90728476821192,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0004",
+            "name": "Centerpartiet",
+            "abbreviation": "C",
+            "votes": 48,
+            "share": 7.9470198675496695,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0003",
+            "name": "Liberalerna (tidigare Folkpartiet)",
+            "abbreviation": "L",
+            "votes": 33,
+            "share": 5.4635761589403975,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0068",
+            "name": "Kristdemokraterna",
+            "abbreviation": "KD",
+            "votes": 33,
+            "share": 5.4635761589403975,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0002",
+            "name": "Arbetarepartiet-Socialdemokraterna",
+            "abbreviation": "S",
+            "votes": 172,
+            "share": 28.47682119205298,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0005",
+            "name": "Vänsterpartiet",
+            "abbreviation": "V",
+            "votes": 95,
+            "share": 15.728476821192054,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0055",
+            "name": "Miljöpartiet de gröna",
+            "abbreviation": "MP",
+            "votes": 82,
+            "share": 13.57615894039735,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0110",
+            "name": "Sverigedemokraterna",
+            "abbreviation": "SD",
+            "votes": 47,
+            "share": 7.781456953642383,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "0524",
+            "name": "Piratpartiet",
+            "abbreviation": "PP",
+            "votes": 4,
+            "share": 0.6622516556291391,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "1152",
+            "name": "Örebropartiet",
+            "abbreviation": "ÖrP",
+            "votes": 2,
+            "share": 0.33112582781456956,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "1325",
+            "name": "Alternativ för Sverige",
+            "abbreviation": "AFS",
+            "votes": 1,
+            "share": 0.16556291390728478,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "1150",
+            "name": "Direktdemokraterna",
+            "abbreviation": "DD",
+            "votes": 1,
+            "share": 0.16556291390728478,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "1296",
+            "name": "Medborgerlig Samling",
+            "abbreviation": "MED",
+            "votes": 1,
+            "share": 0.16556291390728478,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          },
+          {
+            "code": "1693",
+            "name": "SKP KOMMUNISTERNA",
+            "abbreviation": "SKP",
+            "votes": 1,
+            "share": 0.16556291390728478,
+            "seats": null,
+            "fixedSeats": null,
+            "adjustmentSeats": null
+          }
+        ],
+        "otherVotes": 0,
+        "fixedSeats": 310,
+        "previous": {
+          "year": 2022,
+          "validVotes": 6477970,
+          "totalVotes": 6547801,
+          "eligibleVoters": 7775390,
+          "turnout": 84.21186589997414,
+          "otherVotes": 26,
+          "parties": [
+            {
+              "code": "0001",
+              "votes": 1237428,
+              "share": 19.102095255149376,
+              "seats": null
+            },
+            {
+              "code": "0004",
+              "votes": 434945,
+              "share": 6.714217571245314,
+              "seats": null
+            },
+            {
+              "code": "0003",
+              "votes": 298542,
+              "share": 4.608573364804098,
+              "seats": null
+            },
+            {
+              "code": "0068",
+              "votes": 345712,
+              "share": 5.336733575487383,
+              "seats": null
+            },
+            {
+              "code": "0002",
+              "votes": 1964474,
+              "share": 30.32545689467534,
+              "seats": null
+            },
+            {
+              "code": "0005",
+              "votes": 437050,
+              "share": 6.746712318828275,
+              "seats": null
+            },
+            {
+              "code": "0055",
+              "votes": 329242,
+              "share": 5.082487260669623,
+              "seats": null
+            },
+            {
+              "code": "0110",
+              "votes": 1330325,
+              "share": 20.536140179716796,
+              "seats": null
+            },
+            {
+              "code": "0524",
+              "votes": 9135,
+              "share": 0.14101639865575172,
+              "seats": null
+            },
+            {
+              "code": "1152",
+              "votes": null,
+              "share": null,
+              "seats": null
+            },
+            {
+              "code": "1325",
+              "votes": 16646,
+              "share": 0.25696321532825867,
+              "seats": null
+            },
+            {
+              "code": "1150",
+              "votes": 1755,
+              "share": 0.02709182043140058,
+              "seats": null
+            },
+            {
+              "code": "1296",
+              "votes": 12882,
+              "share": 0.19885859304689585,
+              "seats": null
+            },
+            {
+              "code": "1693",
+              "votes": null,
+              "share": null,
+              "seats": null
+            }
+          ]
+        }
+      },
+      "constituencies": [
+        {
+          "code": "01",
+          "name": "Stockholms kommun",
+          "countedDistricts": 0,
+          "totalDistricts": 612,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 765711,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 29,
+          "previous": null
+        },
+        {
+          "code": "02",
+          "name": "Stockholms län",
+          "countedDistricts": 0,
+          "totalDistricts": 848,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 1067773,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 41,
+          "previous": null
+        },
+        {
+          "code": "03",
+          "name": "Uppsala län",
+          "countedDistricts": 1,
+          "totalDistricts": 243,
+          "validVotes": 604,
+          "invalidVotes": 6,
+          "totalVotes": 610,
+          "eligibleVoters": 309502,
+          "eligibleInCountedDistricts": 816,
+          "turnoutInCountedDistricts": 74.75490196078431,
+          "parties": [
+            {
+              "code": "0001",
+              "name": "Moderaterna",
+              "abbreviation": "M",
+              "votes": 84,
+              "share": 13.90728476821192,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0004",
+              "name": "Centerpartiet",
+              "abbreviation": "C",
+              "votes": 48,
+              "share": 7.9470198675496695,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0003",
+              "name": "Liberalerna (tidigare Folkpartiet)",
+              "abbreviation": "L",
+              "votes": 33,
+              "share": 5.4635761589403975,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0068",
+              "name": "Kristdemokraterna",
+              "abbreviation": "KD",
+              "votes": 33,
+              "share": 5.4635761589403975,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0002",
+              "name": "Arbetarepartiet-Socialdemokraterna",
+              "abbreviation": "S",
+              "votes": 172,
+              "share": 28.47682119205298,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0005",
+              "name": "Vänsterpartiet",
+              "abbreviation": "V",
+              "votes": 95,
+              "share": 15.728476821192054,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0055",
+              "name": "Miljöpartiet de gröna",
+              "abbreviation": "MP",
+              "votes": 82,
+              "share": 13.57615894039735,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0110",
+              "name": "Sverigedemokraterna",
+              "abbreviation": "SD",
+              "votes": 47,
+              "share": 7.781456953642383,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "0524",
+              "name": "Piratpartiet",
+              "abbreviation": "PP",
+              "votes": 4,
+              "share": 0.6622516556291391,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "1152",
+              "name": "Örebropartiet",
+              "abbreviation": "ÖrP",
+              "votes": 2,
+              "share": 0.33112582781456956,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "1325",
+              "name": "Alternativ för Sverige",
+              "abbreviation": "AFS",
+              "votes": 1,
+              "share": 0.16556291390728478,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "1150",
+              "name": "Direktdemokraterna",
+              "abbreviation": "DD",
+              "votes": 1,
+              "share": 0.16556291390728478,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "1296",
+              "name": "Medborgerlig Samling",
+              "abbreviation": "MED",
+              "votes": 1,
+              "share": 0.16556291390728478,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            },
+            {
+              "code": "1693",
+              "name": "SKP KOMMUNISTERNA",
+              "abbreviation": "SKP",
+              "votes": 1,
+              "share": 0.16556291390728478,
+              "seats": null,
+              "fixedSeats": null,
+              "adjustmentSeats": null
+            }
+          ],
+          "otherVotes": 0,
+          "fixedSeats": 12,
+          "previous": {
+            "year": 2022,
+            "validVotes": 248891,
+            "totalVotes": 251301,
+            "eligibleVoters": 292255,
+            "turnout": 85.98689500607347,
+            "otherVotes": 1,
+            "parties": [
+              {
+                "code": "0001",
+                "votes": 45457,
+                "share": 18.263818297969795,
+                "seats": null
+              },
+              {
+                "code": "0004",
+                "votes": 18040,
+                "share": 7.248152805846736,
+                "seats": null
+              },
+              {
+                "code": "0003",
+                "votes": 12465,
+                "share": 5.008216448164056,
+                "seats": null
+              },
+              {
+                "code": "0068",
+                "votes": 14766,
+                "share": 5.932717534985194,
+                "seats": null
+              },
+              {
+                "code": "0002",
+                "votes": 72499,
+                "share": 29.128815425226307,
+                "seats": null
+              },
+              {
+                "code": "0005",
+                "votes": 19543,
+                "share": 7.852031612231861,
+                "seats": null
+              },
+              {
+                "code": "0055",
+                "votes": 16750,
+                "share": 6.7298536307058106,
+                "seats": null
+              },
+              {
+                "code": "0110",
+                "votes": 45237,
+                "share": 18.17542619058142,
+                "seats": null
+              },
+              {
+                "code": "0524",
+                "votes": 384,
+                "share": 0.15428440562334514,
+                "seats": null
+              },
+              {
+                "code": "1152",
+                "votes": null,
+                "share": null,
+                "seats": null
+              },
+              {
+                "code": "1325",
+                "votes": 630,
+                "share": 0.25312285297580067,
+                "seats": null
+              },
+              {
+                "code": "1150",
+                "votes": 92,
+                "share": 0.03696397218059311,
+                "seats": null
+              },
+              {
+                "code": "1296",
+                "votes": 587,
+                "share": 0.2358462138044365,
+                "seats": null
+              },
+              {
+                "code": "1693",
+                "votes": null,
+                "share": null,
+                "seats": null
+              }
+            ]
+          }
+        },
+        {
+          "code": "04",
+          "name": "Södermanlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 193,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 229641,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "05",
+          "name": "Östergötlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 300,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 367215,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 14,
+          "previous": null
+        },
+        {
+          "code": "06",
+          "name": "Jönköpings län",
+          "countedDistricts": 0,
+          "totalDistricts": 215,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 279113,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 11,
+          "previous": null
+        },
+        {
+          "code": "07",
+          "name": "Kronobergs län",
+          "countedDistricts": 0,
+          "totalDistricts": 127,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 151713,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 6,
+          "previous": null
+        },
+        {
+          "code": "08",
+          "name": "Kalmar län",
+          "countedDistricts": 0,
+          "totalDistricts": 175,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 191154,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 7,
+          "previous": null
+        },
+        {
+          "code": "09",
+          "name": "Gotlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 41,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 48457,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 2,
+          "previous": null
+        },
+        {
+          "code": "10",
+          "name": "Blekinge län",
+          "countedDistricts": 0,
+          "totalDistricts": 102,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 123334,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 5,
+          "previous": null
+        },
+        {
+          "code": "11",
+          "name": "Malmö kommun",
+          "countedDistricts": 0,
+          "totalDistricts": 217,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 268093,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 10,
+          "previous": null
+        },
+        {
+          "code": "12",
+          "name": "Skåne läns västra",
+          "countedDistricts": 0,
+          "totalDistricts": 197,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 246258,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "13",
+          "name": "Skåne läns södra",
+          "countedDistricts": 0,
+          "totalDistricts": 263,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 313226,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 12,
+          "previous": null
+        },
+        {
+          "code": "14",
+          "name": "Skåne läns norra och östra",
+          "countedDistricts": 0,
+          "totalDistricts": 195,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 248838,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 10,
+          "previous": null
+        },
+        {
+          "code": "15",
+          "name": "Hallands län",
+          "countedDistricts": 0,
+          "totalDistricts": 211,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 268141,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 10,
+          "previous": null
+        },
+        {
+          "code": "16",
+          "name": "Göteborgs kommun",
+          "countedDistricts": 0,
+          "totalDistricts": 397,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 463150,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 18,
+          "previous": null
+        },
+        {
+          "code": "17",
+          "name": "Västra Götalands läns västra",
+          "countedDistricts": 0,
+          "totalDistricts": 238,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 297310,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 11,
+          "previous": null
+        },
+        {
+          "code": "18",
+          "name": "Västra Götalands läns norra",
+          "countedDistricts": 0,
+          "totalDistricts": 174,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 210271,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 8,
+          "previous": null
+        },
+        {
+          "code": "19",
+          "name": "Västra Götalands läns södra",
+          "countedDistricts": 0,
+          "totalDistricts": 158,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 174221,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 7,
+          "previous": null
+        },
+        {
+          "code": "20",
+          "name": "Västra Götalands läns östra",
+          "countedDistricts": 0,
+          "totalDistricts": 167,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 210115,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 8,
+          "previous": null
+        },
+        {
+          "code": "21",
+          "name": "Värmlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 194,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 219434,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "22",
+          "name": "Örebro län",
+          "countedDistricts": 0,
+          "totalDistricts": 217,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 238803,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "23",
+          "name": "Västmanlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 176,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 213802,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 8,
+          "previous": null
+        },
+        {
+          "code": "24",
+          "name": "Dalarnas län",
+          "countedDistricts": 0,
+          "totalDistricts": 182,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 223710,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "25",
+          "name": "Gävleborgs län",
+          "countedDistricts": 0,
+          "totalDistricts": 162,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 222362,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 9,
+          "previous": null
+        },
+        {
+          "code": "26",
+          "name": "Västernorrlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 167,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 189561,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 7,
+          "previous": null
+        },
+        {
+          "code": "27",
+          "name": "Jämtlands län",
+          "countedDistricts": 0,
+          "totalDistricts": 93,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 103332,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 4,
+          "previous": null
+        },
+        {
+          "code": "28",
+          "name": "Västerbottens län",
+          "countedDistricts": 0,
+          "totalDistricts": 191,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 213702,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 8,
+          "previous": null
+        },
+        {
+          "code": "29",
+          "name": "Norrbottens län",
+          "countedDistricts": 0,
+          "totalDistricts": 171,
+          "validVotes": 0,
+          "invalidVotes": 0,
+          "totalVotes": 0,
+          "eligibleVoters": 193317,
+          "eligibleInCountedDistricts": 0,
+          "turnoutInCountedDistricts": null,
+          "parties": [],
+          "otherVotes": 0,
+          "fixedSeats": 8,
+          "previous": null
+        }
+      ],
+      "protocolUrl": null,
+      "seatCheck": {
+        "status": "not-applicable",
+        "reason": "Official mandate calculation or constituency vote coverage is not yet available.",
+        "tieCount": 0
+      },
+      "source": {
+        "adapterVersion": "pv-valmyndigheten-live-1.0.0",
+        "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rd/Val_2026_slutlig_00_RD.zip",
+        "archiveMd5": "62ad373bfff6560b5a91f381b7ab14c4",
+        "jsonSha256": "1bf5c0a6f8afe92487e693bb86bf1d1616a5376ce45b80ca33e7cc07fabe5b88",
+        "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
+        "signatureVerified": true
+      }
+    }
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-14T14:56:13.416Z",
+    "retrievedAt": "2026-09-14T15:01:16.893Z",
     "rawSha256": "8bddcf88d3bdf5b2ee00392ca052c1b211a6e46345484f468bc481479dca4e8b",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
