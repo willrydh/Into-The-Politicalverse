@@ -18,7 +18,9 @@ export function createAreaStore(request: typeof fetch = fetch, now = Date.now) {
     }
     try {
       let next: AreaFeed;
-      try { next = await read(AREA_FEED_URL); }
+      // Raw GitHub caches a branch URL for five minutes even after publication.
+      // Match the national feed's shared minute key; same-minute readers reuse it.
+      try { next = await read(`${AREA_FEED_URL}?minute=${Math.floor(now() / 60_000)}`); }
       catch (error) {
         if (state.feed || active.signal.aborted) throw error;
         next = await read(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/elections/2026/areas.json`);
