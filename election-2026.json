@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-15T03:59:13.768Z",
+  "checkedAt": "2026-09-15T04:04:17.937Z",
   "resultStatus": "ok",
   "stageStatus": {
     "preliminary": "ok",
@@ -6521,20 +6521,20 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-15T03:59:13.768Z",
-    "rawSha256": "8bddcf88d3bdf5b2ee00392ca052c1b211a6e46345484f468bc481479dca4e8b",
+    "retrievedAt": "2026-09-15T04:04:17.937Z",
+    "rawSha256": "f187c4f70f1e1a77522ffdb367d439b84e8d66baa56bf7c38279908ba7cb6300",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
-    "receivedVotes": 3734839,
+    "receivedVotes": 3736026,
     "locations": 3001,
     "daily": [
       {
         "date": "2026-08-26",
-        "votes": 154503
+        "votes": 154505
       },
       {
         "date": "2026-08-27",
-        "votes": 161341
+        "votes": 161342
       },
       {
         "date": "2026-08-28",
@@ -6554,7 +6554,7 @@
       },
       {
         "date": "2026-09-01",
-        "votes": 181447
+        "votes": 181448
       },
       {
         "date": "2026-09-02",
@@ -6570,39 +6570,39 @@
       },
       {
         "date": "2026-09-05",
-        "votes": 139960
+        "votes": 139965
       },
       {
         "date": "2026-09-06",
-        "votes": 134337
+        "votes": 134342
       },
       {
         "date": "2026-09-07",
-        "votes": 258652
+        "votes": 258660
       },
       {
         "date": "2026-09-08",
-        "votes": 285726
+        "votes": 285727
       },
       {
         "date": "2026-09-09",
-        "votes": 305031
+        "votes": 305142
       },
       {
         "date": "2026-09-10",
-        "votes": 330756
+        "votes": 330868
       },
       {
         "date": "2026-09-11",
-        "votes": 359305
+        "votes": 359454
       },
       {
         "date": "2026-09-12",
-        "votes": 266946
+        "votes": 267149
       },
       {
         "date": "2026-09-13",
-        "votes": 89331
+        "votes": 89920
       }
     ],
     "municipalities": [
@@ -6629,7 +6629,7 @@
       {
         "code": "0123",
         "name": "Järfälla",
-        "votes": 26991
+        "votes": 27021
       },
       {
         "code": "0125",
@@ -6689,7 +6689,7 @@
       {
         "code": "0180",
         "name": "Stockholm",
-        "votes": 359583
+        "votes": 360164
       },
       {
         "code": "0181",
@@ -6734,7 +6734,7 @@
       {
         "code": "0192",
         "name": "Nynäshamn",
-        "votes": 10605
+        "votes": 10622
       },
       {
         "code": "0305",
@@ -6759,7 +6759,7 @@
       {
         "code": "0360",
         "name": "Tierp",
-        "votes": 7152
+        "votes": 7155
       },
       {
         "code": "0380",
@@ -6859,12 +6859,12 @@
       {
         "code": "0580",
         "name": "Linköping",
-        "votes": 61808
+        "votes": 61835
       },
       {
         "code": "0581",
         "name": "Norrköping",
-        "votes": 48857
+        "votes": 48908
       },
       {
         "code": "0582",
@@ -6874,7 +6874,7 @@
       {
         "code": "0583",
         "name": "Motala",
-        "votes": 12977
+        "votes": 12981
       },
       {
         "code": "0584",
@@ -6979,7 +6979,7 @@
       {
         "code": "0767",
         "name": "Markaryd",
-        "votes": 3067
+        "votes": 3069
       },
       {
         "code": "0780",
@@ -7024,7 +7024,7 @@
       {
         "code": "0880",
         "name": "Kalmar",
-        "votes": 20782
+        "votes": 20787
       },
       {
         "code": "0881",
@@ -7064,7 +7064,7 @@
       {
         "code": "1080",
         "name": "Karlskrona",
-        "votes": 23816
+        "votes": 23840
       },
       {
         "code": "1081",
@@ -7099,7 +7099,7 @@
       {
         "code": "1233",
         "name": "Vellinge",
-        "votes": 14129
+        "votes": 14137
       },
       {
         "code": "1256",
@@ -7174,7 +7174,7 @@
       {
         "code": "1276",
         "name": "Klippan",
-        "votes": 5327
+        "votes": 5328
       },
       {
         "code": "1277",
@@ -7194,7 +7194,7 @@
       {
         "code": "1281",
         "name": "Lund",
-        "votes": 46984
+        "votes": 47007
       },
       {
         "code": "1282",
@@ -7274,7 +7274,7 @@
       {
         "code": "1384",
         "name": "Kungsbacka",
-        "votes": 31724
+        "votes": 31725
       },
       {
         "code": "1401",
@@ -7429,7 +7429,7 @@
       {
         "code": "1480",
         "name": "Göteborg",
-        "votes": 199075
+        "votes": 199272
       },
       {
         "code": "1481",
@@ -7574,7 +7574,7 @@
       {
         "code": "1780",
         "name": "Karlstad",
-        "votes": 33361
+        "votes": 33365
       },
       {
         "code": "1781",
@@ -7634,7 +7634,7 @@
       {
         "code": "1880",
         "name": "Örebro",
-        "votes": 60157
+        "votes": 60171
       },
       {
         "code": "1881",
@@ -7734,7 +7734,7 @@
       {
         "code": "2031",
         "name": "Rättvik",
-        "votes": 5026
+        "votes": 5047
       },
       {
         "code": "2034",
@@ -7744,7 +7744,7 @@
       {
         "code": "2039",
         "name": "Älvdalen",
-        "votes": 2688
+        "votes": 2782
       },
       {
         "code": "2061",
@@ -7799,7 +7799,7 @@
       {
         "code": "2121",
         "name": "Ovanåker",
-        "votes": 4412
+        "votes": 4413
       },
       {
         "code": "2132",
@@ -7854,7 +7854,7 @@
       {
         "code": "2281",
         "name": "Sundsvall",
-        "votes": 34276
+        "votes": 34286
       },
       {
         "code": "2282",
@@ -7884,7 +7884,7 @@
       {
         "code": "2309",
         "name": "Krokom",
-        "votes": 4368
+        "votes": 4373
       },
       {
         "code": "2313",
@@ -7944,7 +7944,7 @@
       {
         "code": "2421",
         "name": "Storuman",
-        "votes": 2942
+        "votes": 2951
       },
       {
         "code": "2422",
@@ -7974,7 +7974,7 @@
       {
         "code": "2480",
         "name": "Umeå",
-        "votes": 49805
+        "votes": 49837
       },
       {
         "code": "2481",
@@ -8029,12 +8029,12 @@
       {
         "code": "2560",
         "name": "Älvsbyn",
-        "votes": 3553
+        "votes": 3559
       },
       {
         "code": "2580",
         "name": "Luleå",
-        "votes": 28135
+        "votes": 28152
       },
       {
         "code": "2581",
