@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-16T15:04:50.206Z",
+  "checkedAt": "2026-09-16T15:10:03.470Z",
   "resultStatus": "ok",
   "stageStatus": {
     "preliminary": "ok",
@@ -14,26 +14,26 @@
       "electionDate": "2026-09-13",
       "classification": "OFFICIAL",
       "stage": "preliminary",
-      "sourceUpdatedAt": "2026-09-16T15:01:16.000Z",
-      "sourceRevision": 883,
+      "sourceUpdatedAt": "2026-09-16T15:06:20.000Z",
+      "sourceRevision": 885,
       "national": {
         "code": "00",
         "name": "Riket",
-        "countedDistricts": 6547,
+        "countedDistricts": 6549,
         "totalDistricts": 6626,
-        "validVotes": 6525645,
-        "invalidVotes": 89051,
-        "totalVotes": 6614696,
+        "validVotes": 6528788,
+        "invalidVotes": 89167,
+        "totalVotes": 6617955,
         "eligibleVoters": 8051355,
         "eligibleInCountedDistricts": 8051355,
-        "turnoutInCountedDistricts": 82.15630785128715,
+        "turnoutInCountedDistricts": 82.19678551001664,
         "parties": [
           {
             "code": "0001",
             "name": "Moderaterna",
             "abbreviation": "M",
-            "votes": 1294949,
-            "share": 19.844000095009765,
+            "votes": 1295454,
+            "share": 19.842182040525746,
             "seats": 70,
             "fixedSeats": 68,
             "adjustmentSeats": 2
@@ -42,8 +42,8 @@
             "code": "0004",
             "name": "Centerpartiet",
             "abbreviation": "C",
-            "votes": 459555,
-            "share": 7.042292371098949,
+            "votes": 459769,
+            "share": 7.042179957443863,
             "seats": 25,
             "fixedSeats": 17,
             "adjustmentSeats": 8
@@ -52,8 +52,8 @@
             "code": "0003",
             "name": "Liberalerna (tidigare Folkpartiet)",
             "abbreviation": "L",
-            "votes": 348957,
-            "share": 5.347471399378912,
+            "votes": 349077,
+            "share": 5.3467351061177055,
             "seats": 19,
             "fixedSeats": 11,
             "adjustmentSeats": 8
@@ -62,8 +62,8 @@
             "code": "0068",
             "name": "Kristdemokraterna",
             "abbreviation": "KD",
-            "votes": 405267,
-            "share": 6.210374606648079,
+            "votes": 405484,
+            "share": 6.210708633823001,
             "seats": 22,
             "fixedSeats": 20,
             "adjustmentSeats": 2
@@ -72,8 +72,8 @@
             "code": "0002",
             "name": "Arbetarepartiet-Socialdemokraterna",
             "abbreviation": "S",
-            "votes": 1829274,
-            "share": 28.032079587535026,
+            "votes": 1830246,
+            "share": 28.0334726751734,
             "seats": 100,
             "fixedSeats": 94,
             "adjustmentSeats": 6
@@ -82,8 +82,8 @@
             "code": "0005",
             "name": "Vänsterpartiet",
             "abbreviation": "V",
-            "votes": 538759,
-            "share": 8.256026798883482,
+            "votes": 539065,
+            "share": 8.25673922939449,
             "seats": 29,
             "fixedSeats": 26,
             "adjustmentSeats": 3
@@ -92,8 +92,8 @@
             "code": "0055",
             "name": "Miljöpartiet de gröna",
             "abbreviation": "MP",
-            "votes": 396996,
-            "share": 6.083628514882436,
+            "votes": 397165,
+            "share": 6.083288353060324,
             "seats": 22,
             "fixedSeats": 13,
             "adjustmentSeats": 9
@@ -102,14 +102,14 @@
             "code": "0110",
             "name": "Sverigedemokraterna",
             "abbreviation": "SD",
-            "votes": 1149034,
-            "share": 17.607975916556907,
+            "votes": 1149609,
+            "share": 17.60830647280935,
             "seats": 62,
             "fixedSeats": 61,
             "adjustmentSeats": 1
           }
         ],
-        "otherVotes": 102854,
+        "otherVotes": 102919,
         "fixedSeats": 310,
         "previous": {
           "year": 2022,
@@ -3100,21 +3100,21 @@
         {
           "code": "20",
           "name": "Västra Götalands läns östra",
-          "countedDistricts": 165,
+          "countedDistricts": 166,
           "totalDistricts": 167,
-          "validVotes": 172323,
-          "invalidVotes": 2853,
-          "totalVotes": 175176,
+          "validVotes": 174445,
+          "invalidVotes": 2901,
+          "totalVotes": 177346,
           "eligibleVoters": 210115,
           "eligibleInCountedDistricts": 210115,
-          "turnoutInCountedDistricts": 83.37148704280989,
+          "turnoutInCountedDistricts": 84.40425481284059,
           "parties": [
             {
               "code": "0001",
               "name": "Moderaterna",
               "abbreviation": "M",
-              "votes": 34349,
-              "share": 19.932916673920488,
+              "votes": 34701,
+              "share": 19.892229642580755,
               "seats": 2,
               "fixedSeats": 2,
               "adjustmentSeats": 0
@@ -3123,8 +3123,8 @@
               "code": "0004",
               "name": "Centerpartiet",
               "abbreviation": "C",
-              "votes": 11241,
-              "share": 6.523215125084869,
+              "votes": 11389,
+              "share": 6.528705322594513,
               "seats": 1,
               "fixedSeats": 0,
               "adjustmentSeats": 1
@@ -3133,8 +3133,8 @@
               "code": "0003",
               "name": "Liberalerna (tidigare Folkpartiet)",
               "abbreviation": "L",
-              "votes": 7599,
-              "share": 4.409742170226841,
+              "votes": 7695,
+              "share": 4.411132448622776,
               "seats": 0,
               "fixedSeats": 0,
               "adjustmentSeats": 0
@@ -3143,8 +3143,8 @@
               "code": "0068",
               "name": "Kristdemokraterna",
               "abbreviation": "KD",
-              "votes": 13835,
-              "share": 8.02852782275146,
+              "votes": 13997,
+              "share": 8.023732408495514,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
@@ -3153,8 +3153,8 @@
               "code": "0002",
               "name": "Arbetarepartiet-Socialdemokraterna",
               "abbreviation": "S",
-              "votes": 48458,
-              "share": 28.12044822803688,
+              "votes": 49057,
+              "share": 28.121757574020467,
               "seats": 3,
               "fixedSeats": 3,
               "adjustmentSeats": 0
@@ -3163,18 +3163,18 @@
               "code": "0005",
               "name": "Vänsterpartiet",
               "abbreviation": "V",
-              "votes": 9847,
-              "share": 5.714269134126031,
-              "seats": 0,
+              "votes": 10023,
+              "share": 5.745650491558944,
+              "seats": 1,
               "fixedSeats": 0,
-              "adjustmentSeats": 0
+              "adjustmentSeats": 1
             },
             {
               "code": "0055",
               "name": "Miljöpartiet de gröna",
               "abbreviation": "MP",
-              "votes": 6934,
-              "share": 4.023838953592962,
+              "votes": 7041,
+              "share": 4.03622918398349,
               "seats": 0,
               "fixedSeats": 0,
               "adjustmentSeats": 0
@@ -3183,14 +3183,14 @@
               "code": "0110",
               "name": "Sverigedemokraterna",
               "abbreviation": "SD",
-              "votes": 37109,
-              "share": 21.534560099348315,
+              "votes": 37542,
+              "share": 21.520823182091778,
               "seats": 2,
               "fixedSeats": 2,
               "adjustmentSeats": 0
             }
           ],
-          "otherVotes": 2951,
+          "otherVotes": 3000,
           "fixedSeats": 8,
           "previous": {
             "year": 2022,
@@ -4089,9 +4089,9 @@
               "abbreviation": "V",
               "votes": 10014,
               "share": 6.329882049531611,
-              "seats": 1,
+              "seats": 0,
               "fixedSeats": 0,
-              "adjustmentSeats": 1
+              "adjustmentSeats": 0
             },
             {
               "code": "0055",
@@ -4332,21 +4332,21 @@
         {
           "code": "28",
           "name": "Västerbottens län",
-          "countedDistricts": 188,
+          "countedDistricts": 189,
           "totalDistricts": 191,
-          "validVotes": 176477,
-          "invalidVotes": 2379,
-          "totalVotes": 178856,
+          "validVotes": 177498,
+          "invalidVotes": 2447,
+          "totalVotes": 179945,
           "eligibleVoters": 213705,
           "eligibleInCountedDistricts": 213705,
-          "turnoutInCountedDistricts": 83.69294120399616,
+          "turnoutInCountedDistricts": 84.20252216840971,
           "parties": [
             {
               "code": "0001",
               "name": "Moderaterna",
               "abbreviation": "M",
-              "votes": 27125,
-              "share": 15.370274880012694,
+              "votes": 27278,
+              "share": 15.368060485188565,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
@@ -4355,8 +4355,8 @@
               "code": "0004",
               "name": "Centerpartiet",
               "abbreviation": "C",
-              "votes": 12710,
-              "share": 7.20207165806309,
+              "votes": 12776,
+              "share": 7.197827581155844,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
@@ -4365,8 +4365,8 @@
               "code": "0003",
               "name": "Liberalerna (tidigare Folkpartiet)",
               "abbreviation": "L",
-              "votes": 6161,
-              "share": 3.4911064897975375,
+              "votes": 6185,
+              "share": 3.484546304747096,
               "seats": 0,
               "fixedSeats": 0,
               "adjustmentSeats": 0
@@ -4375,8 +4375,8 @@
               "code": "0068",
               "name": "Kristdemokraterna",
               "abbreviation": "KD",
-              "votes": 10499,
-              "share": 5.949217178442517,
+              "votes": 10554,
+              "share": 5.945982489943549,
               "seats": 1,
               "fixedSeats": 0,
               "adjustmentSeats": 1
@@ -4385,8 +4385,8 @@
               "code": "0002",
               "name": "Arbetarepartiet-Socialdemokraterna",
               "abbreviation": "S",
-              "votes": 65377,
-              "share": 37.04562067578212,
+              "votes": 65750,
+              "share": 37.04267090333413,
               "seats": 3,
               "fixedSeats": 3,
               "adjustmentSeats": 0
@@ -4395,8 +4395,8 @@
               "code": "0005",
               "name": "Vänsterpartiet",
               "abbreviation": "V",
-              "votes": 16296,
-              "share": 9.234064495656657,
+              "votes": 16426,
+              "share": 9.254188779591884,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
@@ -4405,8 +4405,8 @@
               "code": "0055",
               "name": "Miljöpartiet de gröna",
               "abbreviation": "MP",
-              "votes": 13111,
-              "share": 7.429296735551942,
+              "votes": 13173,
+              "share": 7.4214920731501195,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
@@ -4415,14 +4415,14 @@
               "code": "0110",
               "name": "Sverigedemokraterna",
               "abbreviation": "SD",
-              "votes": 22548,
-              "share": 12.776735778600044,
+              "votes": 22690,
+              "share": 12.78324262808595,
               "seats": 1,
               "fixedSeats": 1,
               "adjustmentSeats": 0
             }
           ],
-          "otherVotes": 2650,
+          "otherVotes": 2666,
           "fixedSeats": 8,
           "previous": {
             "year": 2022,
@@ -4647,8 +4647,8 @@
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/p/rd/Val_2026_preliminar_00_RD.zip",
-        "archiveMd5": "d1009e2eeacd5bbc7dd8ee708abc8e4c",
-        "jsonSha256": "b4e1bf4af8f7c04f5aef1ecf1e531846c0544bde60d415bfb22468df8fd08b81",
+        "archiveMd5": "e12af34074a430848f83777e7542761a",
+        "jsonSha256": "b92b97deb049deec6f21c819066c856d495e88d0534c2464644051a63811d6de",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       }
@@ -4657,26 +4657,26 @@
       "electionDate": "2026-09-13",
       "classification": "OFFICIAL",
       "stage": "final-count",
-      "sourceUpdatedAt": "2026-09-16T15:02:02.000Z",
-      "sourceRevision": 579,
+      "sourceUpdatedAt": "2026-09-16T15:05:28.000Z",
+      "sourceRevision": 580,
       "national": {
         "code": "00",
         "name": "Riket",
-        "countedDistricts": 1538,
+        "countedDistricts": 1541,
         "totalDistricts": 6626,
-        "validVotes": 1559440,
-        "invalidVotes": 14786,
-        "totalVotes": 1574226,
+        "validVotes": 1562123,
+        "invalidVotes": 14808,
+        "totalVotes": 1576931,
         "eligibleVoters": 8051355,
-        "eligibleInCountedDistricts": 1932121,
-        "turnoutInCountedDistricts": 81.47657418971173,
+        "eligibleInCountedDistricts": 1935649,
+        "turnoutInCountedDistricts": 81.46781777068053,
         "parties": [
           {
             "code": "0001",
             "name": "Moderaterna",
             "abbreviation": "M",
-            "votes": 302463,
-            "share": 19.39561637510901,
+            "votes": 302930,
+            "share": 19.392198949762598,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4685,8 +4685,8 @@
             "code": "0004",
             "name": "Centerpartiet",
             "abbreviation": "C",
-            "votes": 113634,
-            "share": 7.286846560303699,
+            "votes": 113847,
+            "share": 7.287966440542775,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4695,8 +4695,8 @@
             "code": "0003",
             "name": "Liberalerna (tidigare Folkpartiet)",
             "abbreviation": "L",
-            "votes": 84423,
-            "share": 5.413674139434669,
+            "votes": 84557,
+            "share": 5.41295403755018,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4705,8 +4705,8 @@
             "code": "0068",
             "name": "Kristdemokraterna",
             "abbreviation": "KD",
-            "votes": 93357,
-            "share": 5.986572102806136,
+            "votes": 93458,
+            "share": 5.982755519251684,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4715,8 +4715,8 @@
             "code": "0002",
             "name": "Arbetarepartiet-Socialdemokraterna",
             "abbreviation": "S",
-            "votes": 441838,
-            "share": 28.33311958138819,
+            "votes": 442621,
+            "share": 28.33458056759935,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4725,8 +4725,8 @@
             "code": "0005",
             "name": "Vänsterpartiet",
             "abbreviation": "V",
-            "votes": 136276,
-            "share": 8.738778022880009,
+            "votes": 136736,
+            "share": 8.753215975950678,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4735,8 +4735,8 @@
             "code": "0055",
             "name": "Miljöpartiet de gröna",
             "abbreviation": "MP",
-            "votes": 103985,
-            "share": 6.668098804699123,
+            "votes": 104195,
+            "share": 6.6700893591605785,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4745,8 +4745,8 @@
             "code": "0110",
             "name": "Sverigedemokraterna",
             "abbreviation": "SD",
-            "votes": 258461,
-            "share": 16.57396244805828,
+            "votes": 258739,
+            "share": 16.563292391188146,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4755,8 +4755,8 @@
             "code": "1152",
             "name": "Örebropartiet",
             "abbreviation": "ÖrP",
-            "votes": 10869,
-            "share": 0.6969809675268045,
+            "votes": 10877,
+            "share": 0.6962960022994349,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4765,8 +4765,8 @@
             "code": "1325",
             "name": "Alternativ för Sverige",
             "abbreviation": "AFS",
-            "votes": 5690,
-            "share": 0.3648745703585903,
+            "votes": 5702,
+            "share": 0.3650160710776296,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4775,8 +4775,8 @@
             "code": "1551",
             "name": "Kristna Värdepartiet",
             "abbreviation": "KVp",
-            "votes": 1753,
-            "share": 0.11241214795054634,
+            "votes": 1755,
+            "share": 0.1123471071100035,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4785,8 +4785,8 @@
             "code": "0524",
             "name": "Piratpartiet",
             "abbreviation": "PP",
-            "votes": 1616,
-            "share": 0.10362694300518134,
+            "votes": 1620,
+            "share": 0.10370502194769554,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4795,8 +4795,8 @@
             "code": "1729",
             "name": "Ambition Sverige",
             "abbreviation": "",
-            "votes": 1553,
-            "share": 0.09958703124198431,
+            "votes": 1555,
+            "share": 0.09954401798065837,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4805,8 +4805,8 @@
             "code": "1296",
             "name": "Medborgerlig Samling",
             "abbreviation": "MED",
-            "votes": 877,
-            "share": 0.056238136767044575,
+            "votes": 878,
+            "share": 0.05620556127782511,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4815,8 +4815,8 @@
             "code": "1568",
             "name": "MoD - Mänskliga rättigheter och Demokrati",
             "abbreviation": "MD",
-            "votes": 700,
-            "share": 0.04488790847996717,
+            "votes": 705,
+            "share": 0.04513088918094158,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4826,7 +4826,7 @@
             "name": "SKP KOMMUNISTERNA",
             "abbreviation": "SKP",
             "votes": 481,
-            "share": 0.030844405684091723,
+            "share": 0.030791429356075033,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4835,8 +4835,8 @@
             "code": "0532",
             "name": "Enad Röst",
             "abbreviation": "ER",
-            "votes": 313,
-            "share": 0.020071307648899604,
+            "votes": 314,
+            "share": 0.02010084993307185,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4846,7 +4846,7 @@
             "name": "Direktdemokraterna",
             "abbreviation": "DD",
             "votes": 212,
-            "share": 0.013594623711075771,
+            "share": 0.013571274477105837,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4856,7 +4856,7 @@
             "name": "Partiet Nyans",
             "abbreviation": "PNy",
             "votes": 158,
-            "share": 0.010131842199764018,
+            "share": 0.010114440412182651,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4866,7 +4866,7 @@
             "name": "Landsbygdspartiet Oberoende",
             "abbreviation": "LPo",
             "votes": 106,
-            "share": 0.006797311855537886,
+            "share": 0.0067856372385529185,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4876,7 +4876,7 @@
             "name": "RegleraAI.nu",
             "abbreviation": "",
             "votes": 90,
-            "share": 0.005771302518852921,
+            "share": 0.0057613901082053075,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4886,7 +4886,7 @@
             "name": "Nordiska motståndsrörelsen",
             "abbreviation": "NMR",
             "votes": 65,
-            "share": 0.004168162930282666,
+            "share": 0.004161003967037166,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4896,7 +4896,7 @@
             "name": "Partiet Vändpunkt",
             "abbreviation": "PV",
             "votes": 59,
-            "share": 0.0037834094290258038,
+            "share": 0.0037769112931568126,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4906,7 +4906,7 @@
             "name": "Volt",
             "abbreviation": "Volt",
             "votes": 51,
-            "share": 0.003270404760683322,
+            "share": 0.003264787727983008,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4916,7 +4916,7 @@
             "name": "Enhet",
             "abbreviation": "ENH",
             "votes": 44,
-            "share": 0.0028215256758836508,
+            "share": 0.0028166796084559283,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4925,8 +4925,8 @@
             "code": "0638",
             "name": "Klassiskt liberala partiet",
             "abbreviation": "KLP",
-            "votes": 39,
-            "share": 0.0025008977581695993,
+            "votes": 41,
+            "share": 0.002624633271515751,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4936,7 +4936,7 @@
             "name": "TRYGGHETSPARTIET",
             "abbreviation": "TRP",
             "votes": 38,
-            "share": 0.002436772174626789,
+            "share": 0.0024325869345755745,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4946,7 +4946,7 @@
             "name": "Kommunistiska Partiet",
             "abbreviation": "K",
             "votes": 35,
-            "share": 0.0022443954239983587,
+            "share": 0.0022405405976353974,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4956,7 +4956,7 @@
             "name": "Kalle Ankapartiet",
             "abbreviation": "",
             "votes": 35,
-            "share": 0.0022443954239983587,
+            "share": 0.0022405405976353974,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4966,7 +4966,7 @@
             "name": "Sveriges Nationella Demokratiska Parti",
             "abbreviation": "",
             "votes": 29,
-            "share": 0.001859641922741497,
+            "share": 0.0018564479237550436,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4976,7 +4976,7 @@
             "name": "Knapptryckarna",
             "abbreviation": "Kn",
             "votes": 24,
-            "share": 0.0015390140050274457,
+            "share": 0.0015363706955214154,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4986,7 +4986,7 @@
             "name": "ANTI-AUKTORITÄRA AKTIONS PARTIET",
             "abbreviation": "",
             "votes": 15,
-            "share": 0.0009618837531421535,
+            "share": 0.0009602316847008846,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -4996,7 +4996,7 @@
             "name": "Ett Bra Sverige",
             "abbreviation": "",
             "votes": 12,
-            "share": 0.0007695070025137228,
+            "share": 0.0007681853477607077,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5006,7 +5006,7 @@
             "name": "AI partiet",
             "abbreviation": "",
             "votes": 10,
-            "share": 0.0006412558354281024,
+            "share": 0.0006401544564672564,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5016,7 +5016,7 @@
             "name": "Enade Sverige",
             "abbreviation": "",
             "votes": 9,
-            "share": 0.0005771302518852922,
+            "share": 0.0005761390108205308,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5026,7 +5026,7 @@
             "name": "NY REFORM",
             "abbreviation": "NR",
             "votes": 7,
-            "share": 0.0004488790847996717,
+            "share": 0.00044810811952707944,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5036,7 +5036,7 @@
             "name": "Ond Kyckling Partiet",
             "abbreviation": "OKP",
             "votes": 7,
-            "share": 0.0004488790847996717,
+            "share": 0.00044810811952707944,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5046,7 +5046,7 @@
             "name": "Partiet Arkitekturupproret",
             "abbreviation": "PAU",
             "votes": 7,
-            "share": 0.0004488790847996717,
+            "share": 0.00044810811952707944,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5056,7 +5056,7 @@
             "name": "JESUS",
             "abbreviation": "",
             "votes": 6,
-            "share": 0.0003847535012568614,
+            "share": 0.00038409267388035386,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5066,7 +5066,7 @@
             "name": "ansvarsfull intelligens i politiken ",
             "abbreviation": "aip",
             "votes": 5,
-            "share": 0.0003206279177140512,
+            "share": 0.0003200772282336282,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5076,7 +5076,7 @@
             "name": "Visionpartiet",
             "abbreviation": "Vi",
             "votes": 5,
-            "share": 0.0003206279177140512,
+            "share": 0.0003200772282336282,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5086,7 +5086,7 @@
             "name": "Pax",
             "abbreviation": "",
             "votes": 5,
-            "share": 0.0003206279177140512,
+            "share": 0.0003200772282336282,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5096,7 +5096,7 @@
             "name": "Johannespartiet med extra älg",
             "abbreviation": "",
             "votes": 5,
-            "share": 0.0003206279177140512,
+            "share": 0.0003200772282336282,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5106,7 +5106,7 @@
             "name": "PRJ -Partiet för Rättvisa och Jämställdhet",
             "abbreviation": "PRJ",
             "votes": 4,
-            "share": 0.00025650233417124095,
+            "share": 0.00025606178258690254,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5116,7 +5116,7 @@
             "name": "Ny Allians",
             "abbreviation": "",
             "votes": 4,
-            "share": 0.00025650233417124095,
+            "share": 0.00025606178258690254,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5126,7 +5126,7 @@
             "name": "Evelinas parti",
             "abbreviation": "",
             "votes": 4,
-            "share": 0.00025650233417124095,
+            "share": 0.00025606178258690254,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5136,7 +5136,7 @@
             "name": "Revolutionspartiet",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5146,7 +5146,7 @@
             "name": "Valsamverkanspartiet",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5156,7 +5156,7 @@
             "name": "För Allas Bästa",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5166,7 +5166,7 @@
             "name": "FRIDSLAGET",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5176,7 +5176,7 @@
             "name": "Viking",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5186,7 +5186,7 @@
             "name": "Tidö",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5196,7 +5196,7 @@
             "name": "Alternativ Sanning",
             "abbreviation": "",
             "votes": 3,
-            "share": 0.0001923767506284307,
+            "share": 0.00019204633694017693,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5206,7 +5206,7 @@
             "name": "AMORISTERNA",
             "abbreviation": "AMO",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5216,7 +5216,7 @@
             "name": "Företaget Sverige",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5226,7 +5226,7 @@
             "name": "FREDS OCH FRIHETSPARTIER",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5236,7 +5236,7 @@
             "name": "Kunskapsdemokratiska Partiet",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5246,7 +5246,7 @@
             "name": "Djurvänners Parti",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5256,7 +5256,7 @@
             "name": "99 Svarta ballonger",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5266,7 +5266,7 @@
             "name": "Fria Partiet",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5276,7 +5276,7 @@
             "name": "SVERIGES INTELLEKTUELLA DEMOKRATER",
             "abbreviation": "",
             "votes": 2,
-            "share": 0.00012825116708562047,
+            "share": 0.00012803089129345127,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5286,7 +5286,7 @@
             "name": "Common sense in Sweden",
             "abbreviation": "CSIS",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5296,7 +5296,7 @@
             "name": "En Vis Avskaffar Asylrätten!",
             "abbreviation": "EVA",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5306,7 +5306,7 @@
             "name": "Fria Wermland",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5316,7 +5316,7 @@
             "name": "Partiet Folkomröstning",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5326,7 +5326,7 @@
             "name": "FAMILJENS FRIHET",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5336,7 +5336,7 @@
             "name": "Naturistpartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5346,7 +5346,7 @@
             "name": "ANARKISTERNA",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5356,7 +5356,7 @@
             "name": "Origo",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5366,7 +5366,7 @@
             "name": "Resurs Demokrati",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5376,7 +5376,7 @@
             "name": "Libertarianerna",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5386,7 +5386,7 @@
             "name": "Socialliberalerna",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5396,7 +5396,7 @@
             "name": "Socialistpartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5406,7 +5406,7 @@
             "name": "Pensionspartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5416,7 +5416,7 @@
             "name": "Humankapitalisterna",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5426,7 +5426,7 @@
             "name": "Proxypartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5436,7 +5436,7 @@
             "name": "Riket",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5446,7 +5446,7 @@
             "name": "Ekorrepartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5456,7 +5456,7 @@
             "name": "CIVIS",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5466,7 +5466,7 @@
             "name": "Svensk-Finska Unionspartiet",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5476,7 +5476,7 @@
             "name": "Presidency",
             "abbreviation": "",
             "votes": 1,
-            "share": 0.00006412558354281024,
+            "share": 0.00006401544564672563,
             "seats": null,
             "fixedSeats": null,
             "adjustmentSeats": null
@@ -5985,21 +5985,21 @@
         {
           "code": "01",
           "name": "Stockholms kommun",
-          "countedDistricts": 292,
+          "countedDistricts": 295,
           "totalDistricts": 612,
-          "validVotes": 304843,
-          "invalidVotes": 2136,
-          "totalVotes": 306979,
+          "validVotes": 307526,
+          "invalidVotes": 2158,
+          "totalVotes": 309684,
           "eligibleVoters": 765741,
-          "eligibleInCountedDistricts": 371187,
-          "turnoutInCountedDistricts": 82.70198040340853,
+          "eligibleInCountedDistricts": 374715,
+          "turnoutInCountedDistricts": 82.6452103598735,
           "parties": [
             {
               "code": "0001",
               "name": "Moderaterna",
               "abbreviation": "M",
-              "votes": 61091,
-              "share": 20.04015181585275,
+              "votes": 61558,
+              "share": 20.01716927999584,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6008,8 +6008,8 @@
               "code": "0004",
               "name": "Centerpartiet",
               "abbreviation": "C",
-              "votes": 32313,
-              "share": 10.599882562499385,
+              "votes": 32526,
+              "share": 10.57666668834505,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6018,8 +6018,8 @@
               "code": "0003",
               "name": "Liberalerna (tidigare Folkpartiet)",
               "abbreviation": "L",
-              "votes": 23728,
-              "share": 7.783678811716195,
+              "votes": 23862,
+              "share": 7.759343925391675,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6028,8 +6028,8 @@
               "code": "0068",
               "name": "Kristdemokraterna",
               "abbreviation": "KD",
-              "votes": 12319,
-              "share": 4.041096564461051,
+              "votes": 12420,
+              "share": 4.038682908111834,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6038,8 +6038,8 @@
               "code": "0002",
               "name": "Arbetarepartiet-Socialdemokraterna",
               "abbreviation": "S",
-              "votes": 76797,
-              "share": 25.19231210819996,
+              "votes": 77580,
+              "share": 25.227135266611604,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6048,8 +6048,8 @@
               "code": "0005",
               "name": "Vänsterpartiet",
               "abbreviation": "V",
-              "votes": 34649,
-              "share": 11.366178655898281,
+              "votes": 35109,
+              "share": 11.416595669959612,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6058,8 +6058,8 @@
               "code": "0055",
               "name": "Miljöpartiet de gröna",
               "abbreviation": "MP",
-              "votes": 35521,
-              "share": 11.652227540078007,
+              "votes": 35731,
+              "share": 11.618854991122701,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6068,8 +6068,8 @@
               "code": "0110",
               "name": "Sverigedemokraterna",
               "abbreviation": "SD",
-              "votes": 24826,
-              "share": 8.143864218630574,
+              "votes": 25104,
+              "share": 8.163212216202858,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6078,8 +6078,8 @@
               "code": "1325",
               "name": "Alternativ för Sverige",
               "abbreviation": "AFS",
-              "votes": 964,
-              "share": 0.3162283536115312,
+              "votes": 976,
+              "share": 0.31737153931700085,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6088,8 +6088,8 @@
               "code": "1152",
               "name": "Örebropartiet",
               "abbreviation": "ÖrP",
-              "votes": 790,
-              "share": 0.25914979186007225,
+              "votes": 798,
+              "share": 0.2594902544825478,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6098,8 +6098,8 @@
               "code": "0524",
               "name": "Piratpartiet",
               "abbreviation": "PP",
-              "votes": 454,
-              "share": 0.1489291208917377,
+              "votes": 458,
+              "share": 0.14893049693359262,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6108,8 +6108,8 @@
               "code": "1729",
               "name": "Ambition Sverige",
               "abbreviation": "",
-              "votes": 285,
-              "share": 0.09349074769635518,
+              "votes": 287,
+              "share": 0.09332544240161808,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6118,8 +6118,8 @@
               "code": "1296",
               "name": "Medborgerlig Samling",
               "abbreviation": "MED",
-              "votes": 223,
-              "share": 0.07315240960100773,
+              "votes": 224,
+              "share": 0.07283936967931168,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6128,8 +6128,8 @@
               "code": "1551",
               "name": "Kristna Värdepartiet",
               "abbreviation": "KVp",
-              "votes": 211,
-              "share": 0.06921595706642435,
+              "votes": 213,
+              "share": 0.06926243634684548,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6138,8 +6138,8 @@
               "code": "1568",
               "name": "MoD - Mänskliga rättigheter och Demokrati",
               "abbreviation": "MD",
-              "votes": 174,
-              "share": 0.057078561751458944,
+              "votes": 179,
+              "share": 0.05820646059194994,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6149,7 +6149,7 @@
               "name": "SKP KOMMUNISTERNA",
               "abbreviation": "SKP",
               "votes": 124,
-              "share": 0.04067667619069488,
+              "share": 0.04032179392961896,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6158,8 +6158,8 @@
               "code": "0532",
               "name": "Enad Röst",
               "abbreviation": "ER",
-              "votes": 88,
-              "share": 0.02886731858694476,
+              "votes": 89,
+              "share": 0.02894064241722651,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6169,7 +6169,7 @@
               "name": "Partiet Nyans",
               "abbreviation": "PNy",
               "votes": 73,
-              "share": 0.023946752918715536,
+              "share": 0.023737830297275678,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6179,7 +6179,7 @@
               "name": "Direktdemokraterna",
               "abbreviation": "DD",
               "votes": 58,
-              "share": 0.019026187250486316,
+              "share": 0.018860193934821773,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6189,7 +6189,7 @@
               "name": "RegleraAI.nu",
               "abbreviation": "",
               "votes": 31,
-              "share": 0.01016916904767372,
+              "share": 0.01008044848240474,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6199,7 +6199,7 @@
               "name": "Volt",
               "abbreviation": "Volt",
               "votes": 17,
-              "share": 0.005576641090659783,
+              "share": 0.005527987877447761,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6209,7 +6209,7 @@
               "name": "Nordiska motståndsrörelsen",
               "abbreviation": "NMR",
               "votes": 15,
-              "share": 0.004920565668229219,
+              "share": 0.004877636362453907,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6218,8 +6218,8 @@
               "code": "0638",
               "name": "Klassiskt liberala partiet",
               "abbreviation": "KLP",
-              "votes": 11,
-              "share": 0.003608414823368095,
+              "votes": 13,
+              "share": 0.004227284847460052,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6229,7 +6229,7 @@
               "name": "Kommunistiska Partiet",
               "abbreviation": "K",
               "votes": 8,
-              "share": 0.0026243016897222506,
+              "share": 0.0026014060599754167,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6239,7 +6239,7 @@
               "name": "Partiet Vändpunkt",
               "abbreviation": "PV",
               "votes": 8,
-              "share": 0.0026243016897222506,
+              "share": 0.0026014060599754167,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6249,7 +6249,7 @@
               "name": "NY REFORM",
               "abbreviation": "NR",
               "votes": 6,
-              "share": 0.001968226267291688,
+              "share": 0.0019510545449815625,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6259,7 +6259,7 @@
               "name": "Kalle Ankapartiet",
               "abbreviation": "",
               "votes": 6,
-              "share": 0.001968226267291688,
+              "share": 0.0019510545449815625,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6269,7 +6269,7 @@
               "name": "Enhet",
               "abbreviation": "ENH",
               "votes": 5,
-              "share": 0.0016401885560764066,
+              "share": 0.0016258787874846353,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6279,7 +6279,7 @@
               "name": "Knapptryckarna",
               "abbreviation": "Kn",
               "votes": 4,
-              "share": 0.0013121508448611253,
+              "share": 0.0013007030299877083,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6289,7 +6289,7 @@
               "name": "Partiet Arkitekturupproret",
               "abbreviation": "PAU",
               "votes": 4,
-              "share": 0.0013121508448611253,
+              "share": 0.0013007030299877083,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6299,7 +6299,7 @@
               "name": "AI partiet",
               "abbreviation": "",
               "votes": 4,
-              "share": 0.0013121508448611253,
+              "share": 0.0013007030299877083,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6309,7 +6309,7 @@
               "name": "Landsbygdspartiet Oberoende",
               "abbreviation": "LPo",
               "votes": 3,
-              "share": 0.000984113133645844,
+              "share": 0.0009755272724907813,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6319,7 +6319,7 @@
               "name": "Ond Kyckling Partiet",
               "abbreviation": "OKP",
               "votes": 3,
-              "share": 0.000984113133645844,
+              "share": 0.0009755272724907813,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6329,7 +6329,7 @@
               "name": "Ett Bra Sverige",
               "abbreviation": "",
               "votes": 3,
-              "share": 0.000984113133645844,
+              "share": 0.0009755272724907813,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6339,7 +6339,7 @@
               "name": "ansvarsfull intelligens i politiken ",
               "abbreviation": "aip",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6349,7 +6349,7 @@
               "name": "Enade Sverige",
               "abbreviation": "",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6359,7 +6359,7 @@
               "name": "Pax",
               "abbreviation": "",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6369,7 +6369,7 @@
               "name": "Företaget Sverige",
               "abbreviation": "",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6379,7 +6379,7 @@
               "name": "Kunskapsdemokratiska Partiet",
               "abbreviation": "",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6389,7 +6389,7 @@
               "name": "ANTI-AUKTORITÄRA AKTIONS PARTIET",
               "abbreviation": "",
               "votes": 2,
-              "share": 0.0006560754224305626,
+              "share": 0.0006503515149938542,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6399,7 +6399,7 @@
               "name": "En Vis Avskaffar Asylrätten!",
               "abbreviation": "EVA",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6409,7 +6409,7 @@
               "name": "TRYGGHETSPARTIET",
               "abbreviation": "TRP",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6419,7 +6419,7 @@
               "name": "Valsamverkanspartiet",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6429,7 +6429,7 @@
               "name": "ANARKISTERNA",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6439,7 +6439,7 @@
               "name": "Origo",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6449,7 +6449,7 @@
               "name": "Johannespartiet med extra älg",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6459,7 +6459,7 @@
               "name": "Socialistpartiet",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6469,7 +6469,7 @@
               "name": "Ny Allians",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6479,7 +6479,7 @@
               "name": "Humankapitalisterna",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6489,7 +6489,7 @@
               "name": "FRIDSLAGET",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6499,7 +6499,7 @@
               "name": "Djurvänners Parti",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6509,7 +6509,7 @@
               "name": "Riket",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6519,7 +6519,7 @@
               "name": "CIVIS",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -6529,7 +6529,7 @@
               "name": "Svensk-Finska Unionspartiet",
               "abbreviation": "",
               "votes": 1,
-              "share": 0.0003280377112152813,
+              "share": 0.0003251757574969271,
               "seats": null,
               "fixedSeats": null,
               "adjustmentSeats": null
@@ -17678,8 +17678,8 @@
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rd/Val_2026_slutlig_00_RD.zip",
-        "archiveMd5": "afe1fb4c58fbad53486cac2f9b1ea973",
-        "jsonSha256": "af4f3077041714f4b6bce019663c561897af10702ae8e9835b91fcc7c9202adc",
+        "archiveMd5": "a21ee1632d9a5beba6686e6c553979f4",
+        "jsonSha256": "12ff7b4e09bd49e19ccd5f1532c8a71ea437a3ce1d361271fac03c4530ef38f4",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       }
@@ -17687,7 +17687,7 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-16T15:04:50.206Z",
+    "retrievedAt": "2026-09-16T15:10:03.470Z",
     "rawSha256": "0da82fad611ce38be58d33d683c70e5e46f64cd4d2508b84e7eeede21e4fa0b7",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
@@ -19227,12 +19227,12 @@
   "nowcast": {
     "methodVersion": "pv-nowcast-2.0.0",
     "status": "ready",
-    "checkedAt": "2026-09-16T15:04:50.206Z",
+    "checkedAt": "2026-09-16T15:10:03.470Z",
     "source": {
-      "archiveMd5": "d1009e2eeacd5bbc7dd8ee708abc8e4c",
-      "jsonSha256": "302b77be2db4f764e3ee838f032296f8555585a369a63d762af4235b42f2ccc3",
-      "revision": 883,
-      "updatedAt": "2026-09-16T15:01:14.000Z",
+      "archiveMd5": "e12af34074a430848f83777e7542761a",
+      "jsonSha256": "3e4022a181a8b2c9d6b2363812152c34c0feb5023575f0395f1213d6ff564e3e",
+      "revision": 885,
+      "updatedAt": "2026-09-16T15:06:18.000Z",
       "baselineSha256": "050f6a9130ce24f3cefec18681c1c4617749d69a18f1e173054e4fc516c2f9fb"
     },
     "estimate": {
@@ -19244,11 +19244,11 @@
       "representedConstituencies": 29,
       "matchedCoverage": 1,
       "comparableReportedShare": 0.8013307984790875,
-      "countedDistricts": 6547,
+      "countedDistricts": 6549,
       "totalDistricts": 6626,
-      "countedVotes": 6525645,
-      "estimatedRemainingVotes": 125211.16624024505,
-      "estimatedCollectionVotes": 125211.16624024505,
+      "countedVotes": 6528788,
+      "estimatedRemainingVotes": 123934.282799059,
+      "estimatedCollectionVotes": 123934.282799059,
       "imputedRemainingVoteShare": 0,
       "diagnostics": {
         "estimator": "regularized-geographic",
@@ -22345,115 +22345,115 @@
       "rows": [
         {
           "partyId": "M",
-          "countedVotes": 1294949,
-          "countedShare": 19.844000095009765,
-          "projectedVotes": 1322385.566341772,
-          "projectedShare": 19.882937373600157,
+          "countedVotes": 1295454,
+          "countedShare": 19.842182040525746,
+          "projectedVotes": 1322657.4892635827,
+          "projectedShare": 19.8814475193618,
           "sensitivity": [
-            19.826458404677712,
-            19.939416342522602
+            19.8255601949565,
+            19.9373348437671
           ],
           "seats": 70
         },
         {
           "partyId": "C",
-          "countedVotes": 459555,
-          "countedShare": 7.042292371098949,
-          "projectedVotes": 469544.36429505044,
-          "projectedShare": 7.059908567538393,
+          "countedVotes": 459769,
+          "countedShare": 7.042179957443863,
+          "projectedVotes": 469663.5006128362,
+          "projectedShare": 7.059719024002768,
           "sensitivity": [
-            7.0034295986159485,
-            7.116387536460838
+            7.003831699597465,
+            7.115606348408071
           ],
           "seats": 25
         },
         {
           "partyId": "L",
-          "countedVotes": 348957,
-          "countedShare": 5.347471399378912,
-          "projectedVotes": 357529.809379339,
-          "projectedShare": 5.375696007292428,
+          "countedVotes": 349077,
+          "countedShare": 5.3467351061177055,
+          "projectedVotes": 357595.689892346,
+          "projectedShare": 5.375178380990401,
           "sensitivity": [
-            5.319217038369983,
-            5.432174976214872
+            5.319291056585098,
+            5.431065705395704
           ],
           "seats": 19
         },
         {
           "partyId": "KD",
-          "countedVotes": 405267,
-          "countedShare": 6.210374606648079,
-          "projectedVotes": 411766.8661321206,
-          "projectedShare": 6.191185853969446,
+          "countedVotes": 405484,
+          "countedShare": 6.210708633823001,
+          "projectedVotes": 411906.424610971,
+          "projectedShare": 6.191546965307352,
           "sensitivity": [
-            6.1347068850470015,
-            6.247664822891891
+            6.135659640902049,
+            6.247434289712655
           ],
           "seats": 22
         },
         {
           "partyId": "S",
-          "countedVotes": 1829274,
-          "countedShare": 28.032079587535026,
-          "projectedVotes": 1858483.2141966328,
-          "projectedShare": 27.943518364301678,
+          "countedVotes": 1830246,
+          "countedShare": 28.0334726751734,
+          "projectedVotes": 1859068.6761823765,
+          "projectedShare": 27.944480427043988,
           "sensitivity": [
-            27.887039395379233,
-            27.999997333224123
+            27.888593102638687,
+            28.00036775144929
           ],
           "seats": 99
         },
         {
           "partyId": "V",
-          "countedVotes": 538759,
-          "countedShare": 8.256026798883482,
-          "projectedVotes": 554016.7048152366,
-          "projectedShare": 8.330005806281397,
+          "countedVotes": 539065,
+          "countedShare": 8.25673922939449,
+          "projectedVotes": 554185.1264110096,
+          "projectedShare": 8.330200823862477,
           "sensitivity": [
-            8.273526837358952,
-            8.386484775203842
+            8.274313499457174,
+            8.38608814826778
           ],
           "seats": 30
         },
         {
           "partyId": "MP",
-          "countedVotes": 396996,
-          "countedShare": 6.083628514882436,
-          "projectedVotes": 407822.0526903558,
-          "projectedShare": 6.131872987427712,
+          "countedVotes": 397165,
+          "countedShare": 6.083288353060324,
+          "projectedVotes": 407904.210416431,
+          "projectedShare": 6.131387920266679,
           "sensitivity": [
-            6.075394018505267,
-            6.188351956350156
+            6.075500595861376,
+            6.187275244671982
           ],
           "seats": 22
         },
         {
           "partyId": "SD",
-          "countedVotes": 1149034,
-          "countedShare": 17.607975916556907,
-          "projectedVotes": 1163338.1003663952,
-          "projectedShare": 17.491554038884516,
+          "countedVotes": 1149609,
+          "countedShare": 17.60830647280935,
+          "projectedVotes": 1163730.723190168,
+          "projectedShare": 17.49254927113148,
           "sensitivity": [
-            17.43507506996207,
-            17.54803300780696
+            17.43666194672618,
+            17.54843659553678
           ],
           "seats": 62
         },
         {
           "partyId": "OTHER",
-          "countedVotes": 102854,
-          "countedShare": 1.5761507100064436,
-          "projectedVotes": 105969.48802334111,
-          "projectedShare": 1.5933210007042762,
+          "countedVotes": 102919,
+          "countedShare": 1.576387531652123,
+          "projectedVotes": 106010.44221933655,
+          "projectedShare": 1.5934896680330668,
           "sensitivity": [
-            1.536842031781831,
-            1.6497999696267214
+            1.5376023436277642,
+            1.6493769924383694
           ],
           "seats": null
         }
       ],
       "scenarioInput": {
-        "nationalValidVotes": 6650856,
+        "nationalValidVotes": 6652721,
         "constituencies": [
           {
             "code": "01",
@@ -22782,18 +22782,18 @@
             "code": "20",
             "name": "Västra Götalands läns östra",
             "fixedSeats": 8,
-            "validVotes": 173568,
+            "validVotes": 175274,
             "partyVotes": {
-              "S": 48761,
-              "SD": 37322,
-              "M": 34598,
-              "V": 9969,
-              "C": 11348,
-              "KD": 13915,
-              "MP": 7017,
-              "L": 7658
+              "S": 49262,
+              "SD": 37670,
+              "M": 34881,
+              "V": 10096,
+              "C": 11463,
+              "KD": 14053,
+              "MP": 7095,
+              "L": 7733
             },
-            "other": 2980
+            "other": 3021
           },
           {
             "code": "21",
@@ -22918,16 +22918,16 @@
             "code": "28",
             "name": "Västerbottens län",
             "fixedSeats": 8,
-            "validVotes": 179422,
+            "validVotes": 179581,
             "partyVotes": {
-              "S": 66272,
-              "SD": 22804,
-              "M": 27631,
-              "V": 16680,
-              "C": 12958,
-              "KD": 10659,
-              "MP": 13412,
-              "L": 6295
+              "S": 66356,
+              "SD": 22849,
+              "M": 27620,
+              "V": 16721,
+              "C": 12962,
+              "KD": 10661,
+              "MP": 13416,
+              "L": 6285
             },
             "other": 2711
           },
@@ -22955,7 +22955,7 @@
         "calibration": "unvalidated",
         "definition": "175-of-349",
         "simulations": 1000,
-        "seed": 808155070,
+        "seed": 1044390561,
         "noiseFloorPp": 1,
         "stressScenarios": 24,
         "localResidualGroups": 279,
