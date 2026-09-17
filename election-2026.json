@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "electionDate": "2026-09-13",
   "mode": "production",
-  "checkedAt": "2026-09-17T16:14:59.153Z",
-  "resultStatus": "ok",
+  "checkedAt": "2026-09-17T16:20:03.274Z",
+  "resultStatus": "degraded",
   "stageStatus": {
     "preliminary": "ok",
-    "final-count": "ok"
+    "final-count": "error"
   },
   "earlyVotingStatus": "ok",
   "results": {
@@ -23267,7 +23267,7 @@
   },
   "earlyVoting": {
     "classification": "OFFICIAL",
-    "retrievedAt": "2026-09-17T16:14:59.153Z",
+    "retrievedAt": "2026-09-17T16:20:03.274Z",
     "rawSha256": "e0e959f65d407b66f8470dc5393267aba75edcf5052b6b38aecda6edc2dce18b",
     "sourceUrl": "https://data.val.se/filer/val2026/rostmottagning/mottagna-fortidsroster-val2026.csv",
     "lastNonzeroDate": "2026-09-13",
