@@ -91,7 +91,8 @@ test("Lars Gustaf Andersson joins across party changes and keeps municipal, regi
   assert.equal(lars.id,"p2014-430402");
   assert.deepEqual(lars.sourceIds,["2014:430402","2018:112693","2022:46783","2026:31664"]);
   const rd=lars.results.filter(r=>r.electionType==="RD"&&r.areaCode==="19").sort((a,b)=>a.year-b.year);
-  assert.deepEqual(rd.map(r=>[r.year,r.partyId,r.votes]),[[2014,"L",13],[2018,"L",43],[2022,"M",102],[2026,"M",66]]);
+  assert.deepEqual(rd.filter(r=>r.year<2026).map(r=>[r.year,r.partyId,r.votes]),[[2014,"L",13],[2018,"L",43],[2022,"M",102]]);
+  assert.equal(rd.at(-1)!.year,2026);
   const c=compareCandidate(rd[2],lars.results);
   assert.equal(c.delta,59);assert.ok(Math.abs(c.percent!-137.2093023255814)<1e-10);
   assert.ok(c.sharePoints!<0,"Votes increased but the share of the new party fell");

@@ -3,8 +3,9 @@ import { buildStandings } from "../../../lib/candidates/build-standings";
 import { LEADERBOARD_METHOD } from "../../../lib/candidates/leaderboards";
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { readdirSync, writeFileSync, rmSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
+import { gunzipSync } from "node:zlib";
 import { runInNewContext } from "node:vm";
 import { execFileSync } from "node:child_process";
 import { Miniflare, convertV4MiniflareOptions } from "miniflare";
@@ -107,7 +108,11 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
   await t.test("real 2026 results and standings produce the current candidate image", async () => {
     current = buildSharePerson(source.people.find(p => p.id === "p2014-430402")!);
     const body = await (await request("/people/?person=p2014-430402&election=RD&area=19")).text();
-    assert.match(body, /2026/); assert.match(body, /66 personröster/); assert.match(body, /−35,3 % sedan 2022/);
+    const official=JSON.parse(gunzipSync(readFileSync("data/raw/valmyndigheten-2026/candidates/RD-00.json.gz")).toString());
+    const votes=official.valomrade.valkretsLista.find((a:{kod:string})=>a.kod==="19").rostfordelning.rosterPaverkaMandat.partiRoster.find((p:{partikod:string})=>p.partikod==="0001").summeradePersonroster.find((c:{kandidatnummer:number})=>c.kandidatnummer===31664).antalPersonroster as number;
+    const delta=(votes-102)/102*100;
+    const expected=`${delta<0?"−":"+"}${Math.abs(delta).toLocaleString("sv-SE",{maximumFractionDigits:1})} % sedan 2022`;
+    assert.match(body, /2026/); assert(body.includes(`${votes.toLocaleString("sv-SE")} personröster`)); assert(body.includes(expected));
     const response = await request(imageURL(body)); assert.equal(response.status, 200);
     writeFileSync(resolve(build, "lars-2026.png"), Buffer.from(await response.arrayBuffer()));
     current = initial;

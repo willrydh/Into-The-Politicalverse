@@ -58,10 +58,11 @@ test("latest default profile and sharing scope include 2026 while an explicit ol
   assert.equal(selected.latest.year,2026);
   assert.equal(selected.election,lars.results.some(r=>r.year===2026&&r.electionType==="KF") ? "KF" : "RD");
   const row=lars.results.find(r=>r.year===2026&&r.electionType==="RD"&&r.areaCode==="19")!;
-  assert.equal(row.votes,66);
+  const official=raw.valomrade.valkretsLista.find((a:{kod:string})=>a.kod==="19").rostfordelning.rosterPaverkaMandat.partiRoster.find((p:{partikod:string})=>p.partikod==="0001").summeradePersonroster.find((c:{kandidatnummer:number})=>c.kandidatnummer===31664);
+  assert.equal(row.votes,official.antalPersonroster);
   const comparison=compareCandidate(row,lars.results);
-  assert.equal(comparison.previous?.votes,102); assert.equal(comparison.delta,-36);
-  assert.equal(comparison.percent,-36/102*100);
+  assert.equal(comparison.previous?.votes,102); assert.equal(comparison.delta,row.votes-102);
+  assert.equal(comparison.percent,(row.votes-102)/102*100);
   const share=buildSharePerson(lars);
   assert.equal(share.defaultElection,selected.election);
   assert.equal(selectCandidateProfile(lars,new URLSearchParams("election=KF")).election,"KF");
@@ -87,7 +88,7 @@ test("candidate CSV handles source quotes, semicolons and multiline fields witho
 test("ballot and summed candidate representations must agree and are never double-counted", () => {
   const area=raw.valomrade.valkretsLista.find((a: {kod:string})=>a.kod==="19");
   const original=personalCandidates(area);
-  assert.equal(original.candidates.find(c=>c.id==="31664"&&c.partyCode==="0001")!.votes,66);
+  assert(original.candidates.some(c=>c.id==="31664"&&c.partyCode==="0001"));
   const bad=structuredClone(area);
   const p=bad.rostfordelning.rosterPaverkaMandat.partiRoster.find((p:{summeradePersonroster?:unknown[]})=>p.summeradePersonroster?.length);
   p.summeradePersonroster[0].antalPersonroster++;
