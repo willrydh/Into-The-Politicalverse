@@ -9,6 +9,7 @@ import { linkIdentities, extendIdentityGroups, type IdentityInput } from "../lib
 import { selectCandidateProfile } from "../lib/candidates/profile-selection";
 import { compareCandidate } from "../lib/candidates/math";
 import { buildSharePerson } from "../lib/candidates/build-sharing";
+import { selectShareScope } from "../lib/candidates/sharing";
 import { buildStandings } from "../lib/candidates/build-standings";
 import { validateRankings, validateCatalog } from "../lib/candidates/validation";
 import type { CandidateSource, CandidateYear } from "../lib/candidates/types";
@@ -77,6 +78,17 @@ test("partial 2026 cohorts earn local placements but cannot claim national or in
   assert(records.length>0); assert(records.every(r=>r.ranks.every(s=>s[1]==="area")));
   const complete={...payload,coverage:{...payload.coverage,expected:1,completeCounties:[row.county]}};
   assert(buildStandings([data.sourcePeople.get(`2026:${row.id}`)!],[complete]).get(row.person)!.some(r=>r.ranks.some(s=>s[1]==="national")));
+});
+
+test("a candidate who changes area lands on the latest area while explicit historical links are preserved", () => {
+  const moved = structuredClone(data.sourcePeople.get("2026:31664")!);
+  moved.results = moved.results.filter(r => r.electionType === "RD");
+  for (const r of moved.results) if (r.year === 2026) { r.areaCode = "01"; r.areaName = "Stockholms kommun"; }
+  const current = selectCandidateProfile(moved, new URLSearchParams());
+  assert.equal(current.area, "01"); assert.equal(current.latest.year, 2026);
+  assert.equal(selectShareScope(buildSharePerson(moved), new URLSearchParams()).area, "01");
+  const previous = selectCandidateProfile(moved, new URLSearchParams("area=19"));
+  assert.equal(previous.area, "19"); assert.equal(previous.latest.year, 2022);
 });
 
 test("candidate CSV handles source quotes, semicolons and multiline fields without shifting columns", () => {

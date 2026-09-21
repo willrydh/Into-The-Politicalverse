@@ -30,6 +30,8 @@ The sharing Worker must be released with the 2026 standings validator after the 
 
 ## Automatic publication
 
+If a candidate changes area between elections, a generic profile/share URL selects an area from their most recent election. Explicit historical area links remain valid and keep that chosen area.
+
 `.github/workflows/candidate-refresh.yml` checks hourly in September and daily in October–December 2026; manual dispatch remains available. Only changed, verified data is committed. Signature/identity/coverage failures stop the update and preserve the published generation. A source correction needs a non-regressing source revision. Previously established sources cannot disappear or regress to unfinished status.
 
 The job runs the complete data/release checks before pushing accepted data. Because a GITHUB_TOKEN commit does not trigger another workflow automatically, the refresh has its own Pages build, deploy and domain-health jobs. The exact accepted commit is built; a final main-branch guard prevents publishing stale work. The live count collector remains independent and publishes only its two existing live-data files. No DNS or private analytics changes are involved.

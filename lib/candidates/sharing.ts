@@ -18,7 +18,8 @@ export type ShareShard = { schemaVersion: 1; sourceVersion: string; counties: { 
 export function selectShareScope(person: SharePerson, params: URLSearchParams) {
   const election = person.scopes.some(s => s.election === params.get("election")) ? params.get("election") : person.defaultElection;
   const scopes = person.scopes.filter(s => s.election === election);
-  return scopes.find(s => s.area === params.get("area")) ?? scopes[0];
+  const latestYear = Math.max(...scopes.map(s => s.year));
+  return scopes.find(s => s.area === params.get("area")) ?? scopes.find(s => s.year === latestYear)!;
 }
 
 export function validateSharePerson(value: unknown, id: string): asserts value is SharePerson {
