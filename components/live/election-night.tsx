@@ -12,25 +12,27 @@ import { Localize, useLocale } from "@/components/localize";
 import { LIVE_FEED_URL, preferredStage } from "@/lib/live/public-feed";
 import type { CountingStage } from "@/lib/live/types";
 import { LiveResultTable } from "./result-table";
+import { isEstablishedResult } from "@/lib/live/headline-result";
 
 export function ElectionNight({ preparation, valu }: { valu: SvtValu; preparation: { eligibleVoters: number; districts: number; comparableDistricts: number; registeredParties: number } }) {
   const locale = useLocale(); const language = locale === "sv" ? "sv-SE" : "en-GB";
   const { feed, connectionError, delayed } = useLiveFeed();
   const [selection, setSelection] = useState<CountingStage | null>(null); const [areaCode, setAreaCode] = useState("00");
   const stage = selection ?? preferredStage(feed); const result = feed.results[stage];
+  const established = !!result && isEstablishedResult(result);
   const area = result ? areaCode === "00" ? result.national : result.constituencies.find(c => c.code === areaCode) ?? result.national : null;
   const time = (value: string) => new Date(value).toLocaleString(language, { timeZone: "Europe/Stockholm", dateStyle: "medium", timeStyle: "short" });
   const number = (value: number) => value.toLocaleString(language);
   const early = feed.earlyVoting;
   return <Localize><div className="live-page">
-    <ElectionBroadcastHero state={connectionError || delayed || feed.resultStatus === "degraded" ? "delayed" : (result?.national.countedDistricts ?? 0) > 0 ? "receiving" : "waiting"} checkedAt={feed.checkedAt} countedDistricts={result?.national.countedDistricts ?? 0} totalDistricts={result?.national.totalDistricts ?? preparation.districts}/>
+    <ElectionBroadcastHero state={connectionError || delayed || feed.resultStatus === "degraded" ? "delayed" : (result?.national.countedDistricts ?? 0) > 0 ? "receiving" : "waiting"} established={established} checkedAt={feed.checkedAt} countedDistricts={result?.national.countedDistricts ?? 0} totalDistricts={result?.national.totalDistricts ?? preparation.districts}/>
     <SvtValuPanel survey={valu}/>
     <section className="product-section live-results">
       <div className="live-toolbar"><div className="live-tabs" aria-label="Räkningstillfälle">
         <button aria-pressed={stage === "preliminary"} onClick={() => setSelection("preliminary")}>Preliminär räkning</button>
         <button aria-pressed={stage === "final-count"} onClick={() => setSelection("final-count")}>Slutlig räkning</button>
       </div><Link href="/forecasts#fore-valet" className="text-link">Visa förvalsprognosen →</Link></div>
-      <p className="live-explanation">Räkningstillfällena är separata. Slutlig räkning betyder att kontrollräkningen pågår; det är inte automatiskt ett fastställt valresultat.</p>
+      <p className="live-explanation">{established ? (locale === "sv" ? "Riksdagsvalets resultat är fastställt. Samtliga distrikt och 349 mandat är redovisade, och Valmyndighetens protokoll är publicerat. Den preliminära räkningen finns kvar som ett separat räkningstillfälle." : "The Riksdag result is established. All districts and 349 seats are reported, and the Election Authority's protocol is published. The preliminary count remains available as a separate counting stage.") : "Räkningstillfällena är separata. Slutlig räkning betyder att kontrollräkningen pågår; det är inte automatiskt ett fastställt valresultat."}</p>
       {result && area ? <>
         <label className="live-area-label">Välj område<select value={areaCode} onChange={event => setAreaCode(event.target.value)}><option value="00">Hela riket</option>{result.constituencies.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}</select></label>
         <p className="live-source-time">Källan uppdaterad: {time(result.sourceUpdatedAt)} · revision {result.sourceRevision}</p>
@@ -41,7 +43,7 @@ export function ElectionNight({ preparation, valu }: { valu: SvtValu; preparatio
           <article><span>Deltagande i räknade distrikt</span><strong>{area.turnoutInCountedDistricts === null ? "—" : `${area.turnoutInCountedDistricts.toLocaleString(language, { maximumFractionDigits: 2 })} %`}</strong><small>Bygger på röstberättigade i de räknade distrikten</small></article>
         </div>
         {area.countedDistricts > 0 ? <LiveResultTable area={area} /> : <p className="live-empty">Inga distrikt har rapporterat i detta område ännu.</p>}
-        <p className="live-explanation">Röstandelar beräknas från giltiga röster. Tidiga distrikt är inte ett representativt urval. Mandaten är Valmyndighetens publicerade beräkning och kan ändras under räkningen.</p>
+        <p className="live-explanation">{established ? (locale === "sv" ? "Röstandelar beräknas från giltiga röster. Mandaten följer Valmyndighetens fastställda fördelning. Eventuella officiella rättelser kontrolleras före publicering." : "Vote shares use valid votes. Seats follow the Election Authority's established allocation. Any official corrections are verified before publication.") : "Röstandelar beräknas från giltiga röster. Tidiga distrikt är inte ett representativt urval. Mandaten är Valmyndighetens publicerade beräkning och kan ändras under räkningen."}</p>
         {result.protocolUrl && <a href={result.protocolUrl} target="_blank" rel="noreferrer">Öppna Valmyndighetens protokoll ↗</a>}
         {area.code === "00" && <ForecastResultComparison result={result}/>}
       </> : <div className="live-empty"><h2>Rösträkningen har inte publicerats.</h2><p>Vallokalerna stänger klockan 20 den 13 september. Här kommer räknade distrikt, röster, röstandelar och officiella mandat att visas.</p></div>}

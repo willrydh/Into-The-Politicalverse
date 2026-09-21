@@ -10,11 +10,13 @@ export function ElectionBroadcastHero({
   checkedAt,
   countedDistricts,
   totalDistricts,
+  established = false,
 }: {
   state: "waiting" | "receiving" | "delayed";
   checkedAt: string;
   countedDistricts: number;
   totalDistricts: number;
+  established?: boolean;
 }) {
   const sv = useLocale() === "sv";
   const locale = sv ? "sv-SE" : "en-GB";
@@ -66,7 +68,11 @@ export function ElectionBroadcastHero({
       ? sv
         ? "Uppdatering fördröjd"
         : "Updates delayed"
-      : receiving
+      : established
+        ? sv
+          ? "Fastställt valresultat"
+          : "Established election result"
+        : receiving
         ? sv
           ? "Rösträkning pågår"
           : "Counting in progress"

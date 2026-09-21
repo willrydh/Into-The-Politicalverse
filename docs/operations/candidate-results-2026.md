@@ -44,6 +44,8 @@ The homepage and chart page extend their national history and underlying table t
 
 The homepage mandate bar and legend include only parties with seats; zero-seat registrations do not create empty segments or rows. The full vote table remains available through its expand control. Tests with current 2026 data read authoritative counts instead of freezing today's personal totals, so later official corrections can pass the same release gates.
 
+The election-night broadcast status and counting notes also identify an established result when its complete-count, protocol and mandate checks pass. Delayed-source warnings take precedence; the preliminary stage remains independently selectable.
+
 Final national results replace current election-night projections on the forecast page and in the simulator. Old victory probabilities are withdrawn once an established result exists. The frozen pre-election reference and forecast scoring remain unchanged. The simulator accepts official constituency inputs only after independently reproducing each party’s fixed, adjustment and total mandates. Edited scenarios pin their starting source and are labelled MODEL; the untouched recalculation is DERIVED from OFFICIAL counts (scenario baseline version 1.2.0).
 
 Count-indicator method `pv-count-indicators-1.1.0` uses fixed categories: the eight parliamentary parties and all remaining votes as a residual category in each election. Missing individual minor-party baselines are not assumed zero. Largest gains/losses refer to the eight named parties. Net volatility is half the sum of absolute changes across all nine categories; it does not identify individual voter movements.
