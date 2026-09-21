@@ -103,8 +103,14 @@ const data: CandidateSource = { schemaVersion: 1, year: 2026, classification: "O
 const normalized = gzipSync(Buffer.from(JSON.stringify(data)), { level: 9 }), compressedMetadata = gzipSync(metadataBytes, { level: 9 });
 const manifest: Manifest = { schemaVersion: 1, methodVersion: CANDIDATE_2026_METHOD, retrievedAt: now.slice(0, 10), indexSha256: digest(index), coverage, sources: accepted.map(a => a.source), metadata: { url: csvUrl, file: `${rawDir}/kandidaturer.csv.gz`, sha256: digest(metadataBytes), compressedSha256: digest(compressedMetadata) }, geographySha256: digest(await readFile(resolve(root, "data/normalized/election-preparation-2026.json"))), outputSha256: digest(normalized) };
 // An unchanged check does not create a new source generation/deployment.
-if (previous && previous.outputSha256 === manifest.outputSha256 && JSON.stringify(previous.coverage) === JSON.stringify(coverage) && JSON.stringify(previous.sources) === JSON.stringify(manifest.sources)) {
-  console.log("Established personal results and coverage unchanged."); process.exit(0);
+// gzip headers differ between macOS and Linux. Compare verified content, not
+// recompression bytes, while retaining the pinned checksum of the stored file.
+if (previous && JSON.stringify(previous.coverage) === JSON.stringify(coverage) && JSON.stringify(previous.sources) === JSON.stringify(manifest.sources)) {
+  const stored = await readFile(resolve(root, output));
+  insist(digest(stored) === previous.outputSha256, "Pinned candidate output changed");
+  if (gunzipSync(stored).equals(gunzipSync(normalized))) {
+    console.log("Established personal results and coverage unchanged."); process.exit(0);
+  }
 }
 pendingFiles.set(`${rawDir}/index.md5`, index); pendingFiles.set(manifest.metadata.file, compressedMetadata); pendingFiles.set(output, normalized); pendingFiles.set(manifestFile, Buffer.from(`${JSON.stringify(manifest, null, 2)}\n`));
 // All network, signature, coverage and arithmetic checks precede tracked writes.

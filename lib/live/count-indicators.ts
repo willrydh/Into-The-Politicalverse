@@ -14,7 +14,7 @@ export function nationalCountIndicators(area: CountedArea) {
   if (current.some(p => p?.share == null) || previous.some(p => p?.share == null || p.votes == null)) return null;
   const currentNamed = current.reduce((s, p) => s + p!.votes, 0), previousNamed = previous.reduce((s, p) => s + p!.votes!, 0);
   if (currentNamed > area.validVotes || previousNamed > old.validVotes) return null;
-  const changes = codes.map((code, i) => ({ code, change: current[i]!.share! - previous[i]!.share! })).sort((a, b) => b.change - a.change || a.code.localeCompare(b.code));
+  const changes = codes.map((code, i) => ({ code, partyId: PARTY_CODE_TO_ID[code], change: current[i]!.share! - previous[i]!.share! })).sort((a, b) => b.change - a.change || a.code.localeCompare(b.code));
   const otherChange = ((area.validVotes - currentNamed) / area.validVotes - (old.validVotes - previousNamed) / old.validVotes) * 100;
-  return { gain: changes[0], loss: changes.at(-1)!, volatility: (changes.reduce((s, c) => s + Math.abs(c.change), 0) + Math.abs(otherChange)) / 2 };
+  return { changes: [...changes, { code: null, partyId: "OTHER" as const, change: otherChange }], gain: changes[0], loss: changes.at(-1)!, volatility: (changes.reduce((s, c) => s + Math.abs(c.change), 0) + Math.abs(otherChange)) / 2 };
 }

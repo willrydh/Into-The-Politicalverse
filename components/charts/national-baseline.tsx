@@ -2,6 +2,7 @@
 import { Localize, useLocale } from "@/components/localize";
 import { nationalHistory } from "@/lib/data/elections";
 import { currentNationalHistory } from "@/lib/live/national-history";
+import { nationalCountIndicators } from "@/lib/live/count-indicators";
 import { useLiveFeed } from "../live/use-live-feed";
 import { PARTIES } from "@/lib/data/elections/parties";
 import { formatDelta, formatNumber } from "@/lib/format";
@@ -11,6 +12,7 @@ export function NationalBaseline() {
   const sv = useLocale() === "sv", { feed } = useLiveFeed();
   const history = currentNationalHistory(nationalHistory, feed);
   const election = history.elections.at(-1)!, previous = history.elections.at(-2)!;
+  const currentChanges = election.year === 2026 && feed.results["final-count"] ? nationalCountIndicators(feed.results["final-count"].national) : null;
   const ranking = [...election.parties].sort((a, b) => b.votes - a.votes);
 
   return <Localize>{(
@@ -26,7 +28,9 @@ export function NationalBaseline() {
         {ranking.map((result, index) => {
           const party = PARTIES[result.partyId];
           const baseline = previous.parties.find(p => p.partyId === result.partyId);
-          const change = baseline ? result.share - baseline.share : null;
+          const change = election.year === 2026
+            ? currentChanges?.changes.find(p => p.partyId === result.partyId)?.change ?? null
+            : baseline ? (result.votes / election.validVotes - baseline.votes / previous.validVotes) * 100 : null;
           return (
             <div className="baseline-row" key={result.partyId}>
               <span className="baseline-row__rank">{String(index + 1).padStart(2, "0")}</span>

@@ -36,6 +36,8 @@ If a candidate changes area between elections, a generic profile/share URL selec
 
 The job runs the complete data/release checks before pushing accepted data. Because a GITHUB_TOKEN commit does not trigger another workflow automatically, the refresh has its own Pages build, deploy and domain-health jobs. The exact accepted commit is built; a final main-branch guard prevents publishing stale work. The live count collector remains independent and publishes only its two existing live-data files. No DNS or private analytics changes are involved.
 
+No-change detection compares decompressed, checksum-verified candidate content, so macOS/Linux gzip headers do not trigger redundant source generations. National comparison panels use the signed current archive's full-precision previous shares; rounded historical display percentages are never used as the subtraction baseline.
+
 ## Whole-platform transition and source exceptions
 
 The homepage and chart page extend their national history and underlying table through the established 2026 result. All minor parties are summed once into the existing OTHER category. Source links point to the new protocol; the original 2002–2022 dataset remains untouched for historical model evaluation. Government comparison cards show actual group seat totals after establishment, with no residual simulation percentages or labels.

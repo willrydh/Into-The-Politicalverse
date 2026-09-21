@@ -32,6 +32,13 @@ test("same-source 2022 comparisons reproduce national votes, shares and seats", 
   const indicators = nationalCountIndicators(a)!;
   assert.equal(indicators.gain.code, "0005"); assert.equal(indicators.loss.code, "0110");
   assert(indicators.volatility > 5 && indicators.volatility < 7);
+  assert.equal(indicators.changes.length, 9);
+  for (const change of indicators.changes.filter(p => p.code !== null)) {
+    assert.equal(change.change, a.parties.find(p => p.code === change.code)!.share! - a.previous!.parties.find(p => p.code === change.code)!.share!);
+  }
+  const sd = a.parties.find(p => p.code === "0110")!, priorSd = a.previous!.parties.find(p => p.code === "0110")!;
+  assert.notEqual(indicators.changes.find(p => p.partyId === "SD")!.change, sd.share! - Number(priorSd.share!.toFixed(2)), "Displayed changes must not subtract an already-rounded historic percentage");
+  assert(Math.abs(indicators.changes.reduce((sum, p) => sum + p.change, 0)) < 1e-10);
 });
 
 test("unreviewed or absent comparisons stay absent; malformed numbers fail closed", () => {
