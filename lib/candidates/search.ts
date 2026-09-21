@@ -1,6 +1,6 @@
 import { normalizeSearch, type PreparedSearchEntry } from "../search/engine";
 import { bilingual as b, type SearchEntry } from "../search/types";
-import { personHref, type CandidateElection } from "./types";
+import { CANDIDATE_YEARS, personHref, type CandidateElection, type CandidateYear } from "./types";
 
 type CandidateSearchRow = [string, string, string[], number[], string[], string[]];
 export type CandidateSearchIndex = {
@@ -23,7 +23,7 @@ export function validateCandidateSearch(value: unknown): asserts value is Candid
   for (const row of d.rows) {
     if (!Array.isArray(row) || row.length !== 6) throw new Error("Invalid candidate search row");
     const [id, name, aliases, years, parties, areas] = row;
-    if (!/^p(?:2010|2014|2018|2022)-\d+$/.test(id) || seen.has(id) || typeof name !== "string" || !name || !Array.isArray(aliases) || aliases.some(a => typeof a !== "string") || !Array.isArray(years) || !years.length || years.some(y => ![2010, 2014, 2018, 2022].includes(y)) || !Array.isArray(parties) || !parties.length || parties.some(p => !Object.hasOwn(d.parties, p)) || !Array.isArray(areas) || !areas.length || areas.some(a => !Object.hasOwn(d.areas, a))) throw new Error("Invalid candidate search row");
+    if (!/^p(?:2010|2014|2018|2022|2026)-\d+$/.test(id) || seen.has(id) || typeof name !== "string" || !name || !Array.isArray(aliases) || aliases.some(a => typeof a !== "string") || !Array.isArray(years) || !years.length || years.some(y => !CANDIDATE_YEARS.includes(y as CandidateYear)) || !Array.isArray(parties) || !parties.length || parties.some(p => !Object.hasOwn(d.parties, p)) || !Array.isArray(areas) || !areas.length || areas.some(a => !Object.hasOwn(d.areas, a))) throw new Error("Invalid candidate search row");
     seen.add(id);
   }
 }

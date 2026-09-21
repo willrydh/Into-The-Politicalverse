@@ -9,7 +9,27 @@ import { publicScenarioInput } from "../lib/nowcast/scenario";
 import { calculateRiksdagSeats } from "../lib/simulator/riksdag-rules";
 import { createLiveStore } from "../lib/live/store";
 import { emptyFeed } from "../lib/live/collector";
+import { currentNationalHistory } from "../lib/live/national-history";
+import { nationalHistory } from "../lib/data/elections";
 const live = () => validatePublicFeed(structuredClone(raw));
+
+test("public history extends through the established election without rewriting the frozen historical input", () => {
+  const feed = validatePublicFeed(JSON.parse(readFileSync("data/live/election-2026.json", "utf8")));
+  const before = JSON.stringify(nationalHistory), final = feed.results["final-count"]!;
+  const history = currentNationalHistory(nationalHistory, feed), latest = history.elections.at(-1)!;
+  assert.equal(latest.year, 2026);
+  assert.equal(latest.validVotes, final.national.validVotes);
+  assert.equal(latest.parties.reduce((sum, p) => sum + p.votes, 0), latest.validVotes);
+  assert.equal(latest.parties.reduce((sum, p) => sum + p.seats!, 0), 349);
+  assert(Math.abs(latest.parties.reduce((sum, p) => sum + p.share, 0) - 100) < 1e-10);
+  assert.equal(latest.turnout, latest.totalVotes / latest.eligibleVoters * 100);
+  assert.equal(history.source.urls.at(-1)?.url, final.protocolUrl);
+  assert.equal(JSON.stringify(nationalHistory), before);
+  assert.equal(currentNationalHistory(history, feed).elections.filter(e => e.year === 2026).length, 1);
+  assert.equal(currentNationalHistory(nationalHistory, live()), nationalHistory);
+  final.protocolUrl = null;
+  assert.equal(currentNationalHistory(nationalHistory, feed), nationalHistory);
+});
 
 test("all current displays take seats and probabilities from the same validated source generation", () => {
   const feed = live();
@@ -98,4 +118,28 @@ test("unsubscribing and resubscribing cannot accept a late response from a previ
     assert.equal(store.getSnapshot().connectionError, false);
     assert.throws(() => acceptPublicFeed(accepted, initial));
   } finally { end(); }
+});
+
+test("established official results retire election-night probabilities and reproduce all 349 simulator seats", async () => {
+  const {officialScenarioInput}=await import("../lib/nowcast/scenario");
+  const {PARTY_CODE_TO_ID}=await import("../lib/live/constants");
+  const {nationalCountIndicators}=await import("../lib/live/count-indicators");
+  const feed=validatePublicFeed(JSON.parse(readFileSync("data/live/election-2026.json","utf8")));
+  const final=feed.results["final-count"]!;
+  assert.deepEqual(currentProjection(feed,false),{estimate:null,probability:null,source:null});
+  assert.deepEqual(currentProjection(feed,true),{estimate:null,probability:null,source:null});
+  const input=officialScenarioInput(feed); assert(input);
+  const calculated=calculateRiksdagSeats(input);
+  assert.equal(calculated.totalSeats,349);
+  for(const p of calculated.parties) {
+    const official=final.national.parties.find(r=>PARTY_CODE_TO_ID[r.code]===p.partyId)!;
+    assert.deepEqual([p.totalSeats,p.fixedSeats,p.adjustmentSeats],[official.seats,official.fixedSeats,official.adjustmentSeats]);
+  }
+  const indicators=nationalCountIndicators(final.national);assert(indicators);
+  assert(indicators.volatility>=0&&indicators.volatility<=100);
+  for(const mutate of [
+    (f:typeof feed)=>{f.results["final-count"]!.protocolUrl=null;},
+    (f:typeof feed)=>{f.results["final-count"]!.national.parties[0].seats!++;},
+    (f:typeof feed)=>{f.results["final-count"]!.constituencies.pop();},
+  ]) { const bad=structuredClone(feed); mutate(bad); assert.equal(officialScenarioInput(bad),null); }
 });

@@ -1,5 +1,5 @@
 "use client";
-import { Localize } from "@/components/localize";
+import { Localize, useLocale } from "@/components/localize";
 import { PartyMark } from "@/components/party-mark";
 import { PartySvgLabel } from "@/components/party-label";
 
@@ -33,6 +33,7 @@ function linePath(points: { year: number; share: number }[]): string {
 }
 
 export function NationalTrendChart({ history, initialParty = null, compact = false }: NationalTrendChartProps) {
+  const sv = useLocale() === "sv";
   const [activeParty, setActiveParty] = useState<PartyId | null>(initialParty);
   const partyOrder = PARTY_ORDER.filter((partyId) => partyId !== "OTHER");
 
@@ -78,7 +79,7 @@ export function NationalTrendChart({ history, initialParty = null, compact = fal
       </div>
       <div className="chart-scroll" tabIndex={0} aria-label="Scrollable chart area">
         <svg className="line-chart" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="trend-title trend-description">
-          <title id="trend-title">Swedish Riksdag election vote share by party, 2002 to 2022</title>
+          <title id="trend-title">{`${sv ? "Partiernas röstandelar i riksdagsvalen" : "Party vote shares in Riksdag elections"}, ${history.elections[0].year}–${history.elections.at(-1)!.year}`}</title>
           <desc id="trend-description">Official final national vote shares from Valmyndigheten. Select a party above to highlight its history.</desc>
           <g className="chart-grid">
             {[0, 10, 20, 30, 40].map((tick) => (

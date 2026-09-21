@@ -1,5 +1,7 @@
 # Resultat efter valdagen 2026
 
+Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
+
 Infört 14 september 2026. Källa: [Valmyndighetens rådata](https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026), [teknisk beskrivning](https://www.val.se/valresultat-och-statistik/statistik-och-data/teknisk-beskrivning-av-resultatfiler) och signerade produktionspaket. Granskningens tidsstämplar och hashar finns i `data/raw/valmyndigheten-2026/post-election-review-2026-09-14.json`. Detta dokument beskriver anslutningen, inte ett löfte om att rösterna är färdigräknade.
 
 ## Anslutna data

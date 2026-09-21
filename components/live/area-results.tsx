@@ -10,8 +10,13 @@ import { aggregateMunicipalVotes } from "@/lib/live/area-aggregate";
 import type { CountingStage } from "@/lib/live/types";
 import type { LocalIndexModel } from "@/lib/data/geography/local-types";
 import { SortHeaders, useTableSort } from "../table-sort";
+import { LocalPersonalVotes } from "../maps/local-personal-votes";
+import { PARTIES } from "@/lib/parties";
+import { PARTY_IDS, type PartyId } from "@/lib/data/elections/types";
+import Link from "next/link";
+import { translateText } from "@/lib/i18n/translate";
 
-type Geography = Pick<LocalIndexModel, "counties" | "municipalities">;
+type Geography = Pick<LocalIndexModel, "counties" | "municipalities" | "national" | "constituencies">;
 
 function AreaDirectory({ areas, select }: { areas: CountedArea[]; select: (code: string) => void }) {
   const sv = useLocale() === "sv", language = sv ? "sv-SE" : "en-GB";
@@ -40,6 +45,7 @@ export function AreaResults({ geography }: { geography: Geography }) {
   const requestedStage = params.get("stage"), stage = requestedStage === "preliminary" || requestedStage === "final-count" ? requestedStage as CountingStage : undefined;
   const change = (values: Record<string, string | null>) => {
     const next = new URLSearchParams(query); next.set("year", "2026");
+    if ("county" in values || "municipality" in values) next.delete("constituency");
     for (const [key, value] of Object.entries(values)) if (value) next.set(key, value); else next.delete(key);
     navigateLocalQuery(`?${next}`);
   };
@@ -56,6 +62,7 @@ export function AreaResults({ geography }: { geography: Geography }) {
   const date = (v: string) => new Date(v).toLocaleString(language, { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
   const names = sv ? { RD: "Riksdagen", RF: "Regionfullmäktige", KF: "Kommunfullmäktige" } : { RD: "Riksdag", RF: "Regional council", KF: "Municipal council" };
   const prefix = sv ? "" : "/en";
+  const party = PARTY_IDS.includes(params.get("party") as PartyId) ? params.get("party") as PartyId : "S";
   usePublishSiteLocation("/maps", query, [{ label: "2026", href: `${prefix}/maps/?year=2026` }, ...(county ? [{ label: county.name, href: `${prefix}/maps/?year=2026&election=${type}&county=${county.code}` }] : []), ...(municipality ? [{ label: municipality.name, href: `${prefix}/maps/${query}` }] : [])]);
   return <div className="area-results" data-classification={type === "RD" && county && !municipality ? "DERIVED" : "OFFICIAL"}>
     <div className="area-controls">
@@ -73,8 +80,12 @@ export function AreaResults({ geography }: { geography: Geography }) {
         <p className="local-note">{sv ? "¹ Deltagande i rapporterade distrikt. Källan uppdaterad" : "¹ Turnout in reported districts. Source updated"} {date(result.sourceUpdatedAt)} ({sv ? "svensk tid" : "Swedish time"}). {!mandates && (sv ? "Röster i valt område; mandat fördelas på valområdesnivå." : "Votes in the selected area; seats are allocated at electoral-area level.")}</p>
         {result.protocolUrl && <a href={result.protocolUrl} target="_blank" rel="noreferrer">{sv ? "Officiellt protokoll" : "Official protocol"} ↗</a>}
       </> : <p>{stage === "final-count" ? (sv ? "Ingen verifierad slutlig räkning finns ännu för urvalet." : "No verified final count is available for this selection yet.") : type === "RF" && county?.code === "09" ? (sv ? "Gotland har inget separat regionval. Välj kommunfullmäktige för Region Gotland." : "Gotland has no separate regional election. Select Municipal council for Region Gotland.") : type === "RF" && !county ? (sv ? "Välj län för att se regionvalets röster och mandat." : "Choose a county to see regional votes and seats.") : type === "KF" && !municipality ? (sv ? "Välj kommun nedan för röster, mandat och jämförelse med 2022." : "Choose a municipality below for votes, seats and comparison with 2022.") : (sv ? "Inväntar verifierat resultat för urvalet." : "Waiting for a verified result for this selection.")}</p>}
+      {type === "RD" ? <>
+        <label className="area-search">{sv ? "Parti för personröster" : "Party for personal votes"}<select value={party} onChange={e => change({party:e.target.value})}>{PARTY_IDS.map(id => <option key={id} value={id}>{translateText(PARTIES[id].name,locale)}</option>)}</select></label>
+        <LocalPersonalVotes key={`${county?.code}/${municipality?.code}`} area={municipality ?? county ?? geography.national} county={county} municipality={municipality} constituencies={geography.constituencies} selection={{year:2026,party,metric:"share",county:county?.code ?? "",municipality:municipality?.code ?? "",district:"",constituency:params.get("constituency") ?? ""}} onConstituency={code => change({constituency:code})}/>
+      </> : <p><Link href={`${prefix}/rankings/?year=2026&election=${type}${county ? `&county=${county.code}` : ""}${municipality && type === "KF" ? `&area=${municipality.code}` : ""}`}>{sv ? "Personröster och topplistor 2026" : "2026 personal votes and leaderboards"} →</Link></p>}
       {directory.length > 0 && <AreaDirectory key={`${type}/${county?.code}/${stage}`} areas={directory} select={code => change({ municipality: code })} />}
-      <footer className="area-source"><p>{sv ? "Kontrollerad" : "Checked"} {date(feed.checkedAt)} · {sv ? "svensk tid" : "Swedish time"}. {feed.published.preliminary.RF}/20 {sv ? "regionval" : "regional elections"}, {feed.published.preliminary.KF}/290 {sv ? "kommunval publicerade" : "municipal elections published"}.</p><p>{sv ? "Sena förtids- och utlandsröster ingår när de rapporteras. Räkningstillfällena summeras aldrig. Samlad resultatbild visar preliminär räkning tills den slutliga täcker hela valområdet. Personrösterna för 2026 är ännu inte införda i profiler och topplistor." : "Late advance and overseas votes are included when reported. Counting stages are never added together. Overall result retains the preliminary count until the final count covers the whole electoral area. Personal votes for 2026 have not yet been added to profiles or leaderboards."}</p><a href="https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026" target="_blank" rel="noreferrer">{sv ? "Valmyndighetens källor" : "Election authority sources"} ↗</a></footer>
+      <footer className="area-source"><p>{sv ? "Kontrollerad" : "Checked"} {date(feed.checkedAt)} · {sv ? "svensk tid" : "Swedish time"}. {feed.published.preliminary.RF}/20 {sv ? "regionval" : "regional elections"}, {feed.published.preliminary.KF}/290 {sv ? "kommunval publicerade" : "municipal elections published"}.</p><p>{sv ? "Sena förtids- och utlandsröster ingår när de rapporteras. Räkningstillfällena summeras aldrig. Samlad resultatbild visar preliminär räkning tills den slutliga täcker hela valområdet. Fastställda personröster införs val för val i profiler och topplistor." : "Late advance and overseas votes are included when reported. Counting stages are never added together. Overall result retains the preliminary count until the final count covers the whole electoral area. Final personal votes are added to profiles and leaderboards as each election is established."}</p><a href="https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026" target="_blank" rel="noreferrer">{sv ? "Valmyndighetens källor" : "Election authority sources"} ↗</a></footer>
     </>}
   </div>;
 }

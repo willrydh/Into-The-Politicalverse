@@ -16,7 +16,10 @@ rmSync(build, { recursive: true, force: true });
 execFileSync(process.execPath, ["node_modules/wrangler/bin/wrangler.js", "deploy", "--dry-run", "--config", "workers/sharing/wrangler.jsonc", "--outdir", build], { stdio: "pipe", env: { ...process.env, WRANGLER_SEND_METRICS: "false" } });
 const source = getCandidateData();
 const standings = buildStandings(source.people, source.rankings.values());
-const jonas = source.people.find(p => p.id === "p2014-497303")!;
+// Keep the historical regression and synthetic future tests independent of
+// newly established 2026 municipal data. The real 2026 case is tested below.
+const jonas = structuredClone(source.people.find(p => p.id === "p2014-497303")!);
+jonas.results = jonas.results.filter(r => r.year <= 2022);
 const initial = buildSharePerson(jonas);
 const html = '<!doctype html><html><head><title>Generic</title><meta name="description" content="Generic"><meta property="og:image" content="generic.png"><meta name="twitter:image" content="generic.png"><link rel="canonical" href="https://politicalverse.se/people/"><link rel="alternate" hreflang="en" href="https://politicalverse.se/en/people/"><meta name="viewport" content="width=device-width"></head><body><main id="profile">Existing page</main><script src="/application.js"></script></body></html>';
 const imageURL = (text: string) => text.match(/property="og:image" content="([^"]+)"/)![1].replaceAll("&amp;", "&");
@@ -89,7 +92,9 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
       ["p2022-29046", "RD", "19", "jan-missing"],
       ["p2010-511461", "RD", "01", "long-party-name"],
     ]) {
-      current = buildSharePerson(source.people.find(p => p.id === id)!);
+      const historical = structuredClone(source.people.find(p => p.id === id)!);
+      historical.results = historical.results.filter(r => r.year <= 2022);
+      current = buildSharePerson(historical);
       const body = await (await request(`/people/?person=${id}&election=${election}&area=${area}`)).text();
       const image = await request(imageURL(body)); assert.equal(image.status, 200);
       writeFileSync(resolve(build, `${file}.png`), Buffer.from(await image.arrayBuffer()));
@@ -97,6 +102,14 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
       if (file === "lars-party-switch") assert.match(body, /\+137,2 % sedan 2018/);
       if (file === "jan-missing") assert.match(body, /Tidigare jämförbart resultat saknas/);
     }
+    current = initial;
+  });
+  await t.test("real 2026 results and standings produce the current candidate image", async () => {
+    current = buildSharePerson(source.people.find(p => p.id === "p2014-430402")!);
+    const body = await (await request("/people/?person=p2014-430402&election=RD&area=19")).text();
+    assert.match(body, /2026/); assert.match(body, /66 personröster/); assert.match(body, /−35,3 % sedan 2022/);
+    const response = await request(imageURL(body)); assert.equal(response.status, 200);
+    writeFileSync(resolve(build, "lars-2026.png"), Buffer.from(await response.arrayBuffer()));
     current = initial;
   });
   await t.test("new verified election and count correction invalidate metadata AND an already-cached image", async () => {

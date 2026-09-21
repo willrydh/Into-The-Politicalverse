@@ -8,6 +8,13 @@ function envelope(v: unknown): asserts v is { schemaVersion: number; version: st
   assert(v && typeof v === "object"); const d = v as { schemaVersion: number; version: string };
   assert(d.schemaVersion === 1 && typeof d.version === "string" && /^[a-f0-9]{64}$/.test(d.version));
 }
+function coverage(v: unknown, type: string) {
+  assert(v && typeof v === "object");
+  const c = v as { expected: number; published: number; final: string[] };
+  assert(c.expected === ({RD:29,RF:20,KF:290} as Record<string,number>)[type]);
+  assert(Number.isSafeInteger(c.published) && c.published >= 0 && c.published <= c.expected);
+  assert(Array.isArray(c.final) && c.final.length <= c.published && new Set(c.final).size === c.final.length && c.final.every(code => (type === "KF" ? /^\d{4}$/ : /^\d{2}$/).test(code)));
+}
 function result(r: CandidateResult) {
   assert(r && CANDIDATE_YEARS.includes(r.year) && ELECTION_TYPES.includes(r.electionType) && PARTY_IDS.includes(r.partyId) && r.partyId === candidatePartyId(r.partyCode));
   assert(typeof r.id === "string" && /^\d+$/.test(r.id) && typeof r.partyCode === "string" && r.partyCode.length > 0 && typeof r.name === "string" && typeof r.partyName === "string" && typeof r.areaCode === "string" && typeof r.areaName === "string" && typeof r.county === "string");
@@ -35,6 +42,10 @@ export function validateRankings(v: unknown): asserts v is RankingsPayload {
   envelope(v); const d = v as RankingsPayload;
   assert(CANDIDATE_YEARS.includes(d.year) && ELECTION_TYPES.includes(d.electionType) && Array.isArray(d.rows));
   for (const r of d.rows) { ranking(r); assert(r.year === d.year && r.electionType === d.electionType); }
+  if (d.year === 2026) {
+    coverage(d.coverage, d.electionType);
+    assert(d.coverage && Array.isArray(d.coverage.completeCounties) && d.coverage.completeCounties.every(c => /^\d{2}$/.test(c)) && d.rows.every(r => d.coverage!.final.includes(r.areaCode)));
+  }
 }
 export function validatePersonalArea(v: unknown): asserts v is PersonalAreaPayload {
   validateRankings(v); const d = v as PersonalAreaPayload;
@@ -53,4 +64,6 @@ export function validateCatalog(v: unknown): asserts v is CandidateCatalog {
   assert([d.people, d.linkedPeople, d.electionIdentities, d.results].every(n => Number.isSafeInteger(n) && n > 0));
   assert(d.counties?.length === 21 && d.municipalities?.length === 290 && d.constituencies?.length === 29);
   for (const area of [...d.counties, ...d.municipalities, ...d.constituencies]) assert(typeof area.code === "string" && typeof area.name === "string");
+  assert(d.coverage2026);
+  for (const type of ELECTION_TYPES) coverage(d.coverage2026[type], type);
 }

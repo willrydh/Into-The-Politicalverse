@@ -1,7 +1,8 @@
 "use client";
 import { Localize, useLocale } from "@/components/localize";
 import { useCurrentProjection } from "@/components/live/use-live-feed";
-import { publicScenarioInput } from "@/lib/nowcast/scenario";
+import { officialScenarioInput, publicScenarioInput } from "@/lib/nowcast/scenario";
+import { isEstablishedResult } from "@/lib/live/headline-result";
 import { useMemo, useState, type CSSProperties } from "react";
 import { PartyMark } from "@/components/party-mark";
 import { PARTIES } from "@/lib/parties";
@@ -23,17 +24,20 @@ function shareTotal(shares: SimulatorPartyVotes): number {
 export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline }) {
   const { estimate, feed, source } = useCurrentProjection();
   const language = useLocale() === "sv" ? "sv-SE" : "en-GB";
-  const input = useMemo(() => publicScenarioInput(estimate, feed), [estimate, feed]);
-  const currentBaseline = useMemo(() => input && estimate ? {
+  const sv = language === "sv-SE", final = feed.results["final-count"];
+  const official = final && isEstablishedResult(final) ? final : null;
+  const input = useMemo(() => official ? officialScenarioInput(feed) : publicScenarioInput(estimate, feed), [estimate, feed, official]);
+  const currentBaseline = useMemo(() => input ? {
     ...baseline,
     nationalValidVotes: input.nationalValidVotes,
     constituencies: input.constituencies,
-    shares: Object.fromEntries(SIMULATOR_PARTY_IDS.map(p => [p, estimate.rows.find(r => r.partyId === p)!.projectedShare])) as SimulatorPartyVotes,
-  } : null, [baseline, input, estimate]);
-  const [draft, setDraft] = useState<{ baseline: SimulatorBaseline; shares: SimulatorPartyVotes; updatedAt: string } | null>(null);
+    shares: Object.fromEntries(SIMULATOR_PARTY_IDS.map(p => [p, input.constituencies.reduce((s, c) => s + c.partyVotes[p], 0) / input.nationalValidVotes * 100])) as SimulatorPartyVotes,
+  } : null, [baseline, input]);
+  const [draft, setDraft] = useState<{ baseline: SimulatorBaseline; shares: SimulatorPartyVotes; updatedAt: string; official: boolean } | null>(null);
   const shares = draft?.shares ?? currentBaseline?.shares ?? Object.fromEntries(SIMULATOR_PARTY_IDS.map(p => [p, 0])) as SimulatorPartyVotes;
   const activeBaseline = draft?.baseline ?? currentBaseline;
-  const sourceTime = draft?.updatedAt ?? source?.updatedAt;
+  const sourceTime = draft?.updatedAt ?? official?.sourceUpdatedAt ?? source?.updatedAt;
+  const fromOfficial = draft?.official ?? Boolean(official);
   const time = sourceTime ? new Date(sourceTime).toLocaleString(language, { timeZone: "Europe/Stockholm", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
   const [coalition, setCoalition] = useState<SimulatorPartyId[]>([]);
   const modeledTotal = shareTotal(shares);
@@ -61,7 +65,7 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
   function updateShare(partyId: SimulatorPartyId, value: number): void {
     const next = Number.isFinite(value) ? Math.min(100, Math.max(0, Math.round(value * 100) / 100)) : 0;
     if (!activeBaseline || !sourceTime) return;
-    setDraft({ baseline: activeBaseline, shares: { ...shares, [partyId]: next }, updatedAt: sourceTime });
+    setDraft({ baseline: activeBaseline, shares: { ...shares, [partyId]: next }, updatedAt: sourceTime, official: fromOfficial });
   }
 
   function toggleCoalition(partyId: SimulatorPartyId): void {
@@ -76,10 +80,10 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
             <p className="eyebrow">Scenario input</p>
             <h2 id="scenario-input-title">Set national vote share</h2>
           </div>
-          <button className="simulator-reset" type="button" onClick={() => setDraft(null)}>Återställ till valnattsprognosen</button>
+          <button className="simulator-reset" type="button" onClick={() => setDraft(null)}>{official ? (sv ? "Återställ till valresultatet" : "Reset to election result") : "Återställ till valnattsprognosen"}</button>
         </div>
 
-        <p className="local-note">{draft ? "Eget scenario från valnattsprognosen" : "Följer valnattens prognos"} · {time}</p>
+        <p className="local-note">{fromOfficial ? (draft ? (sv ? "Eget scenario från valresultatet" : "Custom scenario based on the result") : (sv ? "Fastställt valresultat 2026" : "Final election result 2026")) : draft ? "Eget scenario från valnattsprognosen" : "Följer valnattens prognos"} · {time}</p>
         <div className="scenario-total" data-invalid={remainingShare < 0 ? "true" : "false"}>
           <div><span>Modeled parties</span><strong>{modeledTotal.toFixed(2)}%</strong></div>
           <div><span>Other parties · residual</span><strong>{Math.max(0, remainingShare).toFixed(2)}%</strong></div>
@@ -128,18 +132,18 @@ export function ElectionSimulator({ baseline }: { baseline: SimulatorBaseline })
         </div>
 
         <div className="scenario-assumption">
-          <span className="classification-badge classification-badge--model">MODEL · v1.1.0</span>
-          <p>Utgångsläget är valnattens prognos, inklusive samma valkretsfördelning och mandat. Egna ändringar utgår från den version du började med; återställ för att följa den senaste prognosen igen.</p>
+          <span className="classification-badge classification-badge--model">MODEL · v1.2.0</span>
+          <p>{fromOfficial ? (sv ? "Utgångsläget återger Valmyndighetens fastställda röster och samtliga 349 mandat. Egna ändringar är modellscenarier från den version du började med; återställ för senaste resultat." : "The baseline reproduces the authority’s final votes and all 349 seats. Your changes are model scenarios based on the version you started with; reset to use the latest result.") : "Utgångsläget är valnattens prognos, inklusive samma valkretsfördelning och mandat. Egna ändringar utgår från den version du började med; återställ för att följa den senaste prognosen igen."}</p>
         </div>
       </section>
 
       <section className="simulator-output" aria-labelledby="scenario-output-title" aria-live="polite">
         <div className="simulator-panel-heading simulator-panel-heading--output">
           <div>
-            <p className="eyebrow">{draft ? "Eget scenario" : "Valnattens prognos"}</p>
+            <p className="eyebrow">{draft ? "Eget scenario" : official ? (sv ? "Valresultat 2026" : "Election result 2026") : "Valnattens prognos"}</p>
             <h2 id="scenario-output-title">Riksdag scenario</h2>
           </div>
-          <span className="classification-badge classification-badge--model">MODEL</span>
+          <span className="classification-badge classification-badge--model">{!draft && official ? "DERIVED" : "MODEL"}</span>
         </div>
 
         {simulation.error || !result ? (

@@ -4,7 +4,8 @@ import { gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { CANDIDATE_YEARS, CANDIDATE_METHOD, type CandidateSource, type CandidateCatalog, type Person, type RankingRow, type CandidateResult, type RankingsPayload } from "./types";
-import { linkIdentities, type IdentityInput } from "./identity";
+import { linkIdentities, extendIdentityGroups, type IdentityInput } from "./identity";
+import { CANDIDATE_2026_METHOD, type CurrentCandidateCoverage } from "./import-2026";
 import { compareCandidate } from "./math";
 import type { LocalElectionIndex } from "../data/geography/local-types";
 import { candidatePartyId } from "./source-parties";
@@ -14,12 +15,16 @@ let cached: ReturnType<typeof buildCandidateData> | undefined;
 export const getCandidateData = () => cached ??= buildCandidateData();
 export function buildCandidateData() {
   const manifest = JSON.parse(read("data/raw/valmyndigheten/candidate-history-source-manifest.json").toString());
+  const currentManifestBytes = read("data/raw/valmyndigheten-2026/candidate-source-manifest.json");
+  const current = JSON.parse(currentManifestBytes.toString());
+  const coverage = current.coverage as CurrentCandidateCoverage;
+  const outputs = { ...manifest.outputs, "data/normalized/candidate-elections-2026.json.gz": current.outputSha256 };
   const identityInputs: IdentityInput[] = [], observations = new Map<string, CandidateResult[]>();
   for (const year of CANDIDATE_YEARS) {
     const filename = `data/normalized/candidate-elections-${year}.json.gz`, raw = read(filename);
-    if (createHash("sha256").update(raw).digest("hex") !== manifest.outputs[filename]) throw new Error(`Candidate source checksum ${year}`);
+    if (createHash("sha256").update(raw).digest("hex") !== outputs[filename]) throw new Error(`Candidate source checksum ${year}`);
     const data = JSON.parse(gunzipSync(raw).toString()) as CandidateSource;
-    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || data.status !== "final" || data.methodVersion !== CANDIDATE_METHOD) throw new Error("Candidate source schema");
+    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || data.status !== "final" || data.methodVersion !== (year === 2026 ? CANDIDATE_2026_METHOD : "candidate-history-1.0.2")) throw new Error("Candidate source schema");
     for (const [id, identity] of Object.entries(data.identities)) identityInputs.push({ ...identity, key: `${year}:${id}`, year });
     const totals: Record<string, number> = {}, areaKeys = new Set<string>();
     for (const area of data.areas) {
@@ -35,7 +40,7 @@ export function buildCandidateData() {
         seen.add(`${c.partyCode}:${c.id}`);
         if (![c.votes, c.partyVotes].every(n => Number.isSafeInteger(n) && n >= 0) || c.votes > c.partyVotes || c.partyVotes !== area.partyVotes[c.partyCode] || !data.identities[c.id]) throw new Error(`Invalid candidate count ${year}:${c.id}`);
         partyTotals[c.partyCode] = (partyTotals[c.partyCode] ?? 0) + c.votes;
-        if (area.level === "constituency") totals[area.electionType] = (totals[area.electionType] ?? 0) + c.votes;
+        if (year === 2026 ? (area.electionType === "RD" || area.level !== "constituency") : area.level === "constituency") totals[area.electionType] = (totals[area.electionType] ?? 0) + c.votes;
         const key = `${year}:${c.id}`, rows = observations.get(key) ?? [];
         // Aggregate municipalities/regions have stable administrative units.
         // Riksdag membership is checked against the actual municipality list.
@@ -47,9 +52,14 @@ export function buildCandidateData() {
       if (Object.entries(partyTotals).some(([p, votes]) => votes > area.partyVotes[p])) throw new Error("Personal votes exceed party votes");
     }
     for (const [election, anchor] of Object.entries(data.anchors)) if (totals[election] !== anchor.personalVotes) throw new Error(`National personal-vote reconciliation ${year}:${election}`);
-    if (data.areas.filter(a => a.electionType === "RD").length !== 29 || data.areas.filter(a => a.level === "municipality").length !== 290 || data.areas.filter(a => a.level === "region").length !== 20) throw new Error(`Candidate coverage ${year}`);
+    if (year === 2026) {
+      for (const type of ["RD", "RF", "KF"] as const) {
+        const codes = data.areas.filter(a => a.electionType === type && (type === "RD" || a.level !== "constituency")).map(a => a.code).sort();
+        if (codes.join() !== coverage[type].final.join() || coverage[type].expected !== ({RD:29,RF:20,KF:290})[type]) throw new Error(`Candidate coverage ${year}:${type}`);
+      }
+    } else if (data.areas.filter(a => a.electionType === "RD").length !== 29 || data.areas.filter(a => a.level === "municipality").length !== 290 || data.areas.filter(a => a.level === "region").length !== 20) throw new Error(`Candidate coverage ${year}`);
   }
-  const groups = linkIdentities(identityInputs), people: Person[] = [], sourcePeople = new Map<string, Person>();
+  const groups = extendIdentityGroups(linkIdentities(identityInputs.filter(i => i.year < 2026)), identityInputs.filter(i => i.year === 2026)), people: Person[] = [], sourcePeople = new Map<string, Person>();
   for (const group of groups) {
     const results = group.flatMap(i => observations.get(i.key) ?? []);
     const names = [...new Set(group.flatMap(i => i.names))];
@@ -59,12 +69,12 @@ export function buildCandidateData() {
     people.push(person); for (const identity of group) sourcePeople.set(identity.key, person);
   }
   people.sort((a, b) => a.id.localeCompare(b.id));
-  const version = createHash("sha256").update(JSON.stringify({ outputs: manifest.outputs, method: CANDIDATE_METHOD })).digest("hex");
+  const version = createHash("sha256").update(JSON.stringify({ outputs, coverage, method: CANDIDATE_METHOD })).digest("hex");
   const geography = JSON.parse(read("data/normalized/local-election-index.json").toString()) as LocalElectionIndex;
   const rdAreas = JSON.parse(read("data/normalized/personal-votes-2022.json").toString()).constituencies as {code:string;name:string}[];
-  const catalog: CandidateCatalog = { schemaVersion: 1, version, methodVersion: CANDIDATE_METHOD, publisher: "Valmyndigheten", retrievedAt: manifest.retrievedAt, years: [...CANDIDATE_YEARS], people: people.length, linkedPeople: people.filter(p => p.linked).length, electionIdentities: identityInputs.length, results: people.reduce((sum,p)=>sum+p.results.length,0), counties: geography.counties.map(c=>({code:c.code,name:c.name})), municipalities: geography.municipalities.map(m=>({code:m.code,name:m.name,parent:m.parent!})), constituencies: rdAreas.map(c=>({code:c.code,name:c.name,county:geography.municipalities.find(m=>m.constituencies?.includes(c.code))!.parent!})), sources: manifest.sources };
+  const catalog: CandidateCatalog = { schemaVersion: 1, version, methodVersion: CANDIDATE_METHOD, publisher: "Valmyndigheten", retrievedAt: current.retrievedAt, years: [...CANDIDATE_YEARS], people: people.length, linkedPeople: people.filter(p => p.linked).length, electionIdentities: identityInputs.length, results: people.reduce((sum,p)=>sum+p.results.length,0), counties: geography.counties.map(c=>({code:c.code,name:c.name})), municipalities: geography.municipalities.map(m=>({code:m.code,name:m.name,parent:m.parent!})), constituencies: rdAreas.map(c=>({code:c.code,name:c.name,county:geography.municipalities.find(m=>m.constituencies?.includes(c.code))!.parent!})), sources: [...manifest.sources, {file:"candidate-source-manifest-2026.json",url:"https://www.val.se/valresultat-och-statistik/statistik-och-data/radata-val-2026",sha256:createHash("sha256").update(currentManifestBytes).digest("hex")}], coverage2026: coverage };
   const rankings = new Map<string, RankingsPayload>();
-  for (const year of CANDIDATE_YEARS) for (const electionType of ["RD", "RF", "KF"] as const) rankings.set(`${year}-${electionType}`, { schemaVersion: 1, version, year, electionType, rows: [] });
+  for (const year of CANDIDATE_YEARS) for (const electionType of ["RD", "RF", "KF"] as const) rankings.set(`${year}-${electionType}`, { schemaVersion: 1, version, year, electionType, rows: [], ...(year === 2026 ? { coverage: { ...coverage[electionType], completeCounties: geography.counties.filter(c => { const expected = electionType === "KF" ? catalog.municipalities.filter(m => m.parent === c.code) : electionType === "RD" ? catalog.constituencies.filter(a => a.county === c.code) : c.code === "09" ? [] : [c]; return expected.length > 0 && expected.every(a => coverage[electionType].final.includes(a.code)); }).map(c => c.code) } } : {}) });
   for (const person of people) for (const result of person.results) {
     if (result.electionType !== "RD" && result.level === "constituency") continue;
     const row: RankingRow = { ...result, person: person.id, linked: person.linked, comparison: compareCandidate(result, person.results) };

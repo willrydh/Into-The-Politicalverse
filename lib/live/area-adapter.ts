@@ -16,7 +16,12 @@ export function normalizeCountedArea(value: unknown, previousDate: unknown, muni
   const code = string(municipality ? a.kommunkod : a.kod, "area code"), name = string(a.namn, "area name");
   const countedDistricts = integer(a.antalValdistriktRaknade, "counted districts"), totalDistricts = integer(a.antalValdistriktSomSkaRaknas, "all districts");
   const totalVotes = integer(a.totaltAntalRoster, "all ballots"), eligibleVoters = integer(a.antalRostberattigade, "electorate"), eligibleInCountedDistricts = integer(a.antalRostberattigadeIRaknadeValdistrikt, "counted electorate");
-  insist(countedDistricts <= totalDistricts && totalVotes <= eligibleInCountedDistricts && eligibleInCountedDistricts <= eligibleVoters, "Invalid coverage or electorate");
+  const sourceWarnings: NonNullable<CountedArea["sourceWarnings"]> = [];
+  // Collection districts have ballots but no electorate of their own. The signed
+  // Sorsele final count starts with one such district; turnout is unavailable.
+  const missingElectorate = totalVotes > 0 && eligibleInCountedDistricts === 0 && countedDistricts > 0 && countedDistricts < totalDistricts && a.valdeltagande === 0;
+  insist(countedDistricts <= totalDistricts && totalVotes <= eligibleVoters && (totalVotes <= eligibleInCountedDistricts || missingElectorate) && eligibleInCountedDistricts <= eligibleVoters, "Invalid coverage or electorate");
+  if (missingElectorate) sourceWarnings.push("missing-counted-electorate");
   const turnoutInCountedDistricts = percent(totalVotes, eligibleInCountedDistricts);
   checkRoundedPercent(a.valdeltagande, turnoutInCountedDistricts, "turnout");
   let validVotes = 0, invalidVotes = 0, otherVotes = 0;
@@ -55,7 +60,14 @@ export function normalizeCountedArea(value: unknown, previousDate: unknown, muni
       }
     }
   }
-  return { code, name, countedDistricts, totalDistricts, validVotes, invalidVotes, totalVotes, eligibleVoters, eligibleInCountedDistricts, turnoutInCountedDistricts, parties, otherVotes, previous: normalizeComparison(a, previousDate) };
+  let previous;
+  try { previous = normalizeComparison(a, previousDate); }
+  catch (error) {
+    // A broken historical baseline cannot invalidate reconciled current votes.
+    if (!(error instanceof Error) || error.message !== "Previous parties do not reconcile") throw error;
+    previous = null; sourceWarnings.push("previous-party-total");
+  }
+  return { code, name, countedDistricts, totalDistricts, validVotes, invalidVotes, totalVotes, eligibleVoters, eligibleInCountedDistricts, turnoutInCountedDistricts, parties, otherVotes, previous, ...(sourceWarnings.length ? { sourceWarnings } : {}) };
 }
 
 export function assertAreaIdentity(raw: unknown, type: ElectionType, stage: CountingStage, now: string) {

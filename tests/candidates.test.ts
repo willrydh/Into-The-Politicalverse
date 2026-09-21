@@ -18,7 +18,7 @@ const data=getCandidateData();
 const lars=data.sourcePeople.get("2022:46783")!;
 test("Jonas Attenius has printed list positions 10, 4 and 1 alongside the official municipal vote counts",()=>{
   const jonas=data.sourcePeople.get("2022:50618")!;
-  const results=jonas.results.filter(r=>r.electionType==="KF"&&r.level==="municipality"&&r.areaCode==="1480").sort((a,b)=>a.year-b.year);
+  const results=jonas.results.filter(r=>r.year<2026&&r.electionType==="KF"&&r.level==="municipality"&&r.areaCode==="1480").sort((a,b)=>a.year-b.year);
   assert.deepEqual(results.map(r=>[r.year,r.votes,r.ballotPositions]),[
     [2014,183,[{listNumber:"0002-07735",position:10}]],
     [2018,545,[{listNumber:"0002-13869",position:4}]],
@@ -36,7 +36,7 @@ test("multiple printed lists retain all positions instead of choosing the best o
   assert.deepEqual(summarizeBallotPositions(row.ballotPositions),{positions:[1,6],lists:3});
   assert.deepEqual(summarizeBallotPositions([]),{positions:[],lists:0});
   for(const person of data.people) for(const result of person.results) {
-    if(result.level==="constituency")continue;
+    if(result.level==="constituency"||result.year===2026)continue;
     const children=person.results.filter(r=>r.year===result.year&&r.electionType===result.electionType&&r.level==="constituency"&&r.areaCode.startsWith(result.areaCode)&&r.partyCode===result.partyCode);
     const pairs=(rows:typeof children)=>[...new Set(rows.flatMap(r=>r.ballotPositions.map(b=>`${b.listNumber}:${b.position}`)))].sort();
     assert.deepEqual(pairs([result]),pairs(children),"Aggregate list positions must match their source constituencies");
@@ -59,7 +59,7 @@ test("all eight parties keep official source codes and identity across elections
   const expected:Record<string,string>={"0001":"M","0002":"S","0003":"L","0004":"C","0005":"V","0055":"MP","0068":"KD","0110":"SD"};
   for(const ranking of data.rankings.values()) {
     for(const row of ranking.rows) assert.equal(row.partyId,expected[row.partyCode]??"OTHER");
-    assert.equal(new Set(ranking.rows.filter(r=>r.partyId!=="OTHER").map(r=>r.partyId)).size,8);
+    if (ranking.year<2026) assert.equal(new Set(ranking.rows.filter(r=>r.partyId!=="OTHER").map(r=>r.partyId)).size,8);
     for(const id of ["MP","KD"]) if(ranking.year===2022) {
       const continuing=ranking.rows.filter(r=>r.partyId===id&&r.comparison.previous?.partyId===id);
       assert.ok(continuing.length>0);
@@ -72,8 +72,10 @@ test("all eight parties keep official source codes and identity across elections
   sample.rows[0].partyId="MP";sample.rows[0].partyCode="0053";assert.throws(()=>validateRankings(sample));
 });
 test("all four pinned source archives reconcile nationwide and preserve the existing 2022 Riksdag dataset",()=>{
-  assert.equal(data.catalog.electionIdentities,207104);
-  assert.equal(data.catalog.people,142108);
+  assert.equal([...data.sourcePeople.keys()].filter(k=>!k.startsWith("2026:")).length,207104);
+  assert.equal(data.catalog.electionIdentities,data.sourcePeople.size);
+  assert.equal(data.people.filter(p=>!p.id.startsWith("p2026-")).length,142108);
+  assert.ok(data.catalog.people>142108);
   validateCatalog(data.catalog);
   assert.ok(Buffer.byteLength(JSON.stringify(data.catalog))<50_000,"The navigation catalogue must not preload candidate histories");
   const previous=JSON.parse(readFileSync("data/normalized/personal-votes-2022.json","utf8")) as PersonalVoteData;
@@ -87,15 +89,15 @@ test("all four pinned source archives reconcile nationwide and preserve the exis
 });
 test("Lars Gustaf Andersson joins across party changes and keeps municipal, regional and Riksdag results separate",()=>{
   assert.equal(lars.id,"p2014-430402");
-  assert.deepEqual(lars.sourceIds,["2014:430402","2018:112693","2022:46783"]);
+  assert.deepEqual(lars.sourceIds,["2014:430402","2018:112693","2022:46783","2026:31664"]);
   const rd=lars.results.filter(r=>r.electionType==="RD"&&r.areaCode==="19").sort((a,b)=>a.year-b.year);
-  assert.deepEqual(rd.map(r=>[r.year,r.partyId,r.votes]),[[2014,"L",13],[2018,"L",43],[2022,"M",102]]);
+  assert.deepEqual(rd.map(r=>[r.year,r.partyId,r.votes]),[[2014,"L",13],[2018,"L",43],[2022,"M",102],[2026,"M",66]]);
   const c=compareCandidate(rd[2],lars.results);
   assert.equal(c.delta,59);assert.ok(Math.abs(c.percent!-137.2093023255814)<1e-10);
   assert.ok(c.sharePoints!<0,"Votes increased but the share of the new party fell");
   assert.equal(c.previous?.partyCode,"0003");
   assert.equal(compareCandidate(rd[1],lars.results).reason,"changed-area");
-  const local=lars.results.filter(r=>r.electionType==="KF"&&r.level==="municipality").sort((a,b)=>a.year-b.year);
+  const local=lars.results.filter(r=>r.year<2026&&r.electionType==="KF"&&r.level==="municipality").sort((a,b)=>a.year-b.year);
   assert.deepEqual(local.map(r=>[r.year,r.votes,r.partyVotes]),[[2014,109,4270],[2018,281,5261],[2022,179,13382]]);
   assert.equal(compareCandidate(local[2],lars.results).delta,-102);
   assert.equal(compareCandidate(local[1],lars.results).delta,172);

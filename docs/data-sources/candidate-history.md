@@ -1,5 +1,7 @@
 # Candidate history source catalogue
 
+Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
+
 Publisher: Valmyndigheten. Retrieved 7 September 2026. Manifest: `data/raw/valmyndigheten/candidate-history-source-manifest.json`. This is historical final-result data, not a live 2026 candidate/result feed.
 
 ## Party-code correction, 7 September 2026

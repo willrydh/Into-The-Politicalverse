@@ -3,7 +3,7 @@ import type { CountingStage, LiveArea, LiveResult } from "./types";
 export const AREA_METHOD = "pv-election-areas-1.0.0";
 export const AREA_FEED_URL = "https://raw.githubusercontent.com/willrydh/Into-The-Politicalverse/live-data/area-results-2026.json";
 export type ElectionType = "RD" | "RF" | "KF";
-export type CountedArea = Omit<LiveArea, "fixedSeats">;
+export type CountedArea = Omit<LiveArea, "fixedSeats"> & { sourceWarnings?: ("previous-party-total" | "missing-counted-electorate")[] };
 export type AreaResult = {
   electionType: ElectionType;
   stage: CountingStage;

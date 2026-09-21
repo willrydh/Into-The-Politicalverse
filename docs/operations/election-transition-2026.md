@@ -1,5 +1,7 @@
 # Övergång till 2026 års resultat
 
+Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
+
 Förberett 7 september 2026. Nuvarande historik, kartor och kandidatlänkning behåller sina verifierade år. Räknade 2026-resultat finns nu på startsidan, valnatten och relevanta statistikvyer, med riksdags-, region- och kommunresultat. Införandet i kandidathistoriken är fortfarande en separat, granskad åtgärd. Se `post-election-2026.md`.
 
 ## Sparad prognos

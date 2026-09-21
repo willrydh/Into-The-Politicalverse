@@ -3,7 +3,7 @@ export type IdentityInput = ElectionIdentity & { key: string; year: CandidateYea
 // Identity matching deliberately retains diacritics. Hyphen/space differences
 // are accepted only with compatible age and a common official municipality.
 export const identityName = (name: string) => name.normalize("NFC").toLocaleLowerCase("sv").replace(/[-‐‑–\s]+/g, " ").trim();
-const electionDates: Record<CandidateYear, string> = { 2010: "2010-09-19", 2014: "2014-09-14", 2018: "2018-09-09", 2022: "2022-09-11" };
+const electionDates: Record<CandidateYear, string> = { 2010: "2010-09-19", 2014: "2014-09-14", 2018: "2018-09-09", 2022: "2022-09-11", 2026: "2026-09-13" };
 function birthWindow(identity: IdentityInput): [number, number] | null {
   if (identity.ages.length !== 1 || identity.ages[0] < 18 || identity.ages[0] > 110) return null;
   const suffix = electionDates[identity.year].slice(4), year = identity.year - identity.ages[0];
@@ -43,4 +43,33 @@ export function linkIdentities(identities: IdentityInput[]) {
     else groups.push(...group.map(i => [i]));
   }
   return groups;
+}
+
+/** Extend published groups without merging or splitting existing profile URLs.
+ * New evidence must identify one entire compatible group, uniquely in both
+ * directions. Ambiguous names stay separate instead of destroying old links. */
+export function extendIdentityGroups(groups: IdentityInput[][], incoming: IdentityInput[]) {
+  const names = new Map<string, Set<number>>();
+  groups.forEach((group, i) => group.forEach(identity => identity.names.forEach(name => {
+    const key = identityName(name), indexes = names.get(key) ?? new Set<number>(); indexes.add(i); names.set(key, indexes);
+  })));
+  const matches = incoming.map(identity => {
+    const indexes = new Set(identity.names.flatMap(n => [...names.get(identityName(n)) ?? []]));
+    return [...indexes].filter(i => {
+      const group = groups[i], window = birthWindow(identity);
+      if (!window || group.some(a => a.year === identity.year)) return false;
+      if (!group.some(a => a.names.some(n => identity.names.some(m => identityName(n) === identityName(m))) && compatible(a, identity))) return false;
+      const windows = group.map(birthWindow);
+      return windows.every(w => w !== null) && Math.max(window[0], ...windows.map(w => w![0])) <= Math.min(window[1], ...windows.map(w => w![1]));
+    });
+  });
+  const claimed = new Map<number, number>();
+  for (const choices of matches) for (const i of choices) claimed.set(i, (claimed.get(i) ?? 0) + 1);
+  const result = groups.map(g => [...g]);
+  incoming.forEach((identity, i) => {
+    const choices = matches[i];
+    if (choices.length === 1 && claimed.get(choices[0]) === 1) result[choices[0]].push(identity);
+    else result.push([identity]);
+  });
+  return result;
 }

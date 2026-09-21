@@ -1,5 +1,7 @@
 # Personal votes, recurring candidacies and leaderboards v1
 
+Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
+
 Version: `candidate-history-1.0.2`. Published surfaces: `/rankings/`, `/people/`, the map’s personal-vote table, and universal search. All have Swedish and English versions.
 
 The 1.0.1 correction uses the official party codes `0055` for Miljöpartiet and `0068` for Kristdemokraterna. Version 1.0.0 assigned different codes to their historical records and classified their 2022 candidates as Other, which could falsely indicate a party change. All four elections are regenerated from the same checksum-pinned originals. Vote counts, denominators, candidate identities, matching rules and change formulas are unchanged. Build and client validation now reject mismatched party codes/identities. The source manifest retains the previous output checksums and the correction record.

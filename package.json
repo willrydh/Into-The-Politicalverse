@@ -40,7 +40,8 @@
     "data:nowcast:verify": "node --import tsx scripts/evaluate-nowcast.ts --check",
     "data:nowcast:import": "node --import tsx scripts/import-nowcast-evaluation.ts",
     "data:nowcast:evaluate": "node --import tsx scripts/evaluate-nowcast.ts",
-    "data:nowcast:audit": "node --import tsx scripts/audit-nowcast-history.ts"
+    "data:nowcast:audit": "node --import tsx scripts/audit-nowcast-history.ts",
+    "data:import:candidates:2026": "node --import tsx scripts/import-candidates-2026.ts"
   },
   "dependencies": {
     "next": "^16.0.0",

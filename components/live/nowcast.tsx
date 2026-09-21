@@ -7,6 +7,7 @@ import { publicNowcast } from "@/lib/nowcast/public";
 import { currentProjection } from "@/lib/nowcast/current";
 import evaluation from "@/data/normalized/election-nowcast-evaluation-summary.json";
 import type { LiveFeed } from "@/lib/live/types";
+import { isEstablishedResult } from "@/lib/live/headline-result";
 
 export function NowcastPanel({
   feed,
@@ -25,6 +26,8 @@ export function NowcastPanel({
     feed.nowcast?.status === "error" ||
     (feed.nowcast?.status === "ready" && !e);
   const { probability } = currentProjection(feed, delayed);
+  const final = feed.results["final-count"];
+  if (final && isEstablishedResult(final)) return <section id="valnattsprognos" className="product-section nowcast-panel" data-classification="OFFICIAL"><h2>{sv ? "Riksdagsvalet är fastställt" : "The Riksdag result is final"}</h2><p>{sv ? "Valnattsprognosen har ersatts av det fastställda resultatet. Jämförelsen med prognosen före valet finns kvar på sidan." : "The election-night projection has been replaced by the final result. The comparison with the pre-election forecast remains on this page."}</p></section>;
   return (
     <section
       id="valnattsprognos"
