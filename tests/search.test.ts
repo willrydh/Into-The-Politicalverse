@@ -18,13 +18,14 @@ const data = {...core,entries:[...core.entries,...candidateSearchEntries(buildCa
 const read = <T,>(file: string): T => JSON.parse(readFileSync(`data/normalized/${file}`, "utf8"));
 const geography = read<LocalElectionIndex>("local-election-index.json");
 const personal = read<PersonalVoteData>("personal-votes-2022.json");
+const preparation = read<{districts:{code:string;municipality:string}[]}>("election-preparation-2026.json");
 const districts = read<LocalDistrictData>("local-election-districts.json");
 const find = (q: string) => searchEntries(index, q).hits.map(h => h.entry);
 
 test("global search covers every imported identity without duplicating candidates across constituencies", () => {
   assert.equal(data.entries.filter(e => e.type === "county").length, 21);
   assert.equal(data.entries.filter(e => e.type === "municipality").length, 290);
-  assert.equal(data.entries.filter(e => e.type === "district").length, 6554);
+  assert.equal(data.entries.filter(e => e.type === "district").length, 6554 + 6312);
   assert.equal(data.entries.filter(e => e.type === "constituency").length, 29);
   assert.equal(data.entries.filter(e => e.type === "locality").length, 2017);
   assert.equal(data.entries.filter(e => e.id.startsWith("candidate:")).length, candidates.people.length);
@@ -44,7 +45,7 @@ test("all geographic destinations use exact official codes and preserve county/c
       const s = readLocalSelection(new URL(l.href, "https://example.test").search, geography);
       assert.ok(geography.counties.some(c => c.code === s.county));
       if (s.municipality) assert.equal(geography.municipalities.find(m => m.code === s.municipality)!.parent, s.county);
-      if (s.district) assert.ok(districts.municipalities[s.municipality].some(d => d.code === s.district));
+      if (s.district) assert.ok(new URL(l.href, "https://example.test").searchParams.get("year") === "2026" ? preparation.districts.some(d => d.code === s.district && d.municipality === s.municipality) : districts.municipalities[s.municipality].some(d => d.code === s.district));
     }
   }
   const fritsla = data.entries.find(e => e.id === "locality:1463TB104")!;

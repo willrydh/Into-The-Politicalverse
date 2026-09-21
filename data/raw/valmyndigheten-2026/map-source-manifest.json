@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "boundaryYear": 2026,
+  "publisher": "Valmyndigheten",
+  "url": "https://www.val.se/download/18.332cf48819bd61ac1513889/1785491689960/valdistrikt-riket-2026.zip",
+  "retrievedAt": "2026-09-21T07:20:23.894Z",
+  "archiveSha256": "625ef4b4878c74af51a9d3eac39a5a0e049125becd8eb26f80503480d38ade61",
+  "outputSha256": "acffb2e2c51e5d52ee02d78bb3aec93fa6155e29a0e683e0cba01b5aa6559513",
+  "districts": 6312,
+  "municipalities": 290,
+  "counties": 21,
+  "normalizer": "mapshaper 0.6.113; dissolve administrative boundaries; simplify 3% keep-shapes; precision 1m SWEREF99 TM; fit SVG per area"
+}

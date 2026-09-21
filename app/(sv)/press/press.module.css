@@ -1,7 +1,7 @@
 .page { color: var(--ink); background: var(--surface); }
 .hero { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
 .hero > p { color: rgba(255, 255, 255, .78); font-size: 17px; }
-.content { width: min(1160px, calc(100% - 64px)); margin: 0 auto; padding-bottom: 64px; }
+.content { width: var(--page); margin: 0 auto; padding-bottom: 64px; }
 .contents { display: flex; flex-wrap: wrap; gap: 4px 28px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .contents a, .link, .downloads a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--blue); font-size: 14px; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
 .contents a { text-decoration: none; }
@@ -14,7 +14,7 @@
 .prose p { margin: 0 0 18px; }
 .prose > :first-child, .prose > div:first-child h3 { margin-top: 0; }
 .prose > :last-child, .prose > div:last-child p { margin-bottom: 0; }
-.credit { margin: 0; padding: 44px 48px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
+.credit { margin: 0; padding: var(--panel-pad); border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
 .credit h2 { font-size: clamp(28px, 3.5vw, 40px); letter-spacing: -.035em; line-height: 1.2; font-weight: 600; margin: 12px 0 22px; }
 .credit > p { max-width: 780px; }
 .credit .label { font-size: 11px; font-family: var(--mono); text-transform: uppercase; letter-spacing: .09em; margin: 0; color: var(--muted); }
@@ -41,14 +41,14 @@
   .section { grid-template-columns: 1fr; gap: 22px; }
 }
 @media (max-width: 600px) {
-  .content { width: calc(100% - 40px); padding-bottom: 28px; }
+  .content { width: var(--page); padding-bottom: 28px; }
   .hero { padding-top: 48px; padding-bottom: 40px; min-height: 320px; gap: 28px; }
   .hero h1 { font-size: clamp(44px, 12vw, 64px); }
   .contents { gap: 0 20px; padding: 14px 0; }
   .contents a { font-size: 13px; }
   .section { padding: 34px 0; }
   .section h2 { font-size: 23px; }
-  .credit { padding: 26px 22px; }
+  .credit { padding: var(--panel-pad); }
   .page p, .page dd { font-size: 15px; line-height: 1.7; }
   .features { grid-template-columns: 1fr; gap: 26px; }
   .assets { flex-direction: column; gap: 20px; }

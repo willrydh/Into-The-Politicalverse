@@ -4,6 +4,7 @@ import { areaIndexEntries, digest, download, downloadIndexedArchive, INDEX_URLS,
 import { normalizeResult } from "./result-adapter";
 import { insist } from "./validation";
 import geography from "../../data/normalized/local-election-index.json";
+import { attachMapDistricts } from "./map-district-adapter";
 
 export function emptyAreaFeed(now: string): AreaFeed {
   return { schemaVersion: 1, methodVersion: AREA_METHOD, classification: "OFFICIAL", electionDate: "2026-09-13", checkedAt: now, indexSha256: null, status: "ok", published: { preliminary: { RD: 0, RF: 0, KF: 0 }, "final-count": { RD: 0, RF: 0, KF: 0 } }, failures: [], results: {} };
@@ -29,10 +30,10 @@ export async function collectAreaResults(previous: AreaFeed, options: { now: str
     for (const key of Object.keys(feed.results)) if (!available.has(key)) { feed.failures.push(key); errors.push(`${key}: previously published archive is missing`); }
     let cursor = 0;
     // Limit authority traffic and peak decompression memory. No requests for unchanged archives.
-    await Promise.all(Array.from({ length: 4 }, async () => {
+    await Promise.all(Array.from({ length: 2 }, async () => {
       while (cursor < entries.length) {
         const entry = entries[cursor++], key = areaKey(entry.electionType, entry.code, entry.stage), old = feed.results[key];
-        if (old?.source.archiveMd5 === entry.md5) continue;
+        if (old?.source.archiveMd5 === entry.md5 && old.districts && old.districtSource) continue;
         if (Date.now() >= deadline) { feed.failures.push(key); errors.push(`${key}: bounded collection deadline reached`); continue; }
         try {
           const consistent = await downloadIndexedArchive(entry, { mode: "production", stage: entry.stage, area: entry, fetchFile });
@@ -47,6 +48,15 @@ export async function collectAreaResults(previous: AreaFeed, options: { now: str
             const summary = await readSignedArchive(consistent.archive, consistent.entry, { ...input, kind: "summering" });
             attachMunicipalSummary(result, summary.raw, summary.source, options.now);
             insist(result.municipalities.every(m => geography.municipalities.some(g => g.code === m.code && g.parent === m.countyCode)), "Unreviewed municipality identity");
+          }
+          try {
+            const districts = await readSignedArchive(consistent.archive, consistent.entry, { ...input, kind: "rostfordelning" });
+            attachMapDistricts(result, districts.raw, districts.source, options.now);
+          } catch (error) {
+            // An auxiliary map failure cannot discard validated current totals.
+            // Do not attach an older district generation to a newer summary.
+            delete result.districts; delete result.districtSource;
+            feed.failures.push(key); errors.push(`${key}: district map unavailable: ${error instanceof Error ? error.message : String(error)}`);
           }
           if (old) {
             insist(result.sourceRevision >= old.sourceRevision && result.sourceUpdatedAt >= old.sourceUpdatedAt, "Area source regressed");

@@ -1,10 +1,10 @@
-.candidate-hero { padding:68px max(24px,calc((100% - 1320px)/2)) 56px; background:var(--brand-surface); color:var(--white); }
+.candidate-hero { padding:68px var(--page-inset) 56px; background:var(--brand-surface); color:var(--white); }
 .candidate-hero .eyebrow { display:block; font-size:11px; font-weight:650; letter-spacing:.13em; }
 .candidate-hero h1 { max-width:1050px; font-size:clamp(40px,6vw,84px); line-height:1.02; letter-spacing:-.055em; margin:28px 0 24px; overflow-wrap:anywhere; }
 .candidate-hero h1 em { font-style:normal; color:var(--acid); }
 .candidate-hero p { max-width:640px; font-size:18px; line-height:1.65; opacity:.87; }
 .candidate-back { display:block; margin-bottom:30px; text-decoration:underline; text-underline-offset:4px; font-size:13px; }
-.candidate-body { width:min(1320px,calc(100% - 48px)); margin:0 auto; padding:40px 0 70px; }
+.candidate-body { width:var(--page); margin:0 auto; padding:40px 0 70px; }
 .candidate-body label { display:flex; flex-direction:column; gap:8px; font-size:12px; font-weight:650; min-width:0; }
 .candidate-body select,.candidate-body input { width:100%; min-height:46px; padding:10px 12px; background:var(--surface); border:1px solid var(--line); border-radius:5px; color:var(--ink); font-size:14px; }
 .candidate-metric-tabs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
@@ -20,7 +20,7 @@
 .candidate-ranking-title h2 { font-size:clamp(25px,3vw,38px); line-height:1.2; margin:8px 0; letter-spacing:-.03em; }
 .candidate-ranking-title p { font-size:13px; color:var(--muted); }
 .candidate-ranking-title label { width:270px; flex-shrink:0; }
-.candidate-scope,.candidate-identity-note { background:var(--paper); border-left:3px solid var(--acid); padding:16px 18px; font-size:13px; line-height:1.65; }
+.candidate-scope,.candidate-identity-note { background:var(--paper); border-left:3px solid var(--acid); padding:16px var(--panel-pad); font-size:13px; line-height:1.65; }
 .candidate-result-count { font-size:12px; margin:24px 0 12px; color:var(--muted); }
 .candidate-notes-toggle, .candidate-metric-short,
 .candidate-ranking-movement, .candidate-ranking-party, .candidate-mobile-note { display:none; }
@@ -74,7 +74,7 @@
 .candidate-career small { font-size:12px; opacity:.75; }
 .candidate-career strong { font-size:22px; }
 .candidate-stat-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:20px 0 30px; border:1px solid var(--line); border-radius:8px; }
-.candidate-stat-grid > div { padding:25px 22px; display:flex; flex-direction:column; gap:12px; border-right:1px solid var(--line); }
+.candidate-stat-grid > div { padding:var(--panel-pad); display:flex; flex-direction:column; gap:12px; border-right:1px solid var(--line); }
 .candidate-stat-grid > div:last-child { border:0; }
 .candidate-stat-grid > div > span:first-child { font-size:12px; color:var(--muted); }
 .candidate-stat-grid > div > strong,.candidate-stat-grid .vote-delta strong { font-size:clamp(28px,3.2vw,42px); letter-spacing:-.04em; }
@@ -97,11 +97,11 @@
   .candidate-ranking-title label { width:100%; margin-top:22px; }
 }
 @media(max-width:600px) {
-  .candidate-hero { padding:42px 18px 36px; }
+  .candidate-hero { padding:42px var(--page-inset) 36px; }
   .candidate-hero h1 { font-size:clamp(37px,10.5vw,60px); margin:24px 0; }
   .candidate-hero p { font-size:15px; }
   .candidate-hero .eyebrow { font-size:9px; line-height:1.7; }
-  .candidate-body { width:calc(100% - 32px); padding-top:24px; }
+  .candidate-body { width:var(--page); padding-top:24px; }
   .candidate-metric-tabs button { padding:17px 12px; }
   .candidate-metric-tabs strong { font-size:14px; }
   .candidate-metric-tabs small { font-size:10px; }
@@ -148,14 +148,14 @@
   .candidate-scoreboard--ranking .vote-delta small { font-size:10px; max-width:140px; }
   .candidate-scoreboard--profile table, .candidate-scoreboard--profile tbody { display:block; }
   .candidate-scoreboard--profile thead { display:none; }
-  .candidate-scoreboard--profile tr { display:grid; grid-template-columns:1fr 1fr; gap:15px; padding:20px 12px; margin-bottom:15px; border:1px solid var(--line); border-radius:8px; }
+  .candidate-scoreboard--profile tr { display:grid; grid-template-columns:1fr 1fr; gap:15px; padding:var(--panel-pad); margin-bottom:15px; border:1px solid var(--line); border-radius:8px; }
   .candidate-scoreboard--profile td, .candidate-scoreboard--profile th { padding:0; border:0; }
   .candidate-scoreboard--profile th { font-size:22px; }
   .candidate-scoreboard--profile td:nth-child(2) { align-self:center; text-align:right; font-size:12px; }
   .candidate-scoreboard--profile td[data-label]::before { content:attr(data-label); display:block; font-size:10px; font-weight:500; color:var(--muted); margin-bottom:5px; }
   /* Mobile leaderboards: compact selection, one comparison per row, explanations
      available on demand. Desktop tables and candidate profiles keep their layout. */
-  .candidate-page--rankings .candidate-hero { padding:28px 18px 24px; }
+  .candidate-page--rankings .candidate-hero { padding:28px var(--page-inset) 24px; }
   .candidate-page--rankings .candidate-hero h1 { margin:16px 0; font-size:clamp(34px,9.5vw,48px); }
   .candidate-page--rankings .candidate-hero p { margin:0; font-size:14px; line-height:1.6; }
   .candidate-page--rankings .candidate-body { padding-top:18px; }
