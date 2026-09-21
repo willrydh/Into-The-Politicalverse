@@ -116,7 +116,10 @@ export async function readSignedArchive(bytes: Buffer, entry: { url: string; md5
   await new Promise<void>((resolve, reject) => {
     stream.on("data", (chunk: Buffer) => {
       length += chunk.length;
-      if (length > (kind === "rostfordelning" ? 128 : 32) * 1024 * 1024) { stream.pause(); stream.destroy(); reject(new Error("Official JSON exceeds decompressed size limit")); return; }
+      // Established RD revision 860 includes district/list personal votes:
+      // 204,169,442 bytes. Only that national production file needs this bound.
+      const limit = kind === "rostfordelning" ? (options.mode === "production" && options.stage === "final-count" && area.electionType === "RD" ? 256 : 128) : 32;
+      if (length > limit * 1024 * 1024) { stream.pause(); stream.destroy(); reject(new Error("Official JSON exceeds decompressed size limit")); return; }
       chunks.push(chunk);
     });
     stream.on("end", resolve); stream.on("error", reject);

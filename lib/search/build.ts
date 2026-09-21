@@ -14,6 +14,7 @@ import type { LocalDistrictData, LocalElectionIndex } from "../data/geography/lo
 import type { PersonalVoteData } from "../data/geography/personal-votes";
 import type { GovernmentFormationContext } from "../forecast/government";
 import type { ElectionForecast } from "../forecast/types";
+import preparation from "../../data/normalized/election-preparation-2026.json";
 
 const read = <T,>(file: string): T => JSON.parse(readFileSync(join(process.cwd(), "data", file), "utf8"));
 const translated = (value: string) => b(translateText(value, "sv"), translateText(value, "en"));
@@ -67,6 +68,10 @@ export function buildSearchIndex(): SearchIndex {
     for (const d of districts.municipalities[m.code]) {
       entries.push({ id: `district:${d.code}`, type: "district", title: d.level === "collection" ? b(`Uppsamlingsröster · ${m.name}`, `Collection votes · ${m.name}`) : b(d.name), description: b(`${d.level === "collection" ? "Röstgrupp" : "Valdistrikt"} 2022 · ${m.name} · ${county.name} · ${d.code}`, `${d.level === "collection" ? "Vote group" : "Electoral district"} 2022 · ${m.name} · ${county.name} · ${d.code}`), href: mapHref({ year: "2022", county: county.code, municipality: m.code, district: d.code }), keywords: d.comparison?.previousNames.join(" ") });
     }
+  }
+  for (const d of preparation.districts) {
+    const m = municipalities.get(d.municipality)!, county = counties.get(m.parent!)!;
+    entries.push({id:`district:2026:${d.code}`,type:"district",title:b(d.name),description:b(`Valdistrikt 2026 · ${m.name} · ${county.name} · ${d.code}`,`Electoral district 2026 · ${m.name} · ${county.name} · ${d.code}`),href:mapHref({county:county.code,municipality:m.code,district:d.code}),priority:2});
   }
   for (const place of localities.localities) {
     const links = place.municipalities.map(code => {

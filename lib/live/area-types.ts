@@ -1,4 +1,5 @@
 import type { CountingStage, LiveArea, LiveResult } from "./types";
+import type { MapDistrict } from "./map-districts";
 
 export const AREA_METHOD = "pv-election-areas-1.0.0";
 export const AREA_FEED_URL = "https://raw.githubusercontent.com/willrydh/Into-The-Politicalverse/live-data/area-results-2026.json";
@@ -15,6 +16,8 @@ export type AreaResult = {
   municipalities: (CountedArea & { countyCode: string })[];
   source: LiveResult["source"];
   summarySource: LiveResult["source"] | null;
+  districts?: MapDistrict[];
+  districtSource?: LiveResult["source"];
 };
 export type AreaFeed = {
   schemaVersion: 1;

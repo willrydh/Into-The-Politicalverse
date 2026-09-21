@@ -2,6 +2,8 @@ import { AREA_METHOD, areaKey, type AreaFeed, type CountedArea } from "./area-ty
 import { validateComparison } from "./comparison";
 import { CERTIFICATE_SHA256, LIVE_ADAPTER_VERSION } from "./constants";
 import { insist, integer, list, object, percent, string, matchesPercent } from "./validation";
+import { validateMapDistricts } from "./map-districts";
+import type { AreaResult } from "./area-types";
 
 export function validateCountedArea(value: unknown): CountedArea {
   const a = object(value, "displayed area"); string(a.name, "area name"); string(a.code, "area code");
@@ -44,7 +46,7 @@ export function validateAreaFeed(value: unknown): AreaFeed {
     const archive = new RegExp(`^https://resultat\\.val\\.se/resultatfiler/val2026/${phase}/${String(r.electionType).toLowerCase()}/Val_(2026|20260913)_${label}_${a.code}_${r.electionType}\\.zip$`);
     insist(r.electionType === "RD" ? a.code === "00" && seats === 349 : r.electionType === "KF" ? /^\d{4}$/.test(a.code) : /^\d{2}$/.test(a.code) && a.code !== "00", "Wrong displayed geography");
     const s = object(r.source, "area source");
-    for (const source of r.summarySource === null ? [s] : [s, object(r.summarySource, "summary source")]) insist(source.adapterVersion === LIVE_ADAPTER_VERSION && source.signatureVerified === true && source.certificateSha256 === CERTIFICATE_SHA256 && /^[a-f0-9]{64}$/.test(String(source.jsonSha256)) && /^[a-f0-9]{32}$/.test(String(source.archiveMd5)) && archive.test(String(source.archiveUrl)) && source.archiveMd5 === s.archiveMd5, "Invalid signed area provenance");
+    for (const source of [s, ...(r.summarySource === null ? [] : [object(r.summarySource, "summary source")]), ...(r.districtSource == null ? [] : [object(r.districtSource,"district source")])]) insist(source.adapterVersion === LIVE_ADAPTER_VERSION && source.signatureVerified === true && source.certificateSha256 === CERTIFICATE_SHA256 && /^[a-f0-9]{64}$/.test(String(source.jsonSha256)) && /^[a-f0-9]{32}$/.test(String(source.archiveMd5)) && archive.test(String(source.archiveUrl)) && source.archiveMd5 === s.archiveMd5, "Invalid signed area provenance");
     integer(r.sourceRevision, "revision"); insist(typeof r.sourceUpdatedAt === "string" && Number.isFinite(Date.parse(r.sourceUpdatedAt)), "Invalid area update time");
     insist(r.protocolUrl === null || /^https:\/\/resultat\.val\.se\/protokoll\/[^\s]+\.pdf$/.test(String(r.protocolUrl)), "Invalid area protocol");
     if (a.parties.some(p => p.seats !== null)) insist(a.parties.every(p => p.seats !== null) && a.parties.reduce((s, p) => s + (p.seats ?? 0), 0) === seats, "Invalid displayed mandates");
@@ -56,6 +58,7 @@ export function validateAreaFeed(value: unknown): AreaFeed {
       for (const k of ["validVotes", "invalidVotes", "totalVotes", "eligibleVoters", "eligibleInCountedDistricts", "countedDistricts", "totalDistricts", "otherVotes"] as const) insist(municipalities.reduce((s, m) => s + m[k], 0) === a[k], "Displayed municipal totals differ");
       for (const p of a.parties) insist(municipalities.reduce((s, m) => s + (m.parties.find(x => x.code === p.code)?.votes ?? 0), 0) === p.votes, "Displayed municipal party totals differ");
     }
+    validateMapDistricts(r as AreaResult);
   }
   return f as AreaFeed;
 }
