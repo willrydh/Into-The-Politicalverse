@@ -15,7 +15,7 @@ type VoteBucket = SimulatorPartyId | "OTHER";
 export type ScenarioOutput = {
   classification: "MODEL";
   modelId: "pv-riksdag-scenario";
-  modelVersion: "1.1.0";
+  modelVersion: "1.2.0";
   otherShare: number;
   input: RiksdagElectionInput;
   result: RiksdagSeatResult;
@@ -92,7 +92,7 @@ export function simulateRiksdagScenario(
   return {
     classification: "MODEL",
     modelId: "pv-riksdag-scenario",
-    modelVersion: "1.1.0",
+    modelVersion: "1.2.0",
     otherShare,
     input,
     result: calculateRiksdagSeats(input, options),

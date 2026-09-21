@@ -18,6 +18,9 @@ import { validateAreaFeed } from "../lib/live/public-area-feed";
 import { validatePublicFeed } from "../lib/live/public-feed";
 
 import { getCandidateData } from "../lib/candidates/build";
+import { verifyCandidates2026 } from "../lib/candidates/verify-2026";
+
+verifyCandidates2026();
 
 getCandidateData();
 const ROOT = resolve(import.meta.dirname, "..");

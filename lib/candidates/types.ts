@@ -1,9 +1,10 @@
 import type { PartyId } from "../data/elections/types";
-export const CANDIDATE_YEARS = [2010, 2014, 2018, 2022] as const;
+import type { CandidateCoverage, CurrentCandidateCoverage } from "./import-2026";
+export const CANDIDATE_YEARS = [2010, 2014, 2018, 2022, 2026] as const;
 export type CandidateYear = typeof CANDIDATE_YEARS[number];
 export const ELECTION_TYPES = ["RD", "RF", "KF"] as const;
 export type CandidateElection = typeof ELECTION_TYPES[number];
-export const CANDIDATE_METHOD = "candidate-history-1.0.2";
+export const CANDIDATE_METHOD = "candidate-history-1.1.0";
 export type BallotPosition = { listNumber: string; position: number };
 export type SourceCandidate = { id: string; name: string; partyCode: string; partyId: PartyId; partyName: string; votes: number; partyVotes: number; lists: number; ballotPositions: BallotPosition[] };
 export type CandidateArea = { electionType: CandidateElection; code: string; name: string; level: "constituency" | "municipality" | "region"; county: string; parent: string | null; supersededBy: number | null; boundaryChanged?: boolean; members?: string[]; partyVotes: Record<string, number>; candidates: SourceCandidate[] };
@@ -15,10 +16,10 @@ export type ComparisonReason = "comparable" | "no-baseline" | "zero-baseline" | 
 export type PreviousResult = Pick<CandidateResult, "year" | "partyCode" | "partyId" | "partyName" | "votes" | "partyVotes" | "ballotPositions">;
 export type CandidateComparison = { reason: ComparisonReason; previous: PreviousResult | null; delta: number | null; percent: number | null; sharePoints: number | null };
 export type RankingRow = CandidateResult & { person: string; linked: boolean; comparison: CandidateComparison };
-export type CandidateCatalog = { schemaVersion: 1; version: string; methodVersion: string; publisher: "Valmyndigheten"; retrievedAt: string; years: CandidateYear[]; people: number; linkedPeople: number; electionIdentities: number; results: number; counties: { code: string; name: string }[]; municipalities: { code: string; name: string; parent: string }[]; constituencies: { code: string; name: string; county: string }[]; sources: { file: string; url: string; archiveUrl?: string; sha256: string }[] };
-export type RankingsPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: CandidateElection; rows: RankingRow[] };
+export type CandidateCatalog = { schemaVersion: 1; version: string; methodVersion: string; publisher: "Valmyndigheten"; retrievedAt: string; years: CandidateYear[]; people: number; linkedPeople: number; electionIdentities: number; results: number; counties: { code: string; name: string }[]; municipalities: { code: string; name: string; parent: string }[]; constituencies: { code: string; name: string; county: string }[]; sources: { file: string; url: string; archiveUrl?: string; sha256: string }[]; coverage2026?: CurrentCandidateCoverage };
+export type RankingsPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: CandidateElection; rows: RankingRow[]; coverage?: CandidateCoverage & { completeCounties: string[] } };
 export type PersonShard = { schemaVersion: 1; version: string; people: Record<string, Person> };
-export type PersonalAreaPayload = { schemaVersion: 1; version: string; year: CandidateYear; electionType: "RD"; code: string; name: string; rows: RankingRow[] };
+export type PersonalAreaPayload = RankingsPayload & { electionType: "RD"; code: string; name: string };
 export type RankingMetric = "percent" | "delta" | "votes" | "sharePoints" | "support";
 export const personShard = (id: string) => {
   let hash = 0;

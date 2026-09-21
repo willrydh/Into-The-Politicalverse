@@ -6,7 +6,7 @@ import { ForecastHero } from "@/components/forecast/forecast-hero";
 import { CurrentForecast } from "@/components/forecast/current-forecast";
 import { PreElectionArchive } from "@/components/forecast/pre-election-archive";
 
-export const metadata = { ...pageMetadata("forecasts", "sv"), title: "Valnattens prognos 2026", description: "Löpande prognos, röstandelar, mandat och regeringskombinationer från samma verifierade valnattsmodell." };
+export const metadata = { ...pageMetadata("forecasts", "sv"), title: "Valresultat mot prognos 2026", description: "Fastställt valresultat, röstandelar, mandat och jämförelse med prognosen före valet." };
 export default function ForecastsPage({ locale = "sv" }: { locale?: Locale } = {}) {
   return localizeNode(<>
     <ForecastHero />

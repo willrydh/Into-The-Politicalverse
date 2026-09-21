@@ -6,10 +6,17 @@ import { PartyMark } from "@/components/party-mark";
 import { PARTY_ORDER, PARTIES } from "@/lib/parties";
 import { majorityLabel, projectedCoalitionSeats } from "@/lib/nowcast/current";
 import { useCurrentProjection } from "../live/use-live-feed";
+import { isEstablishedResult } from "@/lib/live/headline-result";
 
 export function ForecastHero() {
   const { feed, estimate, probability, source, delayed, clock } = useCurrentProjection();
   const language = useLocale() === "sv" ? "sv-SE" : "en-GB";
+  const sv = language === "sv-SE", final = feed.results["final-count"];
+  if (final && isEstablishedResult(final)) return <section className="forecast-hero" data-classification="OFFICIAL" data-result-revision={final.sourceRevision}>
+    <div className="forecast-freshness forecast-freshness--compact"><strong>{sv ? "Fastställt valresultat 2026" : "Final election result 2026"}</strong><span>{sv ? "Valmyndigheten" : "Swedish Election Authority"} · {new Date(final.sourceUpdatedAt).toLocaleDateString(language)}</span></div>
+    <div className="forecast-hero__grid"><div className="forecast-hero__copy"><h1>{sv ? <>Prognosen möter<br/><em>valresultatet.</em></> : <>The forecast meets<br/><em>the result.</em></>}</h1><p className="forecast-hero__deck">{sv ? "Jämför prognosen före valet med det fastställda utfallet. Röster och mandat nedan kommer från Valmyndigheten." : "Compare the pre-election forecast with the final outcome. Votes and seats below come from the Swedish Election Authority."}</p></div>
+    <article className="forecast-call"><div className="forecast-call__top"><span>{sv ? "RIKSDAGSVALET 2026" : "RIKSDAG ELECTION 2026"}</span><span>OFFICIAL</span></div><p>{sv ? "Rapporterade distrikt" : "Reported districts"}</p><strong>{final.national.countedDistricts.toLocaleString(language)}</strong><small>{sv ? `av ${final.national.totalDistricts.toLocaleString(language)} · samtliga 349 mandat fastställda` : `of ${final.national.totalDistricts.toLocaleString(language)} · all 349 seats final`}</small></article></div>
+  </section>;
   const left = projectedCoalitionSeats(estimate, ["S", "V", "MP", "C"]);
   const right = projectedCoalitionSeats(estimate, ["M", "SD", "KD", "L"]);
   const p = probability && probability.unresolved < probability.simulations ? probability : null;

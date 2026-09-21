@@ -32,8 +32,10 @@ export function buildStandings(people: Person[], payloads: Iterable<RankingsPayl
     for (const group of groupRows(rows, r => r.partyCode)) addGroup(group, scope, 1);
   }
   for (const payload of payloads) {
-    addScope(payload.rows, "national");
-    if (payload.electionType !== "RF") for (const group of groupRows(payload.rows, r => r.county)) addScope(group, "county");
+    if (!payload.coverage || payload.coverage.final.length === payload.coverage.expected) addScope(payload.rows, "national");
+    if (payload.electionType !== "RF") for (const group of groupRows(payload.rows, r => r.county)) {
+      if (!payload.coverage || payload.coverage.completeCounties.includes(group[0].county)) addScope(group, "county");
+    }
     for (const group of groupRows(payload.rows, r => r.areaCode)) addScope(group, "area");
   }
   return new Map([...records].map(([id, person]) => [id, [...person.values()]]));

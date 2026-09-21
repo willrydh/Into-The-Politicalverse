@@ -6,6 +6,15 @@ import context from "./messages-context.json";
 import model from "./messages-model.json";
 export type Locale = "sv" | "en";
 export const messages = [
+  ["mandat i det fastställda resultatet · majoritet kräver 175", "seats in the final result · a majority requires 175"],
+  ["/ 349 mandat i valresultatet", "/ 349 seats in the election result"],
+  ["Prognos mot utfall", "Forecast vs outcome"],
+  ["Jämför det fastställda valresultatet med prognosen före valet.", "Compare the final election result with the pre-election forecast."],
+  ["Valresultat 2026", "Election results 2026"],
+  ["Scenarier börjar i det fastställda valresultatets fördelning mellan valkretsarna. När du ändrar en andel behålls partiets geografiska mönster från den resultatversionen.", "Scenarios start from the final election result’s constituency distribution. When you change a share, the party’s geographic pattern from that result is retained."],
+  ["Utgångsläget återger det fastställda valresultatet. Ett ändrat scenario är din egen beräkning och påverkar inte de officiella resultaten.", "The baseline reproduces the final election result. An edited scenario is your own calculation and does not affect official results."],
+  ["Ansluten · fastställda områden", "Connected · final areas"],
+  ["Signerade slutresultat fyller profiler, topplistor och delningsbilder för 2026. Varje område kräver full räkning, protokoll och kontrollerade mandat. Personröster summeras över valsedlar och kontrolleras mot källans kandidattotaler. CSV-registret används bara för personkopplingar.", "Signed final results populate 2026 profiles, leaderboards and sharing images. Each area requires complete counting, a protocol and verified seats. Personal votes are summed across ballots and checked against source candidate totals. The CSV register is used only for identity linking."],
   ["Integritet", "Privacy"],
   ["Folkpartiet liberalerna", "Liberal People’s Party"],
   ["Topplistor", "Leaderboards"],

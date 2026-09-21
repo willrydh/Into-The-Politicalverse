@@ -12,13 +12,15 @@ import { usePublishSiteLocation } from "../site-location";
 import { localizedHref } from "@/lib/i18n/translate";
 import { CANDIDATE_YEARS, personShard, type Person } from "@/lib/candidates/types";
 import { selectCandidateProfile } from "@/lib/candidates/profile-selection";
-import { validatePersonShard } from "@/lib/candidates/validation";
+import { validatePersonShard, validateCatalog } from "@/lib/candidates/validation";
+import { CandidateCoverageNotice } from "./coverage";
 import { compareCandidate, personalVoteShare } from "@/lib/candidates/math";
 import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, CandidateParty, reasonLabel, useCandidateResource, VoteDelta, VoteComparisonNote } from "./shared";
 
 function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
   const locale=useLocale(),sv=locale==="sv",query=useLocalQuery(),params=new URLSearchParams(query);
   const {available,election,areas,area,results,latest}=selectCandidateProfile(person,params);
+  const catalogState = useCandidateResource("index.json", validateCatalog);
   const table = useTableSort(results.map(r=>({...r,comparison:compareCandidate(r,person.results)})), [
     {key:"year",label:sv?"Valår":"Year",name:sv?"Valår":"Year",value:r=>r.year},
     {key:"party",label:sv?"Parti":"Party",name:sv?"Parti":"Party",direction:"ascending",value:r=>partyLabel(r,sv)},
@@ -46,6 +48,7 @@ function Profile({person,sourceVersion}: {person:Person;sourceVersion:string}) {
     <ProfileSharing person={person} election={election} area={area} locale={locale} sourceVersion={sourceVersion}/>
     <section className="candidate-hero candidate-hero--person"><Link className="candidate-back" href={localizedHref(`/rankings/?election=${election}&area=${area}`,locale)}>← {sv?"Till topplistorna":"Leaderboards"}</Link><span className="eyebrow">{sv?"KANDIDATPROFIL · PERSONRÖSTER":"CANDIDATE PROFILE · PERSONAL VOTES"}</span><h1>{person.name}</h1><p>{sv?"Kandidaturer och valresultat, samlade över tid.":"Candidacies and election results, collected over time."}</p><div className="candidate-career" aria-label={sv?"Partier per valår":"Parties by election year"}>{byYear.map(({year,parties})=><div key={year}><small>{year}</small><strong><span className="party-group">{parties.map(r=><CandidateParty key={r.partyCode} result={r}/>)}</span></strong></div>)}</div></section>
     <div className="candidate-body">
+      {catalogState.data && <CandidateCoverageNotice catalog={catalogState.data} election={election} area={area} profile latestYear={latest.year}/>}
       <p className="candidate-identity-note" data-classification="DERIVED">{person.linked?(sv?"Kopplad historik: namn, förenlig ålder och gemensam kommun i källorna. Partierna ovan visar kandidaturerna i varje val.":"Linked history: matching name, compatible age and a common municipality in the sources. Parties above show candidacies in each election."):(sv?"Den här profilen har ett valår. Det betyder inte att personen var ny i politiken; tidigare kandidaturer kan saknas eller ha ett annat namn eller kandidatnummer som ännu inte kunnat kopplas.":"This profile covers one election year. That does not mean the person was new to politics; earlier candidacies may be missing or have a different name or candidate number that could not be linked.")}</p>
       <div className="candidate-filters candidate-profile-filters"><label>{sv?"Val":"Election"}<select value={election} onChange={e=>update({election:e.target.value,area:""})}>{available.map(t=><option value={t} key={t}>{electionLabel(t,sv)}</option>)}</select></label><label>{election==="KF"?(sv?"Kommun":"Municipality"):election==="RF"?(sv?"Region":"Region"):(sv?"Riksdagsvalkrets":"Riksdag constituency")}<select value={area} onChange={e=>update({area:e.target.value})}>{areas.map(a=><option key={a.code} value={a.code}>{a.name}</option>)}</select></label></div>
       <div className="candidate-ranking-title"><div><span className="mini-label">{electionLabel(election,sv)} · {sv?"OFFICIELLA RÖSTER":"OFFICIAL VOTES"}</span><h2>{name}</h2><p>{sv?"Varje val redovisas separat. Röster från olika valtyper blandas aldrig.":"Each election is reported separately. Votes from different election types are never mixed."}</p></div></div>

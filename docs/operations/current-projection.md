@@ -1,5 +1,7 @@
 # Current election-night projection, 13 September 2026
 
+Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
+
 The owner selected `pv-nowcast-2.0.0` as the common current national forecast. This is a presentation/input-source change, not a refit of the estimator, probability distribution or historical reference.
 
 ## Data flow

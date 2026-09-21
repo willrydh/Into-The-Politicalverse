@@ -34,3 +34,7 @@ Final national turnout in 2022 minus final national turnout in 2018, expressed i
 
 - `1.0.0` — initial deterministic definitions over the checked-in 2018 and 2022 official results.
 - `2.0.0` — PV-03 replaced the single-election plurality footprint with change-based, unweighted geographic breadth over all 290 comparable 2018–2022 municipalities. PV-01, PV-02 and PV-04 are unchanged.
+
+## Current 2026 comparison
+
+`pv-count-indicators-1.1.0` fixes the comparison to the eight parliamentary party codes plus all remaining valid votes as one residual category in each election. Largest gain/loss concerns those eight parties; volatility is half the sum of absolute changes across all nine categories. A missing individual minor-party baseline is never set to zero. [Source and validation details](../operations/candidate-results-2026.md).

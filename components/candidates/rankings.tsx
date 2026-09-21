@@ -15,6 +15,7 @@ import { CandidateLoading, CandidateMethod, electionLabel, partyLabel, Candidate
 import { normalizeSearch } from "@/lib/search/engine";
 import { CandidateBallotPositions } from "./ballot-positions";
 import { RankingMovement } from "./ranking-movement";
+import { CandidateCoverageNotice } from "./coverage";
 
 function RankingParty({ row, year }: { row: RankingRow; year: number }) {
   const previous = row.comparison.previous;
@@ -26,7 +27,7 @@ function RankingParty({ row, year }: { row: RankingRow; year: number }) {
 export function CandidateRankings() {
   const locale = useLocale(), sv = locale === "sv", query = useLocalQuery(), p = new URLSearchParams(query);
   const year = CANDIDATE_YEARS.includes(Number(p.get("year")) as CandidateYear) ? Number(p.get("year")) as CandidateYear : CANDIDATE_YEARS.at(-1)!;
-  const election = ELECTION_TYPES.includes(p.get("election") as CandidateElection) ? p.get("election") as CandidateElection : "KF";
+  const election = ELECTION_TYPES.includes(p.get("election") as CandidateElection) ? p.get("election") as CandidateElection : year === 2026 ? "RD" : "KF";
   const metric = RANKING_METRICS.includes(p.get("metric") as RankingMetric) ? String(p.get("metric")) as RankingMetric : DEFAULT_RANKING_METRIC;
   const county=String(p.get("county")??""), area=String(p.get("area")??""), party=String(p.get("party")??""), minimum=[0,1,10,50,100].includes(Number(p.get("minimum"))) && p.has("minimum") ? Number(p.get("minimum")) : 1;
   const requestedCandidate = String(p.get("candidate") ?? "");
@@ -80,6 +81,7 @@ export function CandidateRankings() {
         <label>{sv?"Parti i valt val":"Party in selected election"}<select value={party} onChange={e=>update({party:e.target.value})}><option value="">{sv?"Alla partier":"All parties"}</option>{parties.map(r=><option key={r.partyCode} value={r.partyCode}>{partyLabel(r,sv)}</option>)}</select></label>
         <label>{sv?"Minst röster i föregående val":"Minimum votes in previous election"}<select value={minimum} disabled={metric==="votes"||metric==="support"} onChange={e=>update({minimum:e.target.value})}>{[0,1,10,50,100].map(n=><option key={n} value={n}>{n}</option>)}</select></label>
       </div>
+      {year === 2026 && catalog && <CandidateCoverageNotice catalog={catalog} election={election} county={county} area={area}/>}
       <div className="candidate-ranking-title"><div><span className="mini-label">{electionLabel(election,sv)} · {areaName??countyName??(sv?"Hela Sverige":"All Sweden")}</span><h2>{metrics.find(m=>m.id===metric)!.name}</h2><p>{metric==="votes"||metric==="support"?year:`${year-4} → ${year}`} · {sv?"Officiella röster, beräknad placering":"Official votes, calculated ranking"}</p></div><label>{sv?"Sök i topplistan":"Search this leaderboard"}<input type="search" value={search} onChange={e=>{setSearch(e.target.value);setPage(0);}} placeholder={sv?"Kandidatens namn":"Candidate name"}/></label></div>
       {metric==="support"&&<p className="candidate-leaderboard-intro">{sv?`Minst ${DOWN_BALLOT_MIN_VOTES} personröster. Plats ${DOWN_BALLOT_MIN_POSITION} eller längre ned på alla redovisade valsedlar i området. Rangordnat efter andel av partiets röster — inte ett betyg på politiskt arbete eller ett mått där listplatsens effekt räknats bort.`:`At least ${DOWN_BALLOT_MIN_VOTES} personal votes. Position ${DOWN_BALLOT_MIN_POSITION} or lower on every reported ballot in the area. Ranked by share of party votes — not a rating of political work or a measure adjusted for the effect of ballot position.`}</p>}
       {election==="RD"&&<p className="candidate-leaderboard-intro">{summedVotes?(sv?"En rad per kandidat och parti. Personröster från valkretsarna i urvalet summeras. Öppna raden för att se varje valkrets.":"One row per candidate and party. Personal votes are summed across constituencies in the selection. Expand a row to see each constituency."):(sv?"Här jämförs valkretsresultat. Samma person kan ha olika resultat i flera valkretsar; andelar och förändringar summeras inte.":"This view compares constituency results. A person can have different results in several constituencies; shares and changes are not added together.")}</p>}

@@ -4,16 +4,15 @@ import type { Locale } from "@/lib/i18n/messages";
 import Link from "next/link";
 import { DataSource } from "@/components/data-source";
 import { NationalBaseline } from "@/components/charts/national-baseline";
-import { NationalTrendChart } from "@/components/charts/national-trend-chart";
+import { CurrentNationalHistory } from "@/components/charts/current-national-history";
 import { HomeResults } from "@/components/live/home-results";
-import { nationalHistory } from "@/lib/data/elections";
 
 export const metadata = pageMetadata("", "sv");
 
 export default function Home({ locale = "sv" }: { locale?: Locale } = {}) {
   const explore = [
-    { index: "01", title: "Hela prognosen", copy: "Löpande valnattsprognos, mandat, regeringsvägar och öppna metodtester.", href: "/forecasts", metric: "Valnattens prognos" },
-    { index: "02", title: "Officiella grafer", copy: "Följ varje riksdagspartis slutresultat genom den jämförbara valhistoriken.", href: "/charts", metric: `${nationalHistory.elections.length} val` },
+    { index: "01", title: "Prognos mot utfall", copy: "Jämför det fastställda valresultatet med prognosen före valet.", href: "/forecasts", metric: "Valresultat 2026" },
+    { index: "02", title: "Officiella grafer", copy: "Följ varje riksdagspartis slutresultat genom den jämförbara valhistoriken.", href: "/charts", metric: "2002–2026" },
     { index: "03", title: "Sverigekartan", copy: "Utforska Valmyndighetens resultat kommun för kommun, parti för parti.", href: "/maps", metric: "290 kommuner" },
     { index: "04", title: "Mandatsimulator", copy: "Bygg ett eget röstandelsscenario och se hur den svenska mandatmatematiken slår.", href: "/simulator", metric: "349 mandat" },
   ];
@@ -24,14 +23,14 @@ export default function Home({ locale = "sv" }: { locale?: Locale } = {}) {
 
       <section className="official-bridge">
         <div className="official-bridge__heading">
-          <div><p className="eyebrow eyebrow--dark">OFFICIAL · Valmyndigheten · 2002–2022</p><h2>Historiska valresultat</h2></div>
+          <div><p className="eyebrow eyebrow--dark">{locale === "sv" ? "OFFICIELLT · Valmyndigheten · 2002–2026" : "OFFICIAL · Swedish Election Authority · 2002–2026"}</p><h2>Historiska valresultat</h2></div>
           <p>Modellen hålls åtskild från officiella fakta. Den historiska grafen nedan visar fastställda röstandelar — inte modellvärden — och fungerar som öppet jämförelsematerial.</p>
         </div>
         <div className="chart-product-grid">
-          <NationalTrendChart history={nationalHistory} compact />
+          <CurrentNationalHistory compact />
           <NationalBaseline />
         </div>
-        <div className="official-bridge__footer"><DataSource /><Link className="text-link" href="/charts">Utforska all historik <span>→</span></Link></div>
+        <div className="official-bridge__footer"><DataSource year={2026} /><Link className="text-link" href="/charts">Utforska all historik <span>→</span></Link></div>
       </section>
 
       <section className="explore-section explore-section--forecast">

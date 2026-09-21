@@ -6,7 +6,12 @@ import { insist, integer, list, object, percent, string, matchesPercent } from "
 export function validateCountedArea(value: unknown): CountedArea {
   const a = object(value, "displayed area"); string(a.name, "area name"); string(a.code, "area code");
   const valid = integer(a.validVotes, "valid votes"), total = integer(a.totalVotes, "total votes"), eligible = integer(a.eligibleInCountedDistricts, "counted electorate");
-  insist(valid + integer(a.invalidVotes, "invalid votes") === total && total <= eligible && eligible <= integer(a.eligibleVoters, "electorate"), "Invalid displayed totals");
+  const warnings = a.sourceWarnings === undefined ? [] : list(a.sourceWarnings, "source warnings");
+  insist(new Set(warnings).size === warnings.length && warnings.every(w => ["previous-party-total", "missing-counted-electorate"].includes(String(w))), "Invalid source warning");
+  const missingElectorate = warnings.includes("missing-counted-electorate") && eligible === 0 && total > 0 && integer(a.countedDistricts, "counted") > 0 && Number(a.countedDistricts) < Number(a.totalDistricts);
+  insist(!warnings.includes("missing-counted-electorate") || missingElectorate, "Invalid electorate warning");
+  insist(!warnings.includes("previous-party-total") || a.previous === null, "Invalid comparison warning");
+  insist(valid + integer(a.invalidVotes, "invalid votes") === total && (total <= eligible || missingElectorate) && total <= integer(a.eligibleVoters, "electorate") && eligible <= Number(a.eligibleVoters), "Invalid displayed totals");
   insist(integer(a.countedDistricts, "counted districts") <= integer(a.totalDistricts, "all districts") && matchesPercent(a.turnoutInCountedDistricts, percent(total, eligible)), "Invalid displayed coverage");
   const parties = list(a.parties, "parties").map(p => object(p, "party"));
   insist(new Set(parties.map(p => p.code)).size === parties.length, "Duplicate displayed party");

@@ -1,9 +1,12 @@
 import type { LiveFeed } from "../live/types";
+import { isEstablishedResult } from "../live/headline-result";
 import { publicNowcast, publicProbability } from "./public";
 import type { NowcastEstimate } from "./types";
 import type { SimulatorPartyId } from "../simulator/types";
 
 export function currentProjection(feed: LiveFeed, delayed: boolean) {
+  const final = feed.results["final-count"];
+  if (final && isEstablishedResult(final)) return { estimate: null, probability: null, source: null };
   const checked = publicNowcast(feed);
   const estimate = !delayed && checked?.status !== "insufficient" ? checked : null;
   return { estimate, probability: estimate ? publicProbability(estimate) : null, source: estimate ? feed.nowcast!.source! : null };

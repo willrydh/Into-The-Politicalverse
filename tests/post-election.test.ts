@@ -160,3 +160,34 @@ test("partial final count does not replace the overall picture; establishment re
   f.protocolUrl = "https://resultat.val.se/protokoll/test.pdf"; assert.equal(areaIsEstablished(f), true);
   f.area.parties[0].seats = null; assert.equal(areaIsEstablished(f), false);
 });
+
+test("signed Karlstad recount retains reconciled 2026 votes while withholding its inconsistent 2022 baseline", async () => {
+  const { readSignedArchive } = await import("../lib/live/official-files");
+  const zip = readFileSync("tests/fixtures/valmyndigheten-2026/areas/KF-1780-final.zip");
+  const signed = await readSignedArchive(zip, {url:"https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_1780_KF.zip",md5:digest(zip,"md5")}, {mode:"production",stage:"final-count",area:{electionType:"KF",code:"1780"},now:"2026-09-21T05:00:00Z",certificate:readFileSync("data/raw/valmyndigheten-2026/val-sign-crt.pem")});
+  const result = normalizeAreaResult(signed.raw,{electionType:"KF",code:"1780",stage:"final-count",now:"2026-09-21T05:00:00Z",source:signed.source});
+  assert.equal(result.area.validVotes,1322); assert.equal(result.area.previous,null);
+  assert.deepEqual(result.area.sourceWarnings,["previous-party-total"]);
+  const {validateCountedArea}=await import("../lib/live/public-area-feed");
+  validateCountedArea(result.area);
+  const corrupt=structuredClone(result.area); corrupt.parties[0].votes++;
+  assert.throws(()=>validateCountedArea(corrupt));
+});
+
+test("signed Sorsele collection ballots are included with unavailable turnout, never zero percent", async () => {
+  const {readSignedArchive}=await import("../lib/live/official-files");
+  const {validateCountedArea}=await import("../lib/live/public-area-feed");
+  const zip=readFileSync("tests/fixtures/valmyndigheten-2026/areas/KF-2422-final.zip");
+  const options={mode:"production" as const,stage:"final-count" as const,area:{electionType:"KF" as const,code:"2422"},now:"2026-09-21T05:00:00Z",certificate:readFileSync("data/raw/valmyndigheten-2026/val-sign-crt.pem")};
+  const entry={url:"https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_2422_KF.zip",md5:digest(zip,"md5")};
+  const signed=await readSignedArchive(zip,entry,options);
+  const result=normalizeAreaResult(signed.raw,{electionType:"KF",code:"2422",...options,source:signed.source});
+  assert.equal(result.area.totalVotes,324); assert.equal(result.area.validVotes,316);
+  assert.equal(result.area.turnoutInCountedDistricts,null);
+  assert.deepEqual(result.area.sourceWarnings,["missing-counted-electorate"]);
+  validateCountedArea(result.area);
+  const corrupt=structuredClone(result.area); delete corrupt.sourceWarnings;
+  assert.throws(()=>validateCountedArea(corrupt));
+  const complete=structuredClone(result.area);complete.countedDistricts=complete.totalDistricts;
+  assert.throws(()=>validateCountedArea(complete));
+});

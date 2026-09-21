@@ -17,7 +17,7 @@ import type { ElectionForecast } from "../forecast/types";
 
 const read = <T,>(file: string): T => JSON.parse(readFileSync(join(process.cwd(), "data", file), "utf8"));
 const translated = (value: string) => b(translateText(value, "sv"), translateText(value, "en"));
-const mapHref = (values: Record<string, string>, fragment = "local-results") => `/maps/?${new URLSearchParams({ year: "2022", ...values })}#${fragment}`;
+const mapHref = (values: Record<string, string>, fragment = "local-results") => `/maps/?${new URLSearchParams({ year: "2026", ...values })}#${fragment}`;
 
 /** Index visible text literals from every local component dependency, in both
  * languages. New prose is picked up at build time; no HTML or source code is served. */
@@ -45,7 +45,7 @@ function pageText(file: string, seen = new Set<string>()): string[] {
 }
 
 export function buildSearchIndex(): SearchIndex {
-  const entries: SearchEntry[] = [...SEARCH_TOPICS];
+  const entries: SearchEntry[] = [...SEARCH_TOPICS, { id: "election:2026", type: "election", href: "/elections/#election-2026", title: b("Valresultat 2026", "2026 election results"), description: b("Riksdag, region och kommun · Resultat och jämförelser med 2022", "Riksdag, region and municipality · Results compared with 2022") }];
   const geography = read<LocalElectionIndex>("normalized/local-election-index.json");
   const districts = read<LocalDistrictData>("normalized/local-election-districts.json");
   const personal = read<PersonalVoteData>("normalized/personal-votes-2022.json");
@@ -60,12 +60,12 @@ export function buildSearchIndex(): SearchIndex {
     const words = pageText(join(process.cwd(), "app/(sv)", page.route, "page.tsx"));
     entries.push({ id: `page:${page.route || "home"}`, type: "page", href: `/${page.route}${page.route ? "/" : ""}`, title: page.title, description: page.description, keywords: [...new Set(words)].join(" ") });
   }
-  for (const c of geography.counties) entries.push({ id: `county:${c.code}`, type: "county", title: b(c.name), description: b(`Län · Riksdagsval 2010–2022 · ${c.code}`, `County · Riksdag elections 2010–2022 · ${c.code}`), href: mapHref({ county: c.code }) });
+  for (const c of geography.counties) entries.push({ id: `county:${c.code}`, type: "county", title: b(c.name), description: b(`Län · Riksdagsval 2010–2026 · ${c.code}`, `County · Riksdag elections 2010–2026 · ${c.code}`), href: mapHref({ county: c.code }) });
   for (const m of geography.municipalities) {
     const county = counties.get(m.parent!)!;
     entries.push({ id: `municipality:${m.code}`, type: "municipality", title: b(m.name), description: b(`Kommun · ${county.name} · ${m.code}`, `Municipality · ${county.name} · ${m.code}`), href: mapHref({ county: county.code, municipality: m.code }) });
     for (const d of districts.municipalities[m.code]) {
-      entries.push({ id: `district:${d.code}`, type: "district", title: d.level === "collection" ? b(`Uppsamlingsröster · ${m.name}`, `Collection votes · ${m.name}`) : b(d.name), description: b(`${d.level === "collection" ? "Röstgrupp" : "Valdistrikt"} 2022 · ${m.name} · ${county.name} · ${d.code}`, `${d.level === "collection" ? "Vote group" : "Electoral district"} 2022 · ${m.name} · ${county.name} · ${d.code}`), href: mapHref({ county: county.code, municipality: m.code, district: d.code }), keywords: d.comparison?.previousNames.join(" ") });
+      entries.push({ id: `district:${d.code}`, type: "district", title: d.level === "collection" ? b(`Uppsamlingsröster · ${m.name}`, `Collection votes · ${m.name}`) : b(d.name), description: b(`${d.level === "collection" ? "Röstgrupp" : "Valdistrikt"} 2022 · ${m.name} · ${county.name} · ${d.code}`, `${d.level === "collection" ? "Vote group" : "Electoral district"} 2022 · ${m.name} · ${county.name} · ${d.code}`), href: mapHref({ year: "2022", county: county.code, municipality: m.code, district: d.code }), keywords: d.comparison?.previousNames.join(" ") });
     }
   }
   for (const place of localities.localities) {
@@ -82,7 +82,7 @@ export function buildSearchIndex(): SearchIndex {
   }
   // Candidate histories are served as a compact, separately validated payload.
   // Keep the general page/geography index small and out of the shared header.
-  for (const c of personal.constituencies) entries.push({ id: `constituency:${c.code}`, type: "constituency", title: b(c.name), description: b(`Riksdagsvalkrets · Personröster 2010–2022 · ${c.code}`, `Riksdag constituency · Personal votes 2010–2022 · ${c.code}`), href: mapHref({ constituency: c.code }, "personal-votes") });
+  for (const c of personal.constituencies) entries.push({ id: `constituency:${c.code}`, type: "constituency", title: b(c.name), description: b(`Riksdagsvalkrets · Personröster 2010–2026 · ${c.code}`, `Riksdag constituency · Personal votes 2010–2026 · ${c.code}`), href: mapHref({ constituency: c.code }, "personal-votes") });
   for (const p of government.partyContexts) for (const name of p.leaders) entries.push({ id: `leader:${p.partyId}:${name}`, type: "person", title: b(name), description: b(`${PARTIES[p.partyId].name} · Daterad regeringskontext 2026`, `${translateText(PARTIES[p.partyId].name, "en")} · Dated government context 2026`), href: `/forecasts/#leader-${p.partyId}`, keywords: p.claims.flatMap(c => [c.headline, c.summary, translateText(c.headline, "en"), translateText(c.summary, "en")]).join(" ") });
   for (const claim of government.constitutionalClaims) entries.push({ id: `context:${claim.id}`, type: "topic", title: translated(claim.headline), description: translated(claim.summary), href: "/forecasts/#regering", keywords: `${claim.source.publisher} ${claim.source.title}` });
   for (const question of forecast.questions) entries.push({ id: `question:${question.id}`, type: "topic", title: translated(question.question), description: b(`ARKIV · Förvalsprognos 2026. ${translateText(question.resolution, "sv")}`, `ARCHIVE · Pre-election forecast 2026. ${translateText(question.resolution, "en")}`), href: `/forecasts/#${question.id}`, keywords: `${question.explanation} ${translateText(question.explanation, "en")}` });

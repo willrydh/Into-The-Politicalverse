@@ -44,7 +44,7 @@ function statusLabel(status: ForecastCoalition["status"]): string {
   return "MANDATSCENARIO";
 }
 
-export function GovernmentFormation({ forecast, current, compact = false, idPrefix = "" }: { forecast?: ElectionForecast; current?: CoalitionView[]; compact?: boolean; idPrefix?: string }) {
+export function GovernmentFormation({ forecast, current, established = false, compact = false, idPrefix = "" }: { forecast?: ElectionForecast; current?: CoalitionView[]; established?: boolean; compact?: boolean; idPrefix?: string }) {
   const all = current ?? forecast!.coalitions;
   const opposition = requiredCoalition(all, "opposition-four");
   const tido = requiredCoalition(all, "tido-four");
@@ -58,16 +58,16 @@ export function GovernmentFormation({ forecast, current, compact = false, idPref
     <div className="government-product">
       <div className="pm-paths">
         <article className="pm-path pm-path--lead">
-          <header><span>MANDATBAS · {andersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
-          <p><PartyText>{opposition.name}</PartyText> når gränsen för egen majoritet i</p>
-          <strong>{pct(opposition.majorityProbability, !!current)}</strong>
-          <small>{current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
+          <header><span>MANDATBAS · {andersson.toLocaleUpperCase("sv-SE")}</span><b>{established ? "DERIVED" : "MODEL"}</b></header>
+          <p><PartyText>{opposition.name}</PartyText>{!established && " når gränsen för egen majoritet i"}</p>
+          <strong>{established ? opposition.centralSeats : pct(opposition.majorityProbability, !!current)}</strong>
+          <small>{established ? "mandat i det fastställda resultatet · majoritet kräver 175" : current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
         </article>
         <article className="pm-path">
-          <header><span>MANDATBAS · {kristersson.toLocaleUpperCase("sv-SE")}</span><b>MODEL</b></header>
-          <p><PartyText>{tido.name}</PartyText> når gränsen för egen majoritet i</p>
-          <strong>{pct(tido.majorityProbability, !!current)}</strong>
-          <small>{current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
+          <header><span>MANDATBAS · {kristersson.toLocaleUpperCase("sv-SE")}</span><b>{established ? "DERIVED" : "MODEL"}</b></header>
+          <p><PartyText>{tido.name}</PartyText>{!established && " når gränsen för egen majoritet i"}</p>
+          <strong>{established ? tido.centralSeats : pct(tido.majorityProbability, !!current)}</strong>
+          <small>{established ? "mandat i det fastställda resultatet · majoritet kräver 175" : current ? "Valnattens simuleringar · träffsäkerheten är inte belagd" : "av modellkörningarna · inte statsministerodds"}</small>
         </article>
         <aside className="government-knot">
           <span>{parliamentarism.classification} · KONTROLLERAT {formatDate(governmentFormationContext.checkedAt).toLocaleUpperCase("sv-SE")}</span>
@@ -86,7 +86,7 @@ export function GovernmentFormation({ forecast, current, compact = false, idPref
             <header><strong><PartyText>{coalition.name}</PartyText></strong><span>{statusLabel(coalition.status)}</span></header>
             <div>
               <strong>{coalition.centralSeats ?? "—"}</strong>
-              <span>/ 349 mandat i mittscenariot</span>
+              <span>{established ? "/ 349 mandat i valresultatet" : "/ 349 mandat i mittscenariot"}</span>
               {coalition.majorityProbability !== null && <b>{pct(coalition.majorityProbability, !!current)} modellfrekvens för minst 175</b>}
             </div>
             <p><PartyText>{coalition.explanation}</PartyText></p>

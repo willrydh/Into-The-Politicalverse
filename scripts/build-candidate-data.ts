@@ -29,7 +29,7 @@ for (const [id, records] of standings) {
 for (const [shard, data] of Object.entries(standingShards)) { validateStandings(data); write(`standings-v1/${shard}.json`, data); }
 for (const [key, data] of rankings) {
   write(`rankings/${key}.json`, data);
-  if (data.electionType === "RD") for (const area of catalog.constituencies) write(`areas/${data.year}-${area.code}.json`, { schemaVersion: 1, version: catalog.version, year: data.year, electionType: "RD", code: area.code, name: area.name, rows: data.rows.filter(r => r.areaCode === area.code) });
+  if (data.electionType === "RD") for (const area of catalog.constituencies) write(`areas/${data.year}-${area.code}.json`, { schemaVersion: 1, version: catalog.version, year: data.year, electionType: "RD", code: area.code, name: area.name, ...(data.coverage ? { coverage: data.coverage } : {}), rows: data.rows.filter(r => r.areaCode === area.code) });
 }
 console.log(`Candidate data: ${catalog.people} profiles, ${catalog.linkedPeople} linked histories, ${catalog.electionIdentities} source identities; ${rankings.size} ranking files.`);
 
