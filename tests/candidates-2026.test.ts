@@ -12,6 +12,7 @@ import { buildSharePerson } from "../lib/candidates/build-sharing";
 import { selectShareScope } from "../lib/candidates/sharing";
 import { buildStandings } from "../lib/candidates/build-standings";
 import { validateRankings, validateCatalog } from "../lib/candidates/validation";
+import { readSignedArchive, digest } from "../lib/live/official-files";
 import type { CandidateSource, CandidateYear } from "../lib/candidates/types";
 
 const data = getCandidateData();
@@ -109,4 +110,27 @@ test("ballot and summed candidate representations must agree and are never doubl
   const first=duplicate.rostfordelning.rosterPaverkaMandat.partiRoster.find((p:{listRoster:unknown[]})=>p.listRoster.length);
   first.listRoster.push(first.listRoster[0]);
   assert.throws(()=>personalCandidates(duplicate),/duplicate ballot/);
+});
+
+test("multi-constituency municipal personal votes reconcile to the signed council total with distinct list positions", async () => {
+  const archive = readFileSync("tests/fixtures/valmyndigheten-2026/areas/KF-2284-final.zip");
+  const signed = await readSignedArchive(archive, { url: "https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_2284_KF.zip", md5: digest(archive, "md5") }, { mode: "production", stage: "final-count", area: { electionType: "KF", code: "2284" }, now: "2026-09-23T19:00:00Z", certificate: readFileSync("data/raw/valmyndigheten-2026/val-sign-crt.pem") });
+  const area = (signed.raw as typeof raw).valomrade;
+  const result = personalCandidates(area);
+  const nordin = result.candidates.find(c => c.id === "51124" && c.partyCode === "0001")!;
+  assert.equal(nordin.votes, 788); assert.equal(nordin.partyVotes, 6355);
+  assert.equal(nordin.lists, new Set(nordin.ballotPositions.map(p => p.listNumber)).size);
+  assert.equal(new Set(nordin.ballotPositions.map(p => `${p.listNumber}/${p.position}`)).size, nordin.ballotPositions.length);
+  for (const p of area.rostfordelning.rosterPaverkaMandat.partiRoster) {
+    assert.equal(result.partyVotes[p.partikod], p.antalRoster);
+    for (const c of p.summeradePersonroster ?? []) assert.equal(result.candidates.find(row => row.partyCode === p.partikod && row.id === String(c.kandidatnummer))?.votes, c.antalPersonroster);
+  }
+  const duplicate = structuredClone(area); duplicate.valkretsLista.push(duplicate.valkretsLista[0]);
+  assert.throws(() => personalCandidates(duplicate), /duplicate council constituency/);
+  const changed = structuredClone(area); changed.rostfordelning.rosterPaverkaMandat.partiRoster[0].summeradePersonroster[0].antalPersonroster++;
+  assert.throws(() => personalCandidates(changed), /personal votes disagree/);
+  const denominator = structuredClone(area); denominator.rostfordelning.rosterPaverkaMandat.partiRoster[0].antalRoster++;
+  assert.throws(() => personalCandidates(denominator), /party votes disagree/);
+  const missing = structuredClone(area); delete missing.valkretsLista;
+  assert.throws(() => personalCandidates(missing), /final ballot lists/);
 });

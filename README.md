@@ -1,5 +1,7 @@
 # Into The Politicalverse
 
+2026-09-23: The final-personal-vote importer now reconciles multi-constituency council ballots against official municipal totals, preserving distinct printed lists and positions. Bounded publication-race retries retain index/signature checks. Regional final-count summaries now accept explicit unreported municipality placeholders without inventing turnout. Profiles, rankings, standings, search and sharing are regenerated from the accepted snapshot. Coverage links distinguish final personal votes from ongoing party counts. See [candidate/results operations](docs/operations/candidate-results-2026.md).
+
 2026-09-21: The current map now covers official 2026 counties, municipalities and all physical districts for RD/RF/KF, with party/share/change/turnout controls, signed same-generation district totals and automatic refresh. Historical geometry stays separate. Shared page gutters and panel insets align the public views on phone, tablet and desktop. See [map operations](docs/operations/maps-2026.md).
 
 2026-09-21: Established 2026 Riksdag personal votes now feed candidate profiles, all five leaderboard metrics, standings, search, maps and sharing data. Current official results replace the election-night projection in the forecast view and simulator; the frozen forecast remains available for comparison. Regional and municipal personal results are admitted area by area only after establishment, with visible coverage and automatic guarded publication. See [2026 candidate/results operations](docs/operations/candidate-results-2026.md).
