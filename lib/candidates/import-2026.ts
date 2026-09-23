@@ -3,7 +3,7 @@ import { candidatePartyId } from "./source-parties";
 import { validateBallotPositions } from "./ballots";
 import type { CandidateArea, CandidateElection, ElectionIdentity, SourceCandidate } from "./types";
 
-export const CANDIDATE_2026_METHOD = "candidate-2026-1.0.0";
+export const CANDIDATE_2026_METHOD = "candidate-2026-1.0.1";
 export type CandidateCoverage = { expected: number; published: number; final: string[] };
 export type CurrentCandidateCoverage = Record<CandidateElection, CandidateCoverage>;
 
@@ -33,9 +33,16 @@ export function parseCandidateCsv(raw: string): string[][] {
 export function personalCandidates(value: unknown): { partyVotes: Record<string, number>; candidates: SourceCandidate[] } {
   const area = object(value, "personal-vote area");
   const distribution = object(object(area.rostfordelning, "distribution").rosterPaverkaMandat, "valid votes");
+  // Multi-constituency councils publish ballot lists in their constituencies,
+  // and only summed personal votes at council level. Reconcile both levels;
+  // never discard that council or add its summary to its underlying votes.
+  const parties = list(distribution.partiRoster, "parties").map(p => object(p, "party"));
+  if (parties.some(p => p.listRoster === undefined) && area.valkretsLista !== undefined) {
+    return aggregatePersonalCandidates(area, parties);
+  }
   const partyVotes: Record<string, number> = {}, candidates: SourceCandidate[] = [];
-  for (const v of list(distribution.partiRoster, "parties")) {
-    const p = object(v, "party"), code = string(p.partikod, "party code"), votes = integer(p.antalRoster, "party votes");
+  for (const p of parties) {
+    const code = string(p.partikod, "party code"), votes = integer(p.antalRoster, "party votes");
     insist(/^\d{4}$/.test(code) && !(code in partyVotes), "Duplicate or invalid personal-vote party");
     partyVotes[code] = votes;
     const totals = new Map<string, SourceCandidate>(), seenLists = new Set<string>();
@@ -71,6 +78,59 @@ export function personalCandidates(value: unknown): { partyVotes: Record<string,
     }
     insist([...totals.values()].reduce((s, c) => s + c.votes, 0) <= votes, "Personal votes exceed party votes");
   }
+  return { partyVotes, candidates };
+}
+
+function aggregatePersonalCandidates(area: Record<string, unknown>, parties: Record<string, unknown>[]): ReturnType<typeof personalCandidates> {
+  const code = string(area.kod, "council code"), seenAreas = new Set<string>();
+  const votes = new Map<string, number>(), totals = new Map<string, SourceCandidate>();
+  const ballotLists = new Map<string, Set<string>>();
+  const constituencies = list(area.valkretsLista, "council constituencies");
+  insist(constituencies.length > 0, "Missing council constituencies");
+  for (const value of constituencies) {
+    const constituency = object(value, "council constituency"), childCode = string(constituency.kod, "constituency code");
+    insist(childCode.startsWith(code) && childCode.length === code.length + 2 && !seenAreas.has(childCode), "Invalid or duplicate council constituency");
+    seenAreas.add(childCode);
+    const child = personalCandidates(constituency);
+    for (const [party, count] of Object.entries(child.partyVotes)) votes.set(party, (votes.get(party) ?? 0) + count);
+    // Count distinct printed lists, including candidates without a position.
+    const distribution = object(object(constituency.rostfordelning, "distribution").rosterPaverkaMandat, "valid votes");
+    for (const p of list(distribution.partiRoster, "parties").map(p => object(p, "party"))) {
+      for (const b of list(p.listRoster, "constituency ballot lists").map(b => object(b, "ballot"))) {
+        for (const c of list(b.personroster, "ballot candidates").map(c => object(c, "candidate"))) {
+          const key = `${p.partikod}/${c.kandidatNummer}`, lists = ballotLists.get(key) ?? new Set<string>();
+          lists.add(string(b.listnummer, "list number")); ballotLists.set(key, lists);
+        }
+      }
+    }
+    for (const c of child.candidates) {
+      const key = `${c.partyCode}/${c.id}`, row = totals.get(key);
+      if (!row) totals.set(key, structuredClone(c));
+      else {
+        insist(row.name === c.name, "Constituency candidate names disagree");
+        row.votes += c.votes;
+        for (const position of c.ballotPositions) if (!row.ballotPositions.some(b => b.listNumber === position.listNumber && b.position === position.position)) row.ballotPositions.push(position);
+      }
+    }
+  }
+  const partyVotes: Record<string, number> = {}, candidates: SourceCandidate[] = [], seen = new Set<string>();
+  for (const p of parties) {
+    const party = string(p.partikod, "party code"), count = integer(p.antalRoster, "party votes");
+    insist(/^\d{4}$/.test(party) && !(party in partyVotes), "Duplicate or invalid personal-vote party");
+    insist(p.listRoster === undefined, "Mixed council and constituency ballot lists");
+    insist((votes.get(party) ?? 0) === count, "Council and constituency party votes disagree");
+    partyVotes[party] = count;
+    for (const value of p.summeradePersonroster == null ? [] : list(p.summeradePersonroster, "summed candidates")) {
+      const c = object(value, "summed candidate"), key = `${party}/${integer(c.kandidatnummer, "candidate number")}`, row = totals.get(key);
+      insist(row && !seen.has(key) && row.votes === integer(c.antalPersonroster, "summed personal votes"), "Council and constituency personal votes disagree");
+      seen.add(key); row.name = string(c.namn, "candidate name"); row.partyVotes = count;
+      row.lists = ballotLists.get(key)!.size;
+      row.ballotPositions.sort((a, b) => a.listNumber.localeCompare(b.listNumber) || a.position - b.position);
+      validateBallotPositions(row.ballotPositions, party); candidates.push(row);
+    }
+    insist(candidates.filter(c => c.partyCode === party).reduce((s, c) => s + c.votes, 0) <= count, "Personal votes exceed party votes");
+  }
+  insist(seen.size === totals.size && [...votes.keys()].every(p => p in partyVotes), "Council summary omits constituency results");
   return { partyVotes, candidates };
 }
 

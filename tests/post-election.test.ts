@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { normalizeResult } from "../lib/live/result-adapter";
-import { attachMunicipalSummary, checkAreaPartyShare, normalizeAreaResult } from "../lib/live/area-adapter";
-import { areaIndexEntries, digest, INDEX_URLS } from "../lib/live/official-files";
+import { attachMunicipalSummary, checkAreaPartyShare, normalizeAreaResult, normalizeCountedArea } from "../lib/live/area-adapter";
+import { areaIndexEntries, digest, INDEX_URLS, readSignedArchive } from "../lib/live/official-files";
 import { normalizeComparison } from "../lib/live/comparison";
 import { acceptAreaFeed, validateAreaFeed } from "../lib/live/public-area-feed";
 import { collectAreaResults, emptyAreaFeed } from "../lib/live/area-collector";
@@ -113,12 +113,31 @@ test("all published production areas pass client arithmetic and previous-generat
   const feed = validateAreaFeed(JSON.parse(readFileSync(new URL("../data/live/area-results-2026.json", import.meta.url), "utf8")));
   assert.equal(feed.published.preliminary.RD, 1); assert.equal(feed.published.preliminary.RF, 20); assert.equal(feed.published.preliminary.KF, 290);
   assert.equal(Object.keys(feed.results).filter(k => k.startsWith("preliminary/")).length, 311);
-  assert.equal(feed.failures.length, 0);
+  assert.equal(feed.status, feed.failures.length ? "degraded" : "ok");
+  assert(feed.failures.every(key => key === "index" || key in feed.results), "Any retained source failure stays explicitly identified");
   assert.equal(acceptAreaFeed(feed, feed), feed);
   const corrupt = structuredClone(feed); corrupt.results["preliminary/KF/1463"].area.parties[0].votes++;
   assert.throws(() => acceptAreaFeed(feed, corrupt));
   const regressed = structuredClone(feed); regressed.checkedAt = "2026-09-13T00:00:00Z";
   assert.throws(() => acceptAreaFeed(feed, regressed));
+});
+
+test("unreported municipalities in a signed regional final count retain null turnout and reconcile without blocking reported areas", async () => {
+  const archive = readFileSync("tests/fixtures/valmyndigheten-2026/areas/RF-04-final.zip");
+  const input = { mode: "production" as const, stage: "final-count" as const, area: { electionType: "RF" as const, code: "04" }, now: "2026-09-23T19:00:00Z", certificate: readFileSync("data/raw/valmyndigheten-2026/val-sign-crt.pem") };
+  const entry = { url: "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_04_RF.zip", md5: digest(archive, "md5") };
+  const signed = await readSignedArchive(archive, entry, input), summary = await readSignedArchive(archive, entry, { ...input, kind: "summering" });
+  const result = normalizeAreaResult(signed.raw, { electionType: "RF", code: "04", ...input, source: signed.source });
+  attachMunicipalSummary(result, summary.raw, summary.source, input.now);
+  const unreported = result.municipalities.find(m => m.code === "0428")!;
+  assert.equal(unreported.countedDistricts, 0); assert.equal(unreported.turnoutInCountedDistricts, null);
+  assert.deepEqual(unreported.parties, []); assert.equal(unreported.previous, null);
+  assert.equal(result.municipalities.reduce((s, m) => s + m.totalVotes, 0), result.area.totalVotes);
+  assert(result.municipalities.some(m => m.countedDistricts > 0 && m.validVotes > 0));
+  const raw = (summary.raw as {kommuner: Record<string, unknown>[]}).kommuner.find(m => m.kommunkod === "0428")!;
+  assert.throws(() => normalizeCountedArea({ ...raw, antalValdistriktRaknade: 1 }, "2022-09-11", true));
+  assert.throws(() => normalizeCountedArea({ ...raw, totaltAntalRoster: 1 }, "2022-09-11", true));
+  assert.throws(() => normalizeCountedArea({ ...raw, valdeltagande: 1 }, "2022-09-11", true));
 });
 
 test("an older publisher cannot remove the newly verified national comparison", () => {

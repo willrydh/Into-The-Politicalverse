@@ -15,7 +15,10 @@ export function normalizeCountedArea(value: unknown, previousDate: unknown, muni
   const a = object(value, "election area");
   const code = string(municipality ? a.kommunkod : a.kod, "area code"), name = string(a.namn, "area name");
   const countedDistricts = integer(a.antalValdistriktRaknade, "counted districts"), totalDistricts = integer(a.antalValdistriktSomSkaRaknas, "all districts");
-  const totalVotes = integer(a.totaltAntalRoster, "all ballots"), eligibleVoters = integer(a.antalRostberattigade, "electorate"), eligibleInCountedDistricts = integer(a.antalRostberattigadeIRaknadeValdistrikt, "counted electorate");
+  // Final regional summaries use null placeholders for municipalities that
+  // have not reported. They contribute no counted votes; turnout stays null.
+  const unreported = municipality && countedDistricts === 0 && a.rostfordelning === null && a.mandatfordelning == null && a.senasteRapporteringstid === null;
+  const totalVotes = integer(unreported && a.totaltAntalRoster === null ? 0 : a.totaltAntalRoster, "all ballots"), eligibleVoters = integer(a.antalRostberattigade, "electorate"), eligibleInCountedDistricts = integer(unreported && a.antalRostberattigadeIRaknadeValdistrikt === null ? 0 : a.antalRostberattigadeIRaknadeValdistrikt, "counted electorate");
   const sourceWarnings: NonNullable<CountedArea["sourceWarnings"]> = [];
   // Collection districts have ballots but no electorate of their own. The signed
   // Sorsele final count starts with one such district; turnout is unavailable.

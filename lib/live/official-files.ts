@@ -64,6 +64,8 @@ export async function download(url: string, maxBytes: number, allow404 = false):
   return Buffer.concat(chunks);
 }
 
+export class PublicationRaceError extends Error {}
+
 /** Index and ZIP can briefly expose different publication generations. */
 export async function downloadIndexedArchive(
   initial: { url: string; md5: string },
@@ -86,7 +88,7 @@ export async function downloadIndexedArchive(
     entry = next;
     if (attempt < 2) await pause();
   }
-  throw new Error("Archive does not match official index checksum after bounded publication retries");
+  throw new PublicationRaceError(`Archive does not match official index checksum after bounded publication retries: ${entry.url}`);
 }
 
 export function verifySignedJson(raw: Buffer, signature: Buffer, certificate: Buffer, now: string): void {

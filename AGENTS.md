@@ -53,6 +53,7 @@ Scoped feature branches: `codex/*`
 
 ## Current implementation rules
 
+- Multi-constituency council personal votes must reconcile the distinct constituency ballot counts to the council’s own party and candidate totals. Deduplicate printed list metadata, never votes across different constituencies. Keep the publication-race retries bounded and all validation ahead of tracked writes.
 - The 2026 history year uses signed, established area results with complete counting, protocol and mandates. Preserve old profile URLs, conservative identity links, per-election coverage and whole-cohort ranking gates. New regional/municipal results are admitted automatically only after those checks. See `docs/operations/candidate-results-2026.md`.
 - Once the Riksdag result is established, current projection probabilities are retired. Forecast/current-result views use the final count; simulator input must independently reproduce every official fixed/adjustment/total mandate. Keep the frozen pre-election forecast for retrospective scoring.
 
