@@ -4,7 +4,10 @@ import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { getCandidateData } from "../lib/candidates/build";
 import { verifyCandidates2026 } from "../lib/candidates/verify-2026";
-import { parseCandidateCsv, personalCandidates } from "../lib/candidates/import-2026";
+import { parseCandidateCsv, personalCandidates, personalCountComplete } from "../lib/candidates/import-2026";
+import { candidateCoverageSelection } from "../lib/candidates/coverage";
+import { normalizeAreaResult } from "../lib/live/area-adapter";
+import { areaIsEstablished } from "../lib/live/area-types";
 import { linkIdentities, extendIdentityGroups, type IdentityInput } from "../lib/candidates/identity";
 import { selectCandidateProfile } from "../lib/candidates/profile-selection";
 import { compareCandidate } from "../lib/candidates/math";
@@ -19,7 +22,7 @@ const data = getCandidateData();
 const source = JSON.parse(gunzipSync(readFileSync("data/normalized/candidate-elections-2026.json.gz")).toString()) as CandidateSource;
 const raw = JSON.parse(gunzipSync(readFileSync("data/raw/valmyndigheten-2026/candidates/RD-00.json.gz")).toString());
 
-test("2026 personal votes reproduce signed established sources and every Riksdag party denominator", () => {
+test("2026 personal votes reproduce signed counts, establishment status and every Riksdag party denominator", () => {
   const verified = verifyCandidates2026();
   assert.equal(verified.areas, source.areas.length);
   assert.equal(source.areas.filter(a => a.electionType === "RD").length, 29);
@@ -31,6 +34,57 @@ test("2026 personal votes reproduce signed established sources and every Riksdag
   }
   for (const ranking of data.rankings.values()) validateRankings(ranking);
   validateCatalog(data.catalog);
+});
+
+test("Mark's complete signed personal count is usable before mandates and protocol exist", async () => {
+  const archive = readFileSync("tests/fixtures/valmyndigheten-2026/areas/KF-1463-counted.zip");
+  const signed = await readSignedArchive(archive, { url: "https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_1463_KF.zip", md5: "2827f1aa51b9c5b9e88f50bdf46bb603" }, { mode: "production", stage: "final-count", area: { electionType: "KF", code: "1463" }, now: "2026-09-24T07:00:00Z", certificate: readFileSync("data/raw/valmyndigheten-2026/val-sign-crt.pem") });
+  const area = (signed.raw as typeof raw).valomrade;
+  assert.equal(area.antalValdistriktRaknade, 23);
+  assert.equal(area.antalValdistriktSomSkaRaknas, 23);
+  assert.equal(personalCountComplete(area), true);
+  assert.equal(area.lankTillProtokoll ?? null, null);
+  assert.equal(area.mandatfordelning ?? null, null);
+  assert.equal(areaIsEstablished(normalizeAreaResult(signed.raw, { electionType: "KF", code: "1463", stage: "final-count", now: "2026-09-24T07:00:00Z", source: signed.source })), false);
+  const candidates = personalCandidates(area).candidates;
+  assert.equal(candidates.length, 193);
+  assert.equal(candidates.find(c => c.id === "31647")?.votes, 338);
+  assert.equal(candidates.find(c => c.id === "31647")?.partyVotes, 4277);
+  assert.equal(personalCountComplete({...area, antalValdistriktRaknade:22}), false);
+  assert.equal(personalCountComplete({antalValdistriktRaknade:0, antalValdistriktSomSkaRaknas:0}), false);
+});
+
+test("coverage separates available counts from establishment and legacy final coverage still works", () => {
+  const catalog = structuredClone(data.catalog);
+  catalog.coverage2026!.KF = {expected:290,published:2,counted:["1463","0428"],final:["0428"]};
+  assert.deepEqual(candidateCoverageSelection(catalog,"KF","14","1463"), {expected:1,counted:1,final:0,complete:true,established:false,county:"14"});
+  assert.equal(candidateCoverageSelection(catalog,"KF","04","0428").established,true);
+  assert.equal(candidateCoverageSelection(catalog,"KF","14","1490").counted,0);
+  assert.equal(candidateCoverageSelection(catalog,"KF").complete,false);
+  assert.equal(candidateCoverageSelection(catalog,"RF").expected,20);
+  delete catalog.coverage2026!.KF.counted;
+  assert.equal(candidateCoverageSelection(catalog,"KF","04","0428").complete,true);
+});
+
+test("counted local results reach rankings, profiles and sharing without claiming final or national standing", () => {
+  const base = data.rankings.get("2026-KF")!;
+  const row = base.rows.find(r => r.areaCode === "1463" && r.id === "31647")!;
+  assert(row);
+  const official = JSON.parse(gunzipSync(readFileSync("data/raw/valmyndigheten-2026/candidates/KF-1463.json.gz")).toString());
+  const ekberg = personalCandidates(official.valomrade).candidates.find(c => c.id === "31647")!;
+  assert.equal(row.votes,ekberg.votes);
+  const person = data.sourcePeople.get("2026:31647")!;
+  const selection = selectCandidateProfile(person,new URLSearchParams("election=KF&area=1463"));
+  assert.equal(selection.latest.year,2026); assert.equal(selection.latest.votes,row.votes);
+  const share = selectShareScope(buildSharePerson(person),new URLSearchParams("election=KF&area=1463"));
+  assert.equal(share.status,row.status); assert.equal(share.votes,row.votes);
+  const counted = {...base,rows:[{...row,status:"counted" as const}],coverage:{expected:290,published:1,counted:["1463"],final:[],completeCounties:[]}};
+  validateRankings(counted);
+  assert.throws(() => validateRankings({...counted,rows:[{...row,status:"final"}]}));
+  const ranks = buildStandings([person],[counted]).get(person.id)!;
+  assert(ranks.length > 0); assert(ranks.every(r => r.ranks.every(s => s[1] === "area")));
+  const established = {...counted,rows:[{...row,status:"final" as const}],coverage:{...counted.coverage,final:["1463"]}};
+  validateRankings(established);
 });
 
 test("all 207104 old source identities retain their exact public profile URL", () => {

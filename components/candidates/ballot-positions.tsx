@@ -14,9 +14,9 @@ export function CandidateBallotPositions({ ballots, year }: { ballots: BallotPos
       <span>{label}{lists > 1 && <span className="candidate-ballot-count">{lists} {sv ? "valsedlar" : "ballot lists"}</span>}</span>
     </summary>
     <div className="candidate-ballot-detail">
-      <p>{sv ? `Slutresultatets valsedlar, ${year}` : `Ballot lists in the final results, ${year}`}</p>
+      <p>{sv ? `Valmyndighetens valsedlar, ${year}` : `Official ballot lists, ${year}`}</p>
       <ul>{ballots.map(b => <li key={`${b.listNumber}:${b.position}`}><span>{b.listNumber}</span><span>{sv ? "Plats" : "Position"} {b.position}</span></li>)}</ul>
-      <p>Valmyndigheten · {sv ? "Slutresultat" : "Final results"}</p>
+      <p>Valmyndigheten · {sv ? "Officiell källa" : "Official source"}</p>
     </div>
   </details>;
 }

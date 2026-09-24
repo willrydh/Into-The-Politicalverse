@@ -24,10 +24,11 @@ export function buildCandidateData() {
     const filename = `data/normalized/candidate-elections-${year}.json.gz`, raw = read(filename);
     if (createHash("sha256").update(raw).digest("hex") !== outputs[filename]) throw new Error(`Candidate source checksum ${year}`);
     const data = JSON.parse(gunzipSync(raw).toString()) as CandidateSource;
-    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || data.status !== "final" || data.methodVersion !== (year === 2026 ? CANDIDATE_2026_METHOD : "candidate-history-1.0.2")) throw new Error("Candidate source schema");
+    if (data.schemaVersion !== 1 || data.year !== year || data.classification !== "OFFICIAL" || !(year === 2026 ? ["final", "counted"] : ["final"]).includes(data.status) || data.methodVersion !== (year === 2026 ? CANDIDATE_2026_METHOD : "candidate-history-1.0.2")) throw new Error("Candidate source schema");
     for (const [id, identity] of Object.entries(data.identities)) identityInputs.push({ ...identity, key: `${year}:${id}`, year });
     const totals: Record<string, number> = {}, areaKeys = new Set<string>();
     for (const area of data.areas) {
+      if (year === 2026 && !["final", "counted"].includes(area.status ?? "")) throw new Error("Missing personal count status");
       const areaKey = `${area.electionType}:${area.code}:${area.level}`;
       if (areaKeys.has(areaKey)) throw new Error(`Duplicate candidate area ${areaKey}`);
       areaKeys.add(areaKey);
@@ -46,7 +47,7 @@ export function buildCandidateData() {
         // Riksdag membership is checked against the actual municipality list.
         // Sub-regional constituencies are shown but never presumed comparable.
         const boundaryKey = area.level !== "constituency" ? `${area.electionType}:${area.code}` : area.electionType === "RD" && area.members?.length ? area.members.join(",") : null;
-        rows.push({ ...c, year, electionType: area.electionType, areaCode: area.code, areaName: area.name, level: area.level, county: area.county, supersededBy: area.supersededBy, boundaryKey });
+        rows.push({ ...c, year, electionType: area.electionType, areaCode: area.code, areaName: area.name, level: area.level, county: area.county, supersededBy: area.supersededBy, boundaryKey, ...(year === 2026 ? {status: area.status} : {}) });
         observations.set(key, rows);
       }
       if (Object.entries(partyTotals).some(([p, votes]) => votes > area.partyVotes[p])) throw new Error("Personal votes exceed party votes");
@@ -55,7 +56,8 @@ export function buildCandidateData() {
     if (year === 2026) {
       for (const type of ["RD", "RF", "KF"] as const) {
         const codes = data.areas.filter(a => a.electionType === type && (type === "RD" || a.level !== "constituency")).map(a => a.code).sort();
-        if (codes.join() !== coverage[type].final.join() || coverage[type].expected !== ({RD:29,RF:20,KF:290})[type]) throw new Error(`Candidate coverage ${year}:${type}`);
+        const finals = data.areas.filter(a => a.electionType === type && a.status === "final").map(a => a.code).sort();
+        if (codes.join() !== coverage[type].counted?.join() || finals.join() !== coverage[type].final.join() || coverage[type].expected !== ({RD:29,RF:20,KF:290})[type]) throw new Error(`Candidate coverage ${year}:${type}`);
       }
     } else if (data.areas.filter(a => a.electionType === "RD").length !== 29 || data.areas.filter(a => a.level === "municipality").length !== 290 || data.areas.filter(a => a.level === "region").length !== 20) throw new Error(`Candidate coverage ${year}`);
   }

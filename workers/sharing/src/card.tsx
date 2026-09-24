@@ -99,7 +99,7 @@ export async function renderCard(person: SharePerson, scope: ShareScope, locale:
         </div>
       </div> : graph}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto", fontSize: ranked ? 14 : 16, color: muted }}>
-        <span>{sv ? `Slutresultat: Valmyndigheten · ${ranked ? "Placeringar och förändring: beräknade" : "Förändring: beräknad"}` : `Final results: Valmyndigheten · ${ranked ? "Rankings and change: calculated" : "Change: calculated"}`}</span>
+        <span>{scope.status === "counted" ? (sv ? "Valmyndigheten · Räknat, ej fastställt · Beräknade jämförelser" : "Valmyndigheten · Counted, not yet final · Calculated comparisons") : sv ? `Slutresultat: Valmyndigheten · ${ranked ? "Placeringar och förändring: beräknade" : "Förändring: beräknad"}` : `Final results: Valmyndigheten · ${ranked ? "Rankings and change: calculated" : "Change: calculated"}`}</span>
         <span style={{ color: ink, fontSize: 20 }}>politicalverse.se</span>
       </div>
     </div>,

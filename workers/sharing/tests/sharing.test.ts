@@ -133,6 +133,25 @@ test("public candidate metadata, real PNGs and election updates at the Worker bo
     assert.notEqual(imageURL(await (await request(profile)).text()), fresh);
     current = initial;
   });
+  await t.test("counted Mark votes render with explicit status and establishment invalidates the card", async () => {
+    const person = structuredClone(source.sourcePeople.get("2026:31647")!);
+    const row = person.results.find(r => r.year === 2026 && r.electionType === "KF" && r.areaCode === "1463")!;
+    row.status = "counted";
+    current = buildSharePerson(person);
+    const path = `/people/?person=${person.id}&election=KF&area=1463`;
+    const body = await (await request(path)).text();
+    assert(body.includes(`${row.votes.toLocaleString("sv-SE")} personröster`)); assert.match(body,/Räknat, ej fastställt/);
+    const countedImage = imageURL(body);
+    const response = await request(countedImage); assert.equal(response.status,200);
+    writeFileSync(resolve(build,"mark-counted.png"),Buffer.from(await response.arrayBuffer()));
+    assert.match(await (await request("/en" + path)).text(),/Counted, not yet final/);
+    row.status = "final"; current = buildSharePerson(person);
+    const finalBody = await (await request(path)).text();
+    assert(!finalBody.includes("Räknat, ej fastställt"));
+    assert.notEqual(imageURL(finalBody),countedImage);
+    assert.equal((await request(countedImage)).status,302);
+    current = initial;
+  });
   await t.test("another candidate's correction refreshes standings even when this person's votes are unchanged", async () => {
     sourceVersion = "a".repeat(64);
     const body = await (await request(profile)).text();

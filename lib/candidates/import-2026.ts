@@ -3,9 +3,17 @@ import { candidatePartyId } from "./source-parties";
 import { validateBallotPositions } from "./ballots";
 import type { CandidateArea, CandidateElection, ElectionIdentity, SourceCandidate } from "./types";
 
-export const CANDIDATE_2026_METHOD = "candidate-2026-1.0.1";
-export type CandidateCoverage = { expected: number; published: number; final: string[] };
+export const CANDIDATE_2026_METHOD = "candidate-2026-1.1.0";
+export type CandidateCoverage = { expected: number; published: number; final: string[]; counted?: string[] };
 export type CurrentCandidateCoverage = Record<CandidateElection, CandidateCoverage>;
+
+/** Complete counted votes can be published before the authority allocates seats
+ * and signs its protocol. This never promotes the result to established. */
+export function personalCountComplete(value: unknown): boolean {
+  const a = object(value, "personal-vote area");
+  const total = integer(a.antalValdistriktSomSkaRaknas, "all districts");
+  return total > 0 && integer(a.antalValdistriktRaknade, "counted districts") === total;
+}
 
 export function parseCandidateCsv(raw: string): string[][] {
   const rows: string[][] = [], input = raw.replace(/^\uFEFF/, ""), row: string[] = [];

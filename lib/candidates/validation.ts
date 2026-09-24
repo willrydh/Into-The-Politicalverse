@@ -10,13 +10,15 @@ function envelope(v: unknown): asserts v is { schemaVersion: number; version: st
 }
 function coverage(v: unknown, type: string) {
   assert(v && typeof v === "object");
-  const c = v as { expected: number; published: number; final: string[] };
+  const c = v as { expected: number; published: number; final: string[]; counted?: string[] };
   assert(c.expected === ({RD:29,RF:20,KF:290} as Record<string,number>)[type]);
   assert(Number.isSafeInteger(c.published) && c.published >= 0 && c.published <= c.expected);
   assert(Array.isArray(c.final) && c.final.length <= c.published && new Set(c.final).size === c.final.length && c.final.every(code => (type === "KF" ? /^\d{4}$/ : /^\d{2}$/).test(code)));
+  if (c.counted !== undefined) assert(Array.isArray(c.counted) && c.counted.length <= c.published && new Set(c.counted).size === c.counted.length && c.counted.every(code => (type === "KF" ? /^\d{4}$/ : /^\d{2}$/).test(code)) && c.final.every(code => c.counted!.includes(code)));
 }
 function result(r: CandidateResult) {
   assert(r && CANDIDATE_YEARS.includes(r.year) && ELECTION_TYPES.includes(r.electionType) && PARTY_IDS.includes(r.partyId) && r.partyId === candidatePartyId(r.partyCode));
+  assert(r.status === undefined || r.status === "final" || (r.year === 2026 && r.status === "counted"));
   assert(typeof r.id === "string" && /^\d+$/.test(r.id) && typeof r.partyCode === "string" && r.partyCode.length > 0 && typeof r.name === "string" && typeof r.partyName === "string" && typeof r.areaCode === "string" && typeof r.areaName === "string" && typeof r.county === "string");
   assert([r.votes, r.partyVotes, r.lists].every(n => Number.isSafeInteger(n) && n >= 0) && r.votes <= r.partyVotes);
   validateBallotPositions(r.ballotPositions, r.partyCode);
@@ -44,7 +46,7 @@ export function validateRankings(v: unknown): asserts v is RankingsPayload {
   for (const r of d.rows) { ranking(r); assert(r.year === d.year && r.electionType === d.electionType); }
   if (d.year === 2026) {
     coverage(d.coverage, d.electionType);
-    assert(d.coverage && Array.isArray(d.coverage.completeCounties) && d.coverage.completeCounties.every(c => /^\d{2}$/.test(c)) && d.rows.every(r => d.coverage!.final.includes(r.areaCode)));
+    assert(d.coverage && Array.isArray(d.coverage.completeCounties) && d.coverage.completeCounties.every(c => /^\d{2}$/.test(c)) && d.rows.every(r => (d.coverage!.counted ?? d.coverage!.final).includes(r.areaCode) && (r.status === "counted" ? !d.coverage!.final.includes(r.areaCode) : d.coverage!.final.includes(r.areaCode))));
   }
 }
 export function validatePersonalArea(v: unknown): asserts v is PersonalAreaPayload {

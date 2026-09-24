@@ -8,7 +8,7 @@ export type ShareScope = {
   year: number; party: string; votes: number; percent: number | null;
   previousParty: string | null;
   reason: "comparable" | "no-baseline" | "zero-baseline" | "changed-area" | "replaced-election" | "multiple-parties";
-  status: "final";
+  status: "final" | "counted";
   candidacies: { year: number; partyCode: string; party: string; county: string }[];
   history: { year: number; votes: number | null; party: string; connect: boolean }[];
 };
@@ -36,7 +36,7 @@ export function validateSharePerson(value: unknown, id: string): asserts value i
   for (const s of p.scopes) {
     assert(["RD", "RF", "KF"].includes(s.election) && /^\d{2,6}$/.test(s.area) && text(s.areaName));
     const key = `${s.election}:${s.area}`; assert(!keys.has(key)); keys.add(key);
-    assert(year(s.year) && text(s.party) && votes(s.votes) && s.status === "final");
+    assert(year(s.year) && text(s.party) && votes(s.votes) && ["final", "counted"].includes(s.status));
     assert(s.previousParty === null || text(s.previousParty));
     assert(["comparable", "no-baseline", "zero-baseline", "changed-area", "replaced-election", "multiple-parties"].includes(s.reason));
     assert(s.reason === "comparable" ? Number.isFinite(s.percent) && s.percent! >= -100 : s.percent === null);
@@ -73,5 +73,5 @@ export const shareNumber = (n: number, locale: ShareLocale, decimals = 0) => n.t
 export const sharePercent = (s: ShareScope, locale: ShareLocale) => s.percent === null ? "—" : `${s.percent > 0 ? "+" : s.percent < 0 ? "−" : ""}${shareNumber(Math.abs(s.percent), locale, 1)} %`;
 export const shareTitle = (p: SharePerson, s: ShareScope) => `${p.name} (${s.party}) · Politicalverse`;
 export function shareDescription(p: SharePerson, s: ShareScope, locale: ShareLocale) {
-  return `${p.name} (${s.party}) · ${electionShareLabel(s, locale)} · ${s.areaName} · ${s.year}. ${shareNumber(s.votes, locale)} ${locale === "sv" ? "personröster" : "personal votes"}. ${s.percent === null ? shareReason(s.reason, locale) : `${sharePercent(s, locale)} ${locale === "sv" ? "sedan" : "since"} ${s.year - 4}`}.`;
+  return `${p.name} (${s.party}) · ${electionShareLabel(s, locale)} · ${s.areaName} · ${s.year}. ${shareNumber(s.votes, locale)} ${locale === "sv" ? "personröster" : "personal votes"}. ${s.percent === null ? shareReason(s.reason, locale) : `${sharePercent(s, locale)} ${locale === "sv" ? "sedan" : "since"} ${s.year - 4}`}.${s.status === "counted" ? locale === "sv" ? " Räknat, ej fastställt." : " Counted, not yet final." : ""}`;
 }
