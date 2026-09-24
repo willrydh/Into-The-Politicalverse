@@ -1,5 +1,7 @@
 # Personal votes, recurring candidacies and leaderboards v1
 
+Update 24 September 2026: public history method `candidate-history-1.2.0` and intake method `candidate-2026-1.1.0` separate complete personal-vote counts from formal establishment. Signed complete counts are visible with `counted` status, promoted automatically to `final` only when the source includes the required protocol and mandates. Vote formulas and identity rules are unchanged. National/county badges still require the complete final cohort; local badges describe the displayed complete count.
+
 Update 21 September 2026: [established 2026 results and personal-vote import](../operations/candidate-results-2026.md) supersede the earlier pending-year limitation. Signed established areas, current-result precedence, preserved profile identities and automatic publication are now implemented. Earlier source/method records below remain historical context.
 
 Version: `candidate-history-1.0.2`. Published surfaces: `/rankings/`, `/people/`, the map’s personal-vote table, and universal search. All have Swedish and English versions.

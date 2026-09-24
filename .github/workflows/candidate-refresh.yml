@@ -1,4 +1,4 @@
-name: Refresh final personal votes
+name: Refresh official personal votes
 
 on:
   schedule:
@@ -43,7 +43,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Refresh verified final candidate results
+      - name: Refresh verified candidate counts and status
         run: npm run data:import:candidates:2026
       - name: Stage accepted data only
         id: changes

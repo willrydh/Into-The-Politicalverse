@@ -16,6 +16,7 @@ import { normalizeSearch } from "@/lib/search/engine";
 import { CandidateBallotPositions } from "./ballot-positions";
 import { RankingMovement } from "./ranking-movement";
 import { CandidateCoverageNotice } from "./coverage";
+import { candidateCoverageSelection } from "@/lib/candidates/coverage";
 
 function RankingParty({ row, year }: { row: RankingRow; year: number }) {
   const previous = row.comparison.previous;
@@ -42,6 +43,7 @@ export function CandidateRankings() {
   function setPage(nextPage:number) { setPagination({context:tableContext,page:nextPage}); }
   const catalogState = useCandidateResource("index.json",validateCatalog), state=useCandidateResource(`rankings/${year}-${election}.json`,validateRankings), catalog=catalogState.data;
   const data=state.data?.year===year && state.data.electionType===election ? state.data : undefined;
+  const awaitingCount = year === 2026 && !!catalog && candidateCoverageSelection(catalog,election,county,area).counted === 0;
   function update(values: Record<string,string>) { const next=new URLSearchParams(query);next.delete("candidate");for(const [key,value]of Object.entries(values)){if(value)next.set(key,value);else next.delete(key);} navigateLocalQuery(`?${next}`);setPage(0); }
   const localRows = useMemo(()=>data?.rows.filter(r=>(!county||r.county===county)&&(!area||r.areaCode===area))??[],[data,county,area]);
   const parties=useMemo(()=>[...new Map(localRows.map(r=>[r.partyCode,r])).values()].sort((a,b)=>partyLabel(a,sv).localeCompare(partyLabel(b,sv),sv?"sv":"en")),[localRows,sv]);
@@ -93,7 +95,7 @@ export function CandidateRankings() {
       <p className="local-note">{election==="RD"?(sv?"Antalslistan summerar valkretsar inom urvalet. Jämförelselistorna behåller varje valkrets separat.":"Total-vote rankings sum constituencies within the selection. Comparison rankings keep each constituency separate."):election==="KF"?(sv?"Kommunfullmäktigevalet, summerat över kommunens valkretsar.":"Municipal-council election, summed across the municipality’s constituencies."):(sv?"Regionvalet, summerat över regionens valkretsar.":"Regional election, summed across the region’s constituencies.")}</p>
       <p className="candidate-mobile-note local-note">{sv?"Placeringen gäller vald topplista, även vid sortering. Andelslyft mäts i procentenheter av partiets röster och kan vara positivt även om antalet personröster minskar.":"Ranks refer to the selected leaderboard, even when sorting. Share gain is measured in percentage points of party votes and can be positive even when personal votes fall."}</p>
       </div></div>
-      {!catalog?<CandidateLoading error={catalogState.error} retry={catalogState.retry}/>:!data?<CandidateLoading error={state.error} retry={state.retry}/>:<>
+      {!catalog?<CandidateLoading error={catalogState.error} retry={catalogState.retry}/>:!data?<CandidateLoading error={state.error} retry={state.retry}/>:awaitingCount?<p className="candidate-empty" role="status">{sv?"Personrösträkningen för det här området är ännu inte komplett. Resultaten läggs in automatiskt när de kan verifieras.":"The personal-vote count for this area is not yet complete. Results are added automatically once they can be verified."}</p>:<>
         <p className="candidate-result-count" role="status">{f(ranking.length)} {sv?"resultat i topplistan":"leaderboard entries"}<span className="candidate-rank-explanation">{` · ${sv?"Placeringen gäller vald topplista, även vid sortering":"Ranks refer to the selected leaderboard, even when sorting"}`}</span></p>
         {summedVotes ? <RiksdagVoteResults entries={ranking} year={year} context={tableContext}/> : <>
         <MobileTableSort control={table} onSort={()=>setPage(0)}/>
