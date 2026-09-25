@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "methodVersion": "candidate-2026-1.1.0",
   "retrievedAt": "2026-09-25",
-  "indexSha256": "04926b7ee874e53230172d10c9e1d1fd1735d54e9c15f46052108a7c854ed200",
+  "indexSha256": "a5f6943e224feba2592d127bf47245af24eea641ca8044094917b292bacb05c3",
   "coverage": {
     "RD": {
       "expected": 29,
@@ -80,6 +80,7 @@
         "08",
         "10",
         "13",
+        "14",
         "17",
         "18",
         "22",
@@ -5951,6 +5952,26 @@
     },
     {
       "electionType": "RF",
+      "code": "14",
+      "file": "data/raw/valmyndigheten-2026/candidates/RF-14.json.gz",
+      "sha256": "8809e29652a4d736234ac96440163b99ad45b2b8e9a4537c0345019843a10fea",
+      "signatureFile": "data/raw/valmyndigheten-2026/candidates/RF-14.sha256",
+      "signatureSha256": "74dbc53d52a102edac3f3f09e221a1d0412f55baacd8cc11de1a3015ef6f553c",
+      "source": {
+        "adapterVersion": "pv-valmyndigheten-live-1.0.0",
+        "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_14_RF.zip",
+        "archiveMd5": "b7a82ca31d62af8a2a70f81a2c2d2271",
+        "jsonSha256": "8809e29652a4d736234ac96440163b99ad45b2b8e9a4537c0345019843a10fea",
+        "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
+        "signatureVerified": true
+      },
+      "revision": 468,
+      "updatedAt": "2026-09-25T18:44:24.000Z",
+      "status": "counted",
+      "protocolUrl": null
+    },
+    {
+      "electionType": "RF",
       "code": "17",
       "file": "data/raw/valmyndigheten-2026/candidates/RF-17.json.gz",
       "sha256": "89e3153d2f1ef5a5f23cc70cf2e6a582c99fd8e58745236fed52e62a98384f46",
@@ -6077,5 +6098,5 @@
     "compressedSha256": "0b00de020449cd9c60de5b167953f6301fd2955b94f9fc15754b2c3bad1e0f4b"
   },
   "geographySha256": "d0a8f3b81c1d17765565a33f89e57ab1a15c0763c3f84dca94d0d2d3cb1b4472",
-  "outputSha256": "745f27748cfb3c56aa1db9de28761712fe8a2e199034d4a6145a82488783c0e5"
+  "outputSha256": "452616028a5ba178861cce424300fd1e4f3a374e308bbe72df3b674780d01e10"
 }
