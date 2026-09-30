@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "methodVersion": "candidate-2026-1.1.0",
-  "retrievedAt": "2026-09-29",
-  "indexSha256": "ec1234aa9db9d1badbe70a3850c80038a77a41f459288fb7fdd59b68ca17d653",
+  "retrievedAt": "2026-09-30",
+  "indexSha256": "ebcd79cd8b54215b7a6bd15582b4025f7eee37253a0d3d7c47c622525cf9b478",
   "coverage": {
     "RD": {
       "expected": 29,
@@ -76,6 +76,7 @@
       "counted": [
         "03",
         "04",
+        "05",
         "06",
         "07",
         "08",
@@ -96,6 +97,7 @@
       "final": [
         "03",
         "04",
+        "05",
         "06",
         "07",
         "08",
@@ -419,6 +421,7 @@
         "0126",
         "0127",
         "0128",
+        "0136",
         "0138",
         "0139",
         "0140",
@@ -887,21 +890,21 @@
       "electionType": "KF",
       "code": "0136",
       "file": "data/raw/valmyndigheten-2026/candidates/KF-0136.json.gz",
-      "sha256": "198376b1cb0eb5169474ed61b22351a7d3aaeeb9c0300fa560dde0cfa7b7ef4c",
+      "sha256": "2633be0e851d6908b8432c63f3437f0130e2a7d4c38255f43bbd58f7ec4b5b65",
       "signatureFile": "data/raw/valmyndigheten-2026/candidates/KF-0136.sha256",
-      "signatureSha256": "0a98dea9232821c79be591ca7e1b82f1575f3a693e48d67e99b7dd9db8bc5887",
+      "signatureSha256": "cbbf6af95314891d8aa4995a435f23a6b34d2b2786f5add1652d77e7170999b4",
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_0136_KF.zip",
-        "archiveMd5": "0f91efa9504f12facfe2d3df9d2af26f",
-        "jsonSha256": "198376b1cb0eb5169474ed61b22351a7d3aaeeb9c0300fa560dde0cfa7b7ef4c",
+        "archiveMd5": "c23875e96b7aacd0d908682968695749",
+        "jsonSha256": "2633be0e851d6908b8432c63f3437f0130e2a7d4c38255f43bbd58f7ec4b5b65",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       },
-      "revision": 14,
-      "updatedAt": "2026-09-28T12:54:08.000Z",
-      "status": "counted",
-      "protocolUrl": null
+      "revision": 15,
+      "updatedAt": "2026-09-30T09:27:28.000Z",
+      "status": "final",
+      "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_0136_KF.pdf"
     },
     {
       "electionType": "KF",
@@ -6565,6 +6568,26 @@
     },
     {
       "electionType": "RF",
+      "code": "05",
+      "file": "data/raw/valmyndigheten-2026/candidates/RF-05.json.gz",
+      "sha256": "260c15cfb4e9f41858cb459a1200c7a4d940cc4bcd7e43b72ef6c817398b7294",
+      "signatureFile": "data/raw/valmyndigheten-2026/candidates/RF-05.sha256",
+      "signatureSha256": "a6bc07c0b6d71afbd17c2b915621739a6a04a94178b5d8197a0e4dbcf2b07f61",
+      "source": {
+        "adapterVersion": "pv-valmyndigheten-live-1.0.0",
+        "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_05_RF.zip",
+        "archiveMd5": "912a2b046c8c9aab5f0835d9130a6dd2",
+        "jsonSha256": "260c15cfb4e9f41858cb459a1200c7a4d940cc4bcd7e43b72ef6c817398b7294",
+        "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
+        "signatureVerified": true
+      },
+      "revision": 298,
+      "updatedAt": "2026-09-30T12:45:56.000Z",
+      "status": "final",
+      "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_05_RF.pdf"
+    },
+    {
+      "electionType": "RF",
       "code": "06",
       "file": "data/raw/valmyndigheten-2026/candidates/RF-06.json.gz",
       "sha256": "c98c52624e31681595efbf75e9eaa6dc2b8e5293231562ab8b7e2e75b78da61e",
@@ -6891,5 +6914,5 @@
     "compressedSha256": "0b00de020449cd9c60de5b167953f6301fd2955b94f9fc15754b2c3bad1e0f4b"
   },
   "geographySha256": "d0a8f3b81c1d17765565a33f89e57ab1a15c0763c3f84dca94d0d2d3cb1b4472",
-  "outputSha256": "750fed7389075464f100ca691ccbad822e9b509f52b03f9f3afdebf7463d391c"
+  "outputSha256": "d746a34d2bf7965af1f835185154b23f6172e8b4cbccf538147a504d270b0349"
 }
