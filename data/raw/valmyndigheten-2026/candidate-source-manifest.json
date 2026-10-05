@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "methodVersion": "candidate-2026-1.1.0",
-  "retrievedAt": "2026-10-01",
-  "indexSha256": "a869d68143fa75a89bf41f078f99309f069ea309dab053b898ea533c449cdd8f",
+  "retrievedAt": "2026-10-05",
+  "indexSha256": "5446f0578420c6390e236fc8e822ab3f478ee270627c46bf5853464cc9fd414f",
   "coverage": {
     "RD": {
       "expected": 29,
@@ -74,6 +74,7 @@
       "expected": 20,
       "published": 20,
       "counted": [
+        "01",
         "03",
         "04",
         "05",
@@ -95,6 +96,7 @@
         "25"
       ],
       "final": [
+        "01",
         "03",
         "04",
         "05",
@@ -6528,6 +6530,26 @@
     },
     {
       "electionType": "RF",
+      "code": "01",
+      "file": "data/raw/valmyndigheten-2026/candidates/RF-01.json.gz",
+      "sha256": "d942e554cfbb7110158faa3e43a04b372b8cccbba954956223dbb106fc11a18c",
+      "signatureFile": "data/raw/valmyndigheten-2026/candidates/RF-01.sha256",
+      "signatureSha256": "ec1387149bb611585121a0b9fdceac33dc9c2a1a08c60f14250bf0de1f2c55b7",
+      "source": {
+        "adapterVersion": "pv-valmyndigheten-live-1.0.0",
+        "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_01_RF.zip",
+        "archiveMd5": "ffd7eb0ecffbaaefe50d8ff1c79ecad9",
+        "jsonSha256": "d942e554cfbb7110158faa3e43a04b372b8cccbba954956223dbb106fc11a18c",
+        "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
+        "signatureVerified": true
+      },
+      "revision": 107,
+      "updatedAt": "2026-10-05T12:17:44.000Z",
+      "status": "final",
+      "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_01_RF.pdf"
+    },
+    {
+      "electionType": "RF",
       "code": "03",
       "file": "data/raw/valmyndigheten-2026/candidates/RF-03.json.gz",
       "sha256": "919c4d12453be9eaf298f2232d0e2809a011df21c3be8683ebebac41a3f8c3fa",
@@ -6914,5 +6936,5 @@
     "compressedSha256": "0b00de020449cd9c60de5b167953f6301fd2955b94f9fc15754b2c3bad1e0f4b"
   },
   "geographySha256": "d0a8f3b81c1d17765565a33f89e57ab1a15c0763c3f84dca94d0d2d3cb1b4472",
-  "outputSha256": "d746a34d2bf7965af1f835185154b23f6172e8b4cbccf538147a504d270b0349"
+  "outputSha256": "6df41785445f46d3427131cef710943b21a87e495642381d57d1b458c7894079"
 }
