@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "methodVersion": "candidate-2026-1.1.0",
-  "retrievedAt": "2026-10-05",
-  "indexSha256": "5446f0578420c6390e236fc8e822ab3f478ee270627c46bf5853464cc9fd414f",
+  "retrievedAt": "2026-10-14",
+  "indexSha256": "5ba5c5199b65a0ede4f94ec26f0a7e8dcd7c2e4bfd656c6022e19041225075cd",
   "coverage": {
     "RD": {
       "expected": 29,
@@ -6532,19 +6532,19 @@
       "electionType": "RF",
       "code": "01",
       "file": "data/raw/valmyndigheten-2026/candidates/RF-01.json.gz",
-      "sha256": "d942e554cfbb7110158faa3e43a04b372b8cccbba954956223dbb106fc11a18c",
+      "sha256": "71076df8b996cc0134aec556d48f6cfd1bd481c823b6d7a6efc7dad4a056b9f9",
       "signatureFile": "data/raw/valmyndigheten-2026/candidates/RF-01.sha256",
-      "signatureSha256": "ec1387149bb611585121a0b9fdceac33dc9c2a1a08c60f14250bf0de1f2c55b7",
+      "signatureSha256": "68f264ef3dfbdfa4f300593b0d940892dd72735a489614673d4e7d60e03112aa",
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_01_RF.zip",
-        "archiveMd5": "ffd7eb0ecffbaaefe50d8ff1c79ecad9",
-        "jsonSha256": "d942e554cfbb7110158faa3e43a04b372b8cccbba954956223dbb106fc11a18c",
+        "archiveMd5": "f8da39586f6cee0c5f609825b8a2b3f0",
+        "jsonSha256": "71076df8b996cc0134aec556d48f6cfd1bd481c823b6d7a6efc7dad4a056b9f9",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       },
-      "revision": 107,
-      "updatedAt": "2026-10-05T12:17:44.000Z",
+      "revision": 108,
+      "updatedAt": "2026-10-13T13:52:02.000Z",
       "status": "final",
       "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_01_RF.pdf"
     },
@@ -6936,5 +6936,5 @@
     "compressedSha256": "0b00de020449cd9c60de5b167953f6301fd2955b94f9fc15754b2c3bad1e0f4b"
   },
   "geographySha256": "d0a8f3b81c1d17765565a33f89e57ab1a15c0763c3f84dca94d0d2d3cb1b4472",
-  "outputSha256": "6df41785445f46d3427131cef710943b21a87e495642381d57d1b458c7894079"
+  "outputSha256": "fe98a4b09af6df24082728f27ae94ebed72707bd08896c7dbd3e39f98549293a"
 }
