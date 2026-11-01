@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "methodVersion": "candidate-2026-1.1.0",
-  "retrievedAt": "2026-10-14",
-  "indexSha256": "5ba5c5199b65a0ede4f94ec26f0a7e8dcd7c2e4bfd656c6022e19041225075cd",
+  "retrievedAt": "2026-11-01",
+  "indexSha256": "df491dd6abc2e79f9447a805d3636dc0d76276554510e37a4a7eb3aef65071b0",
   "coverage": {
     "RD": {
       "expected": 29,
@@ -1052,19 +1052,19 @@
       "electionType": "KF",
       "code": "0181",
       "file": "data/raw/valmyndigheten-2026/candidates/KF-0181.json.gz",
-      "sha256": "3080b94418efc197b6ec5d838ece30447f762891ef944b92e9bcb97fab07b668",
+      "sha256": "2f9623fe4fbfb39bb8fd7b12470a414a8f2bbee0075a8a8a7be4582fb06f0faa",
       "signatureFile": "data/raw/valmyndigheten-2026/candidates/KF-0181.sha256",
-      "signatureSha256": "d4fd958a197271d8f9db9edd02a32bfcbec51f3d11def4ae8f530305d38876d6",
+      "signatureSha256": "f067946f72a19f3f3ca792e1d0548751e812bf1965cb8f2bdc53adb5b36d8777",
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/kf/Val_2026_slutlig_0181_KF.zip",
-        "archiveMd5": "326b6fd0a7706300f97c17ee92d9f87a",
-        "jsonSha256": "3080b94418efc197b6ec5d838ece30447f762891ef944b92e9bcb97fab07b668",
+        "archiveMd5": "6e7bdf732115a411461851afaf196f52",
+        "jsonSha256": "2f9623fe4fbfb39bb8fd7b12470a414a8f2bbee0075a8a8a7be4582fb06f0faa",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       },
-      "revision": 18,
-      "updatedAt": "2026-09-29T15:23:47.000Z",
+      "revision": 19,
+      "updatedAt": "2026-10-29T12:44:08.000Z",
       "status": "final",
       "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_0181_KF.pdf"
     },
@@ -6532,19 +6532,19 @@
       "electionType": "RF",
       "code": "01",
       "file": "data/raw/valmyndigheten-2026/candidates/RF-01.json.gz",
-      "sha256": "71076df8b996cc0134aec556d48f6cfd1bd481c823b6d7a6efc7dad4a056b9f9",
+      "sha256": "cdd1479bbcf2ccaf6cf466b26efab42d7b6a0e4553ad64ab22bd5457c989076e",
       "signatureFile": "data/raw/valmyndigheten-2026/candidates/RF-01.sha256",
-      "signatureSha256": "68f264ef3dfbdfa4f300593b0d940892dd72735a489614673d4e7d60e03112aa",
+      "signatureSha256": "76885765de357c7748951a6026b2a21b284c20827f8b59c24f9ba69ca8d106fb",
       "source": {
         "adapterVersion": "pv-valmyndigheten-live-1.0.0",
         "archiveUrl": "https://resultat.val.se/resultatfiler/val2026/s/rf/Val_2026_slutlig_01_RF.zip",
-        "archiveMd5": "f8da39586f6cee0c5f609825b8a2b3f0",
-        "jsonSha256": "71076df8b996cc0134aec556d48f6cfd1bd481c823b6d7a6efc7dad4a056b9f9",
+        "archiveMd5": "e140a38c86ce70639099c7f70f375eba",
+        "jsonSha256": "cdd1479bbcf2ccaf6cf466b26efab42d7b6a0e4553ad64ab22bd5457c989076e",
         "certificateSha256": "084c0b29d5a12fe89f2bf115e68a605e59c4dc03ecbde55e8d959669cc1fd048",
         "signatureVerified": true
       },
-      "revision": 108,
-      "updatedAt": "2026-10-13T13:52:02.000Z",
+      "revision": 109,
+      "updatedAt": "2026-10-29T12:39:42.000Z",
       "status": "final",
       "protocolUrl": "https://resultat.val.se/protokoll/protokoll_Val_2026_01_RF.pdf"
     },
@@ -6932,9 +6932,9 @@
   "metadata": {
     "url": "https://data.val.se/filer/val2026/parti/kandidaturer.csv",
     "file": "data/raw/valmyndigheten-2026/candidates/kandidaturer.csv.gz",
-    "sha256": "84fc6b2d83abc51815eb39c95f02a4870db717b0bb7e3c8f8a1caba5c50719c6",
-    "compressedSha256": "0b00de020449cd9c60de5b167953f6301fd2955b94f9fc15754b2c3bad1e0f4b"
+    "sha256": "e7e590d1dc3ecb70ab690ef8c5dc031500aeebbf10f1267e7a7314f19440b4d2",
+    "compressedSha256": "bf480f8f8daa2fa6e9e19fad68c6c6287b863b6ad57384ce893783b770dc0bf0"
   },
   "geographySha256": "d0a8f3b81c1d17765565a33f89e57ab1a15c0763c3f84dca94d0d2d3cb1b4472",
-  "outputSha256": "fe98a4b09af6df24082728f27ae94ebed72707bd08896c7dbd3e39f98549293a"
+  "outputSha256": "b279a97fd254d122d4103765beb237e3df99069d4467758392e40cf64936a036"
 }
